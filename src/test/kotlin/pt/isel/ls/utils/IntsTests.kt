@@ -20,7 +20,7 @@ class IntsTests {
         val v = intArrayOf(1, 2, 3)
 
         // Act
-        val ix: Int = indexOfBinary(v, 0, 3, 4)
+        val ix: Int = indexOfBinary(v, 0, 2, 4)
 
         // Assert
         assertTrue(ix < 0)
@@ -43,8 +43,14 @@ class IntsTests {
 
     @Test
     fun indexOfBinary_right_bound_parameter_is_exclusive() {
-        val v = intArrayOf(2, 2, 2)
-        val ix: Int = indexOfBinary(v, 1, 1, 2)
+            val v = intArrayOf(2, 2, 2)
+            val ix: Int = indexOfBinary(v, 0, 1, 2)
+            assertTrue(ix < 0)
+    }
+    @Test
+    fun indexOfBinary_works_with_even_length_array() {
+        val v = intArrayOf(1,2,3,4)
+        val ix: Int = indexOfBinary(v, 0, 4, 4)
         assertTrue(ix < 0)
     }
 }
