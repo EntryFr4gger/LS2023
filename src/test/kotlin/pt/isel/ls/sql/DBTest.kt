@@ -4,7 +4,18 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SqlTests {
-    private val dataSource = PGSimpleDataSource().also{it.setURL(System.getenv("JDBC_DATABASE_URL"))}
+    companion object {
+        private val dataSource = PGSimpleDataSource().also{it.setURL(System.getenv("JDBC_DATABASE_URL"))}
+    }
+
+    @Test
+    fun testConnection() {
+
+        dataSource.connection.use {connect ->
+            val stm = connect.prepareStatement("insert into courses(name) values ('LEIM');").executeQuery().also { it.next() }
+            assertEquals("Alice", stm.getString("name"))
+        }
+    }
 
 
     @Test
