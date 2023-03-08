@@ -33,25 +33,41 @@ class SqlTests {
 
     @Test
     fun update() {
+
         dataSource.connection.use {connect ->
-            val stm = connect.prepareStatement("select * from students").executeQuery().also { it.next() }
-            assertEquals("Alice", stm.getString("name"))
+            try{
+                val stm = connect.prepareStatement("select * from students").executeQuery().also { it.next() }
+                assertEquals("Alice", stm.getString("name"))
+            }finally {
+                connect.rollback()
+            }
+
         }
     }
 
     @Test
     fun select() {
         dataSource.connection.use {connect ->
-            val stm = connect.prepareStatement("select * from students").executeQuery().also { it.next() }
-            assertEquals("Alice", stm.getString("name"))
+            try{
+                val stm = connect.prepareStatement("select * from students").executeQuery().also { it.next() }
+                assertEquals("Alice", stm.getString("name"))
+            }finally {
+                connect.rollback()
+            }
+
         }
     }
 
     @Test
     fun delete() {
         dataSource.connection.use {connect ->
-            val stm = connect.prepareStatement("select * from students").executeQuery().also { it.next() }
-            assertEquals("Alice", stm.getString("name"))
+            try {
+                val stm = connect.prepareStatement("select * from students").executeQuery().also { it.next() }
+                assertEquals("Alice", stm.getString("name"))
+            }finally {
+                connect.rollback()
+            }
+
         }
     }
 }
