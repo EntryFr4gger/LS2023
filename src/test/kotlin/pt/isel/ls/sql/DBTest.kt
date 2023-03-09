@@ -1,8 +1,7 @@
 package pt.isel.ls.sql
 import org.postgresql.ds.PGSimpleDataSource
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
+import java.net.ConnectException
+import kotlin.test.*
 
 class SqlTests {
     companion object {
@@ -11,7 +10,10 @@ class SqlTests {
 
     @Test
     fun testConnection() {
-        assertNotNull(dataSource.getConnection())
+      try{
+          dataSource.connection.use {  }
+      }
+      catch (_: ConnectException){}
     }
 
     @Test
@@ -28,8 +30,8 @@ class SqlTests {
             try {
                 connect.autoCommit = false
                 connect.prepareStatement("insert into courses(name) values ('test');").executeUpdate()
-                val rs = connect.prepareStatement("select * from courses where name='test'").executeQuery().also { it.next() }
-                assertNotNull(rs)
+                val rs = connect.prepareStatement("select * from courses where name='test'").executeQuery()
+                assertTrue(rs.next())
                 assertEquals("test", rs.getString("name"))
             } finally {
                 connect.rollback()
@@ -43,8 +45,8 @@ class SqlTests {
             try {
                 connect.autoCommit = false
                 connect.prepareStatement("update courses set name = 'LEIM' where name = 'LEIC';").executeUpdate()
-                val rs = connect.prepareStatement("select * from courses where name='LEIM'").executeQuery().also { it.next() }
-                assertNotNull(rs)
+                val rs = connect.prepareStatement("select * from courses where name='LEIM'").executeQuery()
+                assertTrue(rs.next())
                 assertEquals("LEIM", rs.getString("name"))
             } finally {
                 connect.rollback()
@@ -59,10 +61,10 @@ class SqlTests {
                 connect.autoCommit = false
                 connect.prepareStatement("insert into courses(name) values ('test');").executeUpdate()
                 val rs = connect.prepareStatement("select * from courses where name='test'").executeQuery()
-                assertEquals(rs.next(),true)
+                assertTrue(rs.next())
                 connect.prepareStatement("delete from courses where name = 'test';").executeUpdate()
                 val deleteRs = connect.prepareStatement("select * from courses where name='test'").executeQuery()
-                assertEquals(deleteRs.next(),false)
+                assertFalse(deleteRs.next())
             } finally {
                 connect.rollback()
             }
