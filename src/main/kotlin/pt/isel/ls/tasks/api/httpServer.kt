@@ -44,7 +44,7 @@ fun getStudent(request: Request): Response {
         .body(Json.encodeToString(students.find { it.number == stdNumber }))
 }
 
-fun postStudent(request: Request): Response {
+fun postUser(request: Request): Response {
     logRequest(request)
     val std = Json.decodeFromString<Student>(request.bodyString())
     students.add(std)
@@ -73,7 +73,7 @@ fun main() {
     val studentRoutes = routes(
         "students" bind GET to ::getStudents,
         "students/{number}" bind GET to ::getStudent,
-        "students" bind POST to ::postStudent
+        "students" bind POST to ::postUser
     )
 
     val app = routes(
