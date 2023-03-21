@@ -10,6 +10,7 @@ import org.http4k.server.asServer
 import org.slf4j.LoggerFactory
 import pt.isel.ls.tasks.api.routers.boards.BoardsRouter
 import pt.isel.ls.tasks.api.routers.users.models.UsersRouter
+import pt.isel.ls.tasks.services.Services
 
 
 private val logger = LoggerFactory.getLogger("Tasks API")
@@ -30,16 +31,12 @@ fun logRequest(request: Request) {
     )
 }
 
-/*
 
-O que é preferivel, criar um objeto para cada situação Resposta e request ou tentar adaptar o JSON encoder e decoder
-A maneira como o Router está programado, é ok?
-*/
 fun main() {
-
+    val services = Services()
     val app = routes(
-        UsersRouter.UsersRoutes(),
-        BoardsRouter.BoardsRoutes()
+        UsersRouter.routes(services),
+        BoardsRouter.routes(services)
     )
 
     val jettyServer = app.asServer(Jetty(9000)).start()

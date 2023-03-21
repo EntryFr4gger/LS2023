@@ -1,7 +1,7 @@
 package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
-import pt.isel.ls.tasks.model.Card
+import pt.isel.ls.tasks.domain.Card
 import java.sql.Connection
 
 /**

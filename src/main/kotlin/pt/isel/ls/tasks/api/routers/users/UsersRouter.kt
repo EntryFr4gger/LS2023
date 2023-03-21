@@ -13,16 +13,18 @@ import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.logRequest
 import pt.isel.ls.tasks.api.routers.IRouter
 import pt.isel.ls.tasks.api.routers.MockData.Companion.Users
+import pt.isel.ls.tasks.services.Services
 
 
-class UsersRouter:IRouter {
+class UsersRouter(private val services: Services):IRouter {
     companion object{
-        fun UsersRoutes() = UsersRouter().routes
+        fun routes(services: Services) = UsersRouter(services).routes
     }
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
         "users/{user_id}" bind Method.GET to ::getUsers,
     )
+
     fun postUser(request: Request): Response {
         logRequest(request)
         val std = Json.decodeFromString<RequestPostUser>(request.bodyString())
@@ -34,7 +36,8 @@ class UsersRouter:IRouter {
 
     fun getUsers(request: Request): Response {
         logRequest(request)
-        val user_id = request.path("user_id")?.toInt() ?: -1
+        val user_id = request.path("user_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        val user = services.getUser(user_id)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(Users.find { user -> user.id==user_id }))

@@ -1,7 +1,7 @@
 package pt.isel.ls.tasks.db.modules.users
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
-import pt.isel.ls.tasks.model.User
+import pt.isel.ls.tasks.domain.User
 import java.sql.Connection
 
 class UsersDataMem(private val source: TasksDataStorage): UsersDB {

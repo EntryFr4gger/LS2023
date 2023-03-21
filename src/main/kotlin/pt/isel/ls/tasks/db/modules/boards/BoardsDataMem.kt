@@ -1,7 +1,7 @@
 package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
-import pt.isel.ls.tasks.model.Board
+import pt.isel.ls.tasks.domain.Board
 import java.lang.Error
 import java.sql.Connection
 

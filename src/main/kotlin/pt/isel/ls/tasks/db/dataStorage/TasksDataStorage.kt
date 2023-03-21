@@ -1,7 +1,7 @@
 package pt.isel.ls.tasks.db.dataStorage
 
-import pt.isel.ls.tasks.model.*
-import pt.isel.ls.tasks.model.List
+import pt.isel.ls.tasks.domain.*
+import pt.isel.ls.tasks.domain.List
 import java.util.concurrent.atomic.AtomicInteger
 
 class TasksDataStorage {

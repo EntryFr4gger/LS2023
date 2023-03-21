@@ -1,7 +1,7 @@
 package pt.isel.ls.tasks.db.modules.lists
 
 import java.sql.Connection
-import pt.isel.ls.tasks.model.List as _List
+import pt.isel.ls.tasks.domain.List as _List
 
 /**
  *

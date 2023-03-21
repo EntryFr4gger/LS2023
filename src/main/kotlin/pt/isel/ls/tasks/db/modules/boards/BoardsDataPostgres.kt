@@ -1,6 +1,6 @@
 package pt.isel.ls.tasks.db.modules.boards
 
-import pt.isel.ls.tasks.model.Board
+import pt.isel.ls.tasks.domain.Board
 import java.sql.Connection
 
 class BoardsDataPostgres(): BoardsDB {

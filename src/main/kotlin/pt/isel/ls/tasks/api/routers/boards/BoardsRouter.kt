@@ -13,14 +13,16 @@ import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.logRequest
 import pt.isel.ls.tasks.api.routers.IRouter
 import pt.isel.ls.tasks.api.routers.MockData
+import pt.isel.ls.tasks.api.routers.MockData.Companion.boards
 import pt.isel.ls.tasks.api.routers.MockData.Companion.userBoards
-import pt.isel.ls.tasks.api.routers.users.models.RequestPostUser
-import pt.isel.ls.tasks.api.routers.users.models.ReturnGetUser
-import pt.isel.ls.tasks.api.routers.users.models.ReturnPostUser
+import pt.isel.ls.tasks.api.routers.boards.models.Board
+import pt.isel.ls.tasks.api.routers.boards.models.BoardID
+import pt.isel.ls.tasks.api.routers.boards.models.CreateBoard
+import pt.isel.ls.tasks.services.Services
 
 class BoardsRouter : IRouter {
     companion object{
-        fun BoardsRoutes() = BoardsRouter().routes
+        fun routes(services: Services) = BoardsRouter().routes
     }
     override val routes = routes(
         "board" bind Method.POST to ::postBoard,
@@ -30,37 +32,41 @@ class BoardsRouter : IRouter {
 
     )
 
+    //Falta deIsolar
     private fun getUserBoards(request: Request): Response {
         logRequest(request)
-        val user_id = request.path("user_id")?.toInt() ?: -1
+        val user_id = request.path("user_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(userBoards))
     }
 
+    //Falta deIsolar
     private fun getBoard(request: Request): Response {
         logRequest(request)
-        val board_id = request.path("board_id")?.toInt() ?: -1
+        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(MockData.boards.find { board -> board.id==board_id }))
     }
 
+    //Falta deIsolar
     private fun putUser(request: Request): Response {
         logRequest(request)
-        val std = Json.decodeFromString<RequestPostUser>(request.bodyString())
+        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        val user_id = request.path("user_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         //MockData.boards.add(ReturnGetUser(MockData.boards.last().id+10,std.name,std.email)) //rem
         return Response(Status.CREATED)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(ReturnPostUser(std)))
     }
 
+    //Falta deIsolar
     private fun postBoard(request: Request): Response {
         logRequest(request)
-        val std = Json.decodeFromString<RequestPostUser>(request.bodyString())
-        //.boards.add(ReturnGetUser(MockData.boards.last().id+10,std.name,std.email)) //rem
+        val std = Json.decodeFromString<CreateBoard>(request.bodyString())
+        boards.add(Board(boards.last().id+10,std.name,std.description, emptyList())) //rem
         return Response(Status.CREATED)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(ReturnPostUser(std)))
+            .body(Json.encodeToString(BoardID(1))) //change
     }
 }

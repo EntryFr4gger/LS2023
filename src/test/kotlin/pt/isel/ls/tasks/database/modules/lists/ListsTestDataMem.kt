@@ -3,8 +3,7 @@ package pt.isel.ls.tasks.database.modules.lists
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
-import pt.isel.ls.tasks.model.Board
-import pt.isel.ls.tasks.model.List
+import pt.isel.ls.tasks.domain.List
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 

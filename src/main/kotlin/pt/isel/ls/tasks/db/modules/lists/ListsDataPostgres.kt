@@ -7,11 +7,11 @@ class ListsDataPostgres(): ListsDB {
         TODO("Not yet implemented")
     }
 
-    override fun getAllLists(conn: Connection?, boardId: Int): List<pt.isel.ls.tasks.model.List> {
+    override fun getAllLists(conn: Connection?, boardId: Int): List<pt.isel.ls.tasks.domain.List> {
         TODO("Not yet implemented")
     }
 
-    override fun getListDetails(conn: Connection?, listId: Int): pt.isel.ls.tasks.model.List {
+    override fun getListDetails(conn: Connection?, listId: Int): pt.isel.ls.tasks.domain.List {
         TODO("Not yet implemented")
     }
 

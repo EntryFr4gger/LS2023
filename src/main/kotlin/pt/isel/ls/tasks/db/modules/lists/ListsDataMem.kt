@@ -3,7 +3,7 @@ package pt.isel.ls.tasks.db.modules.lists
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import java.lang.Error
 import java.sql.Connection
-import pt.isel.ls.tasks.model.List as _List
+import pt.isel.ls.tasks.domain.List as _List
 
 class ListsDataMem(private val source: TasksDataStorage): ListsDB {
 
