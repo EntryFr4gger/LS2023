@@ -12,6 +12,4 @@ data class Card(
     val dueDate: LocalDate,
     val boardId: Int,
     val listId: Int?
-) {
-
-}
+)
