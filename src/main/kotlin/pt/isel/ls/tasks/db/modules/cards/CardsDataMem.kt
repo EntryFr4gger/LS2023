@@ -34,7 +34,10 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
         return cards.first{ it.id == cardId}
     }
 
-    override fun moveCard(conn: Connection?, cardId: Int, lid: Int): Card {
-        TODO("Not yet implemented")
+    override fun moveCard(conn: Connection?, cardId: Int, lid: Int):Card {
+        val card = source.cards[cardId] ?: error("card not find")
+        val newCard =  Card(cardId,card.name,card.description,card.dueDate,card.boardId,lid)
+        source.cards[cardId] = newCard
+        return newCard
     }
 }
