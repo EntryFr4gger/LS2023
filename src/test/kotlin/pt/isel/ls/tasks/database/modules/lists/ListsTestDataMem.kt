@@ -3,8 +3,10 @@ package pt.isel.ls.tasks.database.modules.lists
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
+import pt.isel.ls.tasks.model.Board
 import pt.isel.ls.tasks.model.List
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class ListsTestDataMem: ListsTestDB {
     private val storage = TasksDataStorage()
@@ -21,20 +23,26 @@ class ListsTestDataMem: ListsTestDB {
 
     @Test
     override fun `Gets the correct lists of a board`() {
-        TODO("Not yet implemented")
+        val lists = listOf<List>(List(1, "Study", 1),  List(2, "Work", 1))
+        val ids = lists.map { source.createList(null, it.name,it.boardId) }
+        assertEquals(ids, listOf(1,2) )
+        assertEquals(lists,source.getAllLists(null,1))
     }
 
     @Test
     override fun `Throws an error for a nonexistent lists`() {
-        TODO("Not yet implemented")
+        assertFailsWith<IllegalStateException> {
+                source.getListDetails(null, 1)
+        }
     }
 
     @Test
     override fun `Get the correct list`() {
-        TODO("Not yet implemented")
+        val lists = listOf<List>(List(1, "Study", 1),  List(2, "Work", 1))
+        val ids = lists.map { source.createList(null, it.name,it.boardId) }
+        assertEquals(lists[1],source.getListDetails(null,2))
     }
 
-    @Test
     override fun `Throws an error for a nonexistent list `() {
         TODO("Not yet implemented")
     }
