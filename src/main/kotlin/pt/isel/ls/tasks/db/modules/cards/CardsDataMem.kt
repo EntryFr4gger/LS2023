@@ -21,12 +21,17 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
         }
     }
 
-    override fun getAllCards(conn: Connection?, listId: Int): List<Card> {
-        TODO("Not yet implemented")
-    }
+    override fun getAllCards(conn: Connection?, listId: Int): List<Card>  =
+        source.cards.toList().mapNotNull {
+            it.second.takeIf { card ->
+                card.listId == listId
+            }
+        }
+
 
     override fun getCardDetails(conn: Connection?, cardId: Int, listId: Int): Card {
-        TODO("Not yet implemented")
+        val cards = getAllCards(null,listId)
+        return cards.first{ it.id == cardId}
     }
 
     override fun moveCard(conn: Connection?, cardId: Int, lid: Int): Card {
