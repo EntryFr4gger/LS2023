@@ -8,7 +8,7 @@ import java.sql.Connection
 
 interface TaskData {
 
-    fun execute(): Connection?
+    fun <R> execute(func: (Connection) -> R): R
 
     val users: UsersDB
     val boards: BoardsDB

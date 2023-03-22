@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks.model
+package pt.isel.ls.tasks.domain
 
 /**
  *

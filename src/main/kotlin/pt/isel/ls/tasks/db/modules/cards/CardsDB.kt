@@ -1,7 +1,7 @@
 package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
-import pt.isel.ls.tasks.model.Card
+import pt.isel.ls.tasks.domain.Card
 import java.sql.Connection
 
 /**
@@ -18,7 +18,7 @@ interface CardsDB {
      *  @return card unique identifier.
      * */
     fun createNewCard(
-        conn: Connection?,
+        conn: Connection,
         name: String,
         description: String,
         dueDate: LocalDate,
@@ -29,15 +29,15 @@ interface CardsDB {
     /**
      *
      * */
-    fun getAllCards(conn: Connection?, listId: Int): List<Card>
+    fun getCardsOfList(conn: Connection, listId: Int): List<Card>
 
     /**
      *
      * */
-    fun getCardDetails(conn: Connection?, cardId: Int, listId: Int): Card
+    fun getCardDetails(conn: Connection, cardId: Int, listId: Int): Card
 
     /**
      *
      * */
-    fun moveCard(conn: Connection?, cardId: Int, lid: Int): Card
+    fun moveCard(conn: Connection, cardId: Int, lid: Int): Card
 }
