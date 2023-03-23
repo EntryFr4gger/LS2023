@@ -15,33 +15,33 @@ class CardsDataPostgres: CardsDB {
         boardId: Int,
         listId: Int?
     ): Int {
-        val res = conn.prepareStatement(
+        val obj = conn.prepareStatement(
             "INSERT INTO cards(name, description, duedate, board_id) VALUES (?, ?, ?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
-        res.setString(1, name)
-        res.setString(2, description)
-        res.setString(3, "23:44:59.903")
-        res.setInt(4, boardId)
+        obj.setString(1, name)
+        obj.setString(2, description)
+        obj.setString(3, "23:44:59.903")
+        obj.setInt(4, boardId)
 
-        if(res.executeUpdate() == 0) throw Error("Card Create Failed(sql)")
+        if(obj.executeUpdate() == 0) throw Error("Card Create Failed(sql)")
 
-        res.generatedKeys.also {
+        obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
         }
     }
 
     override fun getCardsOfList(conn: Connection, listId: Int): List<Card> {
-        val prp = conn.prepareStatement(
+        val obj = conn.prepareStatement(
             "SELECT * FROM cards WHERE list_id = ?",
         )
-        prp.setInt(1, listId)
+        obj.setInt(1, listId)
 
-        val res = prp.executeQuery()
+        val res = obj.executeQuery()
 
-        var list  = emptyList<Card>()
+        val cards = mutableListOf<Card>()
         while (res.next()){
-            list += Card(
+            cards += Card(
                 res.getInt(1),
                 res.getString(2),
                 res.getString(3),
@@ -50,19 +50,16 @@ class CardsDataPostgres: CardsDB {
                 res.getInt(6)
             )
         }
-        if (list.isNotEmpty())
-            return list
-        else
-            throw Error("No Cards")
+        return cards
     }
 
     override fun getCardDetails(conn: Connection, cardId: Int, listId: Int): Card {
-        val prp = conn.prepareStatement(
+        val obj = conn.prepareStatement(
             "SELECT * FROM cards WHERE id = ?",
         )
-        prp.setInt(1, cardId)
+        obj.setInt(1, cardId)
 
-        val res = prp.executeQuery()
+        val res = obj.executeQuery()
         if (res.next())
             return Card(
                 res.getInt(1),
@@ -75,8 +72,19 @@ class CardsDataPostgres: CardsDB {
         else throw Error("No Card")
     }
 
-    override fun moveCard(conn: Connection, cardId: Int, lid: Int): Card {
-        TODO("Not yet implemented")
+    override fun moveCard(conn: Connection, cardId: Int, lid: Int): Int {
+        val obj = conn.prepareStatement(
+            "UPDATE cards SET list_id = ? WHERE id = ?",
+            Statement.RETURN_GENERATED_KEYS
+        )
+        obj.setInt(1, lid)
+        obj.setInt(2, cardId)
+
+        if(obj.executeUpdate() == 0) throw Error("Card Create Failed(sql)")
+
+        obj.generatedKeys.also {
+            return if (it.next()) it.getInt(1) else -1
+        }
     }
 
 

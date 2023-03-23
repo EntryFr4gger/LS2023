@@ -1,11 +1,10 @@
 package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.domain.Board
-import pt.isel.ls.tasks.domain.User
 import java.sql.Connection
 import java.sql.Statement
 
-class BoardsDataPostgres(): BoardsDB {
+class BoardsDataPostgres: BoardsDB {
     override fun createNewBoard(conn: Connection, name: String, description: String): Int {
         val res = conn.prepareStatement(
             "INSERT INTO boards(name, description) VALUES (?, ?)",
@@ -36,27 +35,23 @@ class BoardsDataPostgres(): BoardsDB {
         }
     }
 
-    //Melhorar
     override fun getUserBoards(conn: Connection, userId: Int): List<Board> {
-        val prp = conn.prepareStatement(
+        val obj = conn.prepareStatement(
             "SELECT * FROM boards JOIN user_board ON id = board_id WHERE user_id = ?",
         )
-        prp.setInt(1, userId)
+        obj.setInt(1, userId)
 
-        val res = prp.executeQuery()
+        val res = obj.executeQuery()
 
-        var list  = emptyList<Board>()
+        val boards = mutableListOf<Board>()
         while (res.next()){
-            list += Board(
+            boards += Board(
                 res.getInt(1),
                 res.getString(2),
                 res.getString(3)
             )
         }
-        if (list.isNotEmpty())
-            return list
-        else
-            throw Error("No boards")
+        return boards
     }
 
     override fun getBoardDetails(conn: Connection, boardId: Int): Board {

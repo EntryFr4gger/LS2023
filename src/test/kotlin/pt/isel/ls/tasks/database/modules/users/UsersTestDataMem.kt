@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.users.UsersDataMem
 import pt.isel.ls.tasks.domain.User
+import java.sql.Connection
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
@@ -14,7 +15,7 @@ class UsersTestDataMem: UsersTestDB {
     @Test
     override fun `User is created correctly and with right identifier`() {
         val user = User(1, "Bernardo", "bernardo@isel.pt")
-        val id = source.createNewUser(null, user.name, user.email)
+        val id = source.createNewUser(null as Connection, user.name, user.email)
 
         assertEquals(id, user.id)
         assertEquals(user, storage.users[id])
@@ -24,7 +25,7 @@ class UsersTestDataMem: UsersTestDB {
     override fun `Throws an error if email is already in use`() {
         assertFailsWith<IllegalStateException> {
             repeat(2){
-                source.createNewUser(null, "Bernardo", "bernas@isel.pt")
+                source.createNewUser(null as Connection, "Bernardo", "bernas@isel.pt")
             }
         }
     }
@@ -32,15 +33,15 @@ class UsersTestDataMem: UsersTestDB {
     @Test
     override fun `Gets the correct user`() {
         val user = User(1, "Bernardo", "bernardo@isel.pt")
-        val id = source.createNewUser(null, user.name, user.email)
+        val id = source.createNewUser(null as Connection, user.name, user.email)
 
-        assertEquals(user, source.getUserDetails(null, id))
+        assertEquals(user, source.getUserDetails(null as Connection, id))
     }
 
     @Test
     override fun `Throws an error for a nonexistent user `() {
         assertFailsWith<IllegalStateException> {
-            source.getUserDetails(null, 1)
+            source.getUserDetails(null as Connection, 1)
         }
     }
 }

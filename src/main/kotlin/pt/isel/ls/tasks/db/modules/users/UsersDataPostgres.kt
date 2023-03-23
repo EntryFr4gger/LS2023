@@ -4,30 +4,30 @@ import pt.isel.ls.tasks.domain.User
 import java.sql.Connection
 import java.sql.Statement
 
-class UsersDataPostgres(): UsersDB {
+class UsersDataPostgres: UsersDB {
 
     override fun createNewUser(conn: Connection, name: String, email: String): Int {
-        val res = conn.prepareStatement(
+        val obj = conn.prepareStatement(
             "INSERT INTO users(name, email) VALUES (?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
-        res.setString(1, name)
-        res.setString(2, email)
+        obj.setString(1, name)
+        obj.setString(2, email)
 
-        if(res.executeUpdate() == 0) throw Error("User Create Failed(sql)")
+        if(obj.executeUpdate() == 0) throw Error("User Create Failed(sql)")
 
-        res.generatedKeys.also {
+        obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
         }
     }
-//transaction manage
+
     override fun getUserDetails(conn: Connection, userId: Int): User {
-        val prp = conn.prepareStatement(
+        val obj = conn.prepareStatement(
             "SELECT * FROM users WHERE id = ?",
         )
-        prp.setInt(1, userId)
+        obj.setInt(1, userId)
 
-        val res = prp.executeQuery()
+        val res = obj.executeQuery()
         if (res.next())
             return User(
                 res.getInt(1),

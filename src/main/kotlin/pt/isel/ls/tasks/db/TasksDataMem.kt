@@ -9,7 +9,7 @@ import java.sql.Connection
 
 
 class TasksDataMem(storage: TasksDataStorage): TaskData{
-    override fun <R> execute(func: (Connection) -> R): R = func(null as Connection)
+    override fun <R> execute(function: (Connection) -> R): R = function(null as Connection)
 
 
     override val users = UsersDataMem(storage)

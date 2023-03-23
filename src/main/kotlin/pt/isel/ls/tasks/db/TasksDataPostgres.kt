@@ -16,7 +16,7 @@ import java.sql.SQLException
 class TasksDataPostgres(sourceURL: String): TaskData {
     private val source = PGSimpleDataSource().apply { setURL(System.getenv(sourceURL)) }
 
-    override fun <R> execute(func: (Connection) -> R): R {
+    override fun <R> execute(function: (Connection) -> R): R {
         val conn = try {
             source.connection
         } catch (e: SQLException){
@@ -25,7 +25,7 @@ class TasksDataPostgres(sourceURL: String): TaskData {
         conn.autoCommit = false
 
         return try {
-            func(conn).also { conn.commit() }
+            function(conn).also { conn.commit() }
         }catch (e: Error){
             conn.rollback()
             throw e
