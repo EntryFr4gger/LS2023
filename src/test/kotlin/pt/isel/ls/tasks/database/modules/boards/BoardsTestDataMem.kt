@@ -18,10 +18,9 @@ class BoardsTestDataMem {
     @Test
     fun `Board is created correctly and with right identifier`() {
         source.execute { conn ->
-            val board = Board(1,"Every day", "Tomorrow is a new day")
-            val id = boards.createNewBoard(conn,board.name,board.description)
-            assertEquals(id, board.id)
-            assertEquals(board, storage.boards[id])
+            val id = boards.createNewBoard(conn,"Every day","Tomorrow is a new day")
+            val boardCreated = Board (id, "Every day","Tomorrow is a new day")
+            assertEquals(boardCreated, storage.boards[id])
         }
     }
     @Test

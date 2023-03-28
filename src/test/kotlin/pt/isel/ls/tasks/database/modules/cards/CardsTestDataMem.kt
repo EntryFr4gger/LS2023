@@ -75,7 +75,7 @@ class CardsTestDataMem: CardsTestDB {
                     it.listId
                 )
             }
-            assertEquals(cards[0], card.getCardDetails(conn, 1, 1))
+            assertEquals(cards[0], card.getCardDetails(conn, 1))
         }
     }
 
