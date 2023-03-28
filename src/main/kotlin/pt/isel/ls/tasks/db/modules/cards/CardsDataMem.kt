@@ -50,4 +50,8 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         source.cards[cardId] = card.copy(listId = listId)
         return 1
     }
+
+    override fun hasCard(conn: TransactionManager, cardId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
 }

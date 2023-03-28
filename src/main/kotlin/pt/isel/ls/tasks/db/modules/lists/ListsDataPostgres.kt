@@ -56,4 +56,8 @@ class ListsDataPostgres : ListsDB {
             throw Error("No List")
         }
     }
+
+    override fun hasList(conn: TransactionManager, listId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
 }

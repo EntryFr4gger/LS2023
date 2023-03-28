@@ -29,4 +29,14 @@ interface UsersDB {
      * */
     fun getUserDetails(conn: TransactionManager, userId: Int): User
 
+    /**
+     *
+     * */
+    fun isNewEmail(conn: TransactionManager, email: String): Boolean
+
+    /**
+     *
+     */
+    fun hasUser(conn: TransactionManager, userId: Int): Boolean
 }
+

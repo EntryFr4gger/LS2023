@@ -49,4 +49,19 @@ interface BoardsDB {
      * @return a Board.
      * */
     fun getBoardDetails(conn: TransactionManager, boardId: Int): Board
+
+    /**
+     *
+     * */
+    fun isNewName(conn: TransactionManager, name: String): Boolean
+
+    /**
+     *
+     */
+    fun hasBoard(conn: TransactionManager, boardId: Int): Boolean
+
+    /**
+     *
+     */
+    fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean
 }
