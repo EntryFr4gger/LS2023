@@ -2,11 +2,18 @@ package pt.isel.ls.tasks.db.modules.lists
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
+import pt.isel.ls.tasks.domain.User
 import java.lang.Error
 import java.sql.Connection
 import pt.isel.ls.tasks.domain.List as _List
 
 class ListsDataMem(private val source: TasksDataStorage): ListsDB {
+    init {
+        source.lists[1] = _List(1, "Aula de LS", 1)
+        source.lists[2] = _List(2, "Aula de LAE", 1)
+        source.lists[3] = _List(3, "Compras Cadela", 2)
+        source.nextListId.addAndGet(3)
+    }
 
     override fun createList(conn: TransactionManager, name: String, boardId: Int): Int {
         source.nextListId.getAndIncrement().also {id->

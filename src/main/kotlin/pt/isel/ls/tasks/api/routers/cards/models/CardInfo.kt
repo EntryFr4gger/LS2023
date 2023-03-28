@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks.api.routers.boards.cards.models
+package pt.isel.ls.tasks.api.routers.cards.models
 
 import kotlinx.serialization.Serializable
 import java.util.*

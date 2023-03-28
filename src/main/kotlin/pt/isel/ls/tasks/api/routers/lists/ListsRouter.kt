@@ -12,15 +12,16 @@ import org.http4k.routing.path
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.logRequest
 import pt.isel.ls.tasks.api.routers.IRouter
-import pt.isel.ls.tasks.api.routers.MockData
-import pt.isel.ls.tasks.api.routers.MockData.Companion.lists
-import pt.isel.ls.tasks.api.routers.boards.models.Board
-import pt.isel.ls.tasks.api.routers.boards.models.BoardID
-import pt.isel.ls.tasks.api.routers.boards.models.CreateBoard
+import pt.isel.ls.tasks.api.routers.boards.models.BoardIdDTO
+import pt.isel.ls.tasks.api.routers.lists.models.BoardListsDTO
+import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
+import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
+import pt.isel.ls.tasks.api.routers.lists.models.ListIdDTO
+import pt.isel.ls.tasks.services.Services
 
-class ListsRouter : IRouter {
+class ListsRouter(private val services: Services) : IRouter {
     companion object{
-        fun ListsRoutes() = ListsRouter().routes
+        fun routes(services: Services) = ListsRouter(services).routes
     }
     override val routes = routes(
         "boards/{board_id}/lists" bind Method.POST to ::postList,
@@ -28,33 +29,34 @@ class ListsRouter : IRouter {
         "boards/{board_id}/lists/{list_id}" bind Method.GET to ::getListInfo
     )
 
-    //Falta deIsolar
+
     private fun getListInfo(request: Request): Response {
         logRequest(request)
-        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST) //useless?
         val list_id = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        val list = services.getList(list_id)
         return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(lists.find { list -> list.id==list_id }))
+            .body(Json.encodeToString(ListDTO(list)))
     }
 
-    //Falta deIsolar
+
     private fun getLists(request: Request): Response {
         logRequest(request)
         val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        val lists = services.getLists(board_id)
         return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(lists))
+            .body(Json.encodeToString(BoardListsDTO(lists)))
     }
 
-    //Falta deIsolar
     private fun postList(request: Request): Response {
         logRequest(request)
         val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val std = Json.decodeFromString<CreateBoard>(request.bodyString())
-        lists.add(ListInfo(lists.last().id+10,std.name, emptyList())) //rem
+        val listInfo = Json.decodeFromString<CreateListDTO>(request.bodyString())
+        val listId = services.createList(listInfo.name,board_id)
         return Response(Status.CREATED)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(lists.last().id)) //change
+            .body(Json.encodeToString(ListIdDTO(listId)))
     }
 }
