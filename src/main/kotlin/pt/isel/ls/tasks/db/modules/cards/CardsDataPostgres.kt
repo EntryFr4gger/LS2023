@@ -95,4 +95,8 @@ class CardsDataPostgres : CardsDB {
             return if (it.next()) it.getInt(1) else -1
         }
     }
+
+    override fun hasCard(conn: TransactionManager, cardId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
 }

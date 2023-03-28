@@ -71,4 +71,16 @@ class BoardsDataPostgres : BoardsDB {
             throw Error("No board")
         }
     }
+
+    override fun isNewName(conn: TransactionManager, name: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun hasBoard(conn: TransactionManager, boardId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
 }

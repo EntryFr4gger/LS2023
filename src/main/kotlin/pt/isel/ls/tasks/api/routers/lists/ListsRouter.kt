@@ -10,7 +10,6 @@ import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
-import pt.isel.ls.tasks.api.logRequest
 import pt.isel.ls.tasks.api.routers.IRouter
 import pt.isel.ls.tasks.api.routers.lists.models.BoardListsDTO
 import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
@@ -29,7 +28,6 @@ class ListsRouter(private val services: ListsServices) : IRouter {
     )
 
     private fun getListInfo(request: Request): Response {
-        logRequest(request)
         val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST) // useless?
         val list_id = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         val list = services.getListDetails(list_id)
@@ -39,7 +37,6 @@ class ListsRouter(private val services: ListsServices) : IRouter {
     }
 
     private fun getLists(request: Request): Response {
-        logRequest(request)
         val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         val lists = services.getAllLists(board_id)
         return Response(Status.OK)
@@ -48,7 +45,6 @@ class ListsRouter(private val services: ListsServices) : IRouter {
     }
 
     private fun postList(request: Request): Response {
-        logRequest(request)
         val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         val listInfo = Json.decodeFromString<CreateListDTO>(request.bodyString())
         val listId = services.createList(listInfo.name, board_id)

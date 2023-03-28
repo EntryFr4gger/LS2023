@@ -10,7 +10,6 @@ import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
-import pt.isel.ls.tasks.api.logRequest
 import pt.isel.ls.tasks.api.routers.IRouter
 import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardIdDTO
@@ -31,7 +30,6 @@ class BoardsRouter(private val services: BoardsServices) : IRouter {
     )
 
     private fun getUserBoards(request: Request): Response {
-        logRequest(request)
         val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         val boards = services.getUserBoards(user_id)
         return Response(Status.OK)
@@ -40,7 +38,6 @@ class BoardsRouter(private val services: BoardsServices) : IRouter {
     }
 
     private fun getBoard(request: Request): Response {
-        logRequest(request)
         val board_id = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         val board = services.getBoardDetails(board_id)
         return Response(Status.OK)
@@ -50,7 +47,6 @@ class BoardsRouter(private val services: BoardsServices) : IRouter {
 
     // trocar o user ID para o corpo?
     private fun postUserToBoard(request: Request): Response {
-        logRequest(request)
         val board_id = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         val response = services.addUserToBoard(user_id, board_id) // can be removed but can be useful
@@ -58,7 +54,6 @@ class BoardsRouter(private val services: BoardsServices) : IRouter {
     }
 
     private fun postBoard(request: Request): Response {
-        logRequest(request)
         val boardInfo = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
         val boardID = services.createNewBoard(boardInfo.name, boardInfo.description)
         return Response(Status.CREATED)

@@ -10,7 +10,6 @@ import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
-import pt.isel.ls.tasks.api.logRequest
 import pt.isel.ls.tasks.api.routers.IRouter
 import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
@@ -28,7 +27,6 @@ class UsersRouter(private val services: UsersServices) : IRouter {
 
     // Necessita de retornar o BearerToken e o ID. Best way?
     fun postUser(request: Request): Response {
-        logRequest(request)
         return try {
             val user = Json.decodeFromString<CreateUserDTO>(request.bodyString())
             services.createNewUser(user.name, user.email)
@@ -42,7 +40,6 @@ class UsersRouter(private val services: UsersServices) : IRouter {
 
     // Tmb try catch?
     fun getUsers(request: Request): Response {
-        logRequest(request)
         val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         val user = services.getUserDetails(user_id).let { UserInfoDTO(it.id, it.name, it.email) }
         return Response(Status.OK)

@@ -59,4 +59,10 @@ interface CardsDB {
      * @return a Card.
      * */
     fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Int
+
+    /**
+     *
+     */
+    fun hasCard(conn: TransactionManager, cardId: Int): Boolean
+
 }
