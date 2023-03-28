@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
 import pt.isel.ls.tasks.domain.List
+import java.sql.Connection
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
@@ -14,7 +15,7 @@ class ListsTestDataMem: ListsTestDB {
     @Test
     override fun `List is created correctly and with right identifier`() {
         val list = List(1, "Study", 1)
-        val id = source.createList(null, list.name, list.boardId)
+        val id = source.createList(null as Connection, list.name, list.boardId)
 
         assertEquals(id, list.id)
         assertEquals(list, storage.lists[id])
@@ -23,23 +24,23 @@ class ListsTestDataMem: ListsTestDB {
     @Test
     override fun `Gets the correct lists of a board`() {
         val lists = listOf<List>(List(1, "Study", 1),  List(2, "Work", 1))
-        val ids = lists.map { source.createList(null, it.name,it.boardId) }
+        val ids = lists.map { source.createList(null as Connection, it.name,it.boardId) }
         assertEquals(ids, listOf(1,2) )
-        assertEquals(lists,source.getAllLists(null,1))
+        assertEquals(lists,source.getAllLists(null as Connection,1))
     }
 
     @Test
     override fun `Throws an error for a nonexistent lists`() {
         assertFailsWith<IllegalStateException> {
-                source.getListDetails(null, 1)
+                source.getListDetails(null as Connection, 1)
         }
     }
 
     @Test
     override fun `Get the correct list`() {
         val lists = listOf<List>(List(1, "Study", 1),  List(2, "Work", 1))
-        val ids = lists.map { source.createList(null, it.name,it.boardId) }
-        assertEquals(lists[1],source.getListDetails(null,2))
+        val ids = lists.map { source.createList(null as Connection, it.name,it.boardId) }
+        assertEquals(lists[1],source.getListDetails(null as Connection,2))
     }
 
     override fun `Throws an error for a nonexistent list `() {

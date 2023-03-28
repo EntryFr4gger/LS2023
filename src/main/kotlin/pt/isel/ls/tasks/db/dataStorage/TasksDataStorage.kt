@@ -17,6 +17,6 @@ class TasksDataStorage {
     val cards = HashMap<Int, Card>()
     var nextCardId = AtomicInteger(1)
 
-    val userBoard = HashMap<Int, UserBoard>()
+    val userBoard = HashMap<Int, kotlin.collections.List<Int>>()
 
 }

@@ -4,12 +4,12 @@ BEGIN;
                ('Marcorio', 'marcorio@isel.pt'),
                ('Rafael', 'rafael@isel.pt');
 
-    INSERT INTO Token (token, user_id)
+    INSERT INTO Tokens (token, user_id)
         VALUES ('B123', 1),
                ('M123', 2),
                ('R123', 3);
 
-    INSERT INTO Board (name, description)
+    INSERT INTO Boards (name, description)
         VALUES ('UmaBoard', 'Esta é a board um'),
                ('OutraBoard', 'Esta é outra board');
 
@@ -18,12 +18,12 @@ BEGIN;
                (2, 2),
                (3, 1);
 
-    INSERT INTO  List (name, board_id)
+    INSERT INTO  Lists (name, board_id)
         VALUES ('PrimeiraLista', 1),
                ('SegundaLista', 1),
                ('TerceiraLista', 2);
 
-    INSERT INTO Card (name, description, dueDate, board_id, list_id)
+    INSERT INTO Cards (name, description, dueDate, board_id, list_id)
         VALUES ('LS', 'Phase1', '23:44:59.903', 1, 1),
                ('PC', 'Phase2', '23:44:59.903', 1, 1),
                ('SI', 'Phase3', '23:44:59.903', 1, 2),

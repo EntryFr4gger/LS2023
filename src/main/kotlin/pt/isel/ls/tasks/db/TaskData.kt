@@ -6,10 +6,19 @@ import pt.isel.ls.tasks.db.modules.lists.ListsDB
 import pt.isel.ls.tasks.db.modules.users.UsersDB
 import java.sql.Connection
 
+/**
+ *
+ * */
 interface TaskData {
 
-    fun execute(): Connection?
+    /**
+     *
+     * */
+    fun <R> execute(function: (Connection) -> R): R
 
+    /**
+     *
+     * */
     val users: UsersDB
     val boards: BoardsDB
     val lists: ListsDB
