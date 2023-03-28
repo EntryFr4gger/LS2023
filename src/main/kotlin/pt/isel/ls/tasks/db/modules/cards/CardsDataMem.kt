@@ -2,13 +2,14 @@ package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
 import java.sql.Connection
 
 class CardsDataMem(private val source: TasksDataStorage): CardsDB {
 
      override fun createNewCard(
-        conn: Connection,
+        conn: TransactionManager,
         name: String,
         description: String,
         dueDate: LocalDate,
@@ -21,7 +22,7 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
         }
     }
 
-    override fun getCardsOfList(conn: Connection, listId: Int): List<Card>  =
+    override fun getCardsOfList(conn: TransactionManager, listId: Int): List<Card>  =
         source.cards.toList().mapNotNull {
             it.second.takeIf { card ->
                 card.listId == listId
@@ -29,12 +30,12 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
         }
 
 
-    override fun getCardDetails(conn: Connection, cardId: Int, listId: Int): Card {
-        val cards = getCardsOfList(null as Connection,listId)
+    override fun getCardDetails(conn: TransactionManager, cardId: Int, listId: Int): Card {
+        val cards = getCardsOfList(conn,listId)
         return cards.first{ it.id == cardId}
     }
 //Refazer
-    override fun moveCard(conn: Connection, cardId: Int, lid: Int):Int {
+    override fun moveCard(conn: TransactionManager, cardId: Int, lid: Int):Int {
         val card = source.cards[cardId] ?: error("card not find")
         val newCard =  Card(cardId,card.name,card.description,card.dueDate,card.boardId,lid)
         source.cards[cardId] = newCard

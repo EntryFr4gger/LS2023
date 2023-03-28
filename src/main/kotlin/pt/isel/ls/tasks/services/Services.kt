@@ -5,6 +5,7 @@ import pt.isel.ls.tasks.db.modules.boards.BoardsDataMem
 import pt.isel.ls.tasks.db.modules.cards.CardsDataMem
 import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
 import pt.isel.ls.tasks.db.modules.users.UsersDataMem
+import pt.isel.ls.tasks.db.transactionManager.TransactionManagerDM
 import pt.isel.ls.tasks.domain.User
 import java.sql.Connection
 
@@ -14,7 +15,7 @@ class Services {
     private val boardData = BoardsDataMem(storage)
     private val listsData = ListsDataMem(storage)
     private val cardsData = CardsDataMem(storage)
-    val connection = null as Connection
+    val connection = TransactionManagerDM()
     fun getUser(id : Int): User {
         return userData.getUserDetails(connection,id)
     }

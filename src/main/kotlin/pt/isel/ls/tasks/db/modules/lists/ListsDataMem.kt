@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.db.modules.lists
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.User
 import java.lang.Error
 import java.sql.Connection
@@ -13,14 +14,14 @@ class ListsDataMem(private val source: TasksDataStorage): ListsDB {
         source.lists[2] = _List(3, "Lista de compras", 2)
     }
 
-    override fun createList(conn: Connection, name: String, boardId: Int): Int {
+    override fun createList(conn: TransactionManager, name: String, boardId: Int): Int {
         source.nextListId.getAndIncrement().also {id->
             source.lists[id] = _List(id, name, boardId)
             return id
         }
     }
 
-    override fun getAllLists(conn: Connection, boardId: Int): List<_List> =
+    override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> =
         source.lists.toList().mapNotNull {
             it.second.takeIf { list->
                 list.boardId == boardId }
@@ -28,6 +29,6 @@ class ListsDataMem(private val source: TasksDataStorage): ListsDB {
 
 
 
-    override fun getListDetails(conn: Connection, listId: Int): _List =
+    override fun getListDetails(conn: TransactionManager, listId: Int): _List =
         source.lists[listId] ?: throw Error("List id not found")
 }

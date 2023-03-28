@@ -9,6 +9,8 @@ import pt.isel.ls.tasks.db.modules.lists.ListsDB
 import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres
 import pt.isel.ls.tasks.db.modules.users.UsersDB
 import pt.isel.ls.tasks.db.modules.users.UsersDataPostgres
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
+import pt.isel.ls.tasks.db.transactionManager.TransactionManagerDP
 import java.sql.Connection
 import java.sql.SQLException
 
@@ -16,7 +18,7 @@ import java.sql.SQLException
 class TasksDataPostgres(sourceURL: String): TaskData {
     private val source = PGSimpleDataSource().apply { setURL(System.getenv(sourceURL)) }
 
-    override fun <R> execute(function: (Connection) -> R): R {
+    override fun <R> execute(function: (TransactionManager) -> R): R {
         val conn = try {
             source.connection
         } catch (e: SQLException){
@@ -25,7 +27,7 @@ class TasksDataPostgres(sourceURL: String): TaskData {
         conn.autoCommit = false
 
         return try {
-            function(conn).also { conn.commit() }
+            function(TransactionManagerDP(conn)).also { conn.commit() }
         }catch (e: Error){
             conn.rollback()
             throw e

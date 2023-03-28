@@ -2,20 +2,22 @@ package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toKotlinLocalDate
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
+import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Card
 import java.sql.Connection
 import java.sql.Statement
 
 class CardsDataPostgres: CardsDB {
     override fun createNewCard(
-        conn: Connection,
+        conn: TransactionManager,
         name: String,
         description: String,
         dueDate: LocalDate,
         boardId: Int,
         listId: Int?
     ): Int {
-        val obj = conn.prepareStatement(
+        val obj = conn.connection().prepareStatement(
             "INSERT INTO cards(name, description, duedate, board_id) VALUES (?, ?, ?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
@@ -31,8 +33,8 @@ class CardsDataPostgres: CardsDB {
         }
     }
 
-    override fun getCardsOfList(conn: Connection, listId: Int): List<Card> {
-        val obj = conn.prepareStatement(
+    override fun getCardsOfList(conn: TransactionManager, listId: Int): List<Card> {
+        val obj = conn.connection().prepareStatement(
             "SELECT * FROM cards WHERE list_id = ?",
         )
         obj.setInt(1, listId)
@@ -53,8 +55,8 @@ class CardsDataPostgres: CardsDB {
         return cards
     }
 
-    override fun getCardDetails(conn: Connection, cardId: Int, listId: Int): Card {
-        val obj = conn.prepareStatement(
+    override fun getCardDetails(conn: TransactionManager, cardId: Int, listId: Int): Card {
+        val obj = conn.connection().prepareStatement(
             "SELECT * FROM cards WHERE id = ?",
         )
         obj.setInt(1, cardId)
@@ -72,8 +74,8 @@ class CardsDataPostgres: CardsDB {
         else throw Error("No Card")
     }
 
-    override fun moveCard(conn: Connection, cardId: Int, lid: Int): Int {
-        val obj = conn.prepareStatement(
+    override fun moveCard(conn: TransactionManager, cardId: Int, lid: Int): Int {
+        val obj = conn.connection().prepareStatement(
             "UPDATE cards SET list_id = ? WHERE id = ?",
             Statement.RETURN_GENERATED_KEYS
         )
