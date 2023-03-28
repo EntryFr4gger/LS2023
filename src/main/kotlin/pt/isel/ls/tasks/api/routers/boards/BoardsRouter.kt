@@ -20,9 +20,9 @@ import pt.isel.ls.tasks.api.routers.boards.models.BoardID
 import pt.isel.ls.tasks.api.routers.boards.models.CreateBoard
 import pt.isel.ls.tasks.services.Services
 
-class BoardsRouter : IRouter {
+class BoardsRouter(private val services: Services) : IRouter {
     companion object{
-        fun routes(services: Services) = BoardsRouter().routes
+        fun routes(services: Services) = BoardsRouter(services).routes
     }
     override val routes = routes(
         "board" bind Method.POST to ::postBoard,
@@ -35,16 +35,17 @@ class BoardsRouter : IRouter {
     //Falta deIsolar
     private fun getUserBoards(request: Request): Response {
         logRequest(request)
-        val user_id = request.path("user_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
+        val boards = services.getBoards(user_id)
         return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(userBoards))
+            .body(Json.encodeToString(boards))
     }
 
     //Falta deIsolar
     private fun getBoard(request: Request): Response {
         logRequest(request)
-        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        val board_id = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(MockData.boards.find { board -> board.id==board_id }))
@@ -53,8 +54,8 @@ class BoardsRouter : IRouter {
     //Falta deIsolar
     private fun putUser(request: Request): Response {
         logRequest(request)
-        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val user_id = request.path("user_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        val board_id = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
+        val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         //MockData.boards.add(ReturnGetUser(MockData.boards.last().id+10,std.name,std.email)) //rem
         return Response(Status.CREATED)
             .header("content-type", "application/json")

@@ -25,22 +25,28 @@ class UsersRouter(private val services: Services):IRouter {
         "users/{user_id}" bind Method.GET to ::getUsers,
     )
 
+    //Necessita de retornar o BearerToken e o ID. Best way?
     fun postUser(request: Request): Response {
         logRequest(request)
-        val std = Json.decodeFromString<RequestPostUser>(request.bodyString())
-        Users.add(ReturnGetUser(Users.last().id+10,std.name,std.email)) //rem
-        return Response(Status.CREATED)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(ReturnPostUser(std)))
+        return try{
+            val user = Json.decodeFromString<RequestPostUser>(request.bodyString())
+            services.addUser(user.name,user.email)
+            Response(Status.CREATED)
+                .header("content-type", "application/json")
+                .body(Json.encodeToString(ReturnPostUser(1,"jcansda-1231")))
+        } catch(ex: Exception){
+            Response(Status.BAD_REQUEST).body("Body format error")
+        }
     }
 
+    //Tmb try catch?
     fun getUsers(request: Request): Response {
         logRequest(request)
-        val user_id = request.path("user_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val user = services.getUser(user_id)
+        val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
+        val user = services.getUser(user_id).let { ReturnGetUser(it.id,it.name,it.email) }
         return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(Users.find { user -> user.id==user_id }))
+            .body(Json.encodeToString(user))
     }
 
 }
