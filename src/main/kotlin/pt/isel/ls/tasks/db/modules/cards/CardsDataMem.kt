@@ -37,8 +37,7 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
 //Refazer
     override fun moveCard(conn: TransactionManager, cardId: Int, lid: Int):Int {
         val card = source.cards[cardId] ?: error("card not find")
-        val newCard =  Card(cardId,card.name,card.description,card.dueDate,card.boardId,lid)
-        source.cards[cardId] = newCard
+        source.cards[cardId] = card.copy(listId = lid)
         return 1
     }
 }
