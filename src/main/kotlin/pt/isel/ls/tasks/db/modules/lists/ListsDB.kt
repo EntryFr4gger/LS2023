@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.db.modules.lists
 
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import java.sql.Connection
 import pt.isel.ls.tasks.domain.List as _List
 
@@ -17,7 +18,7 @@ interface ListsDB {
      *
      * @return list's unique identifier.
      * */
-    fun createList(conn: Connection, name: String, boardId: Int): Int
+    fun createList(conn: TransactionManager, name: String, boardId: Int): Int
 
     /**
      * Get the lists of a board.
@@ -27,7 +28,7 @@ interface ListsDB {
      *
      * @return list of lists of a board.
      * */
-    fun getAllLists(conn: Connection, boardId: Int): List<_List>
+    fun getAllLists(conn: TransactionManager, boardId: Int): List<_List>
 
     /**
      * Get detailed information of a list.
@@ -37,6 +38,6 @@ interface ListsDB {
      *
      * @return a List.
      * */
-    fun getListDetails(conn: Connection, listId: Int): _List
+    fun getListDetails(conn: TransactionManager, listId: Int): _List
 
 }
