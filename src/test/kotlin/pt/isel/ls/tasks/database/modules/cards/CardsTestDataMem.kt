@@ -14,7 +14,7 @@ class CardsTestDataMem: CardsTestDB {
     private val source = TasksDataMem(storage)
     private val card = CardsDataMem(storage)
     @Test
-     fun `Creates a new card in a list` (){
+    fun `Creates a new card in a list` (){
         source.execute {
             val card = Card(1,"Study","study for success",
                 LocalDate(2023,3,21),1,1 )
@@ -94,8 +94,8 @@ class CardsTestDataMem: CardsTestDB {
                 card.boardId,
                 card.listId
             )
-            val newCard = this.card.moveCard(conn, 1, 2)
-            //assertEquals(2,newCard.listId )
+            val res = this.card.moveCard(conn, 1, 2)
+            assertEquals(1,res )
             //assertEquals(newCard, storage.cards[id])
         }
     }

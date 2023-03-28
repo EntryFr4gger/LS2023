@@ -6,6 +6,7 @@ import pt.isel.ls.tasks.domain.User
 import java.sql.Connection
 
 class UsersDataMem(private val source: TasksDataStorage): UsersDB {
+    /*
 
     init {
         source.users[1] = User(1, "Gilberto", "Gilberto@gmail.com")
@@ -14,6 +15,7 @@ class UsersDataMem(private val source: TasksDataStorage): UsersDB {
         source.nextUserId.addAndGet(3)
 
     }
+    */
 
     override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
         source.nextUserId.getAndIncrement().also { id->

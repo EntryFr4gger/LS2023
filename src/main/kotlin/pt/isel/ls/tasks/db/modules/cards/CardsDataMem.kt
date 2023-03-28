@@ -7,6 +7,7 @@ import pt.isel.ls.tasks.domain.Card
 import java.sql.Connection
 
 class CardsDataMem(private val source: TasksDataStorage): CardsDB {
+    /*
     init {
         val exampleLD = LocalDate(2023,3,21)
         val exampleLD2 = LocalDate(2023,4,2)
@@ -17,6 +18,7 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
         source.cards[4] = Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", exampleLD, 2, 3)
         source.nextCardId.addAndGet(4)
     }
+    */
 
     //make due date optional
      override fun createNewCard(
@@ -48,8 +50,7 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
 //Refazer
     override fun moveCard(conn: TransactionManager, cardId: Int, lid: Int):Int {
         val card = source.cards[cardId] ?: error("card not find")
-        val newCard =  Card(cardId,card.name,card.description,card.dueDate,card.boardId,lid)
-        source.cards[cardId] = newCard
-        return 1
+        source.cards[cardId] = card.copy(listId = lid)
+        return if (source.cards[cardId]?.listId != null ) 1 else -1
     }
 }
