@@ -5,18 +5,17 @@ import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
 import pt.isel.ls.tasks.domain.List
-import java.sql.Connection
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class ListsTestDataMem: ListsTestDB {
+class ListsTestDataMem : ListsTestDB {
     private val storage = TasksDataStorage()
     private val source = TasksDataMem(storage)
     private val list = ListsDataMem(storage)
 
     @Test
     override fun `List is created correctly and with right identifier`() {
-        source.execute { conn->
+        source.execute { conn ->
             val list = List(1, "Study", 1)
             val id = this.list.createList(conn, list.name, list.boardId)
 
@@ -35,7 +34,7 @@ class ListsTestDataMem: ListsTestDB {
         }
     }
 
-    //@Test
+    // @Test
     override fun `Throws an error for a nonexistent lists`() {
         source.execute { conn ->
             assertFailsWith<IllegalStateException> {

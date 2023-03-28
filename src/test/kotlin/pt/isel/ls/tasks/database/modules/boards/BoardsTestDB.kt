@@ -14,5 +14,4 @@ interface BoardsTestDB {
 
     fun `Throws an error for a nonexistent user `()
 */
-
 }

@@ -5,11 +5,10 @@ import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.users.UsersDataMem
 import pt.isel.ls.tasks.domain.User
-import java.sql.Connection
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class UsersTestDataMem: UsersTestDB {
+class UsersTestDataMem : UsersTestDB {
     private val storage = TasksDataStorage()
     private val source = TasksDataMem(storage)
     private val users = UsersDataMem(storage)

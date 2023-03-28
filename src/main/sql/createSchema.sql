@@ -37,7 +37,7 @@ create table Cards (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(60) NOT NULL,
     description VARCHAR(1000),
-    dueDate     CHAR(12) NOT NULL CHECK ( dueDate ~ '^(?:[01]\d|2[0123])\:(?:[012345]\d)\:(?:[012345]\d)\.\d{3}$'),
+    dueDate     CHAR(12) CHECK ( dueDate ~ '^(?:[01]\d|2[0123])\:(?:[012345]\d)\:(?:[012345]\d)\.\d{3}$'),
     board_id    INT NOT NULL REFERENCES Boards (id) ON DELETE CASCADE ON UPDATE CASCADE,
     list_id     INT REFERENCES Lists (id) ON DELETE CASCADE ON UPDATE CASCADE
 );

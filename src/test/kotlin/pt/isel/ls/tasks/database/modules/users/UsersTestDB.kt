@@ -15,5 +15,4 @@ interface UsersTestDB {
     fun `Gets the correct user`()
 
     fun `Throws an error for a nonexistent user `()
-
 }

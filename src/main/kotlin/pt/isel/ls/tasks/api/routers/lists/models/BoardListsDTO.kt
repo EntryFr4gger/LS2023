@@ -9,7 +9,7 @@ data class BoardListsDTO(val boards: List<ListDTO>) {
             BoardListsDTO(
                 lists.fold(emptyList()) { acc, list ->
                     acc + ListDTO(list)
-                },
+                }
             )
     }
 }

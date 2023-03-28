@@ -3,7 +3,6 @@ package pt.isel.ls.tasks.db.modules.cards
 import kotlinx.datetime.LocalDate
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
-import java.sql.Connection
 
 /**
  * Card Management
@@ -25,7 +24,7 @@ interface CardsDB {
         conn: TransactionManager,
         name: String,
         description: String,
-        dueDate: LocalDate,
+        dueDate: LocalDate?,
         boardId: Int,
         listId: Int?
     ): Int
@@ -45,20 +44,19 @@ interface CardsDB {
      *
      * @param conn connection to database.
      * @param cardId card unique identifier.
-     * @param listId list unique identifier.
      *
      * @return a Card.
      * */
-    fun getCardDetails(conn: TransactionManager, cardId: Int, listId: Int): Card
+    fun getCardDetails(conn: TransactionManager, cardId: Int): Card
 
     /**
      * Moves a card to a list.
      *
      * @param conn connection to database.
+     * @param listId list unique identifier.
      * @param cardId card unique identifier.
-     * @param lid list unique identifier.
      *
      * @return a Card.
      * */
-    fun moveCard(conn: TransactionManager, cardId: Int, lid: Int): Int
+    fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Int
 }

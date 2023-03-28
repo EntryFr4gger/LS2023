@@ -2,7 +2,6 @@ package pt.isel.ls.tasks.db.modules.users
 
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.User
-import java.sql.Connection
 
 /**
  * User Management.

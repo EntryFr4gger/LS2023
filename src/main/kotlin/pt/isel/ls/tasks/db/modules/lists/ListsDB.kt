@@ -1,7 +1,6 @@
 package pt.isel.ls.tasks.db.modules.lists
 
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
-import java.sql.Connection
 import pt.isel.ls.tasks.domain.List as _List
 
 /**
@@ -39,5 +38,4 @@ interface ListsDB {
      * @return a List.
      * */
     fun getListDetails(conn: TransactionManager, listId: Int): _List
-
 }
