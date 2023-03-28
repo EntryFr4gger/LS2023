@@ -7,7 +7,6 @@ import java.lang.Error
 import java.sql.Connection
 
 class BoardsDataMem(private val source: TasksDataStorage): BoardsDB {
-    /*
     init {
         source.boards[1] = Board(1, "ISEL", "Cenas do 4 semestre do isel")
         source.boards[2] = Board(2, "Compras", "Ida ao supermercado")
@@ -18,7 +17,7 @@ class BoardsDataMem(private val source: TasksDataStorage): BoardsDB {
         source.userBoard[1] = listOf(0)
         source.userBoard[2] = listOf(1,2)
     }
-*/
+
     override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
         val id = source.nextBoardId.getAndIncrement()
 
@@ -31,7 +30,7 @@ class BoardsDataMem(private val source: TasksDataStorage): BoardsDB {
     //refazer
     //verificar se user existe
     override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int {
-        
+
 
 
         if (source.userBoard.containsKey(userId)) {
@@ -45,12 +44,8 @@ class BoardsDataMem(private val source: TasksDataStorage): BoardsDB {
         return  if (source.userBoard[userId] != null) userId else  -1
     }
 
-    override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
-        val userBoard =  source.userBoard[userId]
-        return if (userBoard != null )
-             userBoard.mapNotNull { source.boards[it] }
-        else throw Error ("User with no boards")
-    }
+    override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> =
+        source.userBoard[userId]!!.mapNotNull { source.boards[it] }
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
         source.boards[boardId] ?: throw Error("No board")

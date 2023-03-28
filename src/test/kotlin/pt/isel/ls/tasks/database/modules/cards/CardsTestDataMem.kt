@@ -14,7 +14,7 @@ class CardsTestDataMem: CardsTestDB {
     private val source = TasksDataMem(storage)
     private val card = CardsDataMem(storage)
     @Test
-    fun `Creates a new card in a list` (){
+     fun `Creates a new card in a list` (){
         source.execute {
             val card = Card(1,"Study","study for success",
                 LocalDate(2023,3,21),1,1 )

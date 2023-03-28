@@ -11,31 +11,28 @@ import pt.isel.ls.tasks.db.modules.users.UsersDB
 import pt.isel.ls.tasks.db.modules.users.UsersDataPostgres
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.TransactionManagerDP
-import java.sql.Connection
 import java.sql.SQLException
 
-
-class TasksDataPostgres(sourceURL: String): TaskData {
+class TasksDataPostgres(sourceURL: String) : TaskData {
     private val source = PGSimpleDataSource().apply { setURL(System.getenv(sourceURL)) }
 
     override fun <R> execute(function: (TransactionManager) -> R): R {
         val conn = try {
             source.connection
-        } catch (e: SQLException){
+        } catch (e: SQLException) {
             throw e
         }
         conn.autoCommit = false
 
         return try {
             function(TransactionManagerDP(conn)).also { conn.commit() }
-        }catch (e: Error){
+        } catch (e: Error) {
             conn.rollback()
             throw e
-        }finally {
+        } finally {
             conn.close()
         }
     }
-
 
     override val users: UsersDB = UsersDataPostgres()
     override val boards: BoardsDB = BoardsDataPostgres()

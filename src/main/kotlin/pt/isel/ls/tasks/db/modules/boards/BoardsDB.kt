@@ -2,8 +2,6 @@ package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
-import java.sql.Connection
-
 
 /**
  * Board Management
@@ -51,5 +49,4 @@ interface BoardsDB {
      * @return a Board.
      * */
     fun getBoardDetails(conn: TransactionManager, boardId: Int): Board
-
 }

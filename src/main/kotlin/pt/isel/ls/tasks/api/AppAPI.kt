@@ -9,11 +9,11 @@ import org.http4k.server.Jetty
 import org.http4k.server.asServer
 import org.slf4j.LoggerFactory
 import pt.isel.ls.tasks.api.routers.boards.BoardsRouter
-import pt.isel.ls.tasks.api.routers.boards.cards.models.CardsRouter
-import pt.isel.ls.tasks.api.routers.boards.lists.models.ListsRouter
-import pt.isel.ls.tasks.api.routers.users.models.UsersRouter
-import pt.isel.ls.tasks.services.Services
-
+import pt.isel.ls.tasks.api.routers.cards.CardsRouter
+import pt.isel.ls.tasks.api.routers.lists.ListsRouter
+import pt.isel.ls.tasks.api.routers.users.UsersRouter
+import pt.isel.ls.tasks.db.TasksDataPostgres
+import pt.isel.ls.tasks.services.TaskServices
 
 private val logger = LoggerFactory.getLogger("Tasks API")
 
@@ -33,14 +33,13 @@ fun logRequest(request: Request) {
     )
 }
 
-
 fun main() {
-    val services = Services()
+    val services = TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
     val app = routes(
-        UsersRouter.routes(services),
-        BoardsRouter.routes(services),
-        ListsRouter.routes(services),
-        CardsRouter.routes(services,)
+        UsersRouter.routes(services.users),
+        BoardsRouter.routes(services.boards),
+        ListsRouter.routes(services.lists),
+        CardsRouter.routes(services.cards)
     )
 
     val jettyServer = app.asServer(Jetty(9000)).start()
