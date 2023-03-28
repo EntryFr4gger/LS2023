@@ -6,6 +6,12 @@ import java.sql.Connection
 
 class UsersDataMem(private val source: TasksDataStorage): UsersDB {
 
+    init {
+        source.users[0] = User(1, "Gilberto", "Gilberto@gmail.com")
+        source.users[1] = User(2, "Alberto", "Alberto@hotmail.com")
+        source.users[2] = User(3, "Godofredo", "Godofredo@outlook.pt")
+    }
+
     override fun createNewUser(conn: Connection, name: String, email: String): Int {
         source.nextUserId.getAndIncrement().also { id->
             if(source.users.values.any { it.email == email })
