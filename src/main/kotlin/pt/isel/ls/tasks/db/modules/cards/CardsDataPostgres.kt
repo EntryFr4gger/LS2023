@@ -5,26 +5,41 @@ import kotlinx.datetime.toKotlinLocalDate
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Card
-import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 import java.sql.Statement
+import java.sql.Types
 
 class CardsDataPostgres: CardsDB {
+
+    companion object{
+        fun ResultSet.toCard() =
+            Card(getInt(1), getString(2), getString(3),
+                getDate(4)?.toLocalDate()?.toKotlinLocalDate(),
+                getInt(5), getInt(6)
+        )
+
+        fun <T> PreparedStatement.setType(parameterIndex : Int, data: T?, type: Int) =
+            if (data == null) setNull(parameterIndex, type) else setString(parameterIndex, data.toString())
+    }
+
     override fun createNewCard(
         conn: TransactionManager,
         name: String,
         description: String,
-        dueDate: LocalDate,
+        dueDate: LocalDate?,
         boardId: Int,
         listId: Int?
     ): Int {
         val obj = conn.connection().prepareStatement(
-            "INSERT INTO cards(name, description, duedate, board_id) VALUES (?, ?, ?, ?)",
+            "INSERT INTO cards(name, description, duedate, board_id, list_id) VALUES (?, ?, ?, ?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
         obj.setString(1, name)
         obj.setString(2, description)
-        obj.setString(3, "23:44:59.903")
+        obj.setType(3,dueDate, Types.CHAR)
         obj.setInt(4, boardId)
+        obj.setType(5,listId, Types.INTEGER)
 
         if(obj.executeUpdate() == 0) throw Error("Card Create Failed(sql)")
 
@@ -42,20 +57,13 @@ class CardsDataPostgres: CardsDB {
         val res = obj.executeQuery()
 
         val cards = mutableListOf<Card>()
-        while (res.next()){
-            cards += Card(
-                res.getInt(1),
-                res.getString(2),
-                res.getString(3),
-                res.getDate(4).toLocalDate().toKotlinLocalDate(),
-                res.getInt(5),
-                res.getInt(6)
-            )
-        }
+        while (res.next())
+            cards.add(res.toCard())
+
         return cards
     }
 
-    override fun getCardDetails(conn: TransactionManager, cardId: Int, listId: Int): Card {
+    override fun getCardDetails(conn: TransactionManager, cardId: Int): Card {
         val obj = conn.connection().prepareStatement(
             "SELECT * FROM cards WHERE id = ?",
         )
@@ -63,23 +71,17 @@ class CardsDataPostgres: CardsDB {
 
         val res = obj.executeQuery()
         if (res.next())
-            return Card(
-                res.getInt(1),
-                res.getString(2),
-                res.getString(3),
-                res.getDate(4).toLocalDate().toKotlinLocalDate(),
-                res.getInt(5),
-                res.getInt(6)
-            )
-        else throw Error("No Card")
+            return res.toCard()
+        else
+            throw Error("No Card")
     }
 
-    override fun moveCard(conn: TransactionManager, cardId: Int, lid: Int): Int {
+    override fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Int {
         val obj = conn.connection().prepareStatement(
             "UPDATE cards SET list_id = ? WHERE id = ?",
             Statement.RETURN_GENERATED_KEYS
         )
-        obj.setInt(1, lid)
+        obj.setInt(1, listId)
         obj.setInt(2, cardId)
 
         if(obj.executeUpdate() == 0) throw Error("Card Create Failed(sql)")

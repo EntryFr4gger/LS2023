@@ -3,10 +3,15 @@ package pt.isel.ls.tasks.db.modules.users
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.User
-import java.sql.Connection
+import java.sql.ResultSet
 import java.sql.Statement
 
 class UsersDataPostgres: UsersDB {
+
+    companion object{
+        fun ResultSet.toUser() =
+            User(getInt(1), getString(2), getString(3))
+    }
 
     override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
         val obj = conn.connection().prepareStatement(
@@ -31,11 +36,8 @@ class UsersDataPostgres: UsersDB {
 
         val res = obj.executeQuery()
         if (res.next())
-            return User(
-                res.getInt(1),
-                res.getString(2),
-                res.getString(3)
-            )
-        else throw Error("No user")
+            return res.toUser()
+        else
+            throw Error("No user")
     }
 }

@@ -3,10 +3,16 @@ package pt.isel.ls.tasks.db.modules.lists
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.List as _List
-import java.sql.Connection
+import java.sql.ResultSet
 import java.sql.Statement
 
 class ListsDataPostgres: ListsDB {
+
+    companion object{
+        fun ResultSet.toList() =
+            _List(getInt(1), getString(2), getInt(3))
+    }
+
     override fun createList(conn: TransactionManager, name: String, boardId: Int): Int {
         val obj = conn.connection().prepareStatement(
             "INSERT INTO lists(name, board_id) VALUES (?, ?)",
@@ -31,13 +37,9 @@ class ListsDataPostgres: ListsDB {
         val res = obj.executeQuery()
 
         val lists = mutableListOf<_List>()
-        while (res.next()){
-            lists += _List(
-                res.getInt(1),
-                res.getString(2),
-                res.getInt(3)
-            )
-        }
+        while (res.next())
+            lists += res.toList()
+
         return lists
     }
 
@@ -49,12 +51,9 @@ class ListsDataPostgres: ListsDB {
 
         val res = obj.executeQuery()
         if (res.next())
-            return _List(
-                res.getInt(1),
-                res.getString(2),
-                res.getInt(3)
-            )
-        else throw Error("No List")
+            return res.toList()
+        else
+            throw Error("No List")
     }
 
 }

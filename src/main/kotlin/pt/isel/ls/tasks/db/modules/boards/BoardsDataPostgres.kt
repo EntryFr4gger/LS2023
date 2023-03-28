@@ -3,10 +3,17 @@ package pt.isel.ls.tasks.db.modules.boards
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Board
-import java.sql.Connection
+import java.sql.ResultSet
 import java.sql.Statement
 
 class BoardsDataPostgres: BoardsDB {
+
+    companion object{
+        fun ResultSet.toBoard() =
+            Board(getInt(1), getString(2), getString(3))
+
+    }
+
     override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
         val res = conn.connection().prepareStatement(
             "INSERT INTO boards(name, description) VALUES (?, ?)",
@@ -46,13 +53,9 @@ class BoardsDataPostgres: BoardsDB {
         val res = obj.executeQuery()
 
         val boards = mutableListOf<Board>()
-        while (res.next()){
-            boards += Board(
-                res.getInt(1),
-                res.getString(2),
-                res.getString(3)
-            )
-        }
+        while (res.next())
+            boards.add(res.toBoard())
+
         return boards
     }
 
@@ -64,11 +67,8 @@ class BoardsDataPostgres: BoardsDB {
 
         val res = prp.executeQuery()
         if (res.next())
-            return Board(
-                res.getInt(1),
-                res.getString(2),
-                res.getString(3)
-            )
-        else throw Error("No board")
+            return res.toBoard()
+        else
+            throw Error("No board")
     }
 }

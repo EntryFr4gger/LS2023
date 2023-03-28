@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
-import java.sql.Connection
+
 
 class CardsDataMem(private val source: TasksDataStorage): CardsDB {
     init {
@@ -23,7 +23,7 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
         conn: TransactionManager,
         name: String,
         description: String,
-        dueDate: LocalDate,
+        dueDate: LocalDate?,
         boardId: Int,
         listId: Int?
     ): Int {
@@ -41,14 +41,15 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
         }
 
 
-    override fun getCardDetails(conn: TransactionManager, cardId: Int, listId: Int): Card {
-        val cards = getCardsOfList(conn,listId)
-        return cards.first{ it.id == cardId}
+    override fun getCardDetails(conn: TransactionManager, cardId: Int): Card {
+        //val cards = getCardsOfList(conn,listId)
+        //return cards.first{ it.id == cardId}
+        TODO()
     }
-//Refazer
-    override fun moveCard(conn: TransactionManager, cardId: Int, lid: Int):Int {
+
+    override fun moveCard(conn: TransactionManager, listId: Int, cardId: Int):Int {
         val card = source.cards[cardId] ?: error("card not find")
-        source.cards[cardId] = card.copy(listId = lid)
+        source.cards[cardId] = card.copy(listId = listId)
         return 1
     }
 }
