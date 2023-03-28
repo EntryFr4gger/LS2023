@@ -7,12 +7,9 @@ import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
 import pt.isel.ls.tasks.db.modules.users.UsersDataMem
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.TransactionManagerDM
-import java.sql.Connection
 
-
-class TasksDataMem(storage: TasksDataStorage): TaskData{
+class TasksDataMem(storage: TasksDataStorage) : TaskData {
     override fun <R> execute(function: (TransactionManager) -> R): R = function(TransactionManagerDM())
-
 
     override val users = UsersDataMem(storage)
     override val boards = BoardsDataMem(storage)

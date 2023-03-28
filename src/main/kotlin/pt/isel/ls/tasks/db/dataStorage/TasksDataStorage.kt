@@ -1,7 +1,9 @@
 package pt.isel.ls.tasks.db.dataStorage
 
-import pt.isel.ls.tasks.domain.*
+import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List
+import pt.isel.ls.tasks.domain.User
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -18,6 +20,5 @@ class TasksDataStorage {
     val cards = ConcurrentHashMap<Int, Card>()
     var nextCardId = AtomicInteger(1)
 
-    val userBoard = HashMap<Int, kotlin.collections.List<Int>>()
-
+    val userBoard = ConcurrentHashMap<Int, kotlin.collections.List<Int>>()
 }

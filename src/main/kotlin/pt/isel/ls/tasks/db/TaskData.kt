@@ -5,7 +5,6 @@ import pt.isel.ls.tasks.db.modules.cards.CardsDB
 import pt.isel.ls.tasks.db.modules.lists.ListsDB
 import pt.isel.ls.tasks.db.modules.users.UsersDB
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
-import java.sql.Connection
 
 /**
  *

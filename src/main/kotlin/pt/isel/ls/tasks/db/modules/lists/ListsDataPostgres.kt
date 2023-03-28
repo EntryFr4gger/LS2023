@@ -2,13 +2,13 @@ package pt.isel.ls.tasks.db.modules.lists
 
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
-import pt.isel.ls.tasks.domain.List as _List
 import java.sql.ResultSet
 import java.sql.Statement
+import pt.isel.ls.tasks.domain.List as _List
 
-class ListsDataPostgres: ListsDB {
+class ListsDataPostgres : ListsDB {
 
-    companion object{
+    companion object {
         fun ResultSet.toList() =
             _List(getInt(1), getString(2), getInt(3))
     }
@@ -21,7 +21,7 @@ class ListsDataPostgres: ListsDB {
         obj.setString(1, name)
         obj.setInt(2, boardId)
 
-        if(obj.executeUpdate() == 0) throw Error("List Create Failed(sql)")
+        if (obj.executeUpdate() == 0) throw Error("List Create Failed(sql)")
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -30,7 +30,7 @@ class ListsDataPostgres: ListsDB {
 
     override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM lists WHERE board_id = ?",
+            "SELECT * FROM lists WHERE board_id = ?"
         )
         obj.setInt(1, boardId)
 
@@ -45,15 +45,15 @@ class ListsDataPostgres: ListsDB {
 
     override fun getListDetails(conn: TransactionManager, listId: Int): _List {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM lists WHERE id = ?",
+            "SELECT * FROM lists WHERE id = ?"
         )
         obj.setInt(1, listId)
 
         val res = obj.executeQuery()
-        if (res.next())
+        if (res.next()) {
             return res.toList()
-        else
+        } else {
             throw Error("No List")
+        }
     }
-
 }
