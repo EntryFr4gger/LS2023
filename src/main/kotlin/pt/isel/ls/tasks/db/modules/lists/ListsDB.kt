@@ -38,4 +38,9 @@ interface ListsDB {
      * @return a List.
      * */
     fun getListDetails(conn: TransactionManager, listId: Int): _List
+
+    /**
+     *
+     */
+    fun hasList(conn: TransactionManager, listId: Int): Boolean
 }

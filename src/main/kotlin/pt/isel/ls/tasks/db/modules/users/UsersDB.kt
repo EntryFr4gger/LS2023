@@ -32,5 +32,11 @@ interface UsersDB {
     /**
      *
      * */
-    fun
+    fun isNewEmail(conn: TransactionManager, email: String): Boolean
+
+    /**
+     *
+     */
+    fun hasUser(conn: TransactionManager, userId: Int): Boolean
 }
+

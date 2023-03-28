@@ -43,4 +43,16 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
         source.boards[boardId] ?: throw Error("No board")
+
+    override fun isNewName(conn: TransactionManager, name: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun hasBoard(conn: TransactionManager, boardId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
 }

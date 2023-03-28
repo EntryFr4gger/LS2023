@@ -27,4 +27,12 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
     override fun getUserDetails(conn: TransactionManager, userId: Int): User {
         return source.users[userId] ?: error("No user")
     }
+
+    override fun isNewEmail(conn: TransactionManager, email: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun hasUser(conn: TransactionManager, userId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
 }

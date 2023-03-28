@@ -41,4 +41,12 @@ class UsersDataPostgres : UsersDB {
             throw Error("No user")
         }
     }
+
+    override fun isNewEmail(conn: TransactionManager, email: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun hasUser(conn: TransactionManager, userId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
 }
