@@ -1,12 +1,14 @@
 package pt.isel.ls.tasks.db.modules.boards
 
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
+import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Board
 import java.sql.Connection
 import java.sql.Statement
 
 class BoardsDataPostgres: BoardsDB {
-    override fun createNewBoard(conn: Connection, name: String, description: String): Int {
-        val res = conn.prepareStatement(
+    override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
+        val res = conn.connection().prepareStatement(
             "INSERT INTO boards(name, description) VALUES (?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
@@ -20,8 +22,8 @@ class BoardsDataPostgres: BoardsDB {
         }
     }
 
-    override fun addUserToBoard(conn: Connection, userId: Int, boardId: Int): Int {
-        val res = conn.prepareStatement(
+    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int {
+        val res = conn.connection().prepareStatement(
             "INSERT INTO user_board(user_id, board_id) VALUES (?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
@@ -35,8 +37,8 @@ class BoardsDataPostgres: BoardsDB {
         }
     }
 
-    override fun getUserBoards(conn: Connection, userId: Int): List<Board> {
-        val obj = conn.prepareStatement(
+    override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
+        val obj = conn.connection().prepareStatement(
             "SELECT * FROM boards JOIN user_board ON id = board_id WHERE user_id = ?",
         )
         obj.setInt(1, userId)
@@ -54,8 +56,8 @@ class BoardsDataPostgres: BoardsDB {
         return boards
     }
 
-    override fun getBoardDetails(conn: Connection, boardId: Int): Board {
-        val prp = conn.prepareStatement(
+    override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board {
+        val prp = conn.connection().prepareStatement(
             "SELECT * FROM boards WHERE id = ?",
         )
         prp.setInt(1, boardId)

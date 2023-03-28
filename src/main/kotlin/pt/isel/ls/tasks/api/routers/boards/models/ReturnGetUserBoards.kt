@@ -4,4 +4,4 @@ import jdk.jfr.Description
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Board(val id:Int, val name: String, val description: String)
+data class UserBoards(val id:Int, val name: String, val description: String)

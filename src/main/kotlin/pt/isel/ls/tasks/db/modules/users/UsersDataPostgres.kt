@@ -1,13 +1,15 @@
 package pt.isel.ls.tasks.db.modules.users
 
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
+import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.User
 import java.sql.Connection
 import java.sql.Statement
 
 class UsersDataPostgres: UsersDB {
 
-    override fun createNewUser(conn: Connection, name: String, email: String): Int {
-        val obj = conn.prepareStatement(
+    override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
+        val obj = conn.connection().prepareStatement(
             "INSERT INTO users(name, email) VALUES (?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
@@ -21,8 +23,8 @@ class UsersDataPostgres: UsersDB {
         }
     }
 
-    override fun getUserDetails(conn: Connection, userId: Int): User {
-        val obj = conn.prepareStatement(
+    override fun getUserDetails(conn: TransactionManager, userId: Int): User {
+        val obj = conn.connection().prepareStatement(
             "SELECT * FROM users WHERE id = ?",
         )
         obj.setInt(1, userId)

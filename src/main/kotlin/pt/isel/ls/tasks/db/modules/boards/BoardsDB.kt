@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.db.modules.boards
 
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
 import java.sql.Connection
 
@@ -18,7 +19,7 @@ interface BoardsDB {
      *
      * @return board unique identifier.
      * */
-    fun createNewBoard(conn: Connection, name: String, description: String): Int
+    fun createNewBoard(conn: TransactionManager, name: String, description: String): Int
 
     /**
      * Add a user to the board.
@@ -29,7 +30,7 @@ interface BoardsDB {
      *
      * @return
      * */
-    fun addUserToBoard(conn: Connection, userId: Int, boardId: Int): Int
+    fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int
 
     /**
      * Get the list with all user available boards.
@@ -39,7 +40,7 @@ interface BoardsDB {
      *
      * @return list with user boards.
      * */
-    fun getUserBoards(conn: Connection, userId: Int): List<Board>
+    fun getUserBoards(conn: TransactionManager, userId: Int): List<Board>
 
     /**
      * Get the detailed information of a board.
@@ -49,6 +50,6 @@ interface BoardsDB {
      *
      * @return a Board.
      * */
-    fun getBoardDetails(conn: Connection, boardId: Int): Board
+    fun getBoardDetails(conn: TransactionManager, boardId: Int): Board
 
 }

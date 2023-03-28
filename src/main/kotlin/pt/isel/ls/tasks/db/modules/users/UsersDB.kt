@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.db.modules.users
 
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.User
 import java.sql.Connection
 
@@ -17,7 +18,7 @@ interface UsersDB {
      *
      * @return user's unique identifier.
      * */
-    fun createNewUser(conn: Connection, name: String, email: String): Int
+    fun createNewUser(conn: TransactionManager, name: String, email: String): Int
 
     /**
      * Get the details of a user.
@@ -27,6 +28,6 @@ interface UsersDB {
      *
      * @return a User.
      * */
-    fun getUserDetails(conn: Connection, userId: Int): User
+    fun getUserDetails(conn: TransactionManager, userId: Int): User
 
 }
