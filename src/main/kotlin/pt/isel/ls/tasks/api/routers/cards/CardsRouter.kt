@@ -12,13 +12,13 @@ import org.http4k.routing.path
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.logRequest
 import pt.isel.ls.tasks.api.routers.IRouter
-import pt.isel.ls.tasks.api.routers.MockData
-import pt.isel.ls.tasks.api.routers.boards.lists.models.ListInfo
-import pt.isel.ls.tasks.api.routers.boards.models.CreateBoard
+import pt.isel.ls.tasks.api.routers.boards.BoardsRouter
+import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
+import pt.isel.ls.tasks.services.Services
 
-class CardsRouter : IRouter {
+class CardsRouter(private val services: Services) : IRouter {
     companion object{
-        fun CardsRoutes() = CardsRouter().routes
+        fun routes(services: Services) = BoardsRouter(services).routes
     }
     override val routes = routes(
         "boards/{board_id}/lists/{list_id}/cards" bind Method.POST to ::createCard,
@@ -35,7 +35,7 @@ class CardsRouter : IRouter {
         val card_id = request.path("card_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(MockData.lists))
+            .body(Json.encodeToString(emptyList<String>()))
     }
 
     //Falta deIsolar
@@ -45,28 +45,28 @@ class CardsRouter : IRouter {
         val list_id = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(MockData.lists))
+            .body(Json.encodeToString(emptyList<String>()))
     }
 
     //Falta deIsolar
     private fun createCard(request: Request): Response {
         logRequest(request)
         val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val std = Json.decodeFromString<CreateBoard>(request.bodyString())
-        MockData.lists.add(ListInfo(MockData.lists.last().id+10,std.name, emptyList())) //rem
+        val std = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
+        //MockData.lists.add(ListDTO(MockData.lists.last().id+10,std.name, emptyList())) //rem
         return Response(Status.CREATED)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(MockData.lists.last().id)) //change
+            .body(Json.encodeToString(emptyList<String>())) //change
     }
 
     private fun updateCard(request: Request): Response {
         logRequest(request)
         val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val std = Json.decodeFromString<CreateBoard>(request.bodyString())
-        MockData.lists.add(ListInfo(MockData.lists.last().id+10,std.name, emptyList())) //rem
+        val std = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
+        //MockData.lists.add(ListDTO(MockData.lists.last().id+10,std.name, emptyList())) //rem
         return Response(Status.CREATED)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(MockData.lists.last().id)) //change
+            .body(Json.encodeToString(emptyList<String>())) //change
     }
 
 }
