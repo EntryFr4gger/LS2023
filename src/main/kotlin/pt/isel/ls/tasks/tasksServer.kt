@@ -1,10 +1,6 @@
-package pt.isel.ls.tasks.api
+package pt.isel.ls.tasks
 
-import kotlinx.datetime.Clock
 import org.http4k.core.Request
-import org.http4k.core.Response
-import org.http4k.core.Status
-import org.http4k.filter.ClientFilters
 import org.http4k.routing.routes
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
@@ -15,9 +11,12 @@ import pt.isel.ls.tasks.api.routers.boards.lists.models.ListsRouter
 import pt.isel.ls.tasks.api.routers.users.models.UsersRouter
 import pt.isel.ls.tasks.services.Services
 
+const val PORT = 9000
 
+fun main() {
+    val logger = LoggerFactory.getLogger("Tasks API")
+    val services = Services()
 
-fun AppAPI() {
     val app = routes(
         UsersRouter.routes(services),
         BoardsRouter.routes(services),
@@ -25,7 +24,7 @@ fun AppAPI() {
         CardsRouter.routes(services),
     )
 
-    val jettyServer = app.asServer(Jetty(9000)).start()
+    val jettyServer = app.asServer(Jetty(PORT)).start()
     logger.info("server started listening")
 
     readln()

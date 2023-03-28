@@ -16,18 +16,17 @@ import pt.isel.ls.tasks.api.routers.boards.models.*
 import pt.isel.ls.tasks.services.Services
 
 class BoardsRouter(private val services: Services) : IRouter {
-    companion object{
+    companion object {
         fun routes(services: Services) = BoardsRouter(services).routes
     }
     override val routes = routes(
         "board" bind Method.POST to ::postBoard,
         "board/{board_id}/users/{user_id}" bind Method.POST to ::postUserToBoard,
         "boards/{board_id}" bind Method.GET to ::getBoard,
-        "users/{user_id}/boards" bind Method.GET to ::getUserBoards
+        "users/{user_id}/boards" bind Method.GET to ::getUserBoards,
 
     )
 
-    
     private fun getUserBoards(request: Request): Response {
         logRequest(request)
         val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
@@ -36,7 +35,6 @@ class BoardsRouter(private val services: Services) : IRouter {
             .header("content-type", "application/json")
             .body(Json.encodeToString(UserBoardsDTO(boards)))
     }
-
 
     private fun getBoard(request: Request): Response {
         logRequest(request)
@@ -47,15 +45,14 @@ class BoardsRouter(private val services: Services) : IRouter {
             .body(Json.encodeToString(BoardDTO(board)))
     }
 
-    //trocar o user ID para o corpo?
+    // trocar o user ID para o corpo?
     private fun postUserToBoard(request: Request): Response {
         logRequest(request)
         val board_id = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
-        val response = services.addUserToBoard(user_id,board_id) //can be removed but can be useful
+        val response = services.addUserToBoard(user_id, board_id) // can be removed but can be useful
         return Response(Status.OK)
     }
-
 
     private fun postBoard(request: Request): Response {
         logRequest(request)
