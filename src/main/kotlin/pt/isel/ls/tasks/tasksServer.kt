@@ -10,15 +10,7 @@ import pt.isel.ls.tasks.db.TasksDataPostgres
 import pt.isel.ls.tasks.services.TaskServices
 
 const val PORT = 9000
-fun Logger.logRequest(request: Request) {
-    this.info(
-        "incoming request: method={}, uri={}, content-type={} accept={}",
-        request.method,
-        request.uri,
-        request.header("content-type"),
-        request.header("accept"),
-    )
-}
+
 fun main() {
     val logger = LoggerFactory.getLogger("Tasks API")
     val services = TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
@@ -34,7 +26,7 @@ fun main() {
         .getRoutes()
         .withFilter(logRequestFilter)
 
-    val jettyServer = app.asServer(Jetty(9000)).start()
+    val jettyServer = app.asServer(Jetty(PORT)).start()
     logger.info("server started listening")
 
     readln()
