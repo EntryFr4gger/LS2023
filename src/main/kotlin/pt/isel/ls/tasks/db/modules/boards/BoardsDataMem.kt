@@ -45,11 +45,11 @@ class BoardsDataMem(private val source: TasksDataStorage): BoardsDB {
         val userBoard =  source.userBoard[userId]
         return if (userBoard != null )
              userBoard.mapNotNull { source.boards[it] }
-        else throw Error ("User with no boards")
+        else error("User with no boards")
     }
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
-        source.boards[boardId] ?: throw Error("No board")
+        source.boards[boardId] ?: error("No board")
 
     override fun isNewName(conn: TransactionManager, name: String): Boolean {
         TODO("Not yet implemented")

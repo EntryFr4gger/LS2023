@@ -28,17 +28,8 @@ class ListsTestDataMem  {
         source.run { conn ->
             val lists = listOf(List(1, "Aula de LS", 1),
             List(2, "Aula de LAE", 1))
-            val res =
-            assertEquals(lists, this.lists.getAllLists(conn, 1))
-        }
-    }
-
-    @Test
-     fun `Throws an error for a nonexistent lists`() {
-        source.run { conn ->
-            assertFailsWith<IllegalStateException> {
-                lists.getListDetails(conn, 10)
-            }
+            val res = this.lists.getAllLists(conn, 1)
+            assertEquals(lists, res)
         }
     }
 
@@ -46,11 +37,17 @@ class ListsTestDataMem  {
      fun `Get the correct list`() {
         source.run { conn ->
             val list = List(1, "Aula de LS", 1)
-            assertEquals(list, lists.getListDetails(conn, 1))
+            val res = lists.getListDetails(conn, 1)
+            assertEquals(list, res )
         }
     }
 
-     fun `Throws an error for a nonexistent list `() {
-        TODO("Not yet implemented")
+    @Test
+    fun `Throws an error for a nonexistent lists`() {
+        source.run { conn ->
+            assertFailsWith<IllegalStateException> {
+                lists.getListDetails(conn, 10)
+            }
+        }
     }
 }

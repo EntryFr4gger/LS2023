@@ -7,6 +7,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.cards.CardsDataMem
 import pt.isel.ls.tasks.domain.*
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class CardsTestDataMem {
     private val storage = TasksDataStorage()
@@ -31,7 +32,8 @@ class CardsTestDataMem {
                       Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", LocalDate(2023,3,21), 2, 3)
             )
 
-            assertEquals(cards, this.cards.getCardsOfList(conn, 3))
+            val res = this.cards.getCardsOfList(conn, 3)
+            assertEquals(cards, res)
         }
     }
 
@@ -39,16 +41,25 @@ class CardsTestDataMem {
     fun`Get detail in a card`(){
         source.run { conn ->
             val card =  Card(2, "Entrega 1", "Entrega inicial do autorouter", LocalDate(2023,4,3), 1, 2)
-            assertEquals(card, cards.getCardDetails(conn, 2))
+            val res = cards.getCardDetails(conn, 2)
+            assertEquals(card, res)
         }
     }
 
     @Test
     fun`move card from a list`() {
         source.run { conn ->
-
             val res = cards.moveCard(conn, 3, 2)
             assertEquals(1,res )
+        }
+    }
+
+    @Test
+    fun `Throws an error for a nonexistent card`(){
+        source.run { conn ->
+            assertFailsWith<IllegalStateException> {
+               cards.getCardDetails(conn,10)
+            }
         }
     }
 }

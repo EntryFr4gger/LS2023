@@ -38,7 +38,8 @@ class UsersTestDataMem  {
      fun `Gets the correct user`() {
         source.run { conn ->
             val user =User(3, "Godofredo", "Godofredo@outlook.pt")
-            assertEquals(user, users.getUserDetails(conn, 3))
+            val res = users.getUserDetails(conn, 3)
+            assertEquals(user, res )
         }
     }
 

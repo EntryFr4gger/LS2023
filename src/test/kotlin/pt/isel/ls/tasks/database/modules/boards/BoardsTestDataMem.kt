@@ -24,7 +24,14 @@ class BoardsTestDataMem {
         }
     }
     @Test
-    fun `Throws an -1 if user do not exist`() {
+    fun `return -1 if user do not exist`() {
+        source.run { conn ->
+            val ret = boards.addUserToBoard(conn, 10, 1)
+            assertEquals(-1, ret)
+        }
+    }
+    @Test
+    fun `return 1 if user do not exist`() {
         source.run { conn ->
             val ret = boards.addUserToBoard(conn, 1, 1)
             assertEquals(1, ret)
@@ -41,10 +48,28 @@ class BoardsTestDataMem {
         }
     }
     @Test
-    fun `Verify if the user was correctly added to the board   `() {
+    fun `Verify if the user was correctly added to the board  `() {
         source.run { conn ->
             val ret = boards.addUserToBoard(conn, 1, 2)
-            assertEquals(ret,1)
+            assertEquals(1,ret)
+        }
+    }
+
+    @Test
+    fun `Throws an error for a nonexistent board`(){
+        source.run { conn ->
+            assertFailsWith<IllegalStateException> {
+                boards.getBoardDetails(conn,100)
+            }
+        }
+    }
+
+    @Test
+    fun `Throws an error for a user without  boards`(){
+        source.run { conn ->
+            assertFailsWith<IllegalStateException> {
+                boards.getUserBoards(conn,4)
+            }
         }
     }
 }

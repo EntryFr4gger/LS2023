@@ -10,7 +10,8 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         source.users[1] = User(1, "Gilberto", "Gilberto@gmail.com")
         source.users[2] = User(2, "Alberto", "Alberto@hotmail.com")
         source.users[3] = User(3, "Godofredo", "Godofredo@outlook.pt")
-        source.nextUserId.addAndGet(3)
+        source.users[4] = User(3, "UserWithNoBoard", "UserWithNoBoard@outlook.pt")
+        source.nextUserId.addAndGet(4)
     }
 
     override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
