@@ -5,7 +5,7 @@ import pt.isel.ls.tasks.domain.User
 
 class UsersServices(val source: TaskData) {
 
-    //Quando mudarm
+    // Quando mudarm
     fun createNewUser(name: String, email: String): Int {
         // Nome valido
         // Email valido
@@ -17,7 +17,6 @@ class UsersServices(val source: TaskData) {
 
             userID
         }
-
     }
 
     fun getUserDetails(userId: Int): User {

@@ -16,7 +16,7 @@ class ListsDataPostgres : ListsDB {
     override fun createList(conn: TransactionManager, name: String, boardId: Int): Int {
         val obj = conn.connection().prepareStatement(
             "INSERT INTO lists(name, board_id) VALUES (?, ?)",
-            Statement.RETURN_GENERATED_KEYS
+            Statement.RETURN_GENERATED_KEYS,
         )
         obj.setString(1, name)
         obj.setInt(2, boardId)
@@ -30,7 +30,7 @@ class ListsDataPostgres : ListsDB {
 
     override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM lists WHERE board_id = ?"
+            "SELECT * FROM lists WHERE board_id = ?",
         )
         obj.setInt(1, boardId)
 
@@ -45,7 +45,7 @@ class ListsDataPostgres : ListsDB {
 
     override fun getListDetails(conn: TransactionManager, listId: Int): _List {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM lists WHERE id = ?"
+            "SELECT * FROM lists WHERE id = ?",
         )
         obj.setInt(1, listId)
 

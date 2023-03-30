@@ -9,10 +9,7 @@ import org.http4k.core.Status.Companion.CREATED
 import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
 import org.http4k.routing.routes
-import pt.isel.ls.tasks.api.routers.IRouter
-import pt.isel.ls.tasks.api.routers.errorCatcher
-import pt.isel.ls.tasks.api.routers.jsonResponse
-import pt.isel.ls.tasks.api.routers.pathOrThrow
+import pt.isel.ls.tasks.api.routers.*
 import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserInfoDTO
@@ -24,7 +21,7 @@ class UsersRouter(private val services: UsersServices) : IRouter {
     }
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
-        "users/{user_id}" bind Method.GET to ::getUsers,
+        ("users/{user_id}" bind Method.GET to ::getUsers).withFilter(BearerTokenFilter()),
     )
 
     /**

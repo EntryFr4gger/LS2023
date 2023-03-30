@@ -24,7 +24,7 @@ class ListsRouter(private val services: ListsServices) : IRouter {
     override val routes = routes(
         "boards/{board_id}/lists" bind Method.POST to ::postList,
         "boards/{board_id}/lists" bind Method.GET to ::getLists,
-        "boards/{board_id}/lists/{list_id}" bind Method.GET to ::getListInfo
+        "boards/{board_id}/lists/{list_id}" bind Method.GET to ::getListInfo,
     )
 
     private fun getListInfo(request: Request): Response {

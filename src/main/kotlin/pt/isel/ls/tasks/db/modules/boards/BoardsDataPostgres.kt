@@ -16,7 +16,7 @@ class BoardsDataPostgres : BoardsDB {
     override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
         val res = conn.connection().prepareStatement(
             "INSERT INTO boards(name, description) VALUES (?, ?)",
-            Statement.RETURN_GENERATED_KEYS
+            Statement.RETURN_GENERATED_KEYS,
         )
         res.setString(1, name)
         res.setString(2, description)
@@ -31,7 +31,7 @@ class BoardsDataPostgres : BoardsDB {
     override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int {
         val res = conn.connection().prepareStatement(
             "INSERT INTO user_board(user_id, board_id) VALUES (?, ?)",
-            Statement.RETURN_GENERATED_KEYS
+            Statement.RETURN_GENERATED_KEYS,
         )
         res.setInt(1, userId)
         res.setInt(2, boardId)
@@ -45,7 +45,7 @@ class BoardsDataPostgres : BoardsDB {
 
     override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM boards JOIN user_board ON id = board_id WHERE user_id = ?"
+            "SELECT * FROM boards JOIN user_board ON id = board_id WHERE user_id = ?",
         )
         obj.setInt(1, userId)
 
@@ -60,7 +60,7 @@ class BoardsDataPostgres : BoardsDB {
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board {
         val prp = conn.connection().prepareStatement(
-            "SELECT * FROM boards WHERE id = ?"
+            "SELECT * FROM boards WHERE id = ?",
         )
         prp.setInt(1, boardId)
 

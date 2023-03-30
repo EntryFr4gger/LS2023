@@ -25,7 +25,7 @@ class BoardsRouter(private val services: BoardsServices) : IRouter {
         "board" bind Method.POST to ::postBoard,
         "board/{board_id}/users/{user_id}" bind Method.POST to ::postUserToBoard,
         "boards/{board_id}" bind Method.GET to ::getBoard,
-        "users/{user_id}/boards" bind Method.GET to ::getUserBoards
+        "users/{user_id}/boards" bind Method.GET to ::getUserBoards,
 
     )
 

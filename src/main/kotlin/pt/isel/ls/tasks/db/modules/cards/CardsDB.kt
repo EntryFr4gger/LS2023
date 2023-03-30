@@ -26,7 +26,7 @@ interface CardsDB {
         description: String,
         dueDate: LocalDate?,
         boardId: Int,
-        listId: Int?
+        listId: Int?,
     ): Int
 
     /**
@@ -64,5 +64,4 @@ interface CardsDB {
      *
      */
     fun hasCard(conn: TransactionManager, cardId: Int): Boolean
-
 }

@@ -22,7 +22,7 @@ class CardsRouter(private val services: CardsServices) : IRouter {
         "boards/{board_id}/lists/{list_id}/cards" bind Method.POST to ::createCard,
         "boards/{board_id}/lists/{list_id}/cards/{card_id}" bind Method.PUT to ::updateCard,
         "boards/{board_id}/lists/{list_id}/cards" bind Method.GET to ::getCards,
-        "boards/{board_id}/lists/{list_id}/cards/{card_id}" bind Method.GET to ::getCardInfo
+        "boards/{board_id}/lists/{list_id}/cards/{card_id}" bind Method.GET to ::getCardInfo,
     )
 
     // Falta deIsolar

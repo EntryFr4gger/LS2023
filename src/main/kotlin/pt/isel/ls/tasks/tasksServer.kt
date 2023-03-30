@@ -3,7 +3,6 @@ package pt.isel.ls.tasks
 import org.http4k.core.*
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pt.isel.ls.tasks.api.AppAPI
 import pt.isel.ls.tasks.db.TasksDataPostgres
@@ -15,16 +14,11 @@ fun main() {
     val logger = LoggerFactory.getLogger("Tasks API")
     val services = TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
 
-    val logRequestFilter = Filter { next ->
-        { request ->
-            logger.logRequest(request)
-            next(request)
-        }
-    }
+
 
     val app = AppAPI(services)
         .getRoutes()
-        .withFilter(logRequestFilter)
+        .withFilter(Logger(logger))
 
     val jettyServer = app.asServer(Jetty(PORT)).start()
     logger.info("server started listening")

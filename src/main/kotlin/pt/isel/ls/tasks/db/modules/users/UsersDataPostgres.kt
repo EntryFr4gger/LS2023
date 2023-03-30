@@ -16,7 +16,7 @@ class UsersDataPostgres : UsersDB {
     override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
         val obj = conn.connection().prepareStatement(
             "INSERT INTO users(name, email) VALUES (?, ?)",
-            Statement.RETURN_GENERATED_KEYS
+            Statement.RETURN_GENERATED_KEYS,
         )
         obj.setString(1, name)
         obj.setString(2, email)
@@ -30,7 +30,7 @@ class UsersDataPostgres : UsersDB {
 
     override fun getUserDetails(conn: TransactionManager, userId: Int): User {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM users WHERE id = ?"
+            "SELECT * FROM users WHERE id = ?",
         )
         obj.setInt(1, userId)
 

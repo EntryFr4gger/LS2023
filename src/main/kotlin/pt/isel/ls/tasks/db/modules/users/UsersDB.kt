@@ -39,4 +39,3 @@ interface UsersDB {
      */
     fun hasUser(conn: TransactionManager, userId: Int): Boolean
 }
-

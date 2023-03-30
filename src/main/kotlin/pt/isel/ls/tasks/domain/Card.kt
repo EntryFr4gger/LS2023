@@ -11,5 +11,5 @@ data class Card(
     val description: String,
     val dueDate: LocalDate?,
     val boardId: Int,
-    val listId: Int?
+    val listId: Int?,
 )
