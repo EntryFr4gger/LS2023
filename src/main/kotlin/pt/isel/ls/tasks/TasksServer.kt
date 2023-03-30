@@ -1,9 +1,8 @@
 package pt.isel.ls.tasks
 
-import org.http4k.core.*
+import org.http4k.core.Filter
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pt.isel.ls.tasks.api.AppAPI
 import pt.isel.ls.tasks.db.TasksDataPostgres

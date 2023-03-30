@@ -4,6 +4,7 @@ import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.User
 import java.sql.ResultSet
+import java.sql.SQLException
 import java.sql.Statement
 
 class UsersDataPostgres : UsersDB {
@@ -21,7 +22,7 @@ class UsersDataPostgres : UsersDB {
         obj.setString(1, name)
         obj.setString(2, email)
 
-        if (obj.executeUpdate() == 0) throw Error("User Create Failed(sql)")
+        if (obj.executeUpdate() == 0) throw SQLException("User Creation Failed")
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -43,10 +44,20 @@ class UsersDataPostgres : UsersDB {
     }
 
     override fun isNewEmail(conn: TransactionManager, email: String): Boolean {
-        TODO("Not yet implemented")
+        val res = conn.connection().prepareStatement(
+            "SELECT * FROM users WHERE email = ?"
+        )
+        res.setString(1, email)
+
+        return res.executeQuery().next()
     }
 
     override fun hasUser(conn: TransactionManager, userId: Int): Boolean {
-        TODO("Not yet implemented")
+        val res = conn.connection().prepareStatement(
+            "SELECT * FROM users WHERE id = ?"
+        )
+        res.setInt(1, userId)
+
+        return res.executeQuery().next()
     }
 }

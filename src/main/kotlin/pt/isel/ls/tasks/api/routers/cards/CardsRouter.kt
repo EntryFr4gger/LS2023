@@ -12,7 +12,7 @@ import org.http4k.routing.path
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.IRouter
 import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
-import pt.isel.ls.tasks.services.cards.CardsServices
+import pt.isel.ls.tasks.services.modules.cards.CardsServices
 
 class CardsRouter(private val services: CardsServices) : IRouter {
     companion object {
