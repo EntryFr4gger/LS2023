@@ -2,11 +2,13 @@ package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toKotlinLocalDate
+import pt.isel.ls.tasks.db.errors.DBError
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Card
 import java.sql.PreparedStatement
 import java.sql.ResultSet
+import java.sql.SQLException
 import java.sql.Statement
 import java.sql.Types
 
@@ -45,7 +47,7 @@ class CardsDataPostgres : CardsDB {
         obj.setInt(4, boardId)
         obj.setType(5, listId, Types.INTEGER)
 
-        if (obj.executeUpdate() == 0) throw Error("Card Create Failed(sql)")
+        if (obj.executeUpdate() == 0) throw SQLException("Card Creation Failed")
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -77,7 +79,7 @@ class CardsDataPostgres : CardsDB {
         if (res.next()) {
             return res.toCard()
         } else {
-            throw Error("No Card")
+            throw DBError.NotFoundException()
         }
     }
 
@@ -89,7 +91,7 @@ class CardsDataPostgres : CardsDB {
         obj.setInt(1, listId)
         obj.setInt(2, cardId)
 
-        if (obj.executeUpdate() == 0) throw Error("Card Create Failed(sql)")
+        if (obj.executeUpdate() == 0) throw SQLException("Card Move Failed")
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -97,6 +99,11 @@ class CardsDataPostgres : CardsDB {
     }
 
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean {
-        TODO("Not yet implemented")
+        val res = conn.connection().prepareStatement(
+            "SELECT * FROM cards WHERE id = ?"
+        )
+        res.setInt(1, cardId)
+
+        return res.executeQuery().next()
     }
 }

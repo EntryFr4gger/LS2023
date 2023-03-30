@@ -15,7 +15,7 @@ import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardIdDTO
 import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
 import pt.isel.ls.tasks.api.routers.boards.models.UserBoardsDTO
-import pt.isel.ls.tasks.services.boards.BoardsServices
+import pt.isel.ls.tasks.services.modules.boards.BoardsServices
 
 class BoardsRouter(private val services: BoardsServices) : IRouter {
     companion object {
@@ -30,16 +30,16 @@ class BoardsRouter(private val services: BoardsServices) : IRouter {
     )
 
     private fun getUserBoards(request: Request): Response {
-        val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
-        val boards = services.getUserBoards(user_id)
+        val  userId = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
+        val boards = services.getUserBoards(userId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(UserBoardsDTO(boards)))
     }
 
     private fun getBoard(request: Request): Response {
-        val board_id = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
-        val board = services.getBoardDetails(board_id)
+        val boardId = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
+        val board = services.getBoardDetails(boardId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardDTO(board)))
@@ -47,9 +47,9 @@ class BoardsRouter(private val services: BoardsServices) : IRouter {
 
     // trocar o user ID para o corpo?
     private fun postUserToBoard(request: Request): Response {
-        val board_id = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
-        val user_id = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
-        val response = services.addUserToBoard(user_id, board_id) // can be removed but can be useful
+        val boardId = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
+        val userId = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
+        //val response = services.addUserToBoard(userId, boardId) // can be removed but can be useful
         return Response(Status.OK)
     }
 

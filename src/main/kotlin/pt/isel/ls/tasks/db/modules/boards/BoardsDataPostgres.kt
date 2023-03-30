@@ -1,9 +1,11 @@
 package pt.isel.ls.tasks.db.modules.boards
 
+import pt.isel.ls.tasks.db.errors.DBError
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Board
 import java.sql.ResultSet
+import java.sql.SQLException
 import java.sql.Statement
 
 class BoardsDataPostgres : BoardsDB {
@@ -21,7 +23,7 @@ class BoardsDataPostgres : BoardsDB {
         res.setString(1, name)
         res.setString(2, description)
 
-        if (res.executeUpdate() == 0) throw Error("Board Create Failed(sql)")
+        if (res.executeUpdate() == 0) throw SQLException("Board Creation Failed")
 
         res.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -36,7 +38,7 @@ class BoardsDataPostgres : BoardsDB {
         res.setInt(1, userId)
         res.setInt(2, boardId)
 
-        if (res.executeUpdate() == 0) throw Error("Couldnt add user to board(sql)")
+        if (res.executeUpdate() == 0) throw SQLException("User Addition to Board Failed")
 
         res.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -68,16 +70,26 @@ class BoardsDataPostgres : BoardsDB {
         if (res.next()) {
             return res.toBoard()
         } else {
-            throw Error("No board")
+            throw DBError.NotFoundException()
         }
     }
 
     override fun isNewName(conn: TransactionManager, name: String): Boolean {
-        TODO("Not yet implemented")
+        val res = conn.connection().prepareStatement(
+            "SELECT * FROM boards WHERE name = ?"
+        )
+        res.setString(1, name)
+
+        return res.executeQuery().next()
     }
 
     override fun hasBoard(conn: TransactionManager, boardId: Int): Boolean {
-        TODO("Not yet implemented")
+        val res = conn.connection().prepareStatement(
+            "SELECT * FROM boards WHERE id = ?"
+        )
+        res.setInt(1, boardId)
+
+        return res.executeQuery().next()
     }
 
     override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean {

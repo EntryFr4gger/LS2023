@@ -14,7 +14,7 @@ class AppAPI(services: TaskServices) {
         UsersRouter.routes(services.users),
         BoardsRouter.routes(services.boards),
         ListsRouter.routes(services.lists),
-        CardsRouter.routes(services.cards),
+        CardsRouter.routes(services.cards)
     )
 
     fun getRoutes(): RoutingHttpHandler = routes

@@ -8,25 +8,24 @@ import pt.isel.ls.tasks.domain.User
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class UsersTestDataMem : UsersTestDB {
+class UsersTestDataMem  {
     private val storage = TasksDataStorage()
     private val source = TasksDataMem(storage)
     private val users = UsersDataMem(storage)
 
     @Test
-    override fun `User is created correctly and with right identifier`() {
-        source.execute { conn ->
+     fun `User is created correctly and with right identifier`() {
+        source.run { conn ->
             val user = User(1, "Bernardo", "bernardo@isel.pt")
             val id = users.createNewUser(conn, user.name, user.email)
-
-            assertEquals(id, user.id)
-            assertEquals(user, storage.users[id])
+            val newUser = user.copy(id=id )
+            assertEquals(newUser, storage.users[id])
         }
     }
 
     @Test
-    override fun `Throws an error if email is already in use`() {
-        source.execute { conn ->
+     fun `Throws an error if email is already in use`() {
+        source.run { conn ->
             assertFailsWith<IllegalStateException> {
                 repeat(2) {
                     users.createNewUser(conn, "Bernardo", "bernas@isel.pt")
@@ -36,20 +35,19 @@ class UsersTestDataMem : UsersTestDB {
     }
 
     @Test
-    override fun `Gets the correct user`() {
-        source.execute { conn ->
-            val user = User(1, "Bernardo", "bernardo@isel.pt")
-            val id = users.createNewUser(conn, user.name, user.email)
-
-            assertEquals(user, users.getUserDetails(conn, id))
+     fun `Gets the correct user`() {
+        source.run { conn ->
+            val user =User(3, "Godofredo", "Godofredo@outlook.pt")
+            val res = users.getUserDetails(conn, 3)
+            assertEquals(user, res )
         }
     }
 
     @Test
-    override fun `Throws an error for a nonexistent user `() {
-        source.execute { conn ->
+     fun `Throws an error for a nonexistent user `() {
+        source.run { conn ->
             assertFailsWith<IllegalStateException> {
-                users.getUserDetails(conn, 1)
+                users.getUserDetails(conn, 10)
             }
         }
     }

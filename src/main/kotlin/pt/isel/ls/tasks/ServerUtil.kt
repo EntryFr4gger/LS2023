@@ -11,7 +11,7 @@ fun Logger.logRequest(request: org.http4k.core.Request) {
         request.method,
         request.uri,
         request.header("content-type"),
-        request.header("accept"),
+        request.header("accept")
     )
 }
 
