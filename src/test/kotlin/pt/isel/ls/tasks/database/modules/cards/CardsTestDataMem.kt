@@ -14,7 +14,7 @@ class CardsTestDataMem {
     private val cards = CardsDataMem(storage)
     @Test
      fun `Creates a new card in a list` (){
-        source.execute {conn ->
+        source.run {conn ->
             val card = Card(1,"Study","study for success",
                 LocalDate(2023,3,21),1,1 )
             val id = this.cards.createNewCard(conn,card.name,card.description,card.dueDate,card.boardId,card.listId)
@@ -25,7 +25,7 @@ class CardsTestDataMem {
 
     @Test
     fun `get all cards in the same list` (){
-        source.execute { conn->
+        source.run { conn->
             val cards = listOf(
                 Card(3, "Ração", "Ração daquela que os cães comem e tal", LocalDate(2023,3,21), 2, 3),
                       Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", LocalDate(2023,3,21), 2, 3)
@@ -37,7 +37,7 @@ class CardsTestDataMem {
 
     @Test
     fun`Get detail in a card`(){
-        source.execute { conn ->
+        source.run { conn ->
             val card =  Card(2, "Entrega 1", "Entrega inicial do autorouter", LocalDate(2023,4,3), 1, 2)
             assertEquals(card, cards.getCardDetails(conn, 2))
         }
@@ -45,7 +45,7 @@ class CardsTestDataMem {
 
     @Test
     fun`move card from a list`() {
-        source.execute { conn ->
+        source.run { conn ->
 
             val res = cards.moveCard(conn, 3, 2)
             assertEquals(1,res )

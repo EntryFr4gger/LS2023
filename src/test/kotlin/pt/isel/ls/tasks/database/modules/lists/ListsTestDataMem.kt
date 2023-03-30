@@ -15,7 +15,7 @@ class ListsTestDataMem  {
 
     @Test
      fun `List is created correctly and with right identifier`() {
-        source.execute { conn ->
+        source.run { conn ->
             val lists = List(1, "Study", 1)
             val id = this.lists.createList(conn, lists.name, lists.boardId)
             val listCreated = lists.copy(id=id)
@@ -25,7 +25,7 @@ class ListsTestDataMem  {
 
     @Test
      fun `Gets the correct lists of a board`() {
-        source.execute { conn ->
+        source.run { conn ->
             val lists = listOf(List(1, "Aula de LS", 1),
             List(2, "Aula de LAE", 1))
             val res =
@@ -35,7 +35,7 @@ class ListsTestDataMem  {
 
     @Test
      fun `Throws an error for a nonexistent lists`() {
-        source.execute { conn ->
+        source.run { conn ->
             assertFailsWith<IllegalStateException> {
                 lists.getListDetails(conn, 10)
             }
@@ -44,7 +44,7 @@ class ListsTestDataMem  {
 
     @Test
      fun `Get the correct list`() {
-        source.execute { conn ->
+        source.run { conn ->
             val list = List(1, "Aula de LS", 1)
             assertEquals(list, lists.getListDetails(conn, 1))
         }

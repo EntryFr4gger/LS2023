@@ -17,7 +17,7 @@ class BoardsTestDataMem {
 
     @Test
     fun `Board is created correctly and with right identifier`() {
-        source.execute { conn ->
+        source.run { conn ->
             val id = boards.createNewBoard(conn,"Every day","Tomorrow is a new day")
             val boardCreated = Board (id, "Every day","Tomorrow is a new day")
             assertEquals(boardCreated, storage.boards[id])
@@ -25,14 +25,14 @@ class BoardsTestDataMem {
     }
     @Test
     fun `Throws an -1 if user do not exist`() {
-        source.execute { conn ->
+        source.run { conn ->
             val ret = boards.addUserToBoard(conn, 1, 1)
             assertEquals(1, ret)
         }
     }
     @Test
     fun `Verify if the user has boards if not, throws an error`() {
-        source.execute { conn ->
+        source.run { conn ->
             val cboards  = listOf(
                 Board(1, "ISEL", "Cenas do 4 semestre do isel"),
                 Board(2, "Compras", "Ida ao supermercado")
@@ -42,7 +42,7 @@ class BoardsTestDataMem {
     }
     @Test
     fun `Verify if the user was correctly added to the board   `() {
-        source.execute { conn ->
+        source.run { conn ->
             val ret = boards.addUserToBoard(conn, 1, 2)
             assertEquals(ret,1)
         }

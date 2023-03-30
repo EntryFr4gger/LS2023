@@ -49,7 +49,7 @@ class BoardsRouter(private val services: BoardsServices) : IRouter {
     private fun postUserToBoard(request: Request): Response {
         val boardId = request.path("board_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
         val userId = request.path("user_id")?.toIntOrNull() ?: return Response(Status.BAD_REQUEST).body("ID not valid")
-        val response = services.addUserToBoard(userId, boardId) // can be removed but can be useful
+        //val response = services.addUserToBoard(userId, boardId) // can be removed but can be useful
         return Response(Status.OK)
     }
 

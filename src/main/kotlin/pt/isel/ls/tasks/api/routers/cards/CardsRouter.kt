@@ -1,6 +1,5 @@
 package pt.isel.ls.tasks.api.routers.cards
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
@@ -8,10 +7,8 @@ import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.Status
 import org.http4k.routing.bind
-import org.http4k.routing.path
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.IRouter
-import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
 import pt.isel.ls.tasks.services.modules.cards.CardsServices
 
 class CardsRouter(private val services: CardsServices) : IRouter {
@@ -27,9 +24,9 @@ class CardsRouter(private val services: CardsServices) : IRouter {
 
     // Falta deIsolar
     private fun getCardInfo(request: Request): Response {
-        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val list_id = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val card_id = request.path("card_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        //val boardId = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        //val listId = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        //val cardId = request.path("card_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(emptyList<String>()))
@@ -37,8 +34,8 @@ class CardsRouter(private val services: CardsServices) : IRouter {
 
     // Falta deIsolar
     private fun getCards(request: Request): Response {
-        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val list_id = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        //val boardId = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        //val listId = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(emptyList<String>()))
@@ -46,8 +43,8 @@ class CardsRouter(private val services: CardsServices) : IRouter {
 
     // Falta deIsolar
     private fun createCard(request: Request): Response {
-        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val std = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
+        //val boardId = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        //val std = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
         // MockData.lists.add(ListDTO(MockData.lists.last().id+10,std.name, emptyList())) //rem
         return Response(Status.CREATED)
             .header("content-type", "application/json")
@@ -55,8 +52,8 @@ class CardsRouter(private val services: CardsServices) : IRouter {
     }
 
     private fun updateCard(request: Request): Response {
-        val board_id = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        val std = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
+        //val boardId = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
+        //val std = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
         // MockData.lists.add(ListDTO(MockData.lists.last().id+10,std.name, emptyList())) //rem
         return Response(Status.CREATED)
             .header("content-type", "application/json")

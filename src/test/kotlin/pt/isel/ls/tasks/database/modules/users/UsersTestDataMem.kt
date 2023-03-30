@@ -15,7 +15,7 @@ class UsersTestDataMem  {
 
     @Test
      fun `User is created correctly and with right identifier`() {
-        source.execute { conn ->
+        source.run { conn ->
             val user = User(1, "Bernardo", "bernardo@isel.pt")
             val id = users.createNewUser(conn, user.name, user.email)
             val newUser = user.copy(id=id )
@@ -25,7 +25,7 @@ class UsersTestDataMem  {
 
     @Test
      fun `Throws an error if email is already in use`() {
-        source.execute { conn ->
+        source.run { conn ->
             assertFailsWith<IllegalStateException> {
                 repeat(2) {
                     users.createNewUser(conn, "Bernardo", "bernas@isel.pt")
@@ -36,7 +36,7 @@ class UsersTestDataMem  {
 
     @Test
      fun `Gets the correct user`() {
-        source.execute { conn ->
+        source.run { conn ->
             val user =User(3, "Godofredo", "Godofredo@outlook.pt")
             assertEquals(user, users.getUserDetails(conn, 3))
         }
@@ -44,7 +44,7 @@ class UsersTestDataMem  {
 
     @Test
      fun `Throws an error for a nonexistent user `() {
-        source.execute { conn ->
+        source.run { conn ->
             assertFailsWith<IllegalStateException> {
                 users.getUserDetails(conn, 10)
             }
