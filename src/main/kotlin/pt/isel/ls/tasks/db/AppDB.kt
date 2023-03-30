@@ -6,7 +6,7 @@ fun main() {
     val source = TasksDataPostgres("JDBC_DATABASE_URL")
     val sc = CardsDataPostgres()
     var key = 1
-    source.execute {
+    source.run {
         key = sc.createNewCard(
             it,
             "${getRandomString(6)}",
@@ -17,19 +17,19 @@ fun main() {
         )
         println(key)
     }
-    source.execute {
+    source.run {
         val res = sc.getCardDetails(it, key)
         println(res)
     }
-    source.execute {
+    source.run {
         val res = sc.getCardsOfList(it, 1)
         println(res)
     }
-    source.execute {
+    source.run {
         val res = sc.moveCard(it, key, 1)
         println(res)
     }
-    source.execute {
+    source.run {
         val res = sc.getCardsOfList(it, 1)
         println(res)
     }

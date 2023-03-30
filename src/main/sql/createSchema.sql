@@ -19,7 +19,7 @@ create table Tokens (
 create table Boards (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(30) NOT NULL,
-    description VARCHAR(1000)
+    description VARCHAR(1000) NOT NULL
 );
 
 create table User_Board (

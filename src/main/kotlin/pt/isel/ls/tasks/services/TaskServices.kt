@@ -1,10 +1,10 @@
 package pt.isel.ls.tasks.services
 
 import pt.isel.ls.tasks.db.TaskData
-import pt.isel.ls.tasks.services.boards.BoardsServices
-import pt.isel.ls.tasks.services.cards.CardsServices
-import pt.isel.ls.tasks.services.lists.ListsServices
-import pt.isel.ls.tasks.services.users.UsersServices
+import pt.isel.ls.tasks.services.modules.boards.BoardsServices
+import pt.isel.ls.tasks.services.modules.cards.CardsServices
+import pt.isel.ls.tasks.services.modules.lists.ListsServices
+import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class TaskServices(source: TaskData) {
     val users: UsersServices = UsersServices(source)

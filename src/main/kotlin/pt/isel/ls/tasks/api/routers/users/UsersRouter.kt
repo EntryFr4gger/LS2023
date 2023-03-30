@@ -16,7 +16,7 @@ import pt.isel.ls.tasks.api.routers.pathOrThrow
 import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserInfoDTO
-import pt.isel.ls.tasks.services.users.UsersServices
+import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class UsersRouter(private val services: UsersServices) : IRouter {
     companion object {
@@ -24,7 +24,7 @@ class UsersRouter(private val services: UsersServices) : IRouter {
     }
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
-        "users/{user_id}" bind Method.GET to ::getUsers,
+        "users/{user_id}" bind Method.GET to ::getUsers
     )
 
     /**

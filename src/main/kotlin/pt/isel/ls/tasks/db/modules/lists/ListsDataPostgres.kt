@@ -1,8 +1,10 @@
 package pt.isel.ls.tasks.db.modules.lists
 
+import pt.isel.ls.tasks.db.errors.DBError
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import java.sql.ResultSet
+import java.sql.SQLException
 import java.sql.Statement
 import pt.isel.ls.tasks.domain.List as _List
 
@@ -21,7 +23,7 @@ class ListsDataPostgres : ListsDB {
         obj.setString(1, name)
         obj.setInt(2, boardId)
 
-        if (obj.executeUpdate() == 0) throw Error("List Create Failed(sql)")
+        if (obj.executeUpdate() == 0) throw SQLException("List Creation Failed")
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -53,11 +55,16 @@ class ListsDataPostgres : ListsDB {
         if (res.next()) {
             return res.toList()
         } else {
-            throw Error("No List")
+            throw DBError.NotFoundException()
         }
     }
 
     override fun hasList(conn: TransactionManager, listId: Int): Boolean {
-        TODO("Not yet implemented")
+        val res = conn.connection().prepareStatement(
+            "SELECT * FROM lists WHERE id = ?"
+        )
+        res.setInt(1, listId)
+
+        return res.executeQuery().next()
     }
 }

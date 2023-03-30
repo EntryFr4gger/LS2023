@@ -15,7 +15,7 @@ class UsersTestDataMem : UsersTestDB {
 
     @Test
     override fun `User is created correctly and with right identifier`() {
-        source.execute { conn ->
+        source.run { conn ->
             val user = User(1, "Bernardo", "bernardo@isel.pt")
             val id = users.createNewUser(conn, user.name, user.email)
 
@@ -26,7 +26,7 @@ class UsersTestDataMem : UsersTestDB {
 
     @Test
     override fun `Throws an error if email is already in use`() {
-        source.execute { conn ->
+        source.run { conn ->
             assertFailsWith<IllegalStateException> {
                 repeat(2) {
                     users.createNewUser(conn, "Bernardo", "bernas@isel.pt")
@@ -37,7 +37,7 @@ class UsersTestDataMem : UsersTestDB {
 
     @Test
     override fun `Gets the correct user`() {
-        source.execute { conn ->
+        source.run { conn ->
             val user = User(1, "Bernardo", "bernardo@isel.pt")
             val id = users.createNewUser(conn, user.name, user.email)
 
@@ -47,7 +47,7 @@ class UsersTestDataMem : UsersTestDB {
 
     @Test
     override fun `Throws an error for a nonexistent user `() {
-        source.execute { conn ->
+        source.run { conn ->
             assertFailsWith<IllegalStateException> {
                 users.getUserDetails(conn, 1)
             }

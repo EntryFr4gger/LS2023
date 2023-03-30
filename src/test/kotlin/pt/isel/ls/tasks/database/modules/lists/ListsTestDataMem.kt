@@ -15,7 +15,7 @@ class ListsTestDataMem : ListsTestDB {
 
     @Test
     override fun `List is created correctly and with right identifier`() {
-        source.execute { conn ->
+        source.run { conn ->
             val list = List(1, "Study", 1)
             val id = this.list.createList(conn, list.name, list.boardId)
 
@@ -26,7 +26,7 @@ class ListsTestDataMem : ListsTestDB {
 
     @Test
     override fun `Gets the correct lists of a board`() {
-        source.execute { conn ->
+        source.run { conn ->
             val lists = listOf<List>(List(1, "Study", 1), List(2, "Work", 1))
             val ids = lists.map { list.createList(conn, it.name, it.boardId) }
             assertEquals(ids, listOf(1, 2))
@@ -36,7 +36,7 @@ class ListsTestDataMem : ListsTestDB {
 
     // @Test
     override fun `Throws an error for a nonexistent lists`() {
-        source.execute { conn ->
+        source.run { conn ->
             assertFailsWith<IllegalStateException> {
                 list.getListDetails(conn, 1)
             }
@@ -45,7 +45,7 @@ class ListsTestDataMem : ListsTestDB {
 
     @Test
     override fun `Get the correct list`() {
-        source.execute { conn ->
+        source.run { conn ->
             val lists = listOf(List(1, "Study", 1), List(2, "Work", 1))
             val ids = lists.map { list.createList(conn, it.name, it.boardId) }
             assertEquals(lists[1], list.getListDetails(conn, 2))

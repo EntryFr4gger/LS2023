@@ -15,7 +15,7 @@ import pt.isel.ls.tasks.api.routers.lists.models.BoardListsDTO
 import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListIdDTO
-import pt.isel.ls.tasks.services.lists.ListsServices
+import pt.isel.ls.tasks.services.modules.lists.ListsServices
 
 class ListsRouter(private val services: ListsServices) : IRouter {
     companion object {

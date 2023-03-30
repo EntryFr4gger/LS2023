@@ -64,5 +64,4 @@ interface CardsDB {
      *
      */
     fun hasCard(conn: TransactionManager, cardId: Int): Boolean
-
 }

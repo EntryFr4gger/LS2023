@@ -7,13 +7,12 @@ import org.http4k.core.Response
 import org.http4k.core.Status
 import org.http4k.routing.path
 import java.lang.Exception
-import java.security.InvalidParameterException
 
 fun jsonResponse(status: Status, jsonObj: Any) = Response(status)
     .header("content-type", "application/json")
     .body(Json.encodeToString(jsonObj))
 
-fun Request.pathOrThrow(string: String):String{
+fun Request.pathOrThrow(string: String): String {
     return this.path(string) ?: throw IllegalArgumentException("Argument $string not found in path")
 }
 
