@@ -15,7 +15,7 @@ class BoardsDataMem(private val source: TasksDataStorage): BoardsDB {
         source.nextBoardId.addAndGet(3)
 
 
-        source.userBoard[1] = listOf(0)
+        source.userBoard[1] = listOf(3)
         source.userBoard[2] = listOf(1,2)
     }
     override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
@@ -30,18 +30,15 @@ class BoardsDataMem(private val source: TasksDataStorage): BoardsDB {
     //refazer
     //verificar se user existe
     override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int {
-        
-
-
+        val userBoard =  source.userBoard[userId]
         if (source.userBoard.containsKey(userId)) {
-            val userBoard =  source.userBoard[userId]
             if (userBoard != null) {
                 source.userBoard[userId] = userBoard + listOf(boardId)
             }
         }
         else
             source.userBoard[userId] = listOf(boardId)
-        return  if (source.userBoard[userId] != null) userId else  -1
+        return  if (!userBoard.isNullOrEmpty()) userId else  -1
     }
 
     override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
