@@ -9,6 +9,8 @@ import pt.isel.ls.tasks.db.modules.users.UsersDataMem
 import pt.isel.ls.tasks.domain.User
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class TokensTestDataMem {
     private val storage = TasksDataStorage()
@@ -28,6 +30,19 @@ class TokensTestDataMem {
             assertFailsWith<IllegalStateException> {
                     tokens.getUserID(conn,"9f1e3d11-8c18-4cd7-93fc-985c4794cfd")
             }
+        }
+    }
+    @Test
+    fun `Confirm that the token already exist`(){
+        source.run {conn ->
+            assertTrue { tokens.hasToken(conn, "9f1e3d11-8c18-4cd7-93fc-985c4794cfd9") }
+        }
+    }
+
+    @Test
+    fun `Confirm that the token do not exist`(){
+        source.run {conn ->
+            assertFalse { tokens.hasToken(conn, "eu20-007-fuc-y40-985c4794cfd9") }
         }
     }
 

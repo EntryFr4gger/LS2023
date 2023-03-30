@@ -50,7 +50,7 @@ class CardsDataMem(private val source: TasksDataStorage): CardsDB {
         return if (source.cards[cardId]?.listId != null) 1 else -1
     }
 
-    override fun hasCard(conn: TransactionManager, cardId: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun hasCard(conn: TransactionManager, cardId: Int): Boolean =
+        source.cards[cardId] != null
+
 }

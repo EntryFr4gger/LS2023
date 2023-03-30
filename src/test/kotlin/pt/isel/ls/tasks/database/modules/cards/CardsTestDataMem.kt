@@ -8,6 +8,8 @@ import pt.isel.ls.tasks.db.modules.cards.CardsDataMem
 import pt.isel.ls.tasks.domain.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class CardsTestDataMem {
     private val storage = TasksDataStorage()
@@ -60,6 +62,20 @@ class CardsTestDataMem {
             assertFailsWith<IllegalStateException> {
                cards.getCardDetails(conn,10)
             }
+        }
+    }
+
+    @Test
+    fun `Confirm that the card already exist`(){
+        source.run {conn ->
+            assertTrue { cards.hasCard(conn, 1) }
+        }
+    }
+
+    @Test
+    fun `Confirm that the card do not exist`(){
+        source.run {conn ->
+            assertFalse { cards.hasCard(conn, 69) }
         }
     }
 }

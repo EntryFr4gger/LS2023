@@ -30,7 +30,7 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
     override fun getListDetails(conn: TransactionManager, listId: Int): _List =
         source.lists[listId] ?: error("List id not found")
 
-    override fun hasList(conn: TransactionManager, listId: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun hasList(conn: TransactionManager, listId: Int): Boolean =
+        source.lists[listId] != null
+
 }

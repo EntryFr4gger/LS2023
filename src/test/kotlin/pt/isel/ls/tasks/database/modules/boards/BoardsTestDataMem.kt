@@ -10,6 +10,9 @@ import pt.isel.ls.tasks.domain.UserBoard
 import java.sql.Connection
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
+
 class BoardsTestDataMem {
     private val storage = TasksDataStorage()
     private val source = TasksDataMem(storage)
@@ -70,6 +73,48 @@ class BoardsTestDataMem {
             assertFailsWith<IllegalStateException> {
                 boards.getUserBoards(conn,4)
             }
+        }
+    }
+
+    @Test
+    fun `Confirm that the board name already exist`(){
+        source.run {conn ->
+            assertTrue { boards.isNewName(conn, "ISEL") }
+        }
+    }
+
+    @Test
+    fun `Confirm that the board name do not exist`(){
+        source.run {conn ->
+            assertFalse { boards.isNewName(conn, "Mr.Nervoso") }
+        }
+    }
+
+    @Test
+    fun `Confirm that the board already exist`(){
+        source.run {conn ->
+            assertTrue { boards.hasBoard(conn, 1) }
+        }
+    }
+
+    @Test
+    fun `Confirm that the board do not exist`(){
+        source.run {conn ->
+            assertFalse { boards.hasBoard(conn, 69) }
+        }
+    }
+
+    @Test
+    fun `confirm that have a user in the board`(){
+        source.run {conn ->
+            assertTrue { boards.hasUserInBoard(conn, 1) }
+        }
+    }
+
+    @Test
+    fun `confirm that do not have a user in the board`(){
+        source.run {conn ->
+            assertFalse { boards.hasUserInBoard(conn, 4) }
         }
     }
 }

@@ -7,6 +7,8 @@ import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
 import pt.isel.ls.tasks.domain.List
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class ListsTestDataMem  {
     private val storage = TasksDataStorage()
@@ -48,6 +50,20 @@ class ListsTestDataMem  {
             assertFailsWith<IllegalStateException> {
                 lists.getListDetails(conn, 10)
             }
+        }
+    }
+
+    @Test
+    fun `Confirm that the list already exist`(){
+        source.run {conn ->
+            assertTrue { lists.hasList(conn, 1) }
+        }
+    }
+
+    @Test
+    fun `Confirm that the list do not exist`(){
+        source.run {conn ->
+            assertFalse { lists.hasList(conn, 69) }
         }
     }
 }
