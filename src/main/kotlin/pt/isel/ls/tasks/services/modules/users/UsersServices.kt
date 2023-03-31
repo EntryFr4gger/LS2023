@@ -34,11 +34,12 @@ class UsersServices(val source: TaskData) {
         }
     }
 
+
     fun getUserBoards(requestId: Int): List<Board> {
         isValidUserId(requestId)
 
         return source.run { conn ->
-            source.boards.getUserBoards(conn, requestId)
+            source.users.getUserBoards(conn, requestId)
         }
     }
 }

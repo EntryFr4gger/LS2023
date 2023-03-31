@@ -10,37 +10,39 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class ListsTestDataMem  {
+class ListsTestDataMem {
     private val storage = TasksDataStorage()
     private val source = TasksDataMem(storage)
     private val lists = ListsDataMem(storage)
 
     @Test
-     fun `List is created correctly and with right identifier`() {
+    fun `List is created correctly and with right identifier`() {
         source.run { conn ->
             val lists = List(1, "Study", 1)
             val id = this.lists.createList(conn, lists.name, lists.boardId)
-            val listCreated = lists.copy(id=id)
+            val listCreated = lists.copy(id = id)
             assertEquals(listCreated, storage.lists[id])
         }
     }
 
     @Test
-     fun `Gets the correct lists of a board`() {
+    fun `Gets the correct lists of a board`() {
         source.run { conn ->
-            val lists = listOf(List(1, "Aula de LS", 1),
-            List(2, "Aula de LAE", 1))
+            val lists = listOf(
+                List(1, "Aula de LS", 1),
+                List(2, "Aula de LAE", 1)
+            )
             val res = this.lists.getAllLists(conn, 1)
             assertEquals(lists, res)
         }
     }
 
     @Test
-     fun `Get the correct list`() {
+    fun `Get the correct list`() {
         source.run { conn ->
             val list = List(1, "Aula de LS", 1)
             val res = lists.getListDetails(conn, 1)
-            assertEquals(list, res )
+            assertEquals(list, res)
         }
     }
 
@@ -54,15 +56,15 @@ class ListsTestDataMem  {
     }
 
     @Test
-    fun `Confirm that the list already exist`(){
-        source.run {conn ->
+    fun `Confirm that the list already exist`() {
+        source.run { conn ->
             assertTrue { lists.hasList(conn, 1) }
         }
     }
 
     @Test
-    fun `Confirm that the list do not exist`(){
-        source.run {conn ->
+    fun `Confirm that the list do not exist`() {
+        source.run { conn ->
             assertFalse { lists.hasList(conn, 69) }
         }
     }

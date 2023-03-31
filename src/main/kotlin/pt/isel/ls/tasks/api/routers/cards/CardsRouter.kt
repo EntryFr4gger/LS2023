@@ -7,7 +7,6 @@ import org.http4k.core.*
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.TasksRouter
-import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
 import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
 import pt.isel.ls.tasks.api.routers.cards.models.CardId
 import pt.isel.ls.tasks.api.routers.cards.models.CardListUpdate
@@ -20,12 +19,12 @@ import pt.isel.ls.tasks.services.modules.cards.CardsServices
 
 class CardsRouter(private val services: CardsServices, val context: RequestContexts) : TasksRouter {
     companion object {
-        fun routes(services: CardsServices, context: RequestContexts) = CardsRouter(services,context).routes
+        fun routes(services: CardsServices, context: RequestContexts) = CardsRouter(services, context).routes
     }
     override val routes = routes(
         ("cards" bind Method.POST to ::createCard).withFilter(filterToken(context)),
         ("cards/{card_id}" bind Method.PUT to ::updateCard).withFilter(filterToken(context)),
-        ("cards/{card_id}" bind Method.GET to ::getCardInfo).withFilter(filterToken(context)),
+        ("cards/{card_id}" bind Method.GET to ::getCardInfo).withFilter(filterToken(context))
     )
 
     /**
@@ -38,7 +37,7 @@ class CardsRouter(private val services: CardsServices, val context: RequestConte
     private fun createCard(request: Request): Response = errorCatcher {
         val card = Json.decodeFromString<CreateCardDTO>(request.bodyString())
         val requestId = context[request].hasOrThrow("user_id")
-        val id = services.createNewCard(card.name,card.description,card.dueDate,card.boardId,card.listId,requestId)
+        val id = services.createNewCard(card.name, card.description, card.dueDate, card.boardId, card.listId, requestId)
         return Response(Status.CREATED)
             .header("content-type", "application/json")
             .body(Json.encodeToString(CardId(id))) // change
@@ -54,7 +53,7 @@ class CardsRouter(private val services: CardsServices, val context: RequestConte
         val cardId = request.pathOrThrow("card_id").toInt()
         val card = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = context[request].hasOrThrow("user_id")
-        val response = services.moveCard(card.lid,cardId,requestId)
+        val response = services.moveCard(card.lid, cardId, requestId)
         return Response(Status.OK)
     }
 
@@ -67,7 +66,7 @@ class CardsRouter(private val services: CardsServices, val context: RequestConte
     private fun getCardInfo(request: Request): Response = errorCatcher {
         val cardId = request.pathOrThrow("card_id").toInt()
         val requestId = context[request].hasOrThrow("user_id")
-        val card = services.getCardDetails(cardId,requestId)
+        val card = services.getCardDetails(cardId, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(CardDTO(card)))

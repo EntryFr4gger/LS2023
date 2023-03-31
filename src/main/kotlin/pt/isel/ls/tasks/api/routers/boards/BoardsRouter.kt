@@ -14,15 +14,15 @@ import pt.isel.ls.tasks.api.utils.hasOrThrow
 import pt.isel.ls.tasks.api.utils.pathOrThrow
 import pt.isel.ls.tasks.services.modules.boards.BoardsServices
 
-class BoardsRouter(private val services: BoardsServices,val context: RequestContexts) : TasksRouter {
+class BoardsRouter(private val services: BoardsServices, val context: RequestContexts) : TasksRouter {
     companion object {
-        fun routes(services: BoardsServices, context: RequestContexts) = BoardsRouter(services,context).routes
+        fun routes(services: BoardsServices, context: RequestContexts) = BoardsRouter(services, context).routes
     }
     override val routes = routes(
         ("boards" bind Method.POST to ::postBoard).withFilter(filterToken(context)),
         ("boards/{board_id}/users/{user_id}" bind Method.POST to ::postUserToBoard).withFilter(filterToken(context)),
         ("boards/{board_id}" bind Method.GET to ::getBoard).withFilter(filterToken(context)),
-        ("boards/{board_id}/lists" bind Method.GET to ::getLists).withFilter(filterToken(context)),
+        ("boards/{board_id}/lists" bind Method.GET to ::getLists).withFilter(filterToken(context))
 
     )
 
@@ -35,7 +35,7 @@ class BoardsRouter(private val services: BoardsServices,val context: RequestCont
     private fun postBoard(request: Request): Response = errorCatcher {
         val boardInfo = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
         val requestId = context[request].hasOrThrow("user_id")
-        val boardID = services.createNewBoard(boardInfo.name, boardInfo.description,requestId)
+        val boardID = services.createNewBoard(boardInfo.name, boardInfo.description, requestId)
         return Response(Status.CREATED)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardIdDTO(boardID)))
@@ -51,7 +51,7 @@ class BoardsRouter(private val services: BoardsServices,val context: RequestCont
         val boardId = request.pathOrThrow("board_id").toInt()
         val userId = request.pathOrThrow("user_id").toInt()
         val requestId = context[request].hasOrThrow("user_id")
-        val response = services.addUserToBoard(userId, boardId,requestId)
+        val response = services.addUserToBoard(userId, boardId, requestId)
         return Response(Status.OK)
     }
 
@@ -64,7 +64,7 @@ class BoardsRouter(private val services: BoardsServices,val context: RequestCont
     private fun getBoard(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = context[request].hasOrThrow("user_id")
-        val board = services.getBoardDetails(boardId,requestId)
+        val board = services.getBoardDetails(boardId, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardDTO(board)))
@@ -76,10 +76,10 @@ class BoardsRouter(private val services: BoardsServices,val context: RequestCont
      * @param request HTTP request that contains the board id
      * @return HTTP response contains a JSON body with the lists
      */
-    private fun getLists(request: Request): Response = errorCatcher{
+    private fun getLists(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = context[request].hasOrThrow("user_id")
-        val lists = services.getLists(boardId,requestId)
+        val lists = services.getAllLists(boardId, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardListsDTO(lists)))

@@ -1,7 +1,9 @@
 package pt.isel.ls.tasks.db.modules.users
 
+import pt.isel.ls.tasks.db.modules.boards.BoardsDataPostgres.Companion.toBoard
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
+import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 import java.sql.ResultSet
 import java.sql.SQLException
@@ -17,7 +19,7 @@ class UsersDataPostgres : UsersDB {
     override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
         val obj = conn.connection().prepareStatement(
             "INSERT INTO users(name, email) VALUES (?, ?)",
-            Statement.RETURN_GENERATED_KEYS,
+            Statement.RETURN_GENERATED_KEYS
         )
         obj.setString(1, name)
         obj.setString(2, email)
@@ -31,7 +33,7 @@ class UsersDataPostgres : UsersDB {
 
     override fun getUserDetails(conn: TransactionManager, userId: Int): User {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM users WHERE id = ?",
+            "SELECT * FROM users WHERE id = ?"
         )
         obj.setInt(1, userId)
 
@@ -41,6 +43,21 @@ class UsersDataPostgres : UsersDB {
         } else {
             throw Error("No user")
         }
+    }
+
+    override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
+        val obj = conn.connection().prepareStatement(
+            "SELECT * FROM boards JOIN user_board ON id = board_id WHERE user_id = ?"
+        )
+        obj.setInt(1, userId)
+
+        val res = obj.executeQuery()
+
+        val boards = mutableListOf<Board>()
+        while (res.next())
+            boards.add(res.toBoard())
+
+        return boards
     }
 
     override fun isNewEmail(conn: TransactionManager, email: String): Boolean {
@@ -59,5 +76,9 @@ class UsersDataPostgres : UsersDB {
         res.setInt(1, userId)
 
         return res.executeQuery().next()
+    }
+
+    override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean {
+        TODO("Not yet implemented")
     }
 }

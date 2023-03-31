@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.db.modules.users
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
+import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 
 class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
@@ -29,9 +30,17 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         return source.users[userId] ?: error("No user")
     }
 
+    override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
+        val userBoard = source.userBoard[userId]
+        return userBoard?.mapNotNull { source.boards[it] } ?: error("User with no boards")
+    }
+
     override fun isNewEmail(conn: TransactionManager, email: String): Boolean =
-        source.users.values.find { it.email == email  } != null
+        source.users.values.find { it.email == email } != null
 
     override fun hasUser(conn: TransactionManager, userId: Int): Boolean =
         source.users[userId] != null
+
+    override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean =
+        source.userBoard[userId] != null
 }

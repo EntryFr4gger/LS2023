@@ -1,7 +1,6 @@
 package pt.isel.ls.tasks.domain
 
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 
 /**
  *

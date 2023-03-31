@@ -31,16 +31,6 @@ interface BoardsDB {
     fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int
 
     /**
-     * Get the list with all user available boards.
-     *
-     * @param conn connection to database.
-     * @param userId user unique identifier.
-     *
-     * @return list with user boards.
-     * */
-    fun getUserBoards(conn: TransactionManager, userId: Int): List<Board>
-
-    /**
      * Get the detailed information of a board.
      *
      * @param conn connection to database.
@@ -51,17 +41,27 @@ interface BoardsDB {
     fun getBoardDetails(conn: TransactionManager, boardId: Int): Board
 
     /**
+     * Get the lists of a board.
+     *
+     * @param conn connection to database.
+     * @param boardId board unique identifier.
+     *
+     * @return list of lists of a board.
+     * */
+    fun getAllLists(conn: TransactionManager, boardId: Int): List<pt.isel.ls.tasks.domain.List>
+
+    /**
      *
      * */
     fun isNewName(conn: TransactionManager, name: String): Boolean
 
     /**
+     * Verify if card exists.
      *
+     * @param conn connection to database.
+     * @param cardId card unique identifier.
+     *
+     * @return true if exists or false if it does not exist.
      */
     fun hasBoard(conn: TransactionManager, boardId: Int): Boolean
-
-    /**
-     *
-     */
-    fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean
 }

@@ -22,7 +22,7 @@ class CardsDataPostgres : CardsDB {
                 getString(3),
                 getDate(4)?.toLocalDate()?.toKotlinLocalDate(),
                 getInt(5),
-                getInt(6),
+                getInt(6)
             )
 
         fun <T> PreparedStatement.setType(parameterIndex: Int, data: T?, type: Int) =
@@ -35,11 +35,11 @@ class CardsDataPostgres : CardsDB {
         description: String,
         dueDate: LocalDate?,
         boardId: Int,
-        listId: Int?,
+        listId: Int?
     ): Int {
         val obj = conn.connection().prepareStatement(
             "INSERT INTO cards(name, description, duedate, board_id, list_id) VALUES (?, ?, ?, ?, ?)",
-            Statement.RETURN_GENERATED_KEYS,
+            Statement.RETURN_GENERATED_KEYS
         )
         obj.setString(1, name)
         obj.setString(2, description)
@@ -54,24 +54,11 @@ class CardsDataPostgres : CardsDB {
         }
     }
 
-    override fun getCardsOfList(conn: TransactionManager, listId: Int): List<Card> {
-        val obj = conn.connection().prepareStatement(
-            "SELECT * FROM cards WHERE list_id = ?",
-        )
-        obj.setInt(1, listId)
 
-        val res = obj.executeQuery()
-
-        val cards = mutableListOf<Card>()
-        while (res.next())
-            cards.add(res.toCard())
-
-        return cards
-    }
 
     override fun getCardDetails(conn: TransactionManager, cardId: Int): Card {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM cards WHERE id = ?",
+            "SELECT * FROM cards WHERE id = ?"
         )
         obj.setInt(1, cardId)
 
@@ -86,7 +73,7 @@ class CardsDataPostgres : CardsDB {
     override fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Int {
         val obj = conn.connection().prepareStatement(
             "UPDATE cards SET list_id = ? WHERE id = ?",
-            Statement.RETURN_GENERATED_KEYS,
+            Statement.RETURN_GENERATED_KEYS
         )
         obj.setInt(1, listId)
         obj.setInt(2, cardId)

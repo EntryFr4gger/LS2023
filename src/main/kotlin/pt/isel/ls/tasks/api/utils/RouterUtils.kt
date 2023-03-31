@@ -6,7 +6,6 @@ import org.http4k.core.* // ktlint-disable no-wildcard-imports
 import org.http4k.routing.path
 import pt.isel.ls.tasks.api.ISerializable
 import pt.isel.ls.tasks.db.TasksDataMem
-import pt.isel.ls.tasks.db.TasksDataPostgres
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.services.TaskServices
 import java.lang.Exception
@@ -14,7 +13,7 @@ import java.lang.IllegalStateException
 import java.util.*
 import javax.naming.AuthenticationException
 
-//Need to make this one serializable
+// Need to make this one serializable
 fun jsonResponse(status: Status, jsonObj: ISerializable) = Response(status)
     .header("content-type", "application/json")
     .body(Json.encodeToString(jsonObj))
@@ -38,7 +37,7 @@ inline fun errorCatcher(code: () -> Response): Response {
     }
 }
 
-class filterToken(val context: RequestContexts): Filter{
+class filterToken(private val context: RequestContexts) : Filter {
     val services = TaskServices(TasksDataMem(TasksDataStorage())).tokens // TEM DE SER MUDADO POR AMOR DE DEUS
     override operator fun invoke(next: HttpHandler): HttpHandler = { request ->
         errorCatcher {
@@ -49,4 +48,3 @@ class filterToken(val context: RequestContexts): Filter{
         }
     }
 }
-

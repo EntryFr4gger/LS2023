@@ -16,7 +16,7 @@ import pt.isel.ls.tasks.services.modules.lists.ListsServices
 
 class ListsRouter(private val services: ListsServices, val context: RequestContexts) : TasksRouter {
     companion object {
-        fun routes(services: ListsServices, context: RequestContexts) = ListsRouter(services,context).routes
+        fun routes(services: ListsServices, context: RequestContexts) = ListsRouter(services, context).routes
     }
     override val routes = routes(
         ("lists" bind Method.POST to ::postList).withFilter(filterToken(context)),
@@ -33,11 +33,12 @@ class ListsRouter(private val services: ListsServices, val context: RequestConte
     private fun postList(request: Request): Response = errorCatcher {
         val listInfo = Json.decodeFromString<CreateListDTO>(request.bodyString())
         val requestId = context[request].hasOrThrow("user_id")
-        val listId = services.createList(listInfo.name, listInfo.boardId,requestId)
+        val listId = services.createList(listInfo.name, listInfo.boardId, requestId)
         return Response(Status.CREATED)
             .header("content-type", "application/json")
             .body(Json.encodeToString(ListIdDTO(listId)))
     }
+
     /**
      * Get detailed information of a list
      * requires authorization
@@ -47,11 +48,12 @@ class ListsRouter(private val services: ListsServices, val context: RequestConte
     private fun getListInfo(request: Request): Response = errorCatcher {
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = context[request].hasOrThrow("user_id")
-        val lists = services.getListDetails(listId,requestId)
+        val lists = services.getListDetails(listId, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(ListDTO(lists)))
     }
+
     /**
      * Get the set of cards in a list
      * requires authorization
@@ -61,7 +63,7 @@ class ListsRouter(private val services: ListsServices, val context: RequestConte
     private fun getListCards(request: Request): Response = errorCatcher {
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = context[request].hasOrThrow("user_id")
-        val cards = services.getCardsOfList(listId,requestId)
+        val cards = services.getCardsOfList(listId, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(ListCardsDTO(cards)))

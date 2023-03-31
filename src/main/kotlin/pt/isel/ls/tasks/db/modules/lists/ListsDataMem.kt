@@ -2,7 +2,7 @@ package pt.isel.ls.tasks.db.modules.lists
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
-import java.lang.Error
+import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List as _List
 
 class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
@@ -20,17 +20,16 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
         }
     }
 
-    override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> =
-        source.lists.toList().mapNotNull {
-            it.second.takeIf { list ->
-                list.boardId == boardId
-            }
-        }
-
     override fun getListDetails(conn: TransactionManager, listId: Int): _List =
         source.lists[listId] ?: error("List id not found")
 
+    override fun getCardsOfList(conn: TransactionManager, listId: Int): List<Card> =
+        source.cards.toList().mapNotNull {
+            it.second.takeIf { card ->
+                card.listId == listId
+            }
+        }
+
     override fun hasList(conn: TransactionManager, listId: Int): Boolean =
         source.lists[listId] != null
-
 }

@@ -38,7 +38,7 @@ class ListsServices(val source: TaskData) {
         return source.run { conn ->
             utils.hasList(conn, listId)
 
-            source.cards.getCardsOfList(conn, listId)
+            source.lists.getCardsOfList(conn, listId)
         }
     }
 }

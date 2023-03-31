@@ -11,20 +11,19 @@ import pt.isel.ls.tasks.api.routers.lists.ListsRouter
 import pt.isel.ls.tasks.api.routers.users.UsersRouter
 import pt.isel.ls.tasks.services.TaskServices
 
-
 class TasksAPI(services: TaskServices) {
-
 
     val context = RequestContexts()
 
-    private val routes =ServerFilters.InitialiseRequestContext(context)
-        .then(routes(
-            UsersRouter.routes(services.users,context),
-            BoardsRouter.routes(services.boards,context),
-            ListsRouter.routes(services.lists,context),
-            CardsRouter.routes(services.cards,context)
-        ))
-
+    private val routes = ServerFilters.InitialiseRequestContext(context)
+        .then(
+            routes(
+                UsersRouter.routes(services.users, context),
+                BoardsRouter.routes(services.boards, context),
+                ListsRouter.routes(services.lists, context),
+                CardsRouter.routes(services.cards, context)
+            )
+        )
 
     fun getRoutes(): RoutingHttpHandler = routes
 }

@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.errors.DBError
+import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres.Companion.toList
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Board
@@ -18,7 +19,7 @@ class BoardsDataPostgres : BoardsDB {
     override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
         val res = conn.connection().prepareStatement(
             "INSERT INTO boards(name, description) VALUES (?, ?)",
-            Statement.RETURN_GENERATED_KEYS,
+            Statement.RETURN_GENERATED_KEYS
         )
         res.setString(1, name)
         res.setString(2, description)
@@ -33,7 +34,7 @@ class BoardsDataPostgres : BoardsDB {
     override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int {
         val res = conn.connection().prepareStatement(
             "INSERT INTO user_board(user_id, board_id) VALUES (?, ?)",
-            Statement.RETURN_GENERATED_KEYS,
+            Statement.RETURN_GENERATED_KEYS
         )
         res.setInt(1, userId)
         res.setInt(2, boardId)
@@ -45,24 +46,9 @@ class BoardsDataPostgres : BoardsDB {
         }
     }
 
-    override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
-        val obj = conn.connection().prepareStatement(
-            "SELECT * FROM boards JOIN user_board ON id = board_id WHERE user_id = ?",
-        )
-        obj.setInt(1, userId)
-
-        val res = obj.executeQuery()
-
-        val boards = mutableListOf<Board>()
-        while (res.next())
-            boards.add(res.toBoard())
-
-        return boards
-    }
-
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board {
         val prp = conn.connection().prepareStatement(
-            "SELECT * FROM boards WHERE id = ?",
+            "SELECT * FROM boards WHERE id = ?"
         )
         prp.setInt(1, boardId)
 
@@ -72,6 +58,21 @@ class BoardsDataPostgres : BoardsDB {
         } else {
             throw DBError.NotFoundException()
         }
+    }
+
+    override fun getAllLists(conn: TransactionManager, boardId: Int): List<pt.isel.ls.tasks.domain.List> {
+        val obj = conn.connection().prepareStatement(
+            "SELECT * FROM lists WHERE board_id = ?"
+        )
+        obj.setInt(1, boardId)
+
+        val res = obj.executeQuery()
+
+        val lists = mutableListOf<pt.isel.ls.tasks.domain.List>()
+        while (res.next())
+            lists += res.toList()
+
+        return lists
     }
 
     override fun isNewName(conn: TransactionManager, name: String): Boolean {
@@ -92,7 +93,5 @@ class BoardsDataPostgres : BoardsDB {
         return res.executeQuery().next()
     }
 
-    override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+
 }

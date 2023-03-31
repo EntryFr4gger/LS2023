@@ -11,7 +11,7 @@ data class ListCardsDTO(val boards: List<CardDTO>) {
             ListCardsDTO(
                 cards.fold(emptyList()) { acc, card ->
                     acc + CardDTO(card)
-                },
+                }
             )
     }
 }

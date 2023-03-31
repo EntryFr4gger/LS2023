@@ -21,7 +21,7 @@ class TasksDataStorage {
     val cards = ConcurrentHashMap<Int, Card>()
     var nextCardId = AtomicInteger(1)
 
-    val tokens = ConcurrentHashMap <String, Token>()
+    val tokens = ConcurrentHashMap<String, Token>()
 
     val userBoard = ConcurrentHashMap<Int, List<Int>>()
 }

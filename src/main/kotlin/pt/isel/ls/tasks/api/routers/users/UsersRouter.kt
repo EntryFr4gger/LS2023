@@ -18,12 +18,12 @@ import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class UsersRouter(private val services: UsersServices, private val context: RequestContexts) : TasksRouter {
     companion object {
-        fun routes(services: UsersServices, context: RequestContexts) = UsersRouter(services,context).routes
+        fun routes(services: UsersServices, context: RequestContexts) = UsersRouter(services, context).routes
     }
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
         "users/{user_id}" bind Method.GET to ::getUsers,
-        ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(filterToken(context)),
+        ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(filterToken(context))
     )
 
     /**
@@ -36,7 +36,7 @@ class UsersRouter(private val services: UsersServices, private val context: Requ
         val userCreateInfo = services.createNewUser(user.name, user.email)
         return Response(CREATED)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(UserCreationReturnDTO(userCreateInfo.first,userCreateInfo.second)))
+            .body(Json.encodeToString(UserCreationReturnDTO(userCreateInfo.first, userCreateInfo.second)))
     }
 
     /**
@@ -46,7 +46,7 @@ class UsersRouter(private val services: UsersServices, private val context: Requ
      * @return HTTP response contains a JSON body with an id, name and email of a user
      */
     private fun getUsers(request: Request): Response = errorCatcher {
-        val userId : Int = request.pathOrThrow("user_id").toInt() //
+        val userId: Int = request.pathOrThrow("user_id").toInt() //
         val user = services.getUserDetails(userId)
         return Response(OK)
             .header("content-type", "application/json")
@@ -67,8 +67,3 @@ class UsersRouter(private val services: UsersServices, private val context: Requ
             .body(Json.encodeToString(UserBoardsDTO(boards)))
     }
 }
-
-
-
-
-

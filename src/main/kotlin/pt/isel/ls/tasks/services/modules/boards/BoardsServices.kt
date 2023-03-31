@@ -45,11 +45,11 @@ class BoardsServices(val source: TaskData) {
         }
     }
 
-    fun getLists(boardId: Int, requestId: Int): List<pt.isel.ls.tasks.domain.List> {
+    fun getAllLists(boardId: Int, requestId: Int): List<pt.isel.ls.tasks.domain.List> {
         isValidBoardId(boardId)
 
         return source.run { conn ->
-            source.lists.getAllLists(conn, boardId)
+            source.boards.getAllLists(conn, boardId)
         }
     }
 }

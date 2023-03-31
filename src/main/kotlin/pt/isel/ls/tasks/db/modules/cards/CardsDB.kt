@@ -26,18 +26,8 @@ interface CardsDB {
         description: String,
         dueDate: LocalDate?,
         boardId: Int,
-        listId: Int?,
+        listId: Int?
     ): Int
-
-    /**
-     * Get the set of cards in a list.
-     *
-     * @param conn connection to database.
-     * @param listId list unique identifier.
-     *
-     * @return list of Cards in List.
-     * */
-    fun getCardsOfList(conn: TransactionManager, listId: Int): List<Card>
 
     /**
      * Get the detailed information of a card.
@@ -61,7 +51,12 @@ interface CardsDB {
     fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Int
 
     /**
+     * Verify if card exists.
      *
+     * @param conn connection to database.
+     * @param cardId card unique identifier.
+     *
+     * @return true if exists or false if it does not exist.
      */
     fun hasCard(conn: TransactionManager, cardId: Int): Boolean
 }

@@ -13,7 +13,7 @@ class TokenServices(val source: TaskData) {
 
         val tokenCode = token.substring(7)
         return source.run { conn ->
-            source.tokens.getUserID(conn,tokenCode)
+            source.tokens.getUserID(conn, tokenCode)
         }
     }
 
@@ -22,7 +22,7 @@ class TokenServices(val source: TaskData) {
 
         val tokenCode = token.substring(7)
         return source.run { conn ->
-            source.tokens.hasToken(conn,tokenCode)
+            source.tokens.hasToken(conn, tokenCode)
         }
     }
 }
