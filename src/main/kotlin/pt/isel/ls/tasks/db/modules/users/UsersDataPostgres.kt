@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.db.modules.users
 
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.boards.BoardsDataPostgres.Companion.toBoard
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
@@ -41,7 +42,7 @@ class UsersDataPostgres : UsersDB {
         if (res.next()) {
             return res.toUser()
         } else {
-            throw Error("No user")
+            throw NotFoundException()
         }
     }
 

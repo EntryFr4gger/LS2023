@@ -2,7 +2,7 @@ package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toKotlinLocalDate
-import pt.isel.ls.tasks.db.errors.DBError
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Card
@@ -66,7 +66,7 @@ class CardsDataPostgres : CardsDB {
         if (res.next()) {
             return res.toCard()
         } else {
-            throw DBError.NotFoundException()
+            throw NotFoundException()
         }
     }
 

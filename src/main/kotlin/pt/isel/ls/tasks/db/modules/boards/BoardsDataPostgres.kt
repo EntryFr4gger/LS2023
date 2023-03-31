@@ -1,6 +1,6 @@
 package pt.isel.ls.tasks.db.modules.boards
 
-import pt.isel.ls.tasks.db.errors.DBError
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres.Companion.toList
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
@@ -56,7 +56,7 @@ class BoardsDataPostgres : BoardsDB {
         if (res.next()) {
             return res.toBoard()
         } else {
-            throw DBError.NotFoundException()
+            throw NotFoundException()
         }
     }
 

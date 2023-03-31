@@ -8,6 +8,10 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import pt.isel.ls.tasks.domain.List as _List
 
+
+/**
+ * Datamem Storage
+ * */
 class TasksDataStorage {
     val users = ConcurrentHashMap<Int, User>()
     var nextUserId = AtomicInteger(1)

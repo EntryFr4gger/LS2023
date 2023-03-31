@@ -1,6 +1,6 @@
 package pt.isel.ls.tasks.db.modules.lists
 
-import pt.isel.ls.tasks.db.errors.DBError
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.cards.CardsDataPostgres.Companion.toCard
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
@@ -42,7 +42,7 @@ class ListsDataPostgres : ListsDB {
         if (res.next()) {
             return res.toList()
         } else {
-            throw DBError.NotFoundException()
+            throw NotFoundException()
         }
     }
 

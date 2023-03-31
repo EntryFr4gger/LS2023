@@ -1,6 +1,6 @@
 package pt.isel.ls.tasks.db.modules.tokens
 
-import pt.isel.ls.tasks.db.errors.DBError
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import java.sql.SQLException
@@ -30,7 +30,7 @@ class TokensDataPostgres : TokensDB {
         if (res.next()) {
             return res.getInt(1)
         } else {
-            throw DBError.NotFoundException()
+            throw NotFoundException()
         }
     }
 
