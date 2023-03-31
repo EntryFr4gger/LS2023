@@ -1,9 +1,11 @@
 package pt.isel.ls.tasks.database.modules.lists
 
+import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
+import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -24,18 +26,19 @@ class ListsTestDataMem {
             assertEquals(listCreated, storage.lists[id])
         }
     }
-
     @Test
-    fun `Gets the correct lists of a board`() {
+    fun `get all cards in the same list`() {
         source.run { conn ->
-            val lists = listOf(
-                List(1, "Aula de LS", 1),
-                List(2, "Aula de LAE", 1)
+            val cards = listOf(
+                Card(3, "Ração", "Ração daquela que os cães comem e tal", LocalDate(2023, 3, 21), 2, 3),
+                Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", LocalDate(2023, 3, 21), 2, 3)
             )
-            val res = this.lists.getAllLists(conn, 1)
-            assertEquals(lists, res)
+
+            val res = this.lists.getCardsOfList(conn, 3)
+            assertEquals(cards, res)
         }
     }
+
 
     @Test
     fun `Get the correct list`() {

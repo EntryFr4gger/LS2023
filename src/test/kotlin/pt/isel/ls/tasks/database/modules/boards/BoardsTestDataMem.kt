@@ -41,17 +41,6 @@ class BoardsTestDataMem {
     }
 
     @Test
-    fun `Verify if the user has boards if not, throws an error`() {
-        source.run { conn ->
-            val cboards = listOf(
-                Board(1, "ISEL", "Cenas do 4 semestre do isel"),
-                Board(2, "Compras", "Ida ao supermercado")
-            )
-            assertEquals(cboards, boards.getUserBoards(conn, 2))
-        }
-    }
-
-    @Test
     fun `Verify if the user was correctly added to the board  `() {
         source.run { conn ->
             val ret = boards.addUserToBoard(conn, 1, 2)
@@ -69,13 +58,17 @@ class BoardsTestDataMem {
     }
 
     @Test
-    fun `Throws an error for a user without  boards`() {
+    fun `Gets the correct lists of a board`() {
         source.run { conn ->
-            assertFailsWith<IllegalStateException> {
-                boards.getUserBoards(conn, 4)
-            }
+            val lists = listOf(
+                pt.isel.ls.tasks.domain.List(1, "Aula de LS", 1),
+                pt.isel.ls.tasks.domain.List(2, "Aula de LAE", 1)
+            )
+            val res = boards.getAllLists(conn, 1)
+            assertEquals(lists, res)
         }
     }
+
 
     @Test
     fun `Confirm that the board name already exist`() {
@@ -102,20 +95,6 @@ class BoardsTestDataMem {
     fun `Confirm that the board do not exist`() {
         source.run { conn ->
             assertFalse { boards.hasBoard(conn, 69) }
-        }
-    }
-
-    @Test
-    fun `confirm that have a user in the board`() {
-        source.run { conn ->
-            assertTrue { boards.hasUserInBoard(conn, 1) }
-        }
-    }
-
-    @Test
-    fun `confirm that do not have a user in the board`() {
-        source.run { conn ->
-            assertFalse { boards.hasUserInBoard(conn, 4) }
         }
     }
 }

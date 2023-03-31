@@ -23,7 +23,6 @@ class BoardsRouter(private val services: BoardsServices, val context: RequestCon
         ("boards/{board_id}/users/{user_id}" bind Method.POST to ::postUserToBoard).withFilter(filterToken(context)),
         ("boards/{board_id}" bind Method.GET to ::getBoard).withFilter(filterToken(context)),
         ("boards/{board_id}/lists" bind Method.GET to ::getLists).withFilter(filterToken(context))
-
     )
 
     /**

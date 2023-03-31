@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.modules.users.UsersDataMem
+import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -46,6 +47,27 @@ class UsersTestDataMem {
     }
 
     @Test
+    fun `Throws an error for a user without  boards`() {
+        source.run { conn ->
+            assertFailsWith<IllegalStateException> {
+                users.getUserBoards(conn, 4)
+            }
+        }
+    }
+
+    @Test
+    fun `Verify if the user has boards if not, throws an error`() {
+        source.run { conn ->
+            val cboards = listOf(
+                Board(1, "ISEL", "Cenas do 4 semestre do isel"),
+                Board(2, "Compras", "Ida ao supermercado")
+            )
+            assertEquals(cboards, users.getUserBoards(conn, 2))
+        }
+    }
+
+
+    @Test
     fun `Throws an error for a nonexistent user `() {
         source.run { conn ->
             assertFailsWith<IllegalStateException> {
@@ -79,6 +101,20 @@ class UsersTestDataMem {
     fun `Confirm that the user do not exist`() {
         source.run { conn ->
             assertFalse { users.hasUser(conn, 69) }
+        }
+    }
+
+    @Test
+    fun `confirm that have a user in the board`() {
+        source.run { conn ->
+            assertTrue { users.hasUserInBoard(conn, 1) }
+        }
+    }
+
+    @Test
+    fun `confirm that do not have a user in the board`() {
+        source.run { conn ->
+            assertFalse { users.hasUserInBoard(conn, 4) }
         }
     }
 }

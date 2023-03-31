@@ -34,19 +34,6 @@ class CardsTestDataMem {
     }
 
     @Test
-    fun `get all cards in the same list`() {
-        source.run { conn ->
-            val cards = listOf(
-                Card(3, "Ração", "Ração daquela que os cães comem e tal", LocalDate(2023, 3, 21), 2, 3),
-                Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", LocalDate(2023, 3, 21), 2, 3)
-            )
-
-            val res = this.cards.getCardsOfList(conn, 3)
-            assertEquals(cards, res)
-        }
-    }
-
-    @Test
     fun`Get detail in a card`() {
         source.run { conn ->
             val card = Card(2, "Entrega 1", "Entrega inicial do autorouter", LocalDate(2023, 4, 3), 1, 2)
