@@ -66,7 +66,6 @@ class UsersTestDataMem {
         }
     }
 
-
     @Test
     fun `Throws an error for a nonexistent user `() {
         source.run { conn ->

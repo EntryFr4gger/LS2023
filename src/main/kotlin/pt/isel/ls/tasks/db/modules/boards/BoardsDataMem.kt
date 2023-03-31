@@ -54,5 +54,4 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
     override fun hasBoard(conn: TransactionManager, boardId: Int): Boolean =
         source.boards[boardId] != null
-
 }

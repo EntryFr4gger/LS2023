@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.List as _List
 
 /**
  * Board Management
@@ -48,10 +49,15 @@ interface BoardsDB {
      *
      * @return list of lists of a board.
      * */
-    fun getAllLists(conn: TransactionManager, boardId: Int): List<pt.isel.ls.tasks.domain.List>
+    fun getAllLists(conn: TransactionManager, boardId: Int): List<_List>
 
     /**
+     * Verify if name is new
      *
+     * @param conn connection to database.
+     * @param name unique name for the board.
+     *
+     * @return true if exists or false if it does not exist.
      * */
     fun hasBoardName(conn: TransactionManager, name: String): Boolean
 

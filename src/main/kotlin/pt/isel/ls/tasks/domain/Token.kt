@@ -1,5 +1,11 @@
 package pt.isel.ls.tasks.domain
 
+/**
+ * Represents the Boards table in the database.
+ *
+ * @property token user token.
+ * @property userId user unique identifier.
+ * */
 class Token(val token: String, val userId: Int) {
     companion object {
         private val tokenLength = 10..50

@@ -17,6 +17,7 @@ interface CardsDB {
      * @param description the task description.
      * @param dueDate the task's conclusion date.
      * @param boardId board unique identifier.
+     * @param listId list unique identifier.
      *
      * @return card unique identifier.
      * */
@@ -46,7 +47,7 @@ interface CardsDB {
      * @param listId list unique identifier.
      * @param cardId card unique identifier.
      *
-     * @return a Card.
+     * @return a card id.
      * */
     fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Int
 

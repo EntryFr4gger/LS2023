@@ -92,6 +92,4 @@ class BoardsDataPostgres : BoardsDB {
 
         return res.executeQuery().next()
     }
-
-
 }

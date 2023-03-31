@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import pt.isel.ls.tasks.domain.List as _List
 
-
 /**
  * Datamem Storage.
  * */

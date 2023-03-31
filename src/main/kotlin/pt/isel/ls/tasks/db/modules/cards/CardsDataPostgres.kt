@@ -54,8 +54,6 @@ class CardsDataPostgres : CardsDB {
         }
     }
 
-
-
     override fun getCardDetails(conn: TransactionManager, cardId: Int): Card {
         val obj = conn.connection().prepareStatement(
             "SELECT * FROM cards WHERE id = ?"

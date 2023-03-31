@@ -69,7 +69,6 @@ class BoardsTestDataMem {
         }
     }
 
-
     @Test
     fun `Confirm that the board name already exist`() {
         source.run { conn ->

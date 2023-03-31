@@ -7,10 +7,16 @@ import pt.isel.ls.tasks.services.modules.lists.ListsServices
 import pt.isel.ls.tasks.services.modules.tokenHandeler.TokenServices
 import pt.isel.ls.tasks.services.modules.users.UsersServices
 
+/**
+ * Task Services.
+ * */
 class TaskServices(source: TaskData) {
-    val users: UsersServices = UsersServices(source)
-    val boards: BoardsServices = BoardsServices(source)
-    val lists: ListsServices = ListsServices(source)
-    val cards: CardsServices = CardsServices(source)
-    val tokens: TokenServices = TokenServices(source)
+    /**
+     * Instaces of objects used for services.
+     * */
+    val users = UsersServices(source)
+    val boards = BoardsServices(source)
+    val lists = ListsServices(source)
+    val cards = CardsServices(source)
+    val tokens = TokenServices(source)
 }

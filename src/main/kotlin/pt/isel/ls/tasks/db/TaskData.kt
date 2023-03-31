@@ -8,17 +8,21 @@ import pt.isel.ls.tasks.db.modules.users.UsersDB
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 
 /**
- *
+ * Interface representing the app database.
  * */
 interface TaskData {
 
     /**
+     * Executes the given function within a transaction on the database.
      *
+     * @param function The function to be executed.
+     *
+     * @return The result of the function.
      * */
     fun <R> run(function: (TransactionManager) -> R): R
 
     /**
-     *
+     * Instaces of objects used for database.
      * */
     val users: UsersDB
     val tokens: TokensDB

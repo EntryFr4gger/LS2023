@@ -26,6 +26,7 @@ class ListsTestDataMem {
             assertEquals(listCreated, storage.lists[id])
         }
     }
+
     @Test
     fun `get all cards in the same list`() {
         source.run { conn ->
@@ -38,7 +39,6 @@ class ListsTestDataMem {
             assertEquals(cards, res)
         }
     }
-
 
     @Test
     fun `Get the correct list`() {

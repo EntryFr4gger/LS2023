@@ -10,7 +10,7 @@ import pt.isel.ls.tasks.domain.List as _List
 interface ListsDB {
 
     /**
-     * Creates a new list on a board.
+     * Creates a new list in a board.
      *
      * @param conn connection to database.
      * @param name list name.

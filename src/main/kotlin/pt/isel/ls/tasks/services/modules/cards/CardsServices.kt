@@ -10,9 +10,24 @@ import pt.isel.ls.tasks.services.utils.isValidCardId
 import pt.isel.ls.tasks.services.utils.isValidCardName
 import pt.isel.ls.tasks.services.utils.isValidListId
 
+/**
+ * Card Services.
+ * */
 class CardsServices(val source: TaskData) {
     private val utils = ServicesUtilsDB(source)
 
+    /**
+     * Creates a new card in a list.
+     *
+     * @param name the task name.
+     * @param description the task description.
+     * @param dueDate the task's conclusion date.
+     * @param boardId board unique identifier.
+     * @param listId list unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return card unique identifier.
+     * */
     fun createNewCard(
         name: String,
         description: String,
@@ -37,6 +52,14 @@ class CardsServices(val source: TaskData) {
         }
     }
 
+    /**
+     * Get the detailed information of a card.
+     *
+     * @param cardId card unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return a Card.
+     * */
     fun getCardDetails(cardId: Int, requestId: Int): Card {
         isValidCardId(cardId)
 
@@ -45,6 +68,15 @@ class CardsServices(val source: TaskData) {
         }
     }
 
+    /**
+     * Moves a card to a list.
+     *
+     * @param listId list unique identifier.
+     * @param cardId card unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return a card id.
+     * */
     fun moveCard(listId: Int, cardId: Int, requestId: Int): Int {
         isValidListId(listId)
         isValidCardId(cardId)

@@ -80,6 +80,11 @@ class UsersDataPostgres : UsersDB {
     }
 
     override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean {
-        TODO("Not yet implemented")
+        val res = conn.connection().prepareStatement(
+            "SELECT * FROM user_board WHERE user_id = ?"
+        )
+        res.setInt(1, userId)
+
+        return res.executeQuery().next()
     }
 }

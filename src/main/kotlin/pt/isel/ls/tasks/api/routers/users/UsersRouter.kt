@@ -3,15 +3,22 @@ package pt.isel.ls.tasks.api.routers.users
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.http4k.core.*
+import org.http4k.core.Method
+import org.http4k.core.Request
+import org.http4k.core.RequestContexts
+import org.http4k.core.Response
+import org.http4k.core.Status
 import org.http4k.core.Status.Companion.CREATED
 import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.TasksRouter
-import pt.isel.ls.tasks.api.routers.users.models.*
+import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
+import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
+import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
+import pt.isel.ls.tasks.api.routers.users.models.UserInfoDTO
 import pt.isel.ls.tasks.api.utils.errorCatcher
-import pt.isel.ls.tasks.api.utils.filterToken
+import pt.isel.ls.tasks.api.utils.FilterToken
 import pt.isel.ls.tasks.api.utils.hasOrThrow
 import pt.isel.ls.tasks.api.utils.pathOrThrow
 import pt.isel.ls.tasks.services.modules.users.UsersServices
@@ -23,7 +30,7 @@ class UsersRouter(private val services: UsersServices, private val context: Requ
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
         "users/{user_id}" bind Method.GET to ::getUsers,
-        ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(filterToken(context))
+        ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(FilterToken(context))
     )
 
     /**

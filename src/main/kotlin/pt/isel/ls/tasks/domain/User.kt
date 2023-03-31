@@ -1,7 +1,11 @@
 package pt.isel.ls.tasks.domain
 
 /**
+ * Represents the Boards table in the database.
  *
+ * @property id user unique identifier.
+ * @property name the user's name.
+ * @property email the user's unique email.
  * */
 data class User(
     val id: Int,
@@ -18,5 +22,4 @@ data class User(
         fun isValidEmail(email: String) =
             email.length in emailLength && email.matches(Regex(EMAIL_REGEX))
     }
-    // init?
 }

@@ -3,7 +3,14 @@ package pt.isel.ls.tasks.domain
 import kotlinx.datetime.LocalDate
 
 /**
+ * Represents the Boards table in the database.
  *
+ * @property id card unique identifier.
+ * @property name the task name.
+ * @property description the task description.
+ * @property dueDate the task's conclusion date.
+ * @property boardId board unique identifier.
+ * @property listId list unique identifier.
  * */
 data class Card(
     val id: Int,

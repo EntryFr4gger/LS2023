@@ -1,7 +1,11 @@
 package pt.isel.ls.tasks.domain
 
 /**
+ * Represents the Boards table in the database.
  *
+ * @property id list unique identifier.
+ * @property name list name.
+ * @property boardId board unique identifier.
  * */
 data class List(
     val id: Int,

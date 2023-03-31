@@ -10,7 +10,6 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.services.TaskServices
 import java.lang.Exception
 import java.lang.IllegalStateException
-import java.util.*
 import javax.naming.AuthenticationException
 
 // Need to make this one serializable
@@ -37,12 +36,12 @@ inline fun errorCatcher(code: () -> Response): Response {
     }
 }
 
-class filterToken(private val context: RequestContexts) : Filter {
+class FilterToken(private val context: RequestContexts) : Filter {
     val services = TaskServices(TasksDataMem(TasksDataStorage())).tokens // TEM DE SER MUDADO POR AMOR DE DEUS
     override operator fun invoke(next: HttpHandler): HttpHandler = { request ->
         errorCatcher {
             val token = request.headerOrThrow("Authorization")
-            val id = services.getId(token)
+            val id = services.getUserId(token)
             context[request]["user_id"] = id
             next(request)
         }

@@ -31,7 +31,3 @@ BEGIN;
                ('IASA', 'Phase4', '23:44:59.903', 2, 3),
                ('LAE', 'Phase4', '23:44:59.903', 2, 3);
 COMMIT;
-
-/*
-insert into students(course, number, name) select cid as course, 12346 as number, 'Bob' as name from courses where name = 'LEIC'
- */

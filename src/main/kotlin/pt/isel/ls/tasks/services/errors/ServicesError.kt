@@ -1,10 +1,28 @@
 package pt.isel.ls.tasks.services.errors
 
+/**
+ * Services Error Center.
+ * */
 open class ServicesError(val error: String?) : Exception(error) {
 
-    class AuthenticationException(name: String? = null) : ServicesError(name)
+    /**
+     * If user is not authenticated.
+     *
+     * @param msg message given in the exception
+     */
+    class AuthenticationException(msg: String? = null) : ServicesError(msg)
 
-    class InvalidArgumentException(name: String) : ServicesError(name)
+    /**
+     * If invalid arguments are given.
+     *
+     * @param msg message given in the exception
+     */
+    class InvalidArgumentException(msg: String) : ServicesError(msg)
 
-    class AlreadyExistsException(name: String) : ServicesError(name)
+    /**
+     * If resource already exists.
+     *
+     * @param msg message given in the exception
+     */
+    class AlreadyExistsException(msg: String) : ServicesError(msg)
 }

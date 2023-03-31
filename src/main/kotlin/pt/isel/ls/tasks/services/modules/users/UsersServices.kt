@@ -9,9 +9,20 @@ import pt.isel.ls.tasks.services.utils.isValidUserId
 import pt.isel.ls.tasks.services.utils.isValidUserName
 import java.util.UUID
 
+/**
+ * User Services.
+ * */
 class UsersServices(val source: TaskData) {
     private val utils = ServicesUtilsDB(source)
 
+    /**
+     * Create a new user.
+     *
+     * @param name the user's name.
+     * @param email the user's unique email.
+     *
+     * @return user's unique identifier and token.
+     * */
     fun createNewUser(name: String, email: String): Pair<Int, String> {
         isValidUserName(name)
         isValidUserEmail(email)
@@ -26,6 +37,13 @@ class UsersServices(val source: TaskData) {
         }
     }
 
+    /**
+     * Get the details of a user.
+     *
+     * @param userId user unique identifier.
+     *
+     * @return a User.
+     * */
     fun getUserDetails(userId: Int): User {
         isValidUserId(userId)
 
@@ -34,7 +52,13 @@ class UsersServices(val source: TaskData) {
         }
     }
 
-
+    /**
+     * Get the list with all user available boards.
+     *
+     * @param requestId request user unique identifier.
+     *
+     * @return list with user boards.
+     * */
     fun getUserBoards(requestId: Int): List<Board> {
         isValidUserId(requestId)
 

@@ -7,10 +7,23 @@ import pt.isel.ls.tasks.services.utils.isValidBoardDescription
 import pt.isel.ls.tasks.services.utils.isValidBoardId
 import pt.isel.ls.tasks.services.utils.isValidBoardName
 import pt.isel.ls.tasks.services.utils.isValidUserId
+import pt.isel.ls.tasks.domain.List as _List
 
+/**
+ * Board Services.
+ * */
 class BoardsServices(val source: TaskData) {
     private val utils = ServicesUtilsDB(source)
 
+    /**
+     * Creates a new board.
+     *
+     * @param name unique name for the board.
+     * @param description board description.
+     * @param requestId request user unique identifier.
+     *
+     * @return board unique identifier.
+     * */
     fun createNewBoard(name: String, description: String, requestId: Int): Int {
         isValidBoardName(name)
         isValidBoardDescription(description)
@@ -24,6 +37,15 @@ class BoardsServices(val source: TaskData) {
         }
     }
 
+    /**
+     * Add a user to the board.
+     *
+     * @param userId user unique identifier.
+     * @param boardId board unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return
+     * */
     fun addUserToBoard(userId: Int, boardId: Int, requestId: Int): Int {
         isValidUserId(userId)
         isValidBoardId(boardId)
@@ -37,6 +59,14 @@ class BoardsServices(val source: TaskData) {
         }
     }
 
+    /**
+     * Get the detailed information of a board.
+     *
+     * @param boardId board unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return a Board.
+     * */
     fun getBoardDetails(boardId: Int, requestId: Int): Board {
         isValidBoardId(boardId)
 
@@ -45,7 +75,15 @@ class BoardsServices(val source: TaskData) {
         }
     }
 
-    fun getAllLists(boardId: Int, requestId: Int): List<pt.isel.ls.tasks.domain.List> {
+    /**
+     * Get the lists of a board.
+     *
+     * @param boardId board unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return list of lists of a board.
+     * */
+    fun getAllLists(boardId: Int, requestId: Int): List<_List> {
         isValidBoardId(boardId)
 
         return source.run { conn ->

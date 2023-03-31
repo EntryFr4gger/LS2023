@@ -1,7 +1,10 @@
 package pt.isel.ls.tasks.services.utils
 
-import pt.isel.ls.tasks.domain.*
+import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List
+import pt.isel.ls.tasks.domain.Token
+import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.errors.ServicesError
 
 fun isValidId(id: Int) = id <= 0

@@ -3,13 +3,20 @@ package pt.isel.ls.tasks.api.routers.lists
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.http4k.core.*
+import org.http4k.core.Method
+import org.http4k.core.Request
+import org.http4k.core.RequestContexts
+import org.http4k.core.Response
+import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.TasksRouter
-import pt.isel.ls.tasks.api.routers.lists.models.*
+import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
+import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
+import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
+import pt.isel.ls.tasks.api.routers.lists.models.ListIdDTO
 import pt.isel.ls.tasks.api.utils.errorCatcher
-import pt.isel.ls.tasks.api.utils.filterToken
+import pt.isel.ls.tasks.api.utils.FilterToken
 import pt.isel.ls.tasks.api.utils.hasOrThrow
 import pt.isel.ls.tasks.api.utils.pathOrThrow
 import pt.isel.ls.tasks.services.modules.lists.ListsServices
@@ -19,9 +26,9 @@ class ListsRouter(private val services: ListsServices, val context: RequestConte
         fun routes(services: ListsServices, context: RequestContexts) = ListsRouter(services, context).routes
     }
     override val routes = routes(
-        ("lists" bind Method.POST to ::postList).withFilter(filterToken(context)),
-        ("lists/{list_id}" bind Method.GET to ::getListInfo).withFilter(filterToken(context)),
-        ("lists/{list_id}/cards" bind Method.GET to ::getListCards).withFilter(filterToken(context))
+        ("lists" bind Method.POST to ::postList).withFilter(FilterToken(context)),
+        ("lists/{list_id}" bind Method.GET to ::getListInfo).withFilter(FilterToken(context)),
+        ("lists/{list_id}/cards" bind Method.GET to ::getListCards).withFilter(FilterToken(context))
     )
 
     /**

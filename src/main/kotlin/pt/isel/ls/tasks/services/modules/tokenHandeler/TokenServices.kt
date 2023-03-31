@@ -1,14 +1,21 @@
 package pt.isel.ls.tasks.services.modules.tokenHandeler
 
 import pt.isel.ls.tasks.db.TaskData
-import pt.isel.ls.tasks.services.utils.*
+import pt.isel.ls.tasks.services.utils.isValidToken
 
+/**
+ * Token Services.
+ * */
 class TokenServices(val source: TaskData) {
 
     /**
-     * Trades the token for its ID
-     */
-    fun getId(token: String): Int {
+     * Get the id of a user.
+     *
+     * @param token user token.
+     *
+     * @return a User id.
+     * */
+    fun getUserId(token: String): Int {
         isValidToken(token)
 
         val tokenCode = token.substring(7)
@@ -17,6 +24,13 @@ class TokenServices(val source: TaskData) {
         }
     }
 
+    /**
+     * Verify if token exists.
+     *
+     * @param token user unique token.
+     *
+     * @return true if exists or false if it does not exist.
+     */
     fun validateToken(token: String): Boolean {
         isValidToken(token)
 
