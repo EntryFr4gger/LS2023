@@ -11,12 +11,12 @@ import pt.isel.ls.tasks.services.utils.isValidUserId
 class BoardsServices(val source: TaskData) {
     private val utils = ServicesUtilsDB(source)
 
-    fun createNewBoard(name: String, description: String): Int {
+    fun createNewBoard(name: String, description: String, requestId: Int): Int {
         isValidBoardName(name)
         isValidBoardDescription(description)
 
         return source.run { conn ->
-            // Authenticate
+            // Authenticate done?
 
             utils.isBoardNewName(conn, name)
 
@@ -24,13 +24,11 @@ class BoardsServices(val source: TaskData) {
         }
     }
 
-    fun addUserToBoard(userId: Int, boardId: Int): Int {
+    fun addUserToBoard(userId: Int, boardId: Int, requestId: Int): Int {
         isValidUserId(userId)
         isValidBoardId(boardId)
 
         return source.run { conn ->
-            // Authenticate?
-
             utils.hasUser(conn, userId)
             utils.hasBoard(conn, boardId)
             // Verify if user is already in board?
@@ -39,19 +37,19 @@ class BoardsServices(val source: TaskData) {
         }
     }
 
-    fun getUserBoards(userId: Int): List<Board> {
-        isValidUserId(userId)
-
-        return source.run { conn ->
-            source.boards.getUserBoards(conn, userId)
-        }
-    }
-
-    fun getBoardDetails(boardId: Int): Board {
+    fun getBoardDetails(boardId: Int, requestId: Int): Board {
         isValidBoardId(boardId)
 
         return source.run { conn ->
             source.boards.getBoardDetails(conn, boardId)
+        }
+    }
+
+    fun getLists(boardId: Int, requestId: Int): List<pt.isel.ls.tasks.domain.List> {
+        isValidBoardId(boardId)
+
+        return source.run { conn ->
+            source.lists.getAllLists(conn, boardId)
         }
     }
 }

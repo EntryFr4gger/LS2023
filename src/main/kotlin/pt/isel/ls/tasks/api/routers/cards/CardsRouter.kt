@@ -1,62 +1,75 @@
 package pt.isel.ls.tasks.api.routers.cards
 
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.http4k.core.Method
-import org.http4k.core.Request
-import org.http4k.core.Response
-import org.http4k.core.Status
+import org.http4k.core.*
 import org.http4k.routing.bind
 import org.http4k.routing.routes
-import pt.isel.ls.tasks.api.routers.IRouter
+import pt.isel.ls.tasks.api.TasksRouter
+import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
+import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
+import pt.isel.ls.tasks.api.routers.cards.models.CardId
+import pt.isel.ls.tasks.api.routers.cards.models.CardListUpdate
+import pt.isel.ls.tasks.api.routers.cards.models.CreateCardDTO
+import pt.isel.ls.tasks.api.utils.errorCatcher
+import pt.isel.ls.tasks.api.utils.filterToken
+import pt.isel.ls.tasks.api.utils.hasOrThrow
+import pt.isel.ls.tasks.api.utils.pathOrThrow
 import pt.isel.ls.tasks.services.modules.cards.CardsServices
 
-class CardsRouter(private val services: CardsServices) : IRouter {
+class CardsRouter(private val services: CardsServices, val context: RequestContexts) : TasksRouter {
     companion object {
-        fun routes(services: CardsServices) = CardsRouter(services).routes
+        fun routes(services: CardsServices, context: RequestContexts) = CardsRouter(services,context).routes
     }
     override val routes = routes(
-        "boards/{board_id}/lists/{list_id}/cards" bind Method.POST to ::createCard,
-        "boards/{board_id}/lists/{list_id}/cards/{card_id}" bind Method.PUT to ::updateCard,
-        "boards/{board_id}/lists/{list_id}/cards" bind Method.GET to ::getCards,
-        "boards/{board_id}/lists/{list_id}/cards/{card_id}" bind Method.GET to ::getCardInfo,
+        ("cards" bind Method.POST to ::createCard).withFilter(filterToken(context)),
+        ("cards/{card_id}" bind Method.PUT to ::updateCard).withFilter(filterToken(context)),
+        ("cards/{card_id}" bind Method.GET to ::getCardInfo).withFilter(filterToken(context)),
     )
 
-    // Falta deIsolar
-    private fun getCardInfo(request: Request): Response {
-        //val boardId = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        //val listId = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        //val cardId = request.path("card_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(emptyList<String>()))
-    }
-
-    // Falta deIsolar
-    private fun getCards(request: Request): Response {
-        //val boardId = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        //val listId = request.path("list_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        return Response(Status.OK)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(emptyList<String>()))
-    }
-
-    // Falta deIsolar
-    private fun createCard(request: Request): Response {
-        //val boardId = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        //val std = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
-        // MockData.lists.add(ListDTO(MockData.lists.last().id+10,std.name, emptyList())) //rem
+    /**
+     * Creates a new card
+     * requires authentication
+     * @param request HTTP request that contains a JSON body with a name and a description and dueDate(optional)
+     * and the end board and list id
+     * @return HTTP response contains a JSON body with the id
+     */
+    private fun createCard(request: Request): Response = errorCatcher {
+        val card = Json.decodeFromString<CreateCardDTO>(request.bodyString())
+        val requestId = context[request].hasOrThrow("user_id")
+        val id = services.createNewCard(card.name,card.description,card.dueDate,card.boardId,card.listId,requestId)
         return Response(Status.CREATED)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(emptyList<String>())) // change
+            .body(Json.encodeToString(CardId(id))) // change
     }
 
+    /**
+     * Moves a card given a new list
+     * requires authentication
+     * @param request HTTP request that contains a JSON body with an end list id
+     * @return HTTP response contains a JSON body with the new list id
+     */
     private fun updateCard(request: Request): Response {
-        //val boardId = request.path("board_id")?.toInt() ?: return Response(Status.BAD_REQUEST)
-        //val std = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
-        // MockData.lists.add(ListDTO(MockData.lists.last().id+10,std.name, emptyList())) //rem
-        return Response(Status.CREATED)
+        val cardId = request.pathOrThrow("card_id").toInt()
+        val card = Json.decodeFromString<CardListUpdate>(request.bodyString())
+        val requestId = context[request].hasOrThrow("user_id")
+        val response = services.moveCard(card.lid,cardId,requestId)
+        return Response(Status.OK)
+    }
+
+    /**
+     * Get the detailed information of a card
+     * require authorization
+     * @param request HTTP request that contains the card id
+     * @return HTTP response contains a JSON body with card details
+     */
+    private fun getCardInfo(request: Request): Response = errorCatcher {
+        val cardId = request.pathOrThrow("card_id").toInt()
+        val requestId = context[request].hasOrThrow("user_id")
+        val card = services.getCardDetails(cardId,requestId)
+        return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(emptyList<String>())) // change
+            .body(Json.encodeToString(CardDTO(card)))
     }
 }

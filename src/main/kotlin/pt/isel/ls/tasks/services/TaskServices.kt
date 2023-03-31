@@ -4,6 +4,7 @@ import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.services.modules.boards.BoardsServices
 import pt.isel.ls.tasks.services.modules.cards.CardsServices
 import pt.isel.ls.tasks.services.modules.lists.ListsServices
+import pt.isel.ls.tasks.services.modules.tokenHandeler.TokenServices
 import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class TaskServices(source: TaskData) {
@@ -11,4 +12,5 @@ class TaskServices(source: TaskData) {
     val boards: BoardsServices = BoardsServices(source)
     val lists: ListsServices = ListsServices(source)
     val cards: CardsServices = CardsServices(source)
+    val tokens: TokenServices = TokenServices(source)
 }

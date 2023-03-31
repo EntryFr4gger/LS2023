@@ -18,7 +18,8 @@ class CardsServices(val source: TaskData) {
         description: String,
         dueDate: LocalDate?,
         boardId: Int,
-        listId: Int?
+        listId: Int?,
+        requestId: Int
     ): Int {
         isValidCardName(name)
         isValidCardDescription(description)
@@ -36,17 +37,7 @@ class CardsServices(val source: TaskData) {
         }
     }
 
-    fun getCardsOfList(listId: Int): List<Card> {
-        isValidListId(listId)
-
-        return source.run { conn ->
-            utils.hasList(conn, listId)
-
-            source.cards.getCardsOfList(conn, listId)
-        }
-    }
-
-    fun getCardDetails(cardId: Int): Card {
+    fun getCardDetails(cardId: Int, requestId: Int): Card {
         isValidCardId(cardId)
 
         return source.run { conn ->
@@ -54,7 +45,7 @@ class CardsServices(val source: TaskData) {
         }
     }
 
-    fun moveCard(listId: Int, cardId: Int): Int {
+    fun moveCard(listId: Int, cardId: Int, requestId: Int): Int {
         isValidListId(listId)
         isValidCardId(cardId)
 

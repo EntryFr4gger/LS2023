@@ -1,12 +1,10 @@
 package pt.isel.ls.tasks.services.utils
 
-import pt.isel.ls.tasks.domain.Board
-import pt.isel.ls.tasks.domain.Card
+import pt.isel.ls.tasks.domain.*
 import pt.isel.ls.tasks.domain.List
-import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.errors.ServicesError
 
-fun isValidId(id: Int) = id > 0
+fun isValidId(id: Int) = id <= 0
 
 fun isValidUserId(id: Int) {
     if (isValidId(id)) {
@@ -71,5 +69,11 @@ fun isValidCardDescription(description: String) {
 fun isValidListName(name: String) {
     if (!List.isValidName(name)) {
         throw ServicesError.InvalidArgumentException("List name with wrong length")
+    }
+}
+
+fun isValidToken(token: String) {
+    if (!Token.isValidToken(token)) {
+        throw ServicesError.InvalidArgumentException("Token does not obey rules")
     }
 }

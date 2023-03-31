@@ -1,7 +1,7 @@
-package pt.isel.ls.tasks.api.routers
+package pt.isel.ls.tasks.api
 
 import org.http4k.routing.RoutingHttpHandler
 
-interface IRouter {
+interface TasksRouter {
     val routes: RoutingHttpHandler
 }

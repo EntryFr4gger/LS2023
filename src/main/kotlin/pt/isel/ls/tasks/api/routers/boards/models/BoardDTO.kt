@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.api.routers.boards.models
 
 import kotlinx.serialization.Serializable
+import pt.isel.ls.tasks.api.ISerializable
 import pt.isel.ls.tasks.domain.Board
 
 @Serializable

@@ -1,22 +1,23 @@
 package pt.isel.ls.tasks
 
-import org.http4k.core.Filter
+import org.http4k.core.RequestContexts
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
 import org.slf4j.LoggerFactory
-import pt.isel.ls.tasks.api.AppAPI
+import pt.isel.ls.tasks.api.TasksAPI
+import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.TasksDataPostgres
+import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.services.TaskServices
 
 const val PORT = 9000
 
 fun main() {
     val logger = LoggerFactory.getLogger("Tasks API")
-    val services = TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
+    val services = TaskServices(TasksDataMem(TasksDataStorage()) )//TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
+    val api = TasksAPI(services)
 
-
-
-    val app = AppAPI(services)
+    val app = api
         .getRoutes()
         .withFilter(Logger(logger))
 

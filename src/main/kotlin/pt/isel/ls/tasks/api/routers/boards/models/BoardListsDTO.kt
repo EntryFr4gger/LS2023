@@ -1,6 +1,7 @@
-package pt.isel.ls.tasks.api.routers.lists.models
+package pt.isel.ls.tasks.api.routers.boards.models
 
 import kotlinx.serialization.Serializable
+import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
 
 @Serializable
 data class BoardListsDTO(val boards: List<ListDTO>) {

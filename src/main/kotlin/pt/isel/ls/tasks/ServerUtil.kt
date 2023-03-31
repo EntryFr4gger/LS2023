@@ -1,9 +1,7 @@
-package pt.isel.ls.tasks
+package pt.isel.ls.tasks // ktlint-disable filename
 
 import org.http4k.core.Filter
 import org.http4k.core.HttpHandler
-import org.http4k.core.Response
-import org.http4k.core.Status
 import org.slf4j.Logger
 fun Logger.logRequest(request: org.http4k.core.Request) {
     this.info(
@@ -11,7 +9,7 @@ fun Logger.logRequest(request: org.http4k.core.Request) {
         request.method,
         request.uri,
         request.header("content-type"),
-        request.header("accept")
+        request.header("accept"),
     )
 }
 
@@ -21,5 +19,3 @@ class Logger(private val logger: Logger) : Filter {
         next(request)
     }
 }
-
-
