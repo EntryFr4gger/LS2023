@@ -49,8 +49,11 @@ class BoardsRouter(private val services: BoardsServices,val context: RequestCont
      */
     private fun postUserToBoard(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
+        println(boardId)
         val userId = request.pathOrThrow("user_id").toInt()
+        println(userId)
         val requestId = context[request].hasOrThrow("user_id")
+        println(requestId)
         val response = services.addUserToBoard(userId, boardId,requestId)
         return Response(Status.OK)
     }

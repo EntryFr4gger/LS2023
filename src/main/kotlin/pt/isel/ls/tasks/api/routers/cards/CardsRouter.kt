@@ -38,7 +38,7 @@ class CardsRouter(private val services: CardsServices, val context: RequestConte
     private fun createCard(request: Request): Response = errorCatcher {
         val card = Json.decodeFromString<CreateCardDTO>(request.bodyString())
         val requestId = context[request].hasOrThrow("user_id")
-        val id = services.createNewCard(card.name,card.description,card.dueDate,card.boardId,card.listId,requestId)
+        val id = services.createNewCard(card.name,card.description,null,card.boardId,card.listId,requestId)
         return Response(Status.CREATED)
             .header("content-type", "application/json")
             .body(Json.encodeToString(CardId(id))) // change
