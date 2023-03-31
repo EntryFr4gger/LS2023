@@ -57,14 +57,14 @@ class UsersTestDataMem {
     @Test
     fun `Confirm that the email already exist`() {
         source.run { conn ->
-            assertTrue { users.isNewEmail(conn, "UserWithNoBoard@outlook.pt") }
+            assertTrue { users.hasUserEmail(conn, "UserWithNoBoard@outlook.pt") }
         }
     }
 
     @Test
     fun `Confirm that the email do not exist`() {
         source.run { conn ->
-            assertFalse { users.isNewEmail(conn, "keepCalmMyFriend@outlook.pt") }
+            assertFalse { users.hasUserEmail(conn, "keepCalmMyFriend@outlook.pt") }
         }
     }
 

@@ -53,13 +53,13 @@ interface BoardsDB {
     /**
      *
      * */
-    fun isNewName(conn: TransactionManager, name: String): Boolean
+    fun hasBoardName(conn: TransactionManager, name: String): Boolean
 
     /**
-     * Verify if card exists.
+     * Verify if board exists.
      *
      * @param conn connection to database.
-     * @param cardId card unique identifier.
+     * @param boardId board unique identifier.
      *
      * @return true if exists or false if it does not exist.
      */

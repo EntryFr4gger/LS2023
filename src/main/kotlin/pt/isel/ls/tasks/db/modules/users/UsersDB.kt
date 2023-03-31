@@ -48,7 +48,7 @@ interface UsersDB {
      *
      * @return true if exists or false if it does not exist.
      * */
-    fun isNewEmail(conn: TransactionManager, email: String): Boolean
+    fun hasUserEmail(conn: TransactionManager, email: String): Boolean
 
     /**
      * Verify if user exists.
@@ -61,7 +61,12 @@ interface UsersDB {
     fun hasUser(conn: TransactionManager, userId: Int): Boolean
 
     /**
+     * Verify if user exists in board.
      *
+     * @param conn connection to database.
+     * @param userId user unique identifier.
+     *
+     * @return true if exists or false if it does not exist.
      */
     fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean
 }

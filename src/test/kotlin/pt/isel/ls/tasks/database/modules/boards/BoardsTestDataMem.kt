@@ -80,14 +80,14 @@ class BoardsTestDataMem {
     @Test
     fun `Confirm that the board name already exist`() {
         source.run { conn ->
-            assertTrue { boards.isNewName(conn, "ISEL") }
+            assertTrue { boards.hasBoardName(conn, "ISEL") }
         }
     }
 
     @Test
     fun `Confirm that the board name do not exist`() {
         source.run { conn ->
-            assertFalse { boards.isNewName(conn, "Mr.Nervoso") }
+            assertFalse { boards.hasBoardName(conn, "Mr.Nervoso") }
         }
     }
 

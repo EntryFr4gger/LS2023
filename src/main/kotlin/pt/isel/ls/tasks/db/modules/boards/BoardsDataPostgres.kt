@@ -75,7 +75,7 @@ class BoardsDataPostgres : BoardsDB {
         return lists
     }
 
-    override fun isNewName(conn: TransactionManager, name: String): Boolean {
+    override fun hasBoardName(conn: TransactionManager, name: String): Boolean {
         val res = conn.connection().prepareStatement(
             "SELECT * FROM boards WHERE name = ?"
         )

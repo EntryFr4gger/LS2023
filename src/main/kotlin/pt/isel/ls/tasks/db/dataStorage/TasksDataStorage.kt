@@ -10,7 +10,7 @@ import pt.isel.ls.tasks.domain.List as _List
 
 
 /**
- * Datamem Storage
+ * Datamem Storage.
  * */
 class TasksDataStorage {
     val users = ConcurrentHashMap<Int, User>()

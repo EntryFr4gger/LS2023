@@ -35,7 +35,7 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         return userBoard?.mapNotNull { source.boards[it] } ?: error("User with no boards")
     }
 
-    override fun isNewEmail(conn: TransactionManager, email: String): Boolean =
+    override fun hasUserEmail(conn: TransactionManager, email: String): Boolean =
         source.users.values.find { it.email == email } != null
 
     override fun hasUser(conn: TransactionManager, userId: Int): Boolean =

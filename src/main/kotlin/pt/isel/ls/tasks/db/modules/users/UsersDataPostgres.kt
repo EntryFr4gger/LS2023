@@ -61,7 +61,7 @@ class UsersDataPostgres : UsersDB {
         return boards
     }
 
-    override fun isNewEmail(conn: TransactionManager, email: String): Boolean {
+    override fun hasUserEmail(conn: TransactionManager, email: String): Boolean {
         val res = conn.connection().prepareStatement(
             "SELECT * FROM users WHERE email = ?"
         )

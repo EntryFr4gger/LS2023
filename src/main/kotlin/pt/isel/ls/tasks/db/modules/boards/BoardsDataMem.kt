@@ -49,7 +49,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
             }
         }
 
-    override fun isNewName(conn: TransactionManager, name: String): Boolean =
+    override fun hasBoardName(conn: TransactionManager, name: String): Boolean =
         source.boards.values.find { it.name == name } != null
 
     override fun hasBoard(conn: TransactionManager, boardId: Int): Boolean =
