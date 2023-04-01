@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.db.modules.users
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
@@ -17,22 +18,18 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
 
     override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
         source.nextUserId.getAndIncrement().also { id ->
-            if (source.users.values.any { it.email == email }) {
-                throw error("Email in use")
-            }
-
             source.users[id] = User(id, name, email)
             return id
         }
     }
 
     override fun getUserDetails(conn: TransactionManager, userId: Int): User {
-        return source.users[userId] ?: error("No user")
+        return source.users[userId] ?: throw NotFoundException()
     }
 
     override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
         val userBoard = source.userBoard[userId]
-        return userBoard?.mapNotNull { source.boards[it] } ?: error("User with no boards")
+        return userBoard?.mapNotNull { source.boards[it] } ?: emptyList()
     }
 
     override fun hasUserEmail(conn: TransactionManager, email: String): Boolean =
@@ -51,7 +48,7 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
 
     override fun validateResquestCard(conn: TransactionManager, cardId: Int, requestId: Int): Boolean {
         val userBoard = source.userBoard[requestId] ?: return false
-        val card = source.lists[cardId] ?: return false
+        val card = source.cards[cardId] ?: return false
         return userBoard.contains(card.boardId)
     }
 

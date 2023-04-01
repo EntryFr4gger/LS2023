@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.db.modules.lists
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List as _List
@@ -21,7 +22,7 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
     }
 
     override fun getListDetails(conn: TransactionManager, listId: Int): _List =
-        source.lists[listId] ?: error("List id not found")
+        source.lists[listId] ?: throw NotFoundException()
 
     override fun getCardsOfList(conn: TransactionManager, listId: Int): List<Card> =
         source.cards.toList().mapNotNull {

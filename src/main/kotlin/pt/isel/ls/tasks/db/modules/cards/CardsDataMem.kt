@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
 
@@ -33,7 +34,7 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
     }
 
     override fun getCardDetails(conn: TransactionManager, cardId: Int): Card =
-        source.cards[cardId] ?: error("Card with $cardId do not exist")
+        source.cards[cardId] ?: throw NotFoundException()
 
 // Refazer
     override fun moveCard(conn: TransactionManager, cardId: Int, lid: Int): Int {

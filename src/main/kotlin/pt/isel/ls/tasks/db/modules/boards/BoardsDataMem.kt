@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
 
@@ -40,7 +41,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
     }
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
-        source.boards[boardId] ?: error("No board")
+        source.boards[boardId] ?: throw NotFoundException()
 
     override fun getAllLists(conn: TransactionManager, boardId: Int): List<pt.isel.ls.tasks.domain.List> =
         source.lists.toList().mapNotNull {
