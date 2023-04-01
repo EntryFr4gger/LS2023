@@ -43,7 +43,7 @@ class CardsServices(val source: TaskData) {
         listId?.let { isValidListId(it) }
 
         return source.run { conn ->
-            // Authenticate
+            // Authorized
 
             utils.hasBoard(conn, boardId)
             listId?.let { utils.hasList(conn, listId) }
@@ -64,6 +64,8 @@ class CardsServices(val source: TaskData) {
         isValidCardId(cardId)
 
         return source.run { conn ->
+            // Authorized
+
             source.cards.getCardDetails(conn, cardId)
         }
     }
@@ -82,7 +84,7 @@ class CardsServices(val source: TaskData) {
         isValidCardId(cardId)
 
         return source.run { conn ->
-            // Authenticate
+            // Authorized
 
             utils.hasList(conn, listId)
             utils.hasCard(conn, cardId) // Needed?

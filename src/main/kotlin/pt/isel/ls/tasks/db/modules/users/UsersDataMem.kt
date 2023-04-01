@@ -1,7 +1,10 @@
 package pt.isel.ls.tasks.db.modules.users
 
+import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.modules.boards.BoardsDataMem
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
+import pt.isel.ls.tasks.db.transactionManager.TransactionManagerDM
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 

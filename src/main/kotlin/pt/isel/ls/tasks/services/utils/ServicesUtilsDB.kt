@@ -42,10 +42,30 @@ class ServicesUtilsDB(val source: TaskData) {
         }
     }
 
-    fun auth(conn: TransactionManager, token: String): Int {
-        if (!source.tokens.hasToken(conn, token)) {
-            throw ServicesError.InvalidArgumentException("Token doesn't exists")
+    fun authentication(conn: TransactionManager, requestId: Int) {
+        if (!source.users.hasUser(conn, requestId)) {
+            throw ServicesError.AuthenticationException("Invalid User Request")
         }
-        return source.tokens.getUserID(conn, token)
+    }
+
+    /**
+     *
+     * */
+    fun authorizationBoard(conn: TransactionManager, boardId: Int, requestId: Int) {
+        if (!source.users.validateResquestBoard(conn, boardId, requestId)) {
+            throw ServicesError.InvalidArgumentException("You are not authorized to access this Board")
+        }
+    }
+
+    fun authorizationList(conn: TransactionManager, listId: Int, requestId: Int) {
+        if (!source.users.validateResquestList(conn, listId, requestId)) {
+            throw ServicesError.InvalidArgumentException("You are not authorized to access this List")
+        }
+    }
+
+    fun authorizationCard(conn: TransactionManager, cardId: Int, requestId: Int) {
+        if (!source.users.validateResquestList(conn, cardId, requestId)) {
+            throw ServicesError.InvalidArgumentException("You are not authorized to access this Card")
+        }
     }
 }
