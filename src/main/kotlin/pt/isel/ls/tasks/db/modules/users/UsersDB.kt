@@ -69,4 +69,37 @@ interface UsersDB {
      * @return true if exists or false if it does not exist.
      */
     fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean
+
+    /**
+     * Validates the resquest premissions to access a board.
+     *
+     * @param conn connection to database.
+     * @param boardId board unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return true if is valide or false if not.
+     */
+    fun validateResquestBoard(conn: TransactionManager, boardId: Int, requestId: Int): Boolean
+
+    /**
+     * Validates the resquest premissions to access a card.
+     *
+     * @param conn connection to database.
+     * @param cardId card unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return true if is valide or false if not.
+     */
+    fun validateResquestCard(conn: TransactionManager, cardId: Int, requestId: Int): Boolean
+
+    /**
+     * Validates the resquest premissions to access a list.
+     *
+     * @param conn connection to database.
+     * @param listId list unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return true if is valide or false if not.
+     */
+    fun validateResquestList(conn: TransactionManager, listId: Int, requestId: Int): Boolean
 }

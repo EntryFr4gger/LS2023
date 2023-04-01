@@ -87,4 +87,69 @@ class UsersDataPostgres : UsersDB {
 
         return res.executeQuery().next()
     }
+
+    override fun validateResquestBoard(conn: TransactionManager, boardId: Int, requestId: Int): Boolean {
+        val obj = conn.connection().prepareStatement(
+            "SELECT * FROM user_board WHERE board_id = ?"
+        )
+        obj.setInt(1, boardId)
+
+        val res = obj.executeQuery()
+        while (res.next())
+            if (res.getInt(1) == requestId)
+                return true
+        return false
+    }
+
+    override fun validateResquestCard(conn: TransactionManager, cardId: Int, requestId: Int): Boolean {
+        val obj = conn.connection().prepareStatement(
+            """
+                SELECT user_id FROM user_board ub
+                    JOIN cards c ON c.board_id = ub.board_id
+                    WHERE id = ?
+            """.trimIndent()
+        )
+        obj.setInt(1, cardId)
+
+        val res = obj.executeQuery()
+        while (res.next())
+            if (res.getInt(1) == requestId)
+                return true
+        return false
+    }
+
+    override fun validateResquestList(conn: TransactionManager, listId: Int, requestId: Int): Boolean {
+        val obj = conn.connection().prepareStatement(
+            """
+                SELECT user_id FROM user_board ub
+                    JOIN lists l ON l.board_id = ub.board_id
+                    WHERE id = ?
+            """.trimIndent()
+        )
+        obj.setInt(1, listId)
+
+        val res = obj.executeQuery()
+        while (res.next())
+            if (res.getInt(1) == requestId)
+                return true
+        return false
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
