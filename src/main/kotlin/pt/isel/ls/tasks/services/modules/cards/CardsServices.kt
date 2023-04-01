@@ -8,7 +8,7 @@ import pt.isel.ls.tasks.services.utils.ServicesUtils
 /**
  * Card Services.
  * */
-class CardsServices(source: TaskData): ServicesUtils(source) {
+class CardsServices(source: TaskData) : ServicesUtils(source) {
 
     /**
      * Creates a new card in a list.
@@ -73,7 +73,7 @@ class CardsServices(source: TaskData): ServicesUtils(source) {
      *
      * @return a card id.
      * */
-    fun moveCard(listId: Int, cardId: Int, requestId: Int): Int {
+    fun moveCard(listId: Int, cardId: Int, requestId: Int): Boolean {
         isValidListId(listId)
         isValidCardId(cardId)
 

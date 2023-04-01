@@ -12,7 +12,8 @@ const val PORT = 9000
 
 fun main() {
     val logger = LoggerFactory.getLogger("Tasks API")
-    val services = TaskServices(TasksDataMem(TasksDataStorage())) // TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
+    val services =
+        TaskServices(TasksDataMem(TasksDataStorage())) // TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
     val api = TasksAPI(services)
 
     val app = api

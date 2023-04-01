@@ -9,7 +9,7 @@ import pt.isel.ls.tasks.domain.List as _List
 /**
  * List Services.
  * */
-class ListsServices(source: TaskData): ServicesUtils(source) {
+class ListsServices(source: TaskData) : ServicesUtils(source) {
 
     /**
      * Creates a new list in a board.

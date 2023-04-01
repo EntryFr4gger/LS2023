@@ -24,6 +24,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     companion object {
         fun routes(services: BoardsServices, tokenHandeler: TokenUtil) = BoardsRouter(services, tokenHandeler).routes
     }
+
     override val routes = routes(
         "boards" bind Method.POST to ::postBoard,
         "boards/{board_id}/users/{user_id}" bind Method.POST to ::postUserToBoard,

@@ -24,6 +24,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
     companion object {
         fun routes(services: CardsServices, tokenHandeler: TokenUtil) = CardsRouter(services, tokenHandeler).routes
     }
+
     override val routes = routes(
         "cards" bind Method.POST to ::createCard,
         "cards/{card_id}" bind Method.PUT to ::updateCard,

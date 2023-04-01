@@ -9,7 +9,7 @@ import pt.isel.ls.tasks.domain.List as _List
 /**
  * Board Services.
  * */
-class BoardsServices(source: TaskData): ServicesUtils(source) {
+class BoardsServices(source: TaskData) : ServicesUtils(source) {
     private val utils = ServicesUtils(source)
 
     /**
@@ -43,7 +43,7 @@ class BoardsServices(source: TaskData): ServicesUtils(source) {
      *
      * @return
      * */
-    fun addUserToBoard(userId: Int, boardId: Int, requestId: Int): Int {
+    fun addUserToBoard(userId: Int, boardId: Int, requestId: Int): Boolean {
         isValidUserId(userId)
         isValidBoardId(boardId)
 

@@ -36,51 +36,51 @@ paths:
                     format: uuid
         400:
           description: Invalid input, object invalid
-          content: {}
+          content: { }
       x-codegen-request-body-name: user
   /users/{user_id}:
     get:
       tags:
         - User
-      summary : Get a user given its id
-      description : Get a user given its id
-      operationId : getUserInfo
-      security :
-        - bearerAuth : [ ]
-      parameters :
-        - name : Authorization
-          in : header
-          schema :
-            type : string
-            format : uuid
-        - name : user_id
-          in : path
-          description : ID of user that to be fetched
-          required : true
-          schema :
-            type : integer
-            minimum : 0
-      responses :
-        200 :
-          description : successful operation
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/User'
-        400 :
-          description : Invalid ID supplied
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
-        404 :
-          description : Board not found
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/InvalidRequest'
-                example : Board Not found
+      summary: Get a user given its id
+      description: Get a user given its id
+      operationId: getUserInfo
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+            format: uuid
+        - name: user_id
+          in: path
+          description: ID of user that to be fetched
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+                example: Invalid ID supplied
+        404:
+          description: Board not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+                example: Board Not found
   /board:
     post:
       tags:
@@ -159,7 +159,7 @@ paths:
                 example: Board Not found
 components:
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth: # arbitrary name for the security scheme
       type: http
       scheme: bearer
   schemas:
@@ -172,13 +172,13 @@ components:
         id:
           type: integer
           example: 1
-        name :
+        name:
           type: string
           example: Study HTTP
         description:
           type: string
           example: Board description
-    NewBoard :
+    NewBoard:
       required:
         - name
         - description
@@ -196,24 +196,24 @@ components:
         - Email
       type: object
       properties:
-        Name :
+        Name:
           type: string
           example: Mario
         Email:
           type: string
-          example : mariocard@gmail.com
-    User :
-      required :
+          example: mariocard@gmail.com
+    User:
+      required:
         - Name
         - Email
-      type : object
-      properties :
-        Name :
-          type : string
-          example : Mario
-        Email :
-          type : string
-          example : mariocard@gmail.com
+      type: object
+      properties:
+        Name:
+          type: string
+          example: Mario
+        Email:
+          type: string
+          example: mariocard@gmail.com
 
     InvalidRequest:
       type: object
@@ -221,7 +221,7 @@ components:
         error:
           type: string
           example: "Missing required parameter"
-    NewBoardCreated :
+    NewBoardCreated:
       required:
         - status
         - board

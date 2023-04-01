@@ -24,6 +24,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
     companion object {
         fun routes(services: ListsServices, tokenHandeler: TokenUtil) = ListsRouter(services, tokenHandeler).routes
     }
+
     override val routes = routes(
         "lists" bind Method.POST to ::postList,
         "lists/{list_id}" bind Method.GET to ::getListInfo,

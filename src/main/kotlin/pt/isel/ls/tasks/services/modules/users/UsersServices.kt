@@ -4,12 +4,12 @@ import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.utils.ServicesUtils
-import java.util.UUID
+import java.util.*
 
 /**
  * User Services.
  * */
-class UsersServices(source: TaskData): ServicesUtils(source) {
+class UsersServices(source: TaskData) : ServicesUtils(source) {
 
     /**
      * Create a new user.

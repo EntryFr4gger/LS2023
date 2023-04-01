@@ -16,6 +16,7 @@ class Token(val token: String, val userId: Int) {
         fun isValidToken(token: String) =
             token.length in tokenLength && token.matches(tokenRegex)
     }
+
     init {
         require(isValidToken(token)) { "Invalid token" }
         require(isValidId(userId)) { "Invalid user id" }

@@ -12,6 +12,7 @@ class TokensDataMem(private val source: TasksDataStorage) : TokensDB {
         source.tokens["b606bd17-aac8-470e-a539-fe590944b1f5"] = Token("b606bd17-aac8-470e-a539-fe590944b1f5", 3)
         source.tokens["b606bd17-aac8-470e-a539-fe590944b1f0"] = Token("b606bd17-aac8-470e-a539-fe590944b1f0", 4)
     }
+
     override fun createNewToken(conn: TransactionManager, token: String, userId: Int): String {
         source.tokens[token] = Token(token, userId)
         return token
