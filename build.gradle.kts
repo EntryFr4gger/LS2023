@@ -24,6 +24,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.5.20")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testImplementation("io.rest-assured:kotlin-extensions:5.3.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
 }
 
     group = "pt.isel.ls.tasks.api.core"
