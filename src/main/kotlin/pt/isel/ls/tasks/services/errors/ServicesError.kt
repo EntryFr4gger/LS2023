@@ -13,6 +13,13 @@ open class ServicesError(val error: String?) : Exception(error) {
     class AuthenticationException(msg: String? = null) : ServicesError(msg)
 
     /**
+     * If user is not authorized.
+     *
+     * @param msg message given in the exception
+     */
+    class AuthorizationException(msg: String? = null) : ServicesError(msg)
+
+    /**
      * If invalid arguments are given.
      *
      * @param msg message given in the exception

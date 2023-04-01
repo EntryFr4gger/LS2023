@@ -29,7 +29,7 @@ class BoardsServices(val source: TaskData) {
         isValidBoardDescription(description)
 
         return source.run { conn ->
-            // Authenticate done?
+            // Authenticate
 
             utils.isBoardNewName(conn, name)
 
@@ -51,6 +51,8 @@ class BoardsServices(val source: TaskData) {
         isValidBoardId(boardId)
 
         return source.run { conn ->
+            // Authorized
+
             utils.hasUser(conn, userId)
             utils.hasBoard(conn, boardId)
             // Verify if user is already in board?
@@ -71,6 +73,8 @@ class BoardsServices(val source: TaskData) {
         isValidBoardId(boardId)
 
         return source.run { conn ->
+            // Authorized
+
             source.boards.getBoardDetails(conn, boardId)
         }
     }
@@ -87,6 +91,8 @@ class BoardsServices(val source: TaskData) {
         isValidBoardId(boardId)
 
         return source.run { conn ->
+            // Authorized
+
             source.boards.getAllLists(conn, boardId)
         }
     }

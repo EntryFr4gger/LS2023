@@ -99,7 +99,7 @@ class UsersTestDataMem {
     @Test
     fun `Confirm that the user do not exist`() {
         source.run { conn ->
-            assertFalse { users.hasUser(conn, 69) }
+            assertFalse { users.hasUser(conn, Int.MAX_VALUE) }
         }
     }
 
