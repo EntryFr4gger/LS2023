@@ -7,13 +7,13 @@ import pt.isel.ls.tasks.services.errors.ServicesError
 class ServicesUtilsDB(val source: TaskData) {
 
     fun isUserNewEmail(conn: TransactionManager, email: String) {
-        if (!source.users.hasUserEmail(conn, email)) {
+        if (source.users.hasUserEmail(conn, email)) {
             throw ServicesError.AlreadyExistsException("User email is already in use")
         }
     }
 
     fun isBoardNewName(conn: TransactionManager, name: String) {
-        if (!source.boards.hasBoardName(conn, name)) {
+        if (source.boards.hasBoardName(conn, name)) {
             throw ServicesError.AlreadyExistsException("Board name is already in use")
         }
     }
