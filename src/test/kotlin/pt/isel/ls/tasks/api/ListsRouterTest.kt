@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.core.BaseTest
 
 class ListsRouterTest : BaseTest() {
+    private val listId = 1
 
     @Test
     fun `Creates a new list`() {
@@ -39,7 +40,7 @@ class ListsRouterTest : BaseTest() {
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
         } When {
-            get("/lists/1")
+            get("/lists/$listId")
         } Then {
             body("id", CoreMatchers.equalTo(1))
             body("name", CoreMatchers.equalTo("Aula de LS"))
@@ -55,7 +56,7 @@ class ListsRouterTest : BaseTest() {
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
         } When {
-            get("/lists/1/cards")
+            get("/lists/$listId/cards")
         } Then {
             statusCode(HttpStatus.SC_OK)
         }

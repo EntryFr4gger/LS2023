@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.core.BaseTest
 
 class CardsRouterTest : BaseTest() {
+    private val cardId = 1
 
     @Test
     fun `Creates a new list`() {
@@ -39,7 +40,7 @@ class CardsRouterTest : BaseTest() {
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
         } When {
-            get("/cards/1")
+            get("/cards/$cardId")
         } Then {
             body("id", CoreMatchers.equalTo(1))
             body("name", CoreMatchers.equalTo("Phase 1"))
@@ -58,7 +59,7 @@ class CardsRouterTest : BaseTest() {
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
         } When {
-            put("/cards/1")
+            put("/cards/$cardId")
         } Then {
             statusCode(HttpStatus.SC_OK)
         }

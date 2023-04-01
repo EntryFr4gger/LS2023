@@ -1,6 +1,5 @@
 package pt.isel.ls.tasks.api
 
-import com.google.gson.Gson
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
@@ -15,7 +14,8 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.core.BaseTest
 
 class BoardsRouterTest : BaseTest() {
-    private val gson = Gson()
+    private val boardId = 3
+    private val userId = 1
 
     @Test
     fun `Creates a new Board`() {
@@ -41,7 +41,7 @@ class BoardsRouterTest : BaseTest() {
             spec(requestSpecification)
                 .log().all()
         } When {
-            post("/boards/3/users/1")
+            post("/boards/$boardId/users/$userId")
         } Then {
             statusCode(HttpStatus.SC_OK)
         }
@@ -54,7 +54,7 @@ class BoardsRouterTest : BaseTest() {
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
         } When {
-            get("/boards/3")
+            get("/boards/$boardId")
         } Then {
             body("id", equalTo(3))
             body("name", equalTo("Limpeza"))
@@ -69,21 +69,14 @@ class BoardsRouterTest : BaseTest() {
             TestList(1, "Aula de LS", 1),
             TestList(2, "Aula de LAE", 1)
         )
-       /* val objJson = gson.toJson(expectResponse).filterNot { it == '\"'}
-            .replace(":", "=")
-            .replace(",",", ")
-        println("______________ $objJson") */
-        // val objParse = Json.decodeFromString<TestList>(expectResponse.toString())
-
         Given {
             spec(requestSpecification)
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
         } When {
-            get("/boards/1/lists")
+            get("/boards/$boardId/lists")
         } Then {
             statusCode(HttpStatus.SC_OK)
-            // body( "boards", equalTo(objParse) )
         }
     }
 
