@@ -1,5 +1,7 @@
 package pt.isel.ls.tasks.domain
 
+import pt.isel.ls.tasks.services.utils.isValidId
+
 /**
  * Represents the Boards table in the database.
  *
@@ -19,5 +21,11 @@ data class Board(
         fun isValidName(name: String) = name.length in nameLength
 
         fun isValidDescription(description: String) = description.length in descriptionLength
+    }
+
+    init {
+        require(isValidId(id)) { "Invalid list id" }
+        require(isValidName(name)) { "Invalid list name" }
+        require(isValidDescription(description)) { "Invalid list description" }
     }
 }

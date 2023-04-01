@@ -35,11 +35,10 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
     override fun getCardDetails(conn: TransactionManager, cardId: Int): Card =
         source.cards[cardId] ?: error("Card with $cardId do not exist")
 
-// Refazer
-    override fun moveCard(conn: TransactionManager, cardId: Int, lid: Int): Int {
+    override fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Boolean {
         val card = source.cards[cardId] ?: error("card not find")
-        source.cards[cardId] = card.copy(listId = lid)
-        return if (source.cards[cardId]?.listId != null) 1 else -1
+        source.cards[cardId] = card.copy(listId = listId)
+        return source.cards[cardId]?.listId != null
     }
 
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean =

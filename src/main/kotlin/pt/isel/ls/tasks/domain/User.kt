@@ -1,5 +1,7 @@
 package pt.isel.ls.tasks.domain
 
+import pt.isel.ls.tasks.services.utils.isValidId
+
 /**
  * Represents the Boards table in the database.
  *
@@ -21,5 +23,11 @@ data class User(
 
         fun isValidEmail(email: String) =
             email.length in emailLength && email.matches(Regex(EMAIL_REGEX))
+    }
+
+    init {
+        require(isValidId(id)) { "Invalid user id" }
+        require(isValidName(name)) { "Invalid user name" }
+        require(isValidEmail(email)) { "Invalid user email" }
     }
 }

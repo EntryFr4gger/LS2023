@@ -2,17 +2,14 @@ package pt.isel.ls.tasks.services.modules.lists
 
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Card
-import pt.isel.ls.tasks.services.utils.ServicesUtilsDB
-import pt.isel.ls.tasks.services.utils.isValidBoardId
-import pt.isel.ls.tasks.services.utils.isValidListId
-import pt.isel.ls.tasks.services.utils.isValidListName
+import pt.isel.ls.tasks.services.utils.ServicesUtils
+import kotlin.collections.List
 import pt.isel.ls.tasks.domain.List as _List
 
 /**
  * List Services.
  * */
-class ListsServices(val source: TaskData) {
-    private val utils = ServicesUtilsDB(source)
+class ListsServices(source: TaskData): ServicesUtils(source) {
 
     /**
      * Creates a new list in a board.
@@ -28,9 +25,9 @@ class ListsServices(val source: TaskData) {
         isValidBoardId(boardId)
 
         return source.run { conn ->
-            // Authorized
+            authorizationBoard(conn, boardId, requestId)
 
-            utils.hasBoard(conn, boardId)
+            hasBoard(conn, boardId)
 
             source.lists.createList(conn, name, boardId)
         }
@@ -48,7 +45,7 @@ class ListsServices(val source: TaskData) {
         isValidListId(listId)
 
         return source.run { conn ->
-            // Authorized
+            authorizationList(conn, listId, requestId)
 
             source.lists.getListDetails(conn, listId)
         }
@@ -66,9 +63,9 @@ class ListsServices(val source: TaskData) {
         isValidListId(listId)
 
         return source.run { conn ->
-            // Authorized
+            authorizationList(conn, listId, requestId)
 
-            utils.hasList(conn, listId)
+            hasList(conn, listId)
 
             source.lists.getCardsOfList(conn, listId)
         }

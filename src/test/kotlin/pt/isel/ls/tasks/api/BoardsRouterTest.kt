@@ -15,8 +15,9 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.core.BaseTest
 
 
-class BoardsRouterTest:BaseTest() {
+class BoardsRouterTest : BaseTest() {
     private val gson = Gson()
+
     @Test
     fun `Creates a new Board`() {
 
@@ -40,7 +41,7 @@ class BoardsRouterTest:BaseTest() {
     }
 
     @Test
-    fun `Add a User to a Board` (){
+    fun `Add a User to a Board`() {
 
         Given {
 
@@ -57,6 +58,7 @@ class BoardsRouterTest:BaseTest() {
         }
 
     }
+
     @Test
     fun `Get Board details`() {
 
@@ -83,10 +85,10 @@ class BoardsRouterTest:BaseTest() {
             TestList(1, "Aula de LS", 1),
             TestList(2, "Aula de LAE", 1)
         )
-       /* val objJson = gson.toJson(expectResponse).filterNot { it == '\"'}
-            .replace(":", "=")
-            .replace(",",", ")
-        println("______________ $objJson") */
+        /* val objJson = gson.toJson(expectResponse).filterNot { it == '\"'}
+             .replace(":", "=")
+             .replace(",",", ")
+         println("______________ $objJson") */
         // val objParse = Json.decodeFromString<TestList>(expectResponse.toString())
 
         Given {
@@ -100,13 +102,14 @@ class BoardsRouterTest:BaseTest() {
 
         } Then {
             statusCode(HttpStatus.SC_OK)
-           // body( "boards", equalTo(objParse) )
+            // body( "boards", equalTo(objParse) )
 
         }
     }
 
     @Serializable
-    data class TestList (@Required val id :Int,@Required val name: String,@Required val boardId : Int )
+    data class TestList(@Required val id: Int, @Required val name: String, @Required val boardId: Int)
+
     @Serializable
     data class NewBoard(@Required val name: String, @Required val description: String)
 

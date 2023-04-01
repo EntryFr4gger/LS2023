@@ -29,7 +29,7 @@ interface BoardsDB {
      *
      * @return
      * */
-    fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int
+    fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Boolean
 
     /**
      * Get the detailed information of a board.
