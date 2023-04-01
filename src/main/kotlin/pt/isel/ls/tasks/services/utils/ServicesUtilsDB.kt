@@ -19,25 +19,25 @@ class ServicesUtilsDB(val source: TaskData) {
     }
 
     fun hasUser(conn: TransactionManager, userId: Int) {
-        if (source.users.hasUser(conn, userId)) {
+        if (!source.users.hasUser(conn, userId)) {
             throw ServicesError.InvalidArgumentException("User id doesn't exists")
         }
     }
 
     fun hasBoard(conn: TransactionManager, boardId: Int) {
-        if (source.boards.hasBoard(conn, boardId)) {
+        if (!source.boards.hasBoard(conn, boardId)) {
             throw ServicesError.InvalidArgumentException("Board id doesn't exists")
         }
     }
 
     fun hasList(conn: TransactionManager, listId: Int) {
-        if (source.lists.hasList(conn, listId)) {
+        if (!source.lists.hasList(conn, listId)) {
             throw ServicesError.InvalidArgumentException("List id doesnt exists")
         }
     }
 
     fun hasCard(conn: TransactionManager, cardId: Int) {
-        if (source.cards.hasCard(conn, cardId)) {
+        if (!source.cards.hasCard(conn, cardId)) {
             throw ServicesError.InvalidArgumentException("Card id doesnt exists")
         }
     }
