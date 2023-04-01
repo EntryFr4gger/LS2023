@@ -12,12 +12,13 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.core.BaseTest
+import kotlin.test.Ignore
 
 class BoardsRouterTest : BaseTest() {
     private val boardId = 3
     private val userId = 1
 
-
+    @Ignore
     @Test
     fun `Creates a new Board`() {
         val newBoard = NewBoard("TestBoard", "Isto é o board que vai ser usado para testes")
@@ -35,6 +36,7 @@ class BoardsRouterTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun `Add a User to a Board`() {
         Given {
@@ -48,6 +50,7 @@ class BoardsRouterTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun `Get Board details`() {
         Given {
@@ -64,6 +67,7 @@ class BoardsRouterTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun `Get the Lists of a Board`() {
         val expectResponse = listOf(

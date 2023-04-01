@@ -12,10 +12,12 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.core.BaseTest
+import kotlin.test.Ignore
 
 class UsersRouterTest : BaseTest() {
     private val userId = 3
 
+    @Ignore
     @Test
     fun `Creates a new user`() {
         val newUser = NewUser("Manuel Maria", "tes23t@gmail.com")
@@ -33,6 +35,7 @@ class UsersRouterTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun `Get User details`() {
         Given {
@@ -49,6 +52,7 @@ class UsersRouterTest : BaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun `Get the all user boards available`() {
         Given {

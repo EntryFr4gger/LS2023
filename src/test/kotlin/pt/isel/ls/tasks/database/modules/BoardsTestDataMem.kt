@@ -37,7 +37,7 @@ class BoardsTestDataMem {
     fun `return true if user do not exist`() {
         source.run { conn ->
             val ret = boards.addUserToBoard(conn, 1, 1)
-            assertTrue { ret  }
+            assertTrue { ret }
         }
     }
 
@@ -52,9 +52,9 @@ class BoardsTestDataMem {
     @Test
     fun `Throws an error for a nonexistent board`() {
         source.run { conn ->
-           assertFailsWith<NotFoundException>{
-               boards.getBoardDetails(conn, 100)
-           }
+            assertFailsWith<NotFoundException> {
+                boards.getBoardDetails(conn, 100)
+            }
         }
     }
 

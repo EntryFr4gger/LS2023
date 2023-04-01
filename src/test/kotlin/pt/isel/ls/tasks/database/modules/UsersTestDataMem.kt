@@ -39,7 +39,7 @@ class UsersTestDataMem {
     @Test
     fun `verify that the user do not have boards`() {
         source.run { conn ->
-            assertEquals(emptyList() ,users.getUserBoards(conn, 4))
+            assertEquals(emptyList(), users.getUserBoards(conn, 4))
         }
     }
 
