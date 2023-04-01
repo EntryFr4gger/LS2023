@@ -96,8 +96,9 @@ class UsersDataPostgres : UsersDB {
 
         val res = obj.executeQuery()
         while (res.next())
-            if (res.getInt(1) == requestId)
+            if (res.getInt(1) == requestId) {
                 return true
+            }
         return false
     }
 
@@ -113,8 +114,9 @@ class UsersDataPostgres : UsersDB {
 
         val res = obj.executeQuery()
         while (res.next())
-            if (res.getInt(1) == requestId)
+            if (res.getInt(1) == requestId) {
                 return true
+            }
         return false
     }
 
@@ -130,26 +132,9 @@ class UsersDataPostgres : UsersDB {
 
         val res = obj.executeQuery()
         while (res.next())
-            if (res.getInt(1) == requestId)
+            if (res.getInt(1) == requestId) {
                 return true
+            }
         return false
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
