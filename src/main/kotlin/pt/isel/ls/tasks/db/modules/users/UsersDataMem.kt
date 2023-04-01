@@ -45,14 +45,19 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         source.userBoard[userId] != null
 
     override fun validateResquestBoard(conn: TransactionManager, boardId: Int, requestId: Int): Boolean {
-        TODO("Not yet implemented")
+        val userBoard = source.userBoard[requestId] ?: return false
+        return userBoard.contains(boardId)
     }
 
     override fun validateResquestCard(conn: TransactionManager, cardId: Int, requestId: Int): Boolean {
-        TODO("Not yet implemented")
+        val userBoard = source.userBoard[requestId] ?: return false
+        val card = source.lists[cardId] ?: return false
+        return userBoard.contains(card.boardId)
     }
 
     override fun validateResquestList(conn: TransactionManager, listId: Int, requestId: Int): Boolean {
-        TODO("Not yet implemented")
+        val userBoard = source.userBoard[requestId] ?: return false
+        val list = source.lists[listId] ?: return false
+        return userBoard.contains(list.boardId)
     }
 }
