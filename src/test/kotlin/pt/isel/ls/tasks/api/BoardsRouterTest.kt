@@ -70,10 +70,10 @@ class BoardsRouterTest : BaseTest() {
     @Ignore
     @Test
     fun `Get the Lists of a Board`() {
-        val expectResponse = listOf(
+        /*val expectResponse = listOf(
             TestList(1, "Aula de LS", 1),
             TestList(2, "Aula de LAE", 1)
-        )
+        )*/
         Given {
             spec(requestSpecification)
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
@@ -85,9 +85,9 @@ class BoardsRouterTest : BaseTest() {
         }
     }
 
-    @Serializable
+    /*@Serializable
     data class TestList(@Required val id: Int, @Required val name: String, @Required val boardId: Int)
-
+*/
     @Serializable
     data class NewBoard(@Required val name: String, @Required val description: String)
 }

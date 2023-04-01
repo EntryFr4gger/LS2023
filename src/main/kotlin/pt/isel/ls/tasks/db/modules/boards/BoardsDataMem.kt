@@ -20,11 +20,6 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
     override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
         val id = source.nextBoardId.getAndIncrement()
-
-        if (source.boards.values.any { it.name == name }) {
-            throw error("Name in use")
-        }
-
         source.boards[id] = Board(id, name, description)
         return id
     }
