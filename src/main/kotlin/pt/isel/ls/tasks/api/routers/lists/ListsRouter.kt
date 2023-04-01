@@ -15,8 +15,8 @@ import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListIdDTO
-import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.FilterToken
+import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
 import pt.isel.ls.tasks.api.utils.pathOrThrow
 import pt.isel.ls.tasks.services.modules.lists.ListsServices
