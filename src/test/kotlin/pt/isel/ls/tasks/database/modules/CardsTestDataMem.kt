@@ -4,6 +4,7 @@ import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.cards.CardsDataMem
 import pt.isel.ls.tasks.domain.Card
 import kotlin.test.assertEquals
@@ -47,14 +48,14 @@ class CardsTestDataMem {
     fun `move card from a list`() {
         source.run { conn ->
             val res = cards.moveCard(conn, 3, 2)
-            assertEquals(1, res)
+            assertTrue { res }
         }
     }
 
     @Test
     fun `Throws an error for a nonexistent card`() {
         source.run { conn ->
-            assertFailsWith<IllegalStateException> {
+            assertFailsWith<NotFoundException> {
                 cards.getCardDetails(conn, 10)
             }
         }

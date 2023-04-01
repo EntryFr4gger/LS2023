@@ -4,6 +4,7 @@ import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List
@@ -52,7 +53,7 @@ class ListsTestDataMem {
     @Test
     fun `Throws an error for a nonexistent lists`() {
         source.run { conn ->
-            assertFailsWith<IllegalStateException> {
+            assertFailsWith<NotFoundException> {
                 lists.getListDetails(conn, 10)
             }
         }

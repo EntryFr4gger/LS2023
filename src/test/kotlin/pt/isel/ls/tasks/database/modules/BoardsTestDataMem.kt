@@ -3,6 +3,7 @@ package pt.isel.ls.tasks.database.modules
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.boards.BoardsDataMem
 import pt.isel.ls.tasks.domain.Board
 import kotlin.test.assertEquals
@@ -25,18 +26,18 @@ class BoardsTestDataMem {
     }
 
     @Test
-    fun `return -1 if user do not exist`() {
+    fun `return false if user do not exist`() {
         source.run { conn ->
             val ret = boards.addUserToBoard(conn, 10, 1)
-            assertEquals(-1, ret)
+            assertFalse { ret }
         }
     }
 
     @Test
-    fun `return 1 if user do not exist`() {
+    fun `return true if user do not exist`() {
         source.run { conn ->
             val ret = boards.addUserToBoard(conn, 1, 1)
-            assertEquals(1, ret)
+            assertTrue { ret  }
         }
     }
 
@@ -44,16 +45,16 @@ class BoardsTestDataMem {
     fun `Verify if the user was correctly added to the board  `() {
         source.run { conn ->
             val ret = boards.addUserToBoard(conn, 1, 2)
-            assertEquals(1, ret)
+            assertTrue { ret }
         }
     }
 
     @Test
     fun `Throws an error for a nonexistent board`() {
         source.run { conn ->
-            assertFailsWith<IllegalStateException> {
-                boards.getBoardDetails(conn, 100)
-            }
+           assertFailsWith<NotFoundException>{
+               boards.getBoardDetails(conn, 100)
+           }
         }
     }
 

@@ -3,6 +3,7 @@ package pt.isel.ls.tasks.database.modules
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.tokens.TokensDataMem
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -25,7 +26,7 @@ class TokensTestDataMem {
     @Test
     fun `Throws an error for a nonexistent token associated with a user`() {
         source.run { conn ->
-            assertFailsWith<IllegalStateException> {
+            assertFailsWith<NotFoundException> {
                 tokens.getUserID(conn, "9f1e3d11-8c18-4cd7-93fc-985c4794cfd")
             }
         }

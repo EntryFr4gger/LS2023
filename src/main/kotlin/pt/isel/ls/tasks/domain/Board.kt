@@ -24,8 +24,8 @@ data class Board(
     }
 
     init {
-        require(isValidId(id)) { "Invalid list id" }
-        require(isValidName(name)) { "Invalid list name" }
-        require(isValidDescription(description)) { "Invalid list description" }
+        require(!isValidId(id)) { "Invalid board id" }
+        require(isValidName(name)) { "Invalid board name" }
+        require(isValidDescription(description)) { "Invalid board description" }
     }
 }

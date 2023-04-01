@@ -17,6 +17,7 @@ class BoardsRouterTest : BaseTest() {
     private val boardId = 3
     private val userId = 1
 
+
     @Test
     fun `Creates a new Board`() {
         val newBoard = NewBoard("TestBoard", "Isto é o board que vai ser usado para testes")

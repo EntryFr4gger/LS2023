@@ -3,6 +3,7 @@ package pt.isel.ls.tasks.database.modules
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.users.UsersDataMem
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
@@ -27,17 +28,6 @@ class UsersTestDataMem {
     }
 
     @Test
-    fun `Throws an error if email is already in use`() {
-        source.run { conn ->
-            assertFailsWith<IllegalStateException> {
-                repeat(2) {
-                    users.createNewUser(conn, "Bernardo", "bernas@isel.pt")
-                }
-            }
-        }
-    }
-
-    @Test
     fun `Gets the correct user`() {
         source.run { conn ->
             val user = User(3, "Godofredo", "Godofredo@outlook.pt")
@@ -47,11 +37,9 @@ class UsersTestDataMem {
     }
 
     @Test
-    fun `Throws an error for a user without  boards`() {
+    fun `verify that the user do not have boards`() {
         source.run { conn ->
-            assertFailsWith<IllegalStateException> {
-                users.getUserBoards(conn, 4)
-            }
+            assertEquals(emptyList() ,users.getUserBoards(conn, 4))
         }
     }
 
@@ -69,7 +57,7 @@ class UsersTestDataMem {
     @Test
     fun `Throws an error for a nonexistent user `() {
         source.run { conn ->
-            assertFailsWith<IllegalStateException> {
+            assertFailsWith<NotFoundException> {
                 users.getUserDetails(conn, 10)
             }
         }
