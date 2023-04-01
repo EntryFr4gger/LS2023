@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -19,10 +21,23 @@ dependencies {
     implementation(group = "org.slf4j", name = "slf4j-api", version = "2.0.0-alpha5")
     runtimeOnly(group = "org.slf4j", name = "slf4j-simple", version = "2.0.0-alpha5")
     testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.5.20")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testImplementation("io.rest-assured:kotlin-extensions:5.3.0")
 }
+
+    group = "pt.isel.ls.tasks.api.core"
+    version = "1.0-SNAPSHOT"
 
 tasks.test {
     useJUnitPlatform()
+    testLogging {
+        events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+        exceptionFormat = TestExceptionFormat.SHORT
+        showCauses = true
+        showExceptions = true
+        showStackTraces = true
+    }
 }
 
 tasks.withType<KotlinCompile> {
