@@ -3,6 +3,7 @@ package pt.isel.ls.tasks // ktlint-disable filename
 import org.http4k.core.Filter
 import org.http4k.core.HttpHandler
 import org.slf4j.Logger
+
 fun Logger.logRequest(request: org.http4k.core.Request) {
     this.info(
         "incoming request: method={}, uri={}, content-type={} accept={}",

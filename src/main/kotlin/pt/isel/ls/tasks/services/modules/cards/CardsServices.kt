@@ -3,18 +3,12 @@ package pt.isel.ls.tasks.services.modules.cards
 import kotlinx.datetime.LocalDate
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Card
-import pt.isel.ls.tasks.services.utils.ServicesUtilsDB
-import pt.isel.ls.tasks.services.utils.isValidBoardId
-import pt.isel.ls.tasks.services.utils.isValidCardDescription
-import pt.isel.ls.tasks.services.utils.isValidCardId
-import pt.isel.ls.tasks.services.utils.isValidCardName
-import pt.isel.ls.tasks.services.utils.isValidListId
+import pt.isel.ls.tasks.services.utils.ServicesUtils
 
 /**
  * Card Services.
  * */
-class CardsServices(val source: TaskData) {
-    private val utils = ServicesUtilsDB(source)
+class CardsServices(source: TaskData) : ServicesUtils(source) {
 
     /**
      * Creates a new card in a list.
@@ -43,10 +37,10 @@ class CardsServices(val source: TaskData) {
         listId?.let { isValidListId(it) }
 
         return source.run { conn ->
-            // Authorized
+            authorizationBoard(conn, boardId, requestId)
 
-            utils.hasBoard(conn, boardId)
-            listId?.let { utils.hasList(conn, listId) }
+            hasBoard(conn, boardId)
+            listId?.let { hasList(conn, listId) }
 
             source.cards.createNewCard(conn, name, description, dueDate, boardId, listId)
         }
@@ -64,7 +58,7 @@ class CardsServices(val source: TaskData) {
         isValidCardId(cardId)
 
         return source.run { conn ->
-            // Authorized
+            authorizationCard(conn, cardId, requestId)
 
             source.cards.getCardDetails(conn, cardId)
         }
@@ -79,15 +73,16 @@ class CardsServices(val source: TaskData) {
      *
      * @return a card id.
      * */
-    fun moveCard(listId: Int, cardId: Int, requestId: Int): Int {
+    fun moveCard(listId: Int, cardId: Int, requestId: Int): Boolean {
         isValidListId(listId)
         isValidCardId(cardId)
 
         return source.run { conn ->
-            // Authorized
+            authorizationCard(conn, cardId, requestId)
+            authorizationList(conn, listId, requestId)
 
-            utils.hasList(conn, listId)
-            utils.hasCard(conn, cardId) // Needed?
+            hasList(conn, listId)
+            hasCard(conn, cardId) // Needed?
 
             source.cards.moveCard(conn, listId, cardId)
         }

@@ -8,6 +8,7 @@ import pt.isel.ls.tasks.domain.Board
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
+import pt.isel.ls.tasks.domain.List as _List
 
 class BoardsDataPostgres : BoardsDB {
 
@@ -31,7 +32,7 @@ class BoardsDataPostgres : BoardsDB {
         }
     }
 
-    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int {
+    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Boolean {
         val res = conn.connection().prepareStatement(
             "INSERT INTO user_board(user_id, board_id) VALUES (?, ?)",
             Statement.RETURN_GENERATED_KEYS
@@ -42,7 +43,7 @@ class BoardsDataPostgres : BoardsDB {
         if (res.executeUpdate() == 0) throw SQLException("User Addition to Board Failed")
 
         res.generatedKeys.also {
-            return if (it.next()) it.getInt(1) else -1
+            return it.next()
         }
     }
 
@@ -60,7 +61,7 @@ class BoardsDataPostgres : BoardsDB {
         }
     }
 
-    override fun getAllLists(conn: TransactionManager, boardId: Int): List<pt.isel.ls.tasks.domain.List> {
+    override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> {
         val obj = conn.connection().prepareStatement(
             "SELECT * FROM lists WHERE board_id = ?"
         )

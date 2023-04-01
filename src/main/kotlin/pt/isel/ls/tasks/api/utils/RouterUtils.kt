@@ -2,9 +2,9 @@ package pt.isel.ls.tasks.api.utils
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.http4k.core.* // ktlint-disable no-wildcard-imports
+import org.http4k.core.Response
+import org.http4k.core.Status
 import pt.isel.ls.tasks.api.ISerializable
-import java.lang.Exception
 
 // Need to make this one serializable
 fun jsonResponse(status: Status, jsonObj: ISerializable) = Response(status)

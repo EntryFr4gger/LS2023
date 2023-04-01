@@ -49,7 +49,7 @@ interface CardsDB {
      *
      * @return a card id.
      * */
-    fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Int
+    fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Boolean
 
     /**
      * Verify if card exists.

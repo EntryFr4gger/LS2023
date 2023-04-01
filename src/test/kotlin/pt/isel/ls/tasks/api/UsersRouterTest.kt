@@ -15,6 +15,7 @@ import pt.isel.ls.tasks.api.core.BaseTest
 
 class UsersRouterTest : BaseTest() {
     private val userId = 3
+
     @Test
     fun `Creates a new user`() {
         val newUser = NewUser("Manuel Maria", "tes23t@gmail.com")

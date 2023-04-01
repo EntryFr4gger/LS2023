@@ -2,18 +2,15 @@ package pt.isel.ls.tasks.services.modules.boards
 
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Board
-import pt.isel.ls.tasks.services.utils.ServicesUtilsDB
-import pt.isel.ls.tasks.services.utils.isValidBoardDescription
-import pt.isel.ls.tasks.services.utils.isValidBoardId
-import pt.isel.ls.tasks.services.utils.isValidBoardName
-import pt.isel.ls.tasks.services.utils.isValidUserId
+import pt.isel.ls.tasks.services.utils.ServicesUtils
+import kotlin.collections.List
 import pt.isel.ls.tasks.domain.List as _List
 
 /**
  * Board Services.
  * */
-class BoardsServices(val source: TaskData) {
-    private val utils = ServicesUtilsDB(source)
+class BoardsServices(source: TaskData) : ServicesUtils(source) {
+    private val utils = ServicesUtils(source)
 
     /**
      * Creates a new board.
@@ -29,7 +26,7 @@ class BoardsServices(val source: TaskData) {
         isValidBoardDescription(description)
 
         return source.run { conn ->
-            // Authenticate
+            authentication(conn, requestId)
 
             utils.isBoardNewName(conn, name)
 
@@ -46,12 +43,12 @@ class BoardsServices(val source: TaskData) {
      *
      * @return
      * */
-    fun addUserToBoard(userId: Int, boardId: Int, requestId: Int): Int {
+    fun addUserToBoard(userId: Int, boardId: Int, requestId: Int): Boolean {
         isValidUserId(userId)
         isValidBoardId(boardId)
 
         return source.run { conn ->
-            // Authorized
+            authorizationBoard(conn, boardId, requestId)
 
             utils.hasUser(conn, userId)
             utils.hasBoard(conn, boardId)
@@ -73,7 +70,7 @@ class BoardsServices(val source: TaskData) {
         isValidBoardId(boardId)
 
         return source.run { conn ->
-            // Authorized
+            authorizationBoard(conn, boardId, requestId)
 
             source.boards.getBoardDetails(conn, boardId)
         }
@@ -91,7 +88,7 @@ class BoardsServices(val source: TaskData) {
         isValidBoardId(boardId)
 
         return source.run { conn ->
-            // Authorized
+            authorizationBoard(conn, boardId, requestId)
 
             source.boards.getAllLists(conn, boardId)
         }

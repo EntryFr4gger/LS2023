@@ -25,6 +25,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     companion object {
         fun routes(services: UsersServices, tokenHandeler: TokenUtil) = UsersRouter(services, tokenHandeler).routes
     }
+
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
         "users/{user_id}" bind Method.GET to ::getUsers,

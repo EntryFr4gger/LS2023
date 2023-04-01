@@ -4,6 +4,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.List as _List
 
 class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
@@ -28,7 +29,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         return id
     }
 
-    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Int {
+    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Boolean {
         val userBoard = source.userBoard[userId]
         if (source.userBoard.containsKey(userId)) {
             if (userBoard != null) {
@@ -37,13 +38,13 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         } else {
             source.userBoard[userId] = listOf(boardId)
         }
-        return if (!userBoard.isNullOrEmpty()) userId else -1
+        return !userBoard.isNullOrEmpty()
     }
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
         source.boards[boardId] ?: throw NotFoundException()
 
-    override fun getAllLists(conn: TransactionManager, boardId: Int): List<pt.isel.ls.tasks.domain.List> =
+    override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> =
         source.lists.toList().mapNotNull {
             it.second.takeIf { list ->
                 list.boardId == boardId
