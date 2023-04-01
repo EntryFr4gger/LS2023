@@ -5,31 +5,30 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
-import org.http4k.core.RequestContexts
 import org.http4k.core.Response
 import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.routes
-import pt.isel.ls.tasks.api.TasksRouter
+import pt.isel.ls.tasks.api.routers.TasksRouter
 import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
 import pt.isel.ls.tasks.api.routers.cards.models.CardId
 import pt.isel.ls.tasks.api.routers.cards.models.CardListUpdate
 import pt.isel.ls.tasks.api.routers.cards.models.CreateCardDTO
-import pt.isel.ls.tasks.api.utils.FilterToken
+import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
 import pt.isel.ls.tasks.api.utils.pathOrThrow
 import pt.isel.ls.tasks.services.modules.cards.CardsServices
 
-class CardsRouter(private val services: CardsServices, val context: RequestContexts) : TasksRouter {
+class CardsRouter(private val services: CardsServices, private val tokenHandeler: TokenUtil) : TasksRouter {
     companion object {
-        fun routes(services: CardsServices, context: RequestContexts) = CardsRouter(services, context).routes
+        fun routes(services: CardsServices, tokenHandeler: TokenUtil) = CardsRouter(services, tokenHandeler).routes
     }
     override val routes = routes(
-        ("cards" bind Method.POST to ::createCard).withFilter(FilterToken(context)),
-        ("cards/{card_id}" bind Method.PUT to ::updateCard).withFilter(FilterToken(context)),
-        ("cards/{card_id}" bind Method.GET to ::getCardInfo).withFilter(FilterToken(context))
-    )
+        "cards" bind Method.POST to ::createCard,
+        "cards/{card_id}" bind Method.PUT to ::updateCard,
+        "cards/{card_id}" bind Method.GET to ::getCardInfo
+    ).withFilter(tokenHandeler::filter)
 
     /**
      * Creates a new card
@@ -40,7 +39,7 @@ class CardsRouter(private val services: CardsServices, val context: RequestConte
      */
     private fun createCard(request: Request): Response = errorCatcher {
         val card = Json.decodeFromString<CreateCardDTO>(request.bodyString())
-        val requestId = context[request].hasOrThrow("user_id")
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val id = services.createNewCard(card.name, card.description, card.dueDate, card.boardId, card.listId, requestId)
         return Response(Status.CREATED)
             .header("content-type", "application/json")
@@ -56,9 +55,11 @@ class CardsRouter(private val services: CardsServices, val context: RequestConte
     private fun updateCard(request: Request): Response {
         val cardId = request.pathOrThrow("card_id").toInt()
         val card = Json.decodeFromString<CardListUpdate>(request.bodyString())
-        val requestId = context[request].hasOrThrow("user_id")
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val response = services.moveCard(card.lid, cardId, requestId)
         return Response(Status.OK)
+            .header("content-type", "application/json")
+            .body(Json.encodeToString(response.toString())) // change
     }
 
     /**
@@ -69,7 +70,7 @@ class CardsRouter(private val services: CardsServices, val context: RequestConte
      */
     private fun getCardInfo(request: Request): Response = errorCatcher {
         val cardId = request.pathOrThrow("card_id").toInt()
-        val requestId = context[request].hasOrThrow("user_id")
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val card = services.getCardDetails(cardId, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")

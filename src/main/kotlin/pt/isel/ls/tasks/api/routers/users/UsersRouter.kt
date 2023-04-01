@@ -5,32 +5,30 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
-import org.http4k.core.RequestContexts
 import org.http4k.core.Response
-import org.http4k.core.Status
 import org.http4k.core.Status.Companion.CREATED
 import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
 import org.http4k.routing.routes
-import pt.isel.ls.tasks.api.TasksRouter
+import pt.isel.ls.tasks.api.routers.TasksRouter
 import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserInfoDTO
-import pt.isel.ls.tasks.api.utils.FilterToken
+import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
 import pt.isel.ls.tasks.api.utils.pathOrThrow
 import pt.isel.ls.tasks.services.modules.users.UsersServices
 
-class UsersRouter(private val services: UsersServices, private val context: RequestContexts) : TasksRouter {
+class UsersRouter(private val services: UsersServices, private val tokenHandeler: TokenUtil) : TasksRouter {
     companion object {
-        fun routes(services: UsersServices, context: RequestContexts) = UsersRouter(services, context).routes
+        fun routes(services: UsersServices, tokenHandeler: TokenUtil) = UsersRouter(services, tokenHandeler).routes
     }
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
         "users/{user_id}" bind Method.GET to ::getUsers,
-        ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(FilterToken(context))
+        ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(tokenHandeler::filter)
     )
 
     /**
@@ -67,9 +65,9 @@ class UsersRouter(private val services: UsersServices, private val context: Requ
      * @return HTTP response that contains the list of all user boards in the json body
      */
     private fun getUserBoards(request: Request): Response = errorCatcher {
-        val requestId = context[request].hasOrThrow("user_id")
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val boards = services.getUserBoards(requestId)
-        return Response(Status.OK)
+        return Response(OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(UserBoardsDTO(boards)))
     }
