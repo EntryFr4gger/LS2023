@@ -14,40 +14,33 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.core.BaseTest
 
 class CardsRouterTest : BaseTest() {
+    private val cardId = 1
 
     @Test
     fun `Creates a new list`() {
-
-        val newCard = NewCard("CardTest", "Teste num é mesmo", 1,1)
+        val newCard = NewCard("CardTest", "Teste num é mesmo", 1, 1)
 
         Given {
-
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
             spec(requestSpecification)
             body(Json.encodeToString(newCard))
                 .log().all()
-
         } When {
-
             post("/cards")
-
         } Then {
             body("id", Matchers.`is`(5))
             statusCode(HttpStatus.SC_CREATED)
         }
     }
+
     @Test
     fun `Get card details`() {
-
         Given {
             spec(requestSpecification)
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
-
         } When {
-
-            get("/cards/1")
-
+            get("/cards/$cardId")
         } Then {
             body("id", CoreMatchers.equalTo(1))
             body("name", CoreMatchers.equalTo("Phase 1"))
@@ -65,24 +58,21 @@ class CardsRouterTest : BaseTest() {
             body(Json.encodeToString(listToMove))
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
-
         } When {
-
-            put("/cards/1")
-
+            put("/cards/$cardId")
         } Then {
             statusCode(HttpStatus.SC_OK)
-
         }
     }
 
+    @Serializable
+    data class NewCard(
+        @Required val name: String,
+        @Required val description: String,
+        @Required val boardId: Int,
+        @Required val listId: Int
+    )
 
     @Serializable
-    data class NewCard(@Required val name: String,
-                       @Required val description: String,
-                       @Required val boardId: Int,
-                       @Required val listId: Int)
-    @Serializable
-    data class NewList (@Required val lid : Int)
-
+    data class NewList(@Required val lid: Int)
 }

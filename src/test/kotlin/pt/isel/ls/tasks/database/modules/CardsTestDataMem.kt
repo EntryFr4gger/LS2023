@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks.database.modules.cards
+package pt.isel.ls.tasks.database.modules
 
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test

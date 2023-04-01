@@ -11,8 +11,6 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 
-
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 open class BaseTest {
 
@@ -20,25 +18,23 @@ open class BaseTest {
         lateinit var requestSpecification: RequestSpecification
     }
 
-
     @BeforeAll
-    fun setup(){
+    fun setup() {
         val logConfig = LogConfig.logConfig()
             .enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL)
         val config = RestAssuredConfig.config().logConfig(logConfig)
 
         requestSpecification = RequestSpecBuilder()
             .setBaseUri("http://localhost:9000")
-           // .setBasePath("/api")
+            // .setBasePath("/api")
             .setContentType(ContentType.JSON)
             .setRelaxedHTTPSValidation()
             .setConfig(config)
             .build()
-
     }
 
     @AfterAll
-    fun tearDown(){
+    fun tearDown() {
         RestAssured.reset()
     }
 }
