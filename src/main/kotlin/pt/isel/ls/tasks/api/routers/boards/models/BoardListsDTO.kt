@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
 
 @Serializable
-data class BoardListsDTO(val boards: List<ListDTO>) {
+data class BoardListsDTO(val lists: List<ListDTO>) {
     companion object {
         operator fun invoke(lists: List<pt.isel.ls.tasks.domain.List>): BoardListsDTO =
             BoardListsDTO(

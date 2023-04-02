@@ -22,6 +22,11 @@ interface TaskData {
     fun <R> run(function: (TransactionManager) -> R): R
 
     /**
+     * Resets database
+     */
+    fun reset()
+
+    /**
      * Instaces of objects used for database.
      * */
     val users: UsersDB

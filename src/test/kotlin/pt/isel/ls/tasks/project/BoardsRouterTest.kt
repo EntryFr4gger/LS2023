@@ -1,76 +1,115 @@
 package pt.isel.ls.tasks.project
 
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import org.http4k.core.Method
+import org.http4k.core.Request
+import org.http4k.core.Status
+import org.junit.jupiter.api.Test
+import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardIdDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
 class BoardsRouterTest : InstanceProjectTest() {
-    private val boardId = 3
-    private val userId = 1
 
-    /*@Ignore
     @Test
-    fun `Creates a new Board`() {
-        val newBoard = NewBoard("TestBoard", "Isto é o board que vai ser usado para testes")
+    fun `Creates a new valid Board`() {
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com")
+        val requestBody = """
+            {
+                "name": "Test Board",
+                "description": "board description"
+            }
+        """
+        val request = Request(Method.POST, "${path}boards")
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer ${idNToken.second}")
+            .body(requestBody)
 
-        Given {
-            header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
-            body(Json.encodeToString(newBoard))
-                .log().all()
-        } When {
-            post("/boards")
-        } Then {
-            body("id", Matchers.`is`(4))
-            statusCode(HttpStatus.SC_CREATED)
-        }
-    }*/
+        send(request)
+            .apply {
+                assertEquals(Status.CREATED, this.status,"Status was not created")
+                val board = Json.decodeFromString<BoardIdDTO>(this.bodyString())
+                db.run { conn ->
+                    assertTrue(db.boards.hasBoard(conn, board.id),"board does not exist")
+                    assertTrue(db.users.hasUserInBoard(conn,idNToken.first),"user was not added to board on creation")
+                }
+            }
+    }
 
-    /*@Ignore
     @Test
     fun `Add a User to a Board`() {
-        Given {
-            header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
-            spec(requestSpecification)
-                .log().all()
-        } When {
-            post("/boards/$boardId/users/$userId")
-        } Then {
-            statusCode(HttpStatus.SC_OK)
-        }
-    }*/
+        val idNToken = services.users.createNewUser("testUser3", "tests3@gmail.com")
+        val idNToken2 = services.users.createNewUser("testUser4", "tests4@gmail.com")
+        val boardId = services.boards.createNewBoard("TestBoard3","This is a big test Board",idNToken.first)
+        val request = Request(Method.POST, "${path}boards/$boardId/users/${idNToken2.first}")
+            .header("Authorization", "Bearer ${idNToken.second}")
 
-    /*@Ignore
+        send(request)
+            .apply {
+                assertEquals(Status.OK, this.status,"Status was not ok")
+                val board = Json.decodeFromString<String>(this.bodyString())
+                assertTrue(board.toBoolean(),"user was not added to board")
+                db.run { conn ->
+                    assertTrue(db.users.hasUserInBoard(conn,idNToken.first),"user was not added to board")
+                }
+            }
+    }
+
     @Test
-    fun `Get Board details`() {
-        Given {
-            spec(requestSpecification)
-            header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
-                .log().all()
-        } When {
-            get("/boards/$boardId")
-        } Then {
-            body("id", equalTo(3))
-            body("name", equalTo("Limpeza"))
-            body("description", equalTo("O que falta limpar cá em casa"))
-            statusCode(HttpStatus.SC_OK)
-        }
-    }*/
+    fun `Get valid board details`() {
+        val name = "testUser"
+        val email = "test1@gmail.com"
+        val idNToken = services.users.createNewUser(name, email)
+        val nameB= "TestBoard2"
+        val description = "This is a big test Board"
+        val boardId = services.boards.createNewBoard(nameB,description,idNToken.first)
 
-   /* @Ignore
+        val request = Request(Method.GET, "${path}boards/$boardId")
+            .header("Authorization", "Bearer ${idNToken.second}")
+
+        send(request)
+            .apply {
+                assertEquals(Status.OK, this.status)
+                val board = Json.decodeFromString<BoardDTO>(this.bodyString())
+                assertEquals(boardId, board.id)
+                assertEquals(nameB, board.name)
+                assertEquals(description, board.description)
+                db.run { conn ->
+                    assertTrue(db.tokens.hasToken(conn, idNToken.second))
+                }
+            }
+    }
+
     @Test
     fun `Get the Lists of a Board`() {
-        *//*val expectResponse = listOf(
-            TestList(1, "Aula de LS", 1),
-            TestList(2, "Aula de LAE", 1)
-        )*//*
-        Given {
-            spec(requestSpecification)
-            header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
-                .log().all()
-        } When {
-            get("/boards/$boardId/lists")
-        } Then {
-            statusCode(HttpStatus.SC_OK)
-        }
-    }*/
+        val name = "testUser"
+        val email = "test1@gmail.com"
+        val idNToken = services.users.createNewUser(name, email)
+        val nameB= "TestBoard2"
+        val description = "This is a big test Board"
+        val boardId = services.boards.createNewBoard(nameB,description,idNToken.first)
+        val nameL1 = "testList"
+        val nameL2 = "testList1"
+        val list1Id = services.lists.createList(nameL1,boardId,idNToken.first)
+        val list2Id = services.lists.createList(nameL2,boardId,idNToken.first)
 
-    /*@Serializable
-    data class TestList(@Required val id: Int, @Required val name: String, @Required val boardId: Int)
-*/
+        val request = Request(Method.GET, "${path}boards/$boardId/lists")
+            .header("Authorization", "Bearer ${idNToken.second}")
+
+        send(request)
+            .apply {
+                assertEquals(Status.OK, this.status)
+                val board = Json.decodeFromString<BoardListsDTO>(this.bodyString())
+                assertEquals(board.lists[0].id, list1Id)
+                assertEquals(board.lists[0].name, nameL1)
+                assertEquals(board.lists[0].boardId, boardId)
+                assertEquals(board.lists[1].id, list2Id)
+                assertEquals(board.lists[1].name, nameL2)
+                assertEquals(board.lists[1].boardId, boardId)
+            }
+    }
+
 }
