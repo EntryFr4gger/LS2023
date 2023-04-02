@@ -24,8 +24,8 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @throws ServicesError.InvalidArgumentException name is the worng length.
      * @throws ServicesError.InvalidArgumentException description is the worng length.
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.InvalidArgumentException if board id isn't correct.
+     * @throws ServicesError.InvalidArgumentException if list id isn't correct.
      * @throws ServicesError.AuthorizationException if user inst authorized.
      * @throws ServicesError.InvalidArgumentException if id doesn't exist.
      * */
@@ -60,7 +60,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a Card.
      *
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.InvalidArgumentException if card id isn't correct.
      * @throws ServicesError.AuthorizationException if user inst authorized.
      * */
     fun getCardDetails(cardId: Int, requestId: Int): Card {

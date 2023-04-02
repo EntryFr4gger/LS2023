@@ -8,6 +8,7 @@ import pt.isel.ls.tasks.db.modules.tokens.TokensDataPostgres
 import pt.isel.ls.tasks.db.modules.users.UsersDataPostgres
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.TransactionManagerDP
+import java.io.File
 import java.sql.SQLException
 
 class TasksDataPostgres(sourceURL: String) : TaskData {
@@ -32,7 +33,14 @@ class TasksDataPostgres(sourceURL: String) : TaskData {
     }
 
     override fun reset() {
-        TODO()
+        File("src/main/sql/resetData.sql")
+            .readText()
+            .also { s->
+                source.connection.use {conn->
+                    conn.prepareStatement(s)
+                        .executeUpdate()
+                }
+            }
     }
 
     override val users = UsersDataPostgres()

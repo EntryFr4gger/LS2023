@@ -30,9 +30,9 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
         isValidBoardId(boardId)
 
         return source.run { conn ->
-            authorizationBoard(conn, boardId, requestId)
-
             hasBoard(conn, boardId)
+
+            authorizationBoard(conn, boardId, requestId)
 
             source.lists.createList(conn, name, boardId)
         }
