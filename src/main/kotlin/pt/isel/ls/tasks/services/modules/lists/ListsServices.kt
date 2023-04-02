@@ -19,6 +19,11 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return list's unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException name is the worng length.
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.AuthorizationException if user inst authorized.
+     * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
     fun createList(name: String, boardId: Int, requestId: Int): Int {
         isValidListName(name)
@@ -40,6 +45,9 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return a List.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.AuthorizationException if user inst authorized.
      * */
     fun getListDetails(listId: Int, requestId: Int): _List {
         isValidListId(listId)
@@ -58,6 +66,10 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return list of Cards in List.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.AuthorizationException if user inst authorized.
+     * @throws ServicesError.InvalidArgumentException if id doesn't exist.
      * */
     fun getCardsOfList(listId: Int, requestId: Int): List<Card> {
         isValidListId(listId)

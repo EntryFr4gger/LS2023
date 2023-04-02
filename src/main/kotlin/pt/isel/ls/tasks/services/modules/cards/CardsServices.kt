@@ -21,6 +21,13 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return card unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException name is the worng length.
+     * @throws ServicesError.InvalidArgumentException description is the worng length.
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.AuthorizationException if user inst authorized.
+     * @throws ServicesError.InvalidArgumentException if id doesn't exist.
      * */
     fun createNewCard(
         name: String,
@@ -32,7 +39,6 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
     ): Int {
         isValidCardName(name)
         isValidCardDescription(description)
-        // DueData??
         isValidBoardId(boardId)
         listId?.let { isValidListId(it) }
 
@@ -53,6 +59,9 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return a Card.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.AuthorizationException if user inst authorized.
      * */
     fun getCardDetails(cardId: Int, requestId: Int): Card {
         isValidCardId(cardId)
@@ -72,6 +81,11 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return a card id.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.InvalidArgumentException if id doesn't exists.
+     * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
     fun moveCard(listId: Int, cardId: Int, requestId: Int): Boolean {
         isValidListId(listId)
@@ -82,7 +96,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             authorizationList(conn, listId, requestId)
 
             hasList(conn, listId)
-            hasCard(conn, cardId) // Needed?
+            hasCard(conn, cardId)
 
             source.cards.moveCard(conn, listId, cardId)
         }

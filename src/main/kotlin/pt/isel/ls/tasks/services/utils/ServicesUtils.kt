@@ -170,6 +170,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if user id is valid.
      *
      * @param id user unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidUserId(id: Int) {
         if (isValidId(id)) {
@@ -181,6 +183,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if board id is valid.
      *
      * @param id board unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidBoardId(id: Int) {
         if (isValidId(id)) {
@@ -192,6 +196,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if list id is valid.
      *
      * @param id list unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidListId(id: Int) {
         if (isValidId(id)) {
@@ -203,6 +209,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if card id is valid.
      *
      * @param id card unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidCardId(id: Int) {
         if (isValidId(id)) {
@@ -214,6 +222,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if user name is valid.
      *
      * @param name the user's name.
+     *
+     * @throws ServicesError.InvalidArgumentException name is the worng length.
      * */
     fun isValidUserName(name: String) {
         if (!User.isValidName(name)) {
@@ -225,6 +235,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if user email is valid.
      *
      * @param email the user's unique email.
+     *
+     * @throws ServicesError.InvalidArgumentException email is the worng length.
      * */
     fun isValidUserEmail(email: String) {
         if (!User.isValidEmail(email)) {
@@ -236,6 +248,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if board name is valid.
      *
      * @param name unique name for the board.
+     *
+     * @throws ServicesError.InvalidArgumentException name is the worng length.
      * */
     fun isValidBoardName(name: String) {
         if (!Board.isValidName(name)) {
@@ -247,6 +261,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if board description is valid.
      *
      * @param description board description.
+     *
+     * @throws ServicesError.InvalidArgumentException description is the worng length.
      * */
     fun isValidBoardDescription(description: String) {
         if (!Board.isValidDescription(description)) {
@@ -258,6 +274,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if card name is valid.
      *
      * @param name the task name.
+     *
+     * @throws ServicesError.InvalidArgumentException name is the worng length.
      * */
     fun isValidCardName(name: String) {
         if (!Card.isValidName(name)) {
@@ -269,6 +287,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if card description is valid.
      *
      * @param description the task description.
+     *
+     * @throws ServicesError.InvalidArgumentException description is the worng length.
      * */
     fun isValidCardDescription(description: String) {
         if (!Card.isValidDescription(description)) {
@@ -280,6 +300,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if list name is valid.
      *
      * @param name list name.
+     *
+     * @throws ServicesError.InvalidArgumentException name is the worng length.
      * */
     fun isValidListName(name: String) {
         if (!List.isValidName(name)) {
@@ -291,6 +313,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if token is valid.
      *
      * @param token user token.
+     *
+     * @throws ServicesError.InvalidArgumentException token isn't correct.
      * */
     fun isValidToken(token: String) {
         if (!Token.isValidToken(token)) {
@@ -302,6 +326,8 @@ open class ServicesUtils(open val source: TaskData) {
      * Verifys if token is valid.
      *
      * @param token user token.
+     *
+     * @throws ServicesError.InvalidArgumentException token isn't correct.
      * */
     fun isValidBearerToken(token: String) {
         if (!Token.isValidBearerToken(token)) {

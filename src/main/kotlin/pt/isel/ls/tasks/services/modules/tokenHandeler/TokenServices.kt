@@ -15,6 +15,8 @@ class TokenServices(source: TaskData) : ServicesUtils(source) {
      * @param token user token.
      *
      * @return a User id.
+     *
+     * @throws ServicesError.InvalidArgumentException token isn't correct.
      * */
     fun getUserId(token: String): Int {
         isValidBearerToken(token)
