@@ -681,7 +681,9 @@ components :
           example : isel is hard school
         dueDate :
           type : string
-          example : 02/04/2023
+          description : Date (YYYY-MM-DD)
+          pattern : ^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$
+          example : "2001-09-26"
         boardId :
           type : integer
           example : 1
