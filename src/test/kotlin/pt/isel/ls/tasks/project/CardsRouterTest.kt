@@ -58,7 +58,7 @@ class CardsRouterTest : InstanceProjectTest() {
         val exampleLD = LocalDate(2023, 3, 21) // optional
         val cardName = "Card 1"
         val cardDescription = "Card 1 description"
-        val cardId = services.cards.createNewCard(cardName,cardDescription,exampleLD,boardId,listId,idNToken.first)
+        val cardId = services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, listId, idNToken.first)
 
         val request = Request(Method.GET, "${path}cards/$cardId")
             .header("Authorization", "Bearer ${idNToken.second}")
@@ -87,7 +87,8 @@ class CardsRouterTest : InstanceProjectTest() {
         val exampleLD = LocalDate(2023, 3, 21) // optional
         val cardName = "Card 1"
         val cardDescription = "Card 1 description"
-        val cardId = services.cards.createNewCard(cardName,cardDescription,exampleLD,boardId,list1Id,idNToken.first)
+        val cardId =
+            services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, list1Id, idNToken.first)
 
         val requestBody = """
             {
@@ -104,7 +105,7 @@ class CardsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-               // val listIdDTO = Json.decodeFromString<CardListUpdate>(this.bodyString())
+                // val listIdDTO = Json.decodeFromString<CardListUpdate>(this.bodyString())
                 //assertEquals(list2Id, listIdDTO.id)
 
 

@@ -60,7 +60,7 @@ class ListsRouterTest : InstanceProjectTest() {
                 val list = Json.decodeFromString<ListDTO>(this.bodyString())
                 assertEquals(list1Id, list.id)
                 assertEquals(nameL1, list.name)
-                assertEquals( boardId, list.boardId)
+                assertEquals(boardId, list.boardId)
             }
     }
 
@@ -76,9 +76,9 @@ class ListsRouterTest : InstanceProjectTest() {
         val exampleLD = LocalDate(2023, 3, 21)
 
         val cards = listOf(
-            services.cards.createNewCard("card1", "card 1 description", exampleLD,boardId,list1Id,idNToken.first ),
-            services.cards.createNewCard("card2", "card 2 description", exampleLD,boardId,list1Id,idNToken.first ),
-            services.cards.createNewCard("card3", "card 3 description", exampleLD,boardId,list1Id,idNToken.first )
+            services.cards.createNewCard("card1", "card 1 description", exampleLD, boardId, list1Id, idNToken.first),
+            services.cards.createNewCard("card2", "card 2 description", exampleLD, boardId, list1Id, idNToken.first),
+            services.cards.createNewCard("card3", "card 3 description", exampleLD, boardId, list1Id, idNToken.first)
         )
 
 
