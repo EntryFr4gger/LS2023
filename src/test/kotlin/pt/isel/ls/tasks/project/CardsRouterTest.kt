@@ -18,9 +18,9 @@ class CardsRouterTest : InstanceProjectTest() {
         val name = "testUser"
         val email = "test1@gmail.com"
         val idNToken = services.users.createNewUser(name, email)
-        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.first)
+        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val nameL1 = "testList"
-        val list1Id = services.lists.createList(nameL1, boardId, idNToken.first)
+        val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
         val exampleLD = LocalDate(2023, 3, 21) // optional
 
         val requestBody = """
@@ -33,7 +33,7 @@ class CardsRouterTest : InstanceProjectTest() {
          """
         val request = Request(Method.POST, "${path}cards")
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer ${idNToken.second}")
+            .header("Authorization", "Bearer ${idNToken.token}")
             .body(requestBody)
 
         send(request)
@@ -46,22 +46,21 @@ class CardsRouterTest : InstanceProjectTest() {
             }
     }
 
-
     @Test
     fun `Get the detailed information of a card `() {
         val userName = "testUser"
         val email = "test1@gmail.com"
         val idNToken = services.users.createNewUser(userName, email)
-        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.first)
+        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val listName = "testList"
-        val listId = services.lists.createList(listName, boardId, idNToken.first)
+        val listId = services.lists.createList(listName, boardId, idNToken.id)
         val exampleLD = LocalDate(2023, 3, 21) // optional
         val cardName = "Card 1"
         val cardDescription = "Card 1 description"
-        val cardId = services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, listId, idNToken.first)
+        val cardId = services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, listId, idNToken.id)
 
         val request = Request(Method.GET, "${path}cards/$cardId")
-            .header("Authorization", "Bearer ${idNToken.second}")
+            .header("Authorization", "Bearer ${idNToken.token}")
 
         send(request)
             .apply {
@@ -79,16 +78,16 @@ class CardsRouterTest : InstanceProjectTest() {
         val userName = "testUser"
         val email = "test1@gmail.com"
         val idNToken = services.users.createNewUser(userName, email)
-        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.first)
+        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val list1Name = "testList 1"
         val list2Name = "testList 2"
-        val list1Id = services.lists.createList(list1Name, boardId, idNToken.first)
-        val list2Id = services.lists.createList(list2Name, boardId, idNToken.first)
+        val list1Id = services.lists.createList(list1Name, boardId, idNToken.id)
+        val list2Id = services.lists.createList(list2Name, boardId, idNToken.id)
         val exampleLD = LocalDate(2023, 3, 21) // optional
         val cardName = "Card 1"
         val cardDescription = "Card 1 description"
         val cardId =
-            services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, list1Id, idNToken.first)
+            services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, list1Id, idNToken.id)
 
         val requestBody = """
             {
@@ -96,19 +95,16 @@ class CardsRouterTest : InstanceProjectTest() {
              }
          """
 
-
         val request = Request(Method.PUT, "${path}cards/$cardId")
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer ${idNToken.second}")
+            .header("Authorization", "Bearer ${idNToken.token}")
             .body(requestBody)
 
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
                 // val listIdDTO = Json.decodeFromString<CardListUpdate>(this.bodyString())
-                //assertEquals(list2Id, listIdDTO.id)
-
-
+                // assertEquals(list2Id, listIdDTO.id)
             }
     }
 }
