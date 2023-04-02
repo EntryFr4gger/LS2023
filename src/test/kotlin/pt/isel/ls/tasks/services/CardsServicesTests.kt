@@ -28,7 +28,6 @@ class CardsServicesTests : ClearData() {
         }
     }
 
-
     @Test
     fun `create new card throws InvalidArgumentException if name is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
@@ -91,7 +90,6 @@ class CardsServicesTests : ClearData() {
             services.cards.getCardDetails(1, -2)
         }
     }
-
 
     @Test
     fun `move card correctly`() {

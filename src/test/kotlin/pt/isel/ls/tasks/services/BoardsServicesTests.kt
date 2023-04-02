@@ -90,7 +90,6 @@ class BoardsServicesTests : ClearData() {
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             assertEquals(Board(boardId, "Armandio", "sadsad"), services.boards.getBoardDetails(boardId, userId))
-
         }
     }
 
@@ -116,7 +115,6 @@ class BoardsServicesTests : ClearData() {
             val listId = source.lists.createList(it, "list", boardId)
             source.boards.addUserToBoard(it, userId, boardId)
             assertEquals(listOf(List(listId, "list", boardId)), services.boards.getAllLists(boardId, userId))
-
         }
     }
 

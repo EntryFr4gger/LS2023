@@ -25,7 +25,6 @@ class ListsServicesTests : ClearData() {
         }
     }
 
-
     @Test
     fun `create list throws InvalidArgumentException if name is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
@@ -55,7 +54,6 @@ class ListsServicesTests : ClearData() {
             source.boards.addUserToBoard(it, userId, boardId)
             val listId = source.lists.createList(it, "list", boardId)
             assertEquals(List(listId, "list", boardId), services.lists.getListDetails(listId, userId))
-
         }
     }
 
@@ -72,7 +70,6 @@ class ListsServicesTests : ClearData() {
             services.lists.getListDetails(1, -2)
         }
     }
-
 
     @Test
     fun `get cards of list correctly`() {
