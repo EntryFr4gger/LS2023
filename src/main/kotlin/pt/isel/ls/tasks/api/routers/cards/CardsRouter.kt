@@ -53,7 +53,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
      * @param request HTTP request that contains a JSON body with an end list id
      * @return HTTP response contains a JSON body with the new list id
      */
-    private fun updateCard(request: Request): Response = errorCatcher{
+    private fun updateCard(request: Request): Response = errorCatcher {
         val cardId = request.pathOrThrow("card_id").toInt()
         val card = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
