@@ -3,14 +3,12 @@ package pt.isel.ls.tasks.project
 import org.http4k.client.JavaHttpClient
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
-import org.junit.jupiter.api.AfterEach
 import org.slf4j.LoggerFactory
 import pt.isel.ls.tasks.PORT
 import pt.isel.ls.tasks.api.TasksAPI
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.services.TaskServices
-import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
 abstract class InstanceProjectTest {
@@ -27,7 +25,7 @@ abstract class InstanceProjectTest {
     }
 
     @BeforeTest
-    fun initializeDataMem() {
+    fun rebootDataMem() {
         db.reset()
     }
 }
