@@ -33,7 +33,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         } else {
             source.userBoard[userId] = listOf(boardId)
         }
-        return !userBoard.isNullOrEmpty()
+        return !source.userBoard[userId].isNullOrEmpty()
     }
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =

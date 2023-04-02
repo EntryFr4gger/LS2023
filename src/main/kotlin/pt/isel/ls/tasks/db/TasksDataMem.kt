@@ -9,9 +9,9 @@ import pt.isel.ls.tasks.db.modules.users.UsersDataMem
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.TransactionManagerDM
 
-class TasksDataMem(storage: TasksDataStorage) : TaskData {
+class TasksDataMem(private val storage: TasksDataStorage) : TaskData {
     override fun <R> run(function: (TransactionManager) -> R): R = function(TransactionManagerDM())
-
+    override fun reset() = storage.reset()
     override val users = UsersDataMem(storage)
     override val tokens = TokensDataMem(storage)
     override val boards = BoardsDataMem(storage)

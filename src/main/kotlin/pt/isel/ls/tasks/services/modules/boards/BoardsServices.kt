@@ -13,7 +13,8 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
     private val utils = ServicesUtils(source)
 
     /**
-     * Creates a new board.
+     * Creates a new board and adds the user that request
+     * that new board to it
      *
      * @param name unique name for the board.
      * @param description board description.
@@ -30,7 +31,9 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
 
             utils.isBoardNewName(conn, name)
 
-            source.boards.createNewBoard(conn, name, description)
+            val boardId = source.boards.createNewBoard(conn, name, description)
+            source.boards.addUserToBoard(conn, requestId, boardId)
+            boardId
         }
     }
 

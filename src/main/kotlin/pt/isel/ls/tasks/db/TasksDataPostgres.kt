@@ -31,6 +31,10 @@ class TasksDataPostgres(sourceURL: String) : TaskData {
         }
     }
 
+    override fun reset() {
+        TODO()
+    }
+
     override val users = UsersDataPostgres()
     override val tokens = TokensDataPostgres()
     override val boards = BoardsDataPostgres()

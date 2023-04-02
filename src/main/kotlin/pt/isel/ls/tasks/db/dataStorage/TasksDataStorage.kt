@@ -12,6 +12,10 @@ import pt.isel.ls.tasks.domain.List as _List
  * Datamem Storage.
  * */
 class TasksDataStorage {
+    fun reset() {
+        TODO("Not yet implemented")
+    }
+
     val users = ConcurrentHashMap<Int, User>()
     var nextUserId = AtomicInteger(1)
 
