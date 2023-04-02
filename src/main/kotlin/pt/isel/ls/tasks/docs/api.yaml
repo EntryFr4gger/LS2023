@@ -6,11 +6,18 @@ info :
 servers :
   - description : Localhost server for testing API
     url : http://localhost:9000/
+
+tags:
+  - name : Users
+  - name : Boards
+  - name : Lists
+  - name : Cards
+
 paths :
   /users :
     post :
       tags :
-        - User
+        - Users
       summary : Creates a user
       description : Creates a new user
       operationId : postUser
@@ -45,7 +52,7 @@ paths :
   /users/{user_id} :
     get :
       tags :
-        - User
+        - Users
       summary : Get the details of a user
       description : Gets a user given its id
       operationId : getUsers
@@ -64,6 +71,7 @@ paths :
           schema :
             type : integer
             minimum : 1
+            example : 1
       responses :
         200 :
           description : successful operation
@@ -89,7 +97,7 @@ paths :
   /users/{user_id}/boards :
     get :
       tags :
-        - User
+        - Users
       summary : Get the list with all user available boards
       description : Get the list with all user available boards given the user id
       operationId : getUserBoards
@@ -108,6 +116,7 @@ paths :
           schema :
             type : integer
             minimum : 1
+            example : 1
       responses :
         200 :
           description : successful operation
@@ -132,7 +141,7 @@ paths :
   /board :
     post :
       tags :
-        - Board
+        - Boards
       summary : Create a Board
       description : Create a new board in the system
       operationId : createBoard
@@ -151,7 +160,7 @@ paths :
           application/json :
             schema :
               $ref : '#/components/schemas/NewBoard'
-        required : false
+        required : true
       responses :
         201 :
           description : Board created
@@ -166,7 +175,7 @@ paths :
   /board/{board_id} :
     get :
       tags :
-        - Board
+        - Boards
       summary : Get the details of a user
       description : Get a board given its id
       operationId : getBoardInfo
@@ -184,6 +193,7 @@ paths :
           required : true
           schema :
             type : integer
+            example : 1
             minimum : 1
       responses :
         200 :
@@ -210,7 +220,7 @@ paths :
   /board/{board_id}/lists :
     get :
       tags :
-        - Board
+        - Boards
       summary : Get the lists of a board
       description : Get the lists of a board given the board id
       operationId : getLists
@@ -254,7 +264,7 @@ paths :
   /board/{board_id}/users/{user_id} :
     post :
       tags :
-        - Board
+        - Boards
       summary : Adds a user to a board
       description : Adds a user to a board given the board id and de user id to add to the board
       operationId : createBoard
@@ -290,7 +300,7 @@ paths :
   /lists :
     post :
       tags :
-        - List
+        - Lists
       summary : Create a List
       description : Create a new list
       operationId : postList
@@ -324,7 +334,7 @@ paths :
   /lists/{list_id} :
     get :
       tags :
-        - List
+        - Lists
       summary : Get detailed information of a list
       description : Get detailed information of a list given its id
       operationId : getListInfo
@@ -368,7 +378,7 @@ paths :
   /lists/{list_id}/cards :
     get :
       tags :
-        - List
+        - Lists
       summary : Get the set of cards in a list
       description : Get the set of cards in a list, given its id
       operationId : getListCards
@@ -412,7 +422,7 @@ paths :
   /cards :
     post :
       tags :
-        - Card
+        - Cards
       summary : Create a Card
       description : Create a new card
       operationId : createCard
@@ -446,7 +456,7 @@ paths :
   /cards/{card_id} :
     get :
       tags :
-        - Card
+        - Cards
       summary : Get the detailed information of a card
       description : Get the detailed information of a card given its id
       operationId : getCardInfo
@@ -488,7 +498,7 @@ paths :
 
     put :
       tags :
-        - Card
+        - Cards
       summary : Moves a card given a new list
       description : Moves a card given a new list
       operationId : getCardInfo
