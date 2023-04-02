@@ -1,92 +1,92 @@
-openapi: 3.0.1
-info:
-  title: Sample API
-  description: API description in Markdown.
-  version: 1.0.0
-servers:
-  - description: Localhost server for testing API
-    url: http://localhost:9000/
-paths:
-  /users:
-    post:
-      tags:
+openapi : 3.0.1
+info :
+  title : Sample API
+  description : API description in Markdown.
+  version : 1.0.0
+servers :
+  - description : Localhost server for testing API
+    url : http://localhost:9000/
+paths :
+  /users :
+    post :
+      tags :
         - User
-      summary: Creates a user
-      description: Creates a new user
-      operationId: postUser
-      requestBody:
-        description: User to create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewUser'
-        required: false
-      responses:
-        201:
-          description: user created
-          content:
-            application/json:
-              schema:
-                required:
+      summary : Creates a user
+      description : Creates a new user
+      operationId : postUser
+      requestBody :
+        description : User to create
+        content :
+          application/json :
+            schema :
+              $ref : '#/components/schemas/NewUser'
+        required : false
+      responses :
+        201 :
+          description : user created
+          content :
+            application/json :
+              schema :
+                required :
                   - token
                   - id
-                type: object
-                properties:
-                  id:
-                    type: Int
+                type : object
+                properties :
+                  id :
+                    type : Int
                     example : 1
-                  token:
-                    type: string
-                    format: uuid
-        400:
-          description: Invalid input, object invalid
-          content: { }
-      x-codegen-request-body-name: user
-  /users/{user_id}:
-    get:
-      tags:
+                  token :
+                    type : string
+                    format : uuid
+        400 :
+          description : Invalid input, object invalid
+          content : { }
+      x-codegen-request-body-name : user
+  /users/{user_id} :
+    get :
+      tags :
         - User
-      summary: Get the details of a user
-      description: Gets a user given its id
-      operationId: getUsers
-      security:
-        - bearerAuth: [ ]
-      parameters:
-        - name: Authorization
-          in: header
-          schema:
-            type: string
-            format: uuid
-        - name: user_id
-          in: path
-          description: ID of user that to be fetched
-          required: true
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        400:
-          description: Invalid ID supplied
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvalidRequest'
-                example: Invalid ID supplied
-        404:
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvalidRequest'
-                example: Board Not found
+      summary : Get the details of a user
+      description : Gets a user given its id
+      operationId : getUsers
+      security :
+        - bearerAuth : [ ]
+      parameters :
+        - name : Authorization
+          in : header
+          schema :
+            type : string
+            format : uuid
+        - name : user_id
+          in : path
+          description : ID of user that to be fetched
+          required : true
+          schema :
+            type : integer
+            minimum : 1
+      responses :
+        200 :
+          description : successful operation
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/User'
+        400 :
+          description : Invalid ID supplied
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+                example : Invalid ID supplied
+        404 :
+          description : User not found
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+                example : Board Not found
 
-  /users/{user_id}/boards:
+  /users/{user_id}/boards :
     get :
       tags :
         - User
@@ -130,85 +130,85 @@ paths:
                 $ref : '#/components/schemas/InvalidRequest'
                 example : Board Not found
 
-  /board:
-    post:
-      tags:
+  /board :
+    post :
+      tags :
         - Board
-      summary: Create a Board
-      description: Create a new board in the system
-      operationId: createBoard
-      security:
-        - bearerAuth: [ ]
-      parameters:
-        - name: Authorization
-          in: header
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        description: Board to create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewBoard'
-        required: false
-      responses:
-        201:
-          description: Board created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NewBoardCreated'
-        400:
-          description: Invalid input, object invalid
-          content: { }
+      summary : Create a Board
+      description : Create a new board in the system
+      operationId : createBoard
+      security :
+        - bearerAuth : [ ]
+      parameters :
+        - name : Authorization
+          in : header
+          required : true
+          schema :
+            type : string
+            format : uuid
+      requestBody :
+        description : Board to create
+        content :
+          application/json :
+            schema :
+              $ref : '#/components/schemas/NewBoard'
+        required : false
+      responses :
+        201 :
+          description : Board created
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/NewBoardCreated'
+        400 :
+          description : Invalid input, object invalid
+          content : { }
 
-  /board/{board_id}:
-    get:
-      tags:
+  /board/{board_id} :
+    get :
+      tags :
         - Board
-      summary: Get the details of a user
-      description: Get a board given its id
-      operationId: getBoardInfo
-      security:
-        - bearerAuth: [ ]
-      parameters:
-        - name: Authorization
-          in: header
-          schema:
-            type: string
-            format: uuid
-        - name: board_id
-          in: path
-          description: ID of board that to be fetched
-          required: true
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Board'
-        400:
-          description: Invalid ID supplied
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvalidRequest'
-                example: Invalid ID supplied
-        404:
-          description: Board not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvalidRequest'
-                example: Board Not found
+      summary : Get the details of a user
+      description : Get a board given its id
+      operationId : getBoardInfo
+      security :
+        - bearerAuth : [ ]
+      parameters :
+        - name : Authorization
+          in : header
+          schema :
+            type : string
+            format : uuid
+        - name : board_id
+          in : path
+          description : ID of board that to be fetched
+          required : true
+          schema :
+            type : integer
+            minimum : 1
+      responses :
+        200 :
+          description : successful operation
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/Board'
+        400 :
+          description : Invalid ID supplied
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+                example : Invalid ID supplied
+        404 :
+          description : Board not found
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+                example : Board Not found
 
-  /board/{board_id}/lists:
+  /board/{board_id}/lists :
     get :
       tags :
         - Board
@@ -252,7 +252,7 @@ paths:
                 $ref : '#/components/schemas/InvalidRequest'
                 example : Board Not found
 
-  /board/{board_id}/users/{user_id}:
+  /board/{board_id}/users/{user_id} :
     post :
       tags :
         - Board
@@ -288,7 +288,7 @@ paths:
         400 :
           description : Invalid input, object invalid
           content : { }
-  /lists:
+  /lists :
     post :
       tags :
         - List
@@ -322,7 +322,7 @@ paths:
           description : Invalid input, object invalid
           content : { }
 
-  /lists/{list_id}:
+  /lists/{list_id} :
     get :
       tags :
         - List
@@ -366,7 +366,7 @@ paths:
                 $ref : '#/components/schemas/InvalidRequest'
                 example : List Not found
 
-  /lists/{list_id}/cards:
+  /lists/{list_id}/cards :
     get :
       tags :
         - List
@@ -448,7 +448,7 @@ paths:
     get :
       tags :
         - Card
-      summary :  Get the detailed information of a card
+      summary : Get the detailed information of a card
       description : Get the detailed information of a card given its id
       operationId : getCardInfo
       security :
@@ -538,39 +538,39 @@ paths:
                 $ref : '#/components/schemas/InvalidRequest'
                 example : Card Not found
 
-components:
-  securitySchemes:
-    bearerAuth: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
-  schemas:
-    Board:
-      required:
+components :
+  securitySchemes :
+    bearerAuth : # arbitrary name for the security scheme
+      type : http
+      scheme : bearer
+  schemas :
+    Board :
+      required :
         - id
         - name
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: Study HTTP
-        description:
-          type: string
-          example: Board description
-    NewBoard:
-      required:
+      type : object
+      properties :
+        id :
+          type : integer
+          example : 1
+        name :
+          type : string
+          example : Study HTTP
+        description :
+          type : string
+          example : Board description
+    NewBoard :
+      required :
         - name
         - description
-      type: object
-      properties:
-        name:
-          type: string
-          example: Study Http
-        description:
-          type: string
-          example: Board description
+      type : object
+      properties :
+        name :
+          type : string
+          example : Study Http
+        description :
+          type : string
+          example : Board description
     Boards :
       type : object
       properties :
@@ -595,17 +595,17 @@ components:
         boardId :
           type : integer
           example : 1
-          minimum: 1
-    ListId:
-      required:
+          minimum : 1
+    ListId :
+      required :
         -id
-      type: object
-      properties:
+      type : object
+      properties :
         id :
           type : integer
           minimum : 1
           example : 1
-    List:
+    List :
       required :
         - id
         - name
@@ -613,8 +613,8 @@ components:
       type : object
       properties :
         id :
-          type: integer
-          minimum: 1
+          type : integer
+          minimum : 1
           example : 1
         name :
           type : string
@@ -623,13 +623,13 @@ components:
           type : integer
           example : 1
           minimum : 1
-    Cards:
+    Cards :
       type : object
       properties :
         lists :
           type : array
           example :
-    NewCard:
+    NewCard :
       required :
         - name
         - description
@@ -653,7 +653,7 @@ components:
         listId :
           type : integer
           example : 1
-    Card:
+    Card :
       required :
         - id
         - name
@@ -663,8 +663,8 @@ components:
         - listId
       type : object
       properties :
-        id:
-          type: integer
+        id :
+          type : integer
           example : 1
         name :
           type : string
@@ -683,47 +683,47 @@ components:
           example : 1
 
 
-    NewUser:
-      required:
+    NewUser :
+      required :
         - name
         - email
-      type: object
-      properties:
-        name:
-          type: string
-          example: Mario
-        email:
-          type: string
-          example: mariocard@gmail.com
-    User:
-      type: object
-      properties:
-        Id:
-          type: integer
+      type : object
+      properties :
+        name :
+          type : string
+          example : Mario
+        email :
+          type : string
+          example : mariocard@gmail.com
+    User :
+      type : object
+      properties :
+        Id :
+          type : integer
           example : 1
-        Name:
-          type: string
-          example: Mario
-        Email:
-          type: string
-          example: mariocard@gmail.com
-    Id:
-      type: integer
+        Name :
+          type : string
+          example : Mario
+        Email :
+          type : string
+          example : mariocard@gmail.com
+    Id :
+      type : integer
       example : 1
-    InvalidRequest:
-      type: object
-      properties:
-        error:
-          type: string
-          example: "Missing required parameter"
-    NewBoardCreated:
-      required:
+    InvalidRequest :
+      type : object
+      properties :
+        error :
+          type : string
+          example : "Missing required parameter"
+    NewBoardCreated :
+      required :
         - status
         - board
-      type: object
-      properties:
-        status:
-          type: string
-          example: board with id 123 created with success
-        board:
-          $ref: '#/components/schemas/Board'
+      type : object
+      properties :
+        status :
+          type : string
+          example : board with id 123 created with success
+        board :
+          $ref : '#/components/schemas/Board'
