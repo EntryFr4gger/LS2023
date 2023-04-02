@@ -159,7 +159,7 @@ paths :
           content :
             application/json :
               schema :
-                $ref : '#/components/schemas/NewBoardCreated'
+                $ref : '#/components/schemas/Id'
         400 :
           description : Invalid input, object invalid
           content : { }
@@ -513,7 +513,7 @@ paths :
         content :
           application/json :
             schema :
-              $ref : '#/components/schemas/ListId'
+              $ref : '#/components/schemas/Id'
         required : true
 
       responses :
@@ -522,7 +522,7 @@ paths :
           content :
             application/json :
               schema :
-                $ref : '#/components/schemas/ListId'
+                $ref : '#/components/schemas/Id'
         400 :
           description : Invalid ID supplied
           content :
@@ -577,12 +577,16 @@ components :
         boards :
           type : array
           example :
+            - { id : 10, name: "Life", description: "The science of life"}
+            - { id : 11, name: "Hard Working", description: "Hard work makes the difference"}
     Lists :
       type : object
       properties :
         lists :
           type : array
           example :
+            - { id : 10, name: "Aulas de Fisica", description: "A fisica domina tudo que há"}
+            - { id : 11, name: "Aulas de Matematica", description: "A matematica nos faz chegar longe"}
     NewList :
       required :
         - name
@@ -596,15 +600,7 @@ components :
           type : integer
           example : 1
           minimum : 1
-    ListId :
-      required :
-        -id
-      type : object
-      properties :
-        id :
-          type : integer
-          minimum : 1
-          example : 1
+
     List :
       required :
         - id
@@ -629,6 +625,8 @@ components :
         lists :
           type : array
           example :
+            - { id : 10, name: "Project 1", description: "We can do it", dueDate : "02/04/2023", boardId: 10, listId: 10}
+            - { id : 11, name: "Project 2", description: "We can do it better", dueDate : "03/04/2023", boardId: 11, listId: 11}
     NewCard :
       required :
         - name
@@ -708,22 +706,16 @@ components :
           type : string
           example : mariocard@gmail.com
     Id :
-      type : integer
-      example : 1
+      type : object
+      properties :
+        Id :
+          type : integer
+          example : 1
+
     InvalidRequest :
       type : object
       properties :
         error :
           type : string
           example : "Missing required parameter"
-    NewBoardCreated :
-      required :
-        - status
-        - board
-      type : object
-      properties :
-        status :
-          type : string
-          example : board with id 123 created with success
-        board :
-          $ref : '#/components/schemas/Board'
+
