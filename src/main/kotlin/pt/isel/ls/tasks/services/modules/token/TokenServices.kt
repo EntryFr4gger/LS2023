@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks.services.modules.tokenHandeler
+package pt.isel.ls.tasks.services.modules.token
 
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.stripBearer

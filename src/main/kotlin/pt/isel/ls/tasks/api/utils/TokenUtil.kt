@@ -2,7 +2,7 @@ package pt.isel.ls.tasks.api.utils
 
 import org.http4k.core.HttpHandler
 import org.http4k.core.RequestContexts
-import pt.isel.ls.tasks.services.modules.tokenHandeler.TokenServices
+import pt.isel.ls.tasks.services.modules.token.TokenServices
 
 data class TokenUtil(private val services: TokenServices, val context: RequestContexts) {
     fun filter(next: HttpHandler): HttpHandler = { request ->
