@@ -15,8 +15,8 @@ import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.services.TaskServices
 
 class TasksAPI(services: TaskServices) {
-    companion object{
-        operator fun invoke(services: TaskServices,logger: Logger): RoutingHttpHandler {
+    companion object {
+        operator fun invoke(services: TaskServices, logger: Logger): RoutingHttpHandler {
             return TasksAPI(services)
                 .getRoutes()
                 .withFilter(LoggerUtil(logger))

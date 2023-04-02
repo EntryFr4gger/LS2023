@@ -1,18 +1,5 @@
 package pt.isel.ls.tasks.project
 
-import io.restassured.module.kotlin.extensions.Given
-import io.restassured.module.kotlin.extensions.Then
-import io.restassured.module.kotlin.extensions.When
-import kotlinx.serialization.Required
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import org.apache.http.HttpStatus
-import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.Matchers
-import org.junit.jupiter.api.Test
-import kotlin.test.Ignore
-
 class BoardsRouterTest : InstanceProjectTest() {
     private val boardId = 3
     private val userId = 1
