@@ -2,6 +2,7 @@ openapi : 3.0.1
 info :
   title : Sample API
   description : API description in Markdown.
+  termsOfService: https://swagger.io/terms/
   version : 1.0.0
 servers :
   - description : Localhost server for testing API
@@ -34,17 +35,8 @@ paths :
           content :
             application/json :
               schema :
-                required :
-                  - token
-                  - id
-                type : object
-                properties :
-                  id :
-                    type : Int
-                    example : 1
-                  token :
-                    type : string
-                    format : uuid
+                $ref: '#/components/schemas/UserCreated'
+
         400 :
           description : Invalid input, object invalid
           content : { }
@@ -128,7 +120,7 @@ paths :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
 
-  /board :
+  /boards:
     post :
       tags :
         - Boards
@@ -156,7 +148,7 @@ paths :
           description : Invalid input, object invalid
           content : { }
 
-  /board/{board_id} :
+  /boards/{board_id} :
     get :
       tags :
         - Boards
@@ -196,7 +188,7 @@ paths :
                 $ref : '#/components/schemas/InvalidRequest'
 
 
-  /board/{board_id}/lists :
+  /boards/{board_id}/lists :
     get :
       tags :
         - Boards
@@ -235,7 +227,7 @@ paths :
                 $ref : '#/components/schemas/InvalidRequest'
 
 
-  /board/{board_id}/users/{user_id} :
+  /boards/{board_id}/users/{user_id} :
     post :
       tags :
         - Boards
@@ -452,13 +444,14 @@ paths :
           required : true
           schema :
             type : integer
+            example : 1
             minimum : 1
       requestBody :
         description : new list to change
         content :
           application/json :
             schema :
-              $ref : '#/components/schemas/Id'
+              $ref : '#/components/schemas/Lid'
         required : true
 
       responses :
@@ -589,7 +582,7 @@ components :
           example : isel is hard school
         dueDate :
           type : string
-          example : 02/04/2023
+          example : 2023-02-02
         boardId :
           type : integer
           example : 1
@@ -627,7 +620,18 @@ components :
           type : integer
           example : 1
 
-
+    UserCreated:
+      required :
+        - token
+        - id
+      type : object
+      properties :
+        id :
+          type : Int
+          example : 1
+        token :
+          type : string
+          format : uuid
     NewUser :
       required :
         - name
@@ -658,6 +662,15 @@ components :
         Id :
           type : integer
           example : 1
+          minimum: 1
+
+    Lid :
+      type : object
+      properties :
+        lid :
+          type : integer
+          example : 1
+          minimum : 1
 
     InvalidRequest :
       type : object

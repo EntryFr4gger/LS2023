@@ -155,7 +155,7 @@ open class ServicesUtils(open val source: TaskData) {
      * @throws ServicesError.AuthorizationException if user inst authorized.
      * */
     fun authorizationCard(conn: TransactionManager, cardId: Int, requestId: Int) {
-        if (!source.users.validateResquestList(conn, cardId, requestId)) {
+        if (!source.users.validateResquestCard(conn, cardId, requestId)) {
             throw ServicesError.AuthorizationException("You are not authorized to access this Card")
         }
     }

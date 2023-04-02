@@ -19,6 +19,7 @@ dependencies {
     implementation(group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.5.+")
     implementation(group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.4.+")
     implementation(group = "org.slf4j", name = "slf4j-api", version = "2.0.0-alpha5")
+    testImplementation("org.testng:testng:7.1.0")
     runtimeOnly(group = "org.slf4j", name = "slf4j-simple", version = "2.0.0-alpha5")
     testImplementation(kotlin("test"))
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.5.20")

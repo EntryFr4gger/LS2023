@@ -24,6 +24,8 @@ The conceptual model has the following restrictions:
 
 The physical model of the database is available in (_link to the SQL script with the schema definition_).
 
+![Physical Model](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/src/main/kotlin/pt/isel/ls/tasks/docs/EAModel.png?raw=true)
+
 We highlight the following aspects of this model:
 
 * (_include a list of relevant design issues_)
