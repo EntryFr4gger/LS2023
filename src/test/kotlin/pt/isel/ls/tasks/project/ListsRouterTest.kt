@@ -88,8 +88,8 @@ class ListsRouterTest : InstanceProjectTest() {
             .apply {
                 assertEquals(Status.OK, this.status)
                 val cardsDTO = Json.decodeFromString<ListCardsDTO>(this.bodyString())
-                /*val cardIds = cardsDTO.cards.map { it.id }
-                assertTrue { cards.containsAll(cardIds) }*/
+                val cardIds = cardsDTO.cards.map { it.id }
+                assertTrue { cards.containsAll(cardIds) }
             }
     }
 }
