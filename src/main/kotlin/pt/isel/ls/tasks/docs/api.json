@@ -1,0 +1,1018 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Title",
+    "description": "Title",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Boards"
+    },
+    {
+      "name": "Lists"
+    },
+    {
+      "name": "Cards"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Creates a user",
+        "description": "Creates a new user",
+        "operationId": "postUser",
+        "requestBody": {
+          "description": "User to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUser"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "user created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "token",
+                    "id"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "Int",
+                      "example": 1
+                    },
+                    "token": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input, object invalid",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "user"
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get the details of a user",
+        "description": "Gets a user given its id",
+        "operationId": "getUsers",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID of user that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/boards": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get the list with all user available boards",
+        "description": "Get the list with all user available boards given the user id",
+        "operationId": "getUserBoards",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID of user that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Boards"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/board": {
+      "post": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Create a Board",
+        "description": "Create a new board in the system",
+        "operationId": "createBoard",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Board to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewBoard"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Board created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input, object invalid",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/board/{board_id}": {
+      "get": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Get the details of a user",
+        "description": "Get a board given its id",
+        "operationId": "getBoardInfo",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "description": "ID of board that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Board"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/board/{board_id}/lists": {
+      "get": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Get the lists of a board",
+        "description": "Get the lists of a board given the board id",
+        "operationId": "getLists",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "description": "ID of board that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Lists"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/board/{board_id}/users/{user_id}": {
+      "post": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Adds a user to a board",
+        "description": "Adds a user to a board given the board id and de user id to add to the board",
+        "operationId": "createBoard",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "description": "ID of board that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID of user that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User added successfully to the board"
+          },
+          "400": {
+            "description": "Invalid input, object invalid",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/lists": {
+      "post": {
+        "tags": [
+          "Lists"
+        ],
+        "summary": "Create a List",
+        "description": "Create a new list",
+        "operationId": "postList",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": null,
+        "requestBody": {
+          "description": "List to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewList"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "List created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input, object invalid",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/lists/{list_id}": {
+      "get": {
+        "tags": [
+          "Lists"
+        ],
+        "summary": "Get detailed information of a list",
+        "description": "Get detailed information of a list given its id",
+        "operationId": "getListInfo",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "description": "ID of list that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/List"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "List not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{list_id}/cards": {
+      "get": {
+        "tags": [
+          "Lists"
+        ],
+        "summary": "Get the set of cards in a list",
+        "description": "Get the set of cards in a list, given its id",
+        "operationId": "getListCards",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "description": "ID of list that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cards"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "List not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cards": {
+      "post": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Create a Card",
+        "description": "Create a new card",
+        "operationId": "createCard",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": null,
+        "requestBody": {
+          "description": "Card to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewCard"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Card created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input, object invalid",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/cards/{card_id}": {
+      "get": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Get the detailed information of a card",
+        "description": "Get the detailed information of a card given its id",
+        "operationId": "getCardInfo",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "card_id",
+            "in": "path",
+            "description": "ID of card that to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Card"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Card not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Moves a card given a new list",
+        "description": "Moves a card given a new list",
+        "operationId": "getCardInfo",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "card_id",
+            "in": "path",
+            "description": "ID of card that to be changed to a new list",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "new list to change",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Id"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Card not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Board": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Study HTTP"
+          },
+          "description": {
+            "type": "string",
+            "example": "Board description"
+          }
+        }
+      },
+      "NewBoard": {
+        "required": [
+          "name",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Study Http"
+          },
+          "description": {
+            "type": "string",
+            "example": "Board description"
+          }
+        }
+      },
+      "Boards": {
+        "type": "object",
+        "properties": {
+          "boards": {
+            "type": "array",
+            "example": [
+              {
+                "id": 10,
+                "name": "Life",
+                "description": "The science of life"
+              },
+              {
+                "id": 11,
+                "name": "Hard Working",
+                "description": "Hard work makes the difference"
+              }
+            ]
+          }
+        }
+      },
+      "Lists": {
+        "type": "object",
+        "properties": {
+          "lists": {
+            "type": "array",
+            "example": [
+              {
+                "id": 10,
+                "name": "Aulas de Fisica",
+                "description": "A fisica domina tudo que há"
+              },
+              {
+                "id": 11,
+                "name": "Aulas de Matematica",
+                "description": "A matematica nos faz chegar longe"
+              }
+            ]
+          }
+        }
+      },
+      "NewList": {
+        "required": [
+          "name",
+          "boardId"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Study Http"
+          },
+          "boardId": {
+            "type": "integer",
+            "example": 1,
+            "minimum": 1
+          }
+        }
+      },
+      "List": {
+        "required": [
+          "id",
+          "name",
+          "boardId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Study Http"
+          },
+          "boardId": {
+            "type": "integer",
+            "example": 1,
+            "minimum": 1
+          }
+        }
+      },
+      "Cards": {
+        "type": "object",
+        "properties": {
+          "lists": {
+            "type": "array",
+            "example": [
+              {
+                "id": 10,
+                "name": "Project 1",
+                "description": "We can do it",
+                "dueDate": "02/04/2023",
+                "boardId": 10,
+                "listId": 10
+              },
+              {
+                "id": 11,
+                "name": "Project 2",
+                "description": "We can do it better",
+                "dueDate": "03/04/2023",
+                "boardId": 11,
+                "listId": 11
+              }
+            ]
+          }
+        }
+      },
+      "NewCard": {
+        "required": [
+          "name",
+          "description",
+          "dueDate",
+          "boardId",
+          "listId"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "life is hard"
+          },
+          "description": {
+            "type": "string",
+            "example": "isel is hard school"
+          },
+          "dueDate": {
+            "type": "string",
+            "example": "02/04/2023"
+          },
+          "boardId": {
+            "type": "integer",
+            "example": 1
+          },
+          "listId": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "Card": {
+        "required": [
+          "id",
+          "name",
+          "description",
+          "dueDate",
+          "boardId",
+          "listId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "life is hard"
+          },
+          "description": {
+            "type": "string",
+            "example": "isel is hard school"
+          },
+          "dueDate": {
+            "type": "string",
+            "description": "Date (YYYY-MM-DD)",
+            "pattern": "^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$",
+            "example": "2001-09-26"
+          },
+          "boardId": {
+            "type": "integer",
+            "example": 1
+          },
+          "listId": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "NewUser": {
+        "required": [
+          "name",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Mario"
+          },
+          "email": {
+            "type": "string",
+            "example": "mariocard@gmail.com"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "example": 1
+          },
+          "Name": {
+            "type": "string",
+            "example": "Mario"
+          },
+          "Email": {
+            "type": "string",
+            "example": "mariocard@gmail.com"
+          }
+        }
+      },
+      "Id": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "InvalidRequest": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Missing required parameter"
+          }
+        }
+      }
+    }
+  }
+}
