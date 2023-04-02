@@ -9,7 +9,7 @@ import pt.isel.ls.tasks.services.errors.ServicesError
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class UsersServicesTests: ClearData() {
+class UsersServicesTests : ClearData() {
     private val storage = TasksDataStorage()
     private val source = TasksDataMem(storage)
     private val services = TaskServices(source)

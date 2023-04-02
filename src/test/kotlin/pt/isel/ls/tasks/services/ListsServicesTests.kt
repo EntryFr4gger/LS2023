@@ -3,13 +3,11 @@ package pt.isel.ls.tasks.services
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
-import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.services.errors.ServicesError
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 class ListsServicesTests : ClearData() {
     private val storage = TasksDataStorage()

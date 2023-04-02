@@ -5,13 +5,12 @@ import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.List
-import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.errors.ServicesError
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class BoardsServicesTests: ClearData() {
+class BoardsServicesTests : ClearData() {
     private val storage = TasksDataStorage()
     private val source = TasksDataMem(storage)
     private val services = TaskServices(source)
@@ -98,14 +97,14 @@ class BoardsServicesTests: ClearData() {
     @Test
     fun `get board details throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.boards.getBoardDetails( -2, 1)
+            services.boards.getBoardDetails(-2, 1)
         }
     }
 
     @Test
     fun `get board details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.boards.getBoardDetails( 1, -2)
+            services.boards.getBoardDetails(1, -2)
         }
     }
 
@@ -124,14 +123,14 @@ class BoardsServicesTests: ClearData() {
     @Test
     fun `get all lists throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.boards.getAllLists( -2, 1)
+            services.boards.getAllLists(-2, 1)
         }
     }
 
     @Test
     fun `get all lists throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.boards.getAllLists( 1, -2)
+            services.boards.getAllLists(1, -2)
         }
     }
 }

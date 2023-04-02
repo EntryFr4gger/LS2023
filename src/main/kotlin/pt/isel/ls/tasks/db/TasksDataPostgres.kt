@@ -35,8 +35,8 @@ class TasksDataPostgres(sourceURL: String) : TaskData {
     override fun reset() {
         File("src/main/sql/resetData.sql")
             .readText()
-            .also { s->
-                source.connection.use {conn->
+            .also { s ->
+                source.connection.use { conn ->
                     conn.prepareStatement(s)
                         .executeUpdate()
                 }

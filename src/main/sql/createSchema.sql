@@ -10,8 +10,8 @@ create table Users
     id    SERIAL PRIMARY KEY,
     name  VARCHAR(60)         NOT NULL,
     email VARCHAR(320) UNIQUE NOT NULL CHECK ( email ~ '^[A-Za-z0-9+_.-]+@(.+)$'
-)
-    );
+        )
+);
 
 create table Tokens
 (
@@ -45,7 +45,7 @@ create table Cards
     name        VARCHAR(60) NOT NULL,
     description VARCHAR(1000),
     dueDate     CHAR(12) CHECK ( dueDate ~ '^(?:[01]\d|2[0123])\:(?:[012345]\d)\:(?:[012345]\d)\.\d{3}$'
-) ,
-    board_id    INT NOT NULL REFERENCES Boards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+        ),
+    board_id    INT         NOT NULL REFERENCES Boards (id) ON DELETE CASCADE ON UPDATE CASCADE,
     list_id     INT REFERENCES Lists (id) ON DELETE CASCADE ON UPDATE CASCADE
 );

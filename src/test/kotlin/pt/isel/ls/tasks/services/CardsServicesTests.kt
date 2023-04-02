@@ -102,8 +102,10 @@ class CardsServicesTests : ClearData() {
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, null)
             assertTrue(services.cards.moveCard(listId, cardId, userId))
-            assertTrue(source.lists.getCardsOfList(it, listId)
-                .contains(Card(cardId,"card", "card", null, boardId, listId)))
+            assertTrue(
+                source.lists.getCardsOfList(it, listId)
+                    .contains(Card(cardId, "card", "card", null, boardId, listId))
+            )
         }
     }
 
