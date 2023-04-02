@@ -60,7 +60,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val response = services.moveCard(card.lid, cardId, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(response.toString())) // change
+            .body(Json.encodeToString(response.toString()))
     }
 
     /**

@@ -89,6 +89,10 @@ class CardsRouterTest : InstanceProjectTest() {
         val cardId =
             services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, list1Id, idNToken.id)
 
+        db.run { conn ->
+            assertEquals(list1Id, db.cards.getCardDetails(conn, cardId).listId)
+        }
+
         val requestBody = """
             {
              "lid": $list2Id
@@ -103,8 +107,11 @@ class CardsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                // val listIdDTO = Json.decodeFromString<CardListUpdate>(this.bodyString())
-                // assertEquals(list2Id, listIdDTO.id)
+                val cardSwapSucess = Json.decodeFromString<String>(this.bodyString())
+                assertTrue(cardSwapSucess.toBoolean())
+                db.run { conn ->
+                    assertEquals(list2Id, db.cards.getCardDetails(conn, cardId).listId)
+                }
             }
     }
 }
