@@ -10,7 +10,6 @@ import pt.isel.ls.tasks.domain.List as _List
  * Board Services.
  * */
 class BoardsServices(source: TaskData) : ServicesUtils(source) {
-    private val utils = ServicesUtils(source)
 
     /**
      * Creates a new board and adds the user that request
@@ -29,7 +28,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authentication(conn, requestId)
 
-            utils.isBoardNewName(conn, name)
+            isBoardNewName(conn, name)
 
             val boardId = source.boards.createNewBoard(conn, name, description)
             source.boards.addUserToBoard(conn, requestId, boardId)
@@ -53,8 +52,8 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
 
-            utils.hasUser(conn, userId)
-            utils.hasBoard(conn, boardId)
+            hasUser(conn, userId)
+            hasBoard(conn, boardId)
             // Verify if user is already in board?
 
             source.boards.addUserToBoard(conn, userId, boardId)
