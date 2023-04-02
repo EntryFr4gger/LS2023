@@ -12,12 +12,11 @@ import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.core.BaseTest
-import kotlin.test.Ignore
 
 class ListsRouterTest : BaseTest() {
     private val listId = 1
 
-    @Ignore
+
     @Test
     fun `Creates a new list`() {
         val newList = NewList("Lista de Teste", 3)
@@ -35,7 +34,7 @@ class ListsRouterTest : BaseTest() {
         }
     }
 
-    @Ignore
+
     @Test
     fun `Get list details`() {
         Given {
@@ -52,7 +51,7 @@ class ListsRouterTest : BaseTest() {
         }
     }
 
-    @Ignore
+
     @Test
     fun `Get the cards in a list`() {
         Given {
