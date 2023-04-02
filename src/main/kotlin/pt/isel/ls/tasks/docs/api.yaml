@@ -77,14 +77,14 @@ paths :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
+
         404 :
           description : User not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Board Not found
+
 
   /users/{user_id}/boards :
     get :
@@ -121,14 +121,13 @@ paths :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
+
         404 :
           description : User not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Board Not found
 
   /board :
     post :
@@ -199,14 +198,14 @@ paths :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
+
         404 :
           description : Board not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Board Not found
+
 
   /board/{board_id}/lists :
     get :
@@ -243,14 +242,14 @@ paths :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
+
         404 :
           description : Board not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Board Not found
+
 
   /board/{board_id}/users/{user_id} :
     post :
@@ -357,14 +356,14 @@ paths :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
+
         404 :
           description : List not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : List Not found
+
 
   /lists/{list_id}/cards :
     get :
@@ -401,14 +400,14 @@ paths :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
+
         404 :
           description : List not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : List Not found
+
 
   /cards :
     post :
@@ -479,14 +478,14 @@ paths :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
+
         404 :
           description : Card not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Card Not found
+
     put :
       tags :
         - Card
@@ -529,14 +528,14 @@ paths :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Invalid ID supplied
+
         404 :
           description : Card not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-                example : Card Not found
+
 
 components :
   securitySchemes :

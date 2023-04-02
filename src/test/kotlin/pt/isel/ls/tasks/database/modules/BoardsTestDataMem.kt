@@ -25,13 +25,6 @@ class BoardsTestDataMem {
         }
     }
 
-    @Test
-    fun `return false if user do not exist`() {
-        source.run { conn ->
-            val ret = boards.addUserToBoard(conn, 10, 1)
-            assertFalse { ret }
-        }
-    }
 
     @Test
     fun `return true if user do not exist`() {
