@@ -10,11 +10,16 @@ import pt.isel.ls.tasks.services.utils.isValidId
  * */
 class Token(val token: String, val userId: Int) {
     companion object {
-        private val tokenLength = 10..50
-        private val tokenRegex = "[A-Za-z0-9\\-]+\$".toRegex()
+        private const val uuidLength = 36
+        private const val bearerLength = "Bearer ".length + uuidLength
+        private val uuidRegex = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}".toRegex()
+        private val tokenRegex = "Bearer [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}".toRegex()
 
         fun isValidToken(token: String) =
-            token.length in tokenLength && token.matches(tokenRegex)
+            token.length == uuidLength && token.matches(uuidRegex)
+
+        fun isValidBearerToken(token: String) =
+            token.length == bearerLength && token.matches(tokenRegex)
     }
 
     init {
@@ -22,3 +27,4 @@ class Token(val token: String, val userId: Int) {
         require(!isValidId(userId)) { "Invalid user id" }
     }
 }
+fun String.stripBearer() = this.substring(7)

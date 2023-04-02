@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks // ktlint-disable filename
+package pt.isel.ls.tasks.api.utils // ktlint-disable filename
 
 import org.http4k.core.Filter
 import org.http4k.core.HttpHandler
@@ -14,7 +14,7 @@ fun Logger.logRequest(request: org.http4k.core.Request) {
     )
 }
 
-class Logger(private val logger: Logger) : Filter {
+class LoggerUtil(private val logger: Logger) : Filter {
     override operator fun invoke(next: HttpHandler): HttpHandler = { request ->
         logger.logRequest(request)
         next(request)

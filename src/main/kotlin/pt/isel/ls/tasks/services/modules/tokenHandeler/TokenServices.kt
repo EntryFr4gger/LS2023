@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.services.modules.tokenHandeler
 
 import pt.isel.ls.tasks.db.TaskData
+import pt.isel.ls.tasks.domain.stripBearer
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 
 /**
@@ -16,11 +17,11 @@ class TokenServices(source: TaskData) : ServicesUtils(source) {
      * @return a User id.
      * */
     fun getUserId(token: String): Int {
-        isValidToken(token)
+        isValidBearerToken(token)
 
-        val tokenCode = token.substring(7)
+        val cleanToken = token.stripBearer()
         return source.run { conn ->
-            source.tokens.getUserID(conn, tokenCode)
+            source.tokens.getUserID(conn, cleanToken)
         }
     }
 }
