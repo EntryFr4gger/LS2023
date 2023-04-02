@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks.api
+package pt.isel.ls.tasks.project
 
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
@@ -8,64 +8,61 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.apache.http.HttpStatus
-import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
-import pt.isel.ls.tasks.api.core.BaseTest
 import kotlin.test.Ignore
 
-class UsersRouterTest : BaseTest() {
-    private val userId = 3
+class ListsRouterTest : InstanceProjectTest() {
+    private val listId = 1
 
-    @Ignore
+    /*@Ignore
     @Test
-    fun `Creates a new user`() {
-        val newUser = NewUser("Manuel Maria", "tes23t@gmail.com")
+    fun `Creates a new list`() {
+        val newList = NewList("Lista de Teste", 3)
 
         Given {
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
             spec(requestSpecification)
-            body(Json.encodeToString(newUser))
+            body(Json.encodeToString(newList))
                 .log().all()
         } When {
-            post("/users")
+            post("/lists")
         } Then {
-            body("id", Matchers.`is`(5))
+            body("id", Matchers.`is`(4))
             statusCode(HttpStatus.SC_CREATED)
         }
-    }
+    }*/
 
-    @Ignore
+    /*@Ignore
     @Test
-    fun `Get User details`() {
+    fun `Get list details`() {
         Given {
             spec(requestSpecification)
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
         } When {
-            get("/users/$userId")
+            get("/lists/$listId")
         } Then {
-            body("id", equalTo(3))
-            body("name", equalTo("Godofredo"))
-            body("email", equalTo("Godofredo@outlook.pt"))
+            body("id", CoreMatchers.equalTo(1))
+            body("name", CoreMatchers.equalTo("Aula de LS"))
+            body("boardId", CoreMatchers.equalTo(1))
             statusCode(HttpStatus.SC_OK)
         }
-    }
+    }*/
 
-    @Ignore
+    /*@Ignore
     @Test
-    fun `Get the all user boards available`() {
+    fun `Get the cards in a list`() {
         Given {
             spec(requestSpecification)
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
                 .log().all()
         } When {
-            get("/users/$userId/boards")
+            get("/lists/$listId/cards")
         } Then {
             statusCode(HttpStatus.SC_OK)
         }
-    }
+    }*/
 
-    @Serializable
-    data class NewUser(@Required val name: String, @Required val email: String)
 }

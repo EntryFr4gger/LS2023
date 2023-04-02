@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks.api
+package pt.isel.ls.tasks.project
 
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
@@ -11,21 +11,19 @@ import org.apache.http.HttpStatus
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
-import pt.isel.ls.tasks.api.core.BaseTest
 import kotlin.test.Ignore
 
-class BoardsRouterTest : BaseTest() {
+class BoardsRouterTest : InstanceProjectTest() {
     private val boardId = 3
     private val userId = 1
 
-    @Ignore
+    /*@Ignore
     @Test
     fun `Creates a new Board`() {
         val newBoard = NewBoard("TestBoard", "Isto é o board que vai ser usado para testes")
 
         Given {
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
-            spec(requestSpecification)
             body(Json.encodeToString(newBoard))
                 .log().all()
         } When {
@@ -34,9 +32,9 @@ class BoardsRouterTest : BaseTest() {
             body("id", Matchers.`is`(4))
             statusCode(HttpStatus.SC_CREATED)
         }
-    }
+    }*/
 
-    @Ignore
+    /*@Ignore
     @Test
     fun `Add a User to a Board`() {
         Given {
@@ -48,9 +46,9 @@ class BoardsRouterTest : BaseTest() {
         } Then {
             statusCode(HttpStatus.SC_OK)
         }
-    }
+    }*/
 
-    @Ignore
+    /*@Ignore
     @Test
     fun `Get Board details`() {
         Given {
@@ -65,15 +63,15 @@ class BoardsRouterTest : BaseTest() {
             body("description", equalTo("O que falta limpar cá em casa"))
             statusCode(HttpStatus.SC_OK)
         }
-    }
+    }*/
 
-    @Ignore
+   /* @Ignore
     @Test
     fun `Get the Lists of a Board`() {
-        /*val expectResponse = listOf(
+        *//*val expectResponse = listOf(
             TestList(1, "Aula de LS", 1),
             TestList(2, "Aula de LAE", 1)
-        )*/
+        )*//*
         Given {
             spec(requestSpecification)
             header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
@@ -83,11 +81,9 @@ class BoardsRouterTest : BaseTest() {
         } Then {
             statusCode(HttpStatus.SC_OK)
         }
-    }
+    }*/
 
     /*@Serializable
     data class TestList(@Required val id: Int, @Required val name: String, @Required val boardId: Int)
 */
-    @Serializable
-    data class NewBoard(@Required val name: String, @Required val description: String)
 }
