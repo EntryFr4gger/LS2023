@@ -25,7 +25,7 @@ class BoardsRouterTest : InstanceProjectTest() {
         """
         val request = Request(Method.POST, "${path}boards")
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer ${idNToken.second}")
+            .header("Authorization", "Bearer ${idNToken.token}")
             .body(requestBody)
 
         send(request)
@@ -34,7 +34,7 @@ class BoardsRouterTest : InstanceProjectTest() {
                 val board = Json.decodeFromString<BoardIdDTO>(this.bodyString())
                 db.run { conn ->
                     assertTrue(db.boards.hasBoard(conn, board.id), "board does not exist")
-                    assertTrue(db.users.hasUserInBoard(conn, idNToken.first), "user was not added to board on creation")
+                    assertTrue(db.users.hasUserInBoard(conn, idNToken.id), "user was not added to board on creation")
                 }
             }
     }
@@ -43,9 +43,9 @@ class BoardsRouterTest : InstanceProjectTest() {
     fun `Add a User to a Board`() {
         val idNToken = services.users.createNewUser("testUser", "tests@gmail.com")
         val idNToken2 = services.users.createNewUser("testUser1", "tests1@gmail.com")
-        val boardId = services.boards.createNewBoard("TestBoard", "This is a big test Board", idNToken.first)
-        val request = Request(Method.POST, "${path}boards/$boardId/users/${idNToken2.first}")
-            .header("Authorization", "Bearer ${idNToken.second}")
+        val boardId = services.boards.createNewBoard("TestBoard", "This is a big test Board", idNToken.id)
+        val request = Request(Method.POST, "${path}boards/$boardId/users/${idNToken2.id}")
+            .header("Authorization", "Bearer ${idNToken.token}")
 
         send(request)
             .apply {
@@ -53,7 +53,7 @@ class BoardsRouterTest : InstanceProjectTest() {
                 val board = Json.decodeFromString<String>(this.bodyString())
                 assertTrue(board.toBoolean(), "user was not added to board")
                 db.run { conn ->
-                    assertTrue(db.users.hasUserInBoard(conn, idNToken.first), "user was not added to board")
+                    assertTrue(db.users.hasUserInBoard(conn, idNToken.id), "user was not added to board")
                 }
             }
     }
@@ -65,10 +65,10 @@ class BoardsRouterTest : InstanceProjectTest() {
         val idNToken = services.users.createNewUser(name, email)
         val nameB = "TestBoard"
         val description = "This is a big test Board"
-        val boardId = services.boards.createNewBoard(nameB, description, idNToken.first)
+        val boardId = services.boards.createNewBoard(nameB, description, idNToken.id)
 
         val request = Request(Method.GET, "${path}boards/$boardId")
-            .header("Authorization", "Bearer ${idNToken.second}")
+            .header("Authorization", "Bearer ${idNToken.token}")
 
         send(request)
             .apply {
@@ -78,7 +78,7 @@ class BoardsRouterTest : InstanceProjectTest() {
                 assertEquals(nameB, board.name)
                 assertEquals(description, board.description)
                 db.run { conn ->
-                    assertTrue(db.tokens.hasToken(conn, idNToken.second))
+                    assertTrue(db.tokens.hasToken(conn, idNToken.token))
                 }
             }
     }
@@ -90,14 +90,14 @@ class BoardsRouterTest : InstanceProjectTest() {
         val idNToken = services.users.createNewUser(name, email)
         val nameB = "TestBoard"
         val description = "This is a big test Board"
-        val boardId = services.boards.createNewBoard(nameB, description, idNToken.first)
+        val boardId = services.boards.createNewBoard(nameB, description, idNToken.id)
         val nameL1 = "testList"
         val nameL2 = "testList1"
-        val list1Id = services.lists.createList(nameL1, boardId, idNToken.first)
-        val list2Id = services.lists.createList(nameL2, boardId, idNToken.first)
+        val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
+        val list2Id = services.lists.createList(nameL2, boardId, idNToken.id)
 
         val request = Request(Method.GET, "${path}boards/$boardId/lists")
-            .header("Authorization", "Bearer ${idNToken.second}")
+            .header("Authorization", "Bearer ${idNToken.token}")
 
         send(request)
             .apply {

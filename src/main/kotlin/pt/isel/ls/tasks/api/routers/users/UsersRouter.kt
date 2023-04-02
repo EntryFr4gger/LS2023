@@ -42,7 +42,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
         val userCreateInfo = services.createNewUser(user.name, user.email)
         return Response(CREATED)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(UserCreationReturnDTO(userCreateInfo.first, userCreateInfo.second)))
+            .body(Json.encodeToString(UserCreationReturnDTO(userCreateInfo.id, userCreateInfo.token)))
     }
 
     /**

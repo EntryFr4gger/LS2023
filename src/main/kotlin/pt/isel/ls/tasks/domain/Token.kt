@@ -13,7 +13,8 @@ class Token(val token: String, val userId: Int) {
         private const val uuidLength = 36
         private const val bearerLength = "Bearer ".length + uuidLength
         private val uuidRegex = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}".toRegex()
-        private val tokenRegex = "Bearer [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}".toRegex()
+        private val tokenRegex =
+            "Bearer [a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}".toRegex()
 
         fun isValidToken(token: String) =
             token.length == uuidLength && token.matches(uuidRegex)
@@ -27,4 +28,5 @@ class Token(val token: String, val userId: Int) {
         require(!isValidId(userId)) { "Invalid user id" }
     }
 }
+
 fun String.stripBearer() = this.substring(7)

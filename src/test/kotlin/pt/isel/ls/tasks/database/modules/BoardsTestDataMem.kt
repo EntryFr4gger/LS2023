@@ -25,7 +25,6 @@ class BoardsTestDataMem {
         }
     }
 
-
     @Test
     fun `return true if user do not exist`() {
         source.run { conn ->

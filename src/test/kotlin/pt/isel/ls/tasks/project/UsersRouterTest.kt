@@ -42,18 +42,18 @@ class UsersRouterTest : InstanceProjectTest() {
         val email = "test1@gmail.com"
         val idNToken = services.users.createNewUser(name, email)
 
-        val request = Request(Method.GET, "${path}users/${idNToken.first}")
+        val request = Request(Method.GET, "${path}users/${idNToken.id}")
             .header("Content-Type", "application/json")
 
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
                 val user = Json.decodeFromString<UserInfoDTO>(this.bodyString())
-                assertEquals(idNToken.first, user.id)
+                assertEquals(idNToken.id, user.id)
                 assertEquals(name, user.name)
                 assertEquals(email, user.email)
                 db.run { conn ->
-                    assertTrue(db.tokens.hasToken(conn, idNToken.second))
+                    assertTrue(db.tokens.hasToken(conn, idNToken.token))
                 }
             }
     }
@@ -65,14 +65,14 @@ class UsersRouterTest : InstanceProjectTest() {
         val idNToken = services.users.createNewUser(name, email)
 
         val boards = listOf(
-            services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.first),
-            services.boards.createNewBoard("testBoard2", "this is a test board", idNToken.first),
-            services.boards.createNewBoard("testBoard3", "this is a test board", idNToken.first)
+            services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id),
+            services.boards.createNewBoard("testBoard2", "this is a test board", idNToken.id),
+            services.boards.createNewBoard("testBoard3", "this is a test board", idNToken.id)
         )
 
-        val request = Request(Method.GET, "${path}users/${idNToken.first}/boards")
+        val request = Request(Method.GET, "${path}users/${idNToken.id}/boards")
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer ${idNToken.second}")
+            .header("Authorization", "Bearer ${idNToken.token}")
 
         send(request)
             .apply {

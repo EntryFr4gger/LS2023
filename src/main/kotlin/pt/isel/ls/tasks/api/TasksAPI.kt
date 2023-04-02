@@ -22,6 +22,7 @@ class TasksAPI(services: TaskServices) {
                 .withFilter(LoggerUtil(logger))
         }
     }
+
     private val context = RequestContexts()
     private val tokenHandeler = TokenUtil(services.tokens, context)
     private val routes = ServerFilters.InitialiseRequestContext(context)
@@ -33,5 +34,6 @@ class TasksAPI(services: TaskServices) {
                 CardsRouter.routes(services.cards, tokenHandeler)
             )
         )
+
     fun getRoutes(): RoutingHttpHandler = routes
 }

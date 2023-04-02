@@ -20,6 +20,11 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return board unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException name is the worng length.
+     * @throws ServicesError.InvalidArgumentException description is the worng length.
+     * @throws ServicesError.AuthenticationException if user inst authenticated.
+     * @throws ServicesError.AlreadyExistsException if name is in use.
      * */
     fun createNewBoard(name: String, description: String, requestId: Int): Int {
         isValidBoardName(name)
@@ -43,7 +48,13 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      * @param boardId board unique identifier.
      * @param requestId request user unique identifier.
      *
-     * @return
+     * @return true if the user was added to the board, false otherwise.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * @throws ServicesError.AuthorizationException if user inst authorized.
+     * @throws ServicesError.InvalidArgumentException if id doesn't exist.
+     * @throws ServicesError.InvalidArgumentException if id doesn't exist.
      * */
     fun addUserToBoard(userId: Int, boardId: Int, requestId: Int): Boolean {
         isValidUserId(userId)
@@ -54,7 +65,6 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
 
             hasUser(conn, userId)
             hasBoard(conn, boardId)
-            // Verify if user is already in board?
 
             source.boards.addUserToBoard(conn, userId, boardId)
         }
@@ -67,6 +77,9 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return a Board.
+     *
+     * @throws ServicesError.InvalidArgumentException - if id isn't correct.
+     * @throws ServicesError.AuthorizationException - if user inst authorized.
      * */
     fun getBoardDetails(boardId: Int, requestId: Int): Board {
         isValidBoardId(boardId)
@@ -85,6 +98,9 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return list of lists of a board.
+     *
+     * @throws ServicesError.InvalidArgumentException - if id isn't correct.
+     * @throws ServicesError.AuthorizationException - if user inst authorized.
      * */
     fun getAllLists(boardId: Int, requestId: Int): List<_List> {
         isValidBoardId(boardId)
