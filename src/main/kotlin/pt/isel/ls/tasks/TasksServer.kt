@@ -14,11 +14,7 @@ fun main() {
     val logger = LoggerFactory.getLogger("Tasks API")
     val services =
         TaskServices(TasksDataMem(TasksDataStorage())) // TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
-    val api = TasksAPI(services)
-
-    val app = api
-        .getRoutes()
-        .withFilter(Logger(logger))
+    val app = TasksAPI(services, logger)
 
     val jettyServer = app.asServer(Jetty(PORT)).start()
     logger.info("server started listening")

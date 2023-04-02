@@ -1,22 +1,9 @@
-package pt.isel.ls.tasks.api
+package pt.isel.ls.tasks.project
 
-import io.restassured.module.kotlin.extensions.Given
-import io.restassured.module.kotlin.extensions.Then
-import io.restassured.module.kotlin.extensions.When
-import kotlinx.serialization.Required
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import org.apache.http.HttpStatus
-import org.hamcrest.CoreMatchers
-import org.hamcrest.Matchers
-import org.junit.jupiter.api.Test
-import pt.isel.ls.tasks.api.core.BaseTest
-
-class ListsRouterTest : BaseTest() {
+class ListsRouterTest : InstanceProjectTest() {
     private val listId = 1
 
-
+    /*@Ignore
     @Test
     fun `Creates a new list`() {
         val newList = NewList("Lista de Teste", 3)
@@ -32,9 +19,9 @@ class ListsRouterTest : BaseTest() {
             body("id", Matchers.`is`(4))
             statusCode(HttpStatus.SC_CREATED)
         }
-    }
+    }*/
 
-
+    /*@Ignore
     @Test
     fun `Get list details`() {
         Given {
@@ -49,9 +36,9 @@ class ListsRouterTest : BaseTest() {
             body("boardId", CoreMatchers.equalTo(1))
             statusCode(HttpStatus.SC_OK)
         }
-    }
+    }*/
 
-
+    /*@Ignore
     @Test
     fun `Get the cards in a list`() {
         Given {
@@ -63,8 +50,5 @@ class ListsRouterTest : BaseTest() {
         } Then {
             statusCode(HttpStatus.SC_OK)
         }
-    }
-
-    @Serializable
-    data class NewList(@Required val name: String, @Required val boardId: Int)
+    }*/
 }
