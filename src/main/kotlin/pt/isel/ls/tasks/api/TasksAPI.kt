@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.api
 
 import org.http4k.core.RequestContexts
 import org.http4k.core.then
+import org.http4k.filter.CorsPolicy.Companion.UnsafeGlobalPermissive
 import org.http4k.filter.ServerFilters
 import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.routes
@@ -20,6 +21,7 @@ class TasksAPI(services: TaskServices) {
             return TasksAPI(services)
                 .getRoutes()
                 .withFilter(LoggerUtil(logger))
+                .withFilter(ServerFilters.Cors(UnsafeGlobalPermissive))
         }
     }
 
