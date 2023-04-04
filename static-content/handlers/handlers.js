@@ -23,10 +23,36 @@ function getHome(mainContent){
     mainContent.replaceChildren(h1)
 }
 
-function getStudents(mainContent){
-    fetch(API_BASE_URL + "students")
+function getBoard(mainContent){
+    fetch(API_BASE_URL + "boards/3",
+        {
+            headers: {Authorization: 'Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9'}
+        })
+        .then(res => res.json())
+        .then(board => {
+            const ulStd = document.createElement("ul")
+
+            const liName = document.createElement("li")
+            const textName = document.createTextNode("Name : " + board.name)
+            liName.appendChild(textName)
+
+            const liNumber = document.createElement("li")
+            const textNumber = document.createTextNode("Description : " + board.description)
+            liNumber.appendChild(textNumber)
+
+            ulStd.appendChild(liName)
+            ulStd.appendChild(liNumber)
+
+            mainContent.replaceChildren(ulStd)
+    })
+}
+
+function getBoardLists(mainContent){
+    fetch(API_BASE_URL + "boards")
         .then(res => res.json())
         .then(students => {
+
+
             const div = document.createElement("div")
 
             const h1 = document.createElement("h1")
@@ -47,31 +73,11 @@ function getStudents(mainContent){
         })
 }
 
-function getStudent(mainContent){
-    fetch(API_BASE_URL + "students/10")
-        .then(res => res.json())
-        .then(student => {
-            const ulStd = document.createElement("ul")
-
-            const liName = document.createElement("li")
-            const textName = document.createTextNode("Name : " + student.name)
-            liName.appendChild(textName)
-
-            const liNumber = document.createElement("li")
-            const textNumber = document.createTextNode("Number : " + student.number)
-            liNumber.appendChild(textNumber)
-
-            ulStd.appendChild(liName)
-            ulStd.appendChild(liNumber)
-
-            mainContent.replaceChildren(ulStd)
-    })
-}
 
 export const handlers = {
     getHome,
-    getStudent,
-    getStudents,
+    getBoard,
+    getBoardLists,
 }
 
 export default handlers

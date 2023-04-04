@@ -19,6 +19,11 @@ import org.http4k.routing.singlePageApp
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
 import org.slf4j.LoggerFactory
+import pt.isel.ls.tasks.api.TasksAPI
+import pt.isel.ls.tasks.api.routers.TasksRouter
+import pt.isel.ls.tasks.db.TasksDataMem
+import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
+import pt.isel.ls.tasks.services.TaskServices
 
 private val logger = LoggerFactory.getLogger("pt.isel.ls.http.HTTPServer")
 
@@ -78,9 +83,12 @@ fun main() {
         "students/{number}" bind GET to ::getStudent,
         "students" bind POST to ::postStudent
     )
+    val logger = LoggerFactory.getLogger("Tasks API")
+    val services =
+        TaskServices(TasksDataMem(TasksDataStorage())) // TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
 
     val app = routes(
-        studentRoutes,
+        TasksAPI(services, logger),
         "date" bind GET to ::getDate,
         singlePageApp(ResourceLoader.Directory("static-content"))
     )

@@ -1,5 +1,6 @@
-import router from "./router.js";
-import handlers from "./handlers.js";
+import router from "./routes/router.js";
+import handlers from "./handlers/handlers.js";
+
 
 window.addEventListener('load', loadHandler)
 window.addEventListener('hashchange', hashChangeHandler)
@@ -7,17 +8,17 @@ window.addEventListener('hashchange', hashChangeHandler)
 function loadHandler(){
 
     router.addRouteHandler("home", handlers.getHome)
-    router.addRouteHandler("students", handlers.getStudents)
-    router.addRouteHandler("students/10", handlers.getStudent)
+    router.addRouteHandler("boards/3", handlers.getBoard)
+    router.addRouteHandler("boards/3/lists", handlers.getBoardLists)
     router.addDefaultNotFoundRouteHandler(() => window.location.hash = "home")
 
     hashChangeHandler()
 }
 
 function hashChangeHandler(){
+    const path =  window.location.hash.replace("#", "")
 
     const mainContent = document.getElementById("mainContent")
-    const path =  window.location.hash.replace("#", "")
 
     const handler = router.getRouteHandler(path)
     handler(mainContent)
