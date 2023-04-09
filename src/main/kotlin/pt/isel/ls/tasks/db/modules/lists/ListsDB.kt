@@ -41,6 +41,16 @@ interface ListsDB {
     fun getCardsOfList(conn: TransactionManager, listId: Int): List<Card>
 
     /**
+     * Delete a list.
+     *
+     * @param conn connection to database.
+     * @param listId list unique identifier.
+     *
+     * @return true if it has deleted or false otherwise.
+     * */
+    fun deleteList(conn: TransactionManager, listId: Int)
+
+    /**
      * Verify if list exists.
      *
      * @param conn connection to database.

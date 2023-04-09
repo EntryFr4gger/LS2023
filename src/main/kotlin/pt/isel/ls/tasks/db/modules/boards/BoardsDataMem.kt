@@ -4,6 +4,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.domain.List as _List
 
 class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
@@ -14,7 +15,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         source.boards[3] = Board(3, "Limpeza", "O que falta limpar cá em casa")
         source.nextBoardId.addAndGet(3)
 
-        source.userBoard[1] = listOf(3)
+        source.userBoard[1] = listOf(1)
         source.userBoard[2] = listOf(1, 2)
     }
 
@@ -45,6 +46,10 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
                 list.boardId == boardId
             }
         }
+
+    override fun getBoardUsers(conn: TransactionManager, boardId: Int): List<User> {
+        TODO("Not yet implemented")
+    }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean =
         source.boards.values.find { it.name == name } != null

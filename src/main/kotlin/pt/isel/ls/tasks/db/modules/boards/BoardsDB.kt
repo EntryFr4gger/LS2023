@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.domain.List as _List
 
 /**
@@ -47,9 +48,19 @@ interface BoardsDB {
      * @param conn connection to database.
      * @param boardId board unique identifier.
      *
-     * @return list of lists of a board.
+     * @return list of lists in a board.
      * */
     fun getAllLists(conn: TransactionManager, boardId: Int): List<_List>
+
+    /**
+     * Get the list with the users of a board.
+     *
+     * @param conn connection to database.
+     * @param boardId board unique identifier.
+     *
+     * @return list of Users in a board.
+     * */
+    fun getBoardUsers(conn: TransactionManager, boardId: Int): List<User>
 
     /**
      * Verify if name is new

@@ -82,4 +82,24 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
             source.lists.getCardsOfList(conn, listId)
         }
     }
+
+    /**
+     * Delete a list.
+     *
+     * @param listId list unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return true if it has deleted or false otherwise.
+     * */
+    fun deleteList(listId: Int, requestId: Int) {
+        isValidListId(listId)
+
+        return source.run { conn ->
+            authorizationList(conn, listId, requestId)
+
+            hasList(conn, listId)
+
+            source.lists.deleteList(conn, listId)
+        }
+    }
 }

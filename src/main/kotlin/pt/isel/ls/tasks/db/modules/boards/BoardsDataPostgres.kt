@@ -5,6 +5,7 @@ import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres.Companion.toList
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.User
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
@@ -74,6 +75,10 @@ class BoardsDataPostgres : BoardsDB {
             lists += res.toList()
 
         return lists
+    }
+
+    override fun getBoardUsers(conn: TransactionManager, boardId: Int): List<User> {
+        TODO("Not yet implemented")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean {

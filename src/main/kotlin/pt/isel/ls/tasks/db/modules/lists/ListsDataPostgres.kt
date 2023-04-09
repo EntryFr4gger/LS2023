@@ -61,6 +61,14 @@ class ListsDataPostgres : ListsDB {
         return cards
     }
 
+    override fun deleteList(conn: TransactionManager, listId: Int) {
+        val res = conn.connection().prepareStatement(
+            "DELETE FROM lists WHERE id = ?"
+        )
+        res.setInt(1, listId)
+        if (res.executeUpdate() == 0) throw SQLException("List delete was unsuccessful")
+    }
+
     override fun hasList(conn: TransactionManager, listId: Int): Boolean {
         val res = conn.connection().prepareStatement(
             "SELECT * FROM lists WHERE id = ?"

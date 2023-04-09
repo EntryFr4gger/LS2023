@@ -28,14 +28,17 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
     override val routes = routes(
         "cards" bind Method.POST to ::createCard,
         "cards/{card_id}" bind Method.PUT to ::updateCard,
-        "cards/{card_id}" bind Method.GET to ::getCardInfo
+        "cards/{card_id}" bind Method.GET to ::getCardInfo,
+        "cards/{card_id}" bind Method.DELETE to ::deleteCard
     ).withFilter(tokenHandeler::filter)
 
     /**
-     * Creates a new card
-     * requires authentication
+     * Creates a new card.
+     * requires authentication.
+     *
      * @param request HTTP request that contains a JSON body with a name and a description and dueDate(optional)
      * and the end board and list id
+     *
      * @return HTTP response contains a JSON body with the id
      */
     private fun createCard(request: Request): Response = errorCatcher {
@@ -48,9 +51,11 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
     }
 
     /**
-     * Moves a card given a new list
-     * requires authentication
+     * Moves a card given a new list.
+     * requires authentication.
+     *
      * @param request HTTP request that contains a JSON body with an end list id
+     *
      * @return HTTP response contains a JSON body with the new list id
      */
     private fun updateCard(request: Request): Response = errorCatcher {
@@ -64,9 +69,11 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
     }
 
     /**
-     * Get the detailed information of a card
-     * require authorization
+     * Get the detailed information of a card.
+     * require authorization.
+     *
      * @param request HTTP request that contains the card id
+     *
      * @return HTTP response contains a JSON body with card details
      */
     private fun getCardInfo(request: Request): Response = errorCatcher {
@@ -76,5 +83,19 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(CardDTO(card)))
+    }
+
+    /**
+     * Delete a card.
+     *
+     * @param request HTTP request that contains the card id
+     *
+     * @return HTTP response with OK status
+     * */
+    private fun deleteCard(request: Request): Response = errorCatcher {
+        val cardId = request.pathOrThrow("card_id").toInt()
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        services.deleteCard(cardId, requestId)
+        return Response(Status.OK)
     }
 }

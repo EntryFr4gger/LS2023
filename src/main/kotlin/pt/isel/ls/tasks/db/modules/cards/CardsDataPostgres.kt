@@ -83,6 +83,14 @@ class CardsDataPostgres : CardsDB {
         }
     }
 
+    override fun deleteCard(conn: TransactionManager, cardId: Int) {
+        val res = conn.connection().prepareStatement(
+            "DELETE FROM cards WHERE id = ?"
+        )
+        res.setInt(1, cardId)
+        if (res.executeUpdate() == 0) throw SQLException("Card Delete was unsuccessful")
+    }
+
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean {
         val res = conn.connection().prepareStatement(
             "SELECT * FROM cards WHERE id = ?"

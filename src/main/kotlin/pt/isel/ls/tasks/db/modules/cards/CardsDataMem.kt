@@ -42,6 +42,10 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         return source.cards[cardId]?.listId != null
     }
 
+    override fun deleteCard(conn: TransactionManager, cardId: Int) {
+        source.cards.remove(cardId)
+    }
+
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean =
         source.cards[cardId] != null
 }

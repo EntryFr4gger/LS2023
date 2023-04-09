@@ -52,6 +52,16 @@ interface CardsDB {
     fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Boolean
 
     /**
+     * Delete a card.
+     *
+     * @param conn connection to database.
+     * @param cardId card unique identifier.
+     *
+     * @return true if it has deleted or false otherwise.
+     * */
+    fun deleteCard(conn: TransactionManager, cardId: Int)
+
+    /**
      * Verify if card exists.
      *
      * @param conn connection to database.

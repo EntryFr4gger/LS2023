@@ -28,13 +28,16 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
     override val routes = routes(
         "lists" bind Method.POST to ::postList,
         "lists/{list_id}" bind Method.GET to ::getListInfo,
-        "lists/{list_id}/cards" bind Method.GET to ::getListCards
+        "lists/{list_id}/cards" bind Method.GET to ::getListCards,
+        "lists/{list_id}" bind Method.DELETE to ::deleteList
     ).withFilter(tokenHandeler::filter)
 
     /**
-     * Creates a new list
-     * requires authorization
+     * Creates a new list.
+     * Requires authorization.
+     *
      * @param request HTTP request that contains a JSON body with a name and a board id
+     *
      * @return HTTP response contains a JSON body with the id
      */
     private fun postList(request: Request): Response = errorCatcher {
@@ -47,9 +50,11 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
     }
 
     /**
-     * Get detailed information of a list
-     * requires authorization
+     * Get detailed information of a list.
+     * Requires authorization.
+     *
      * @param request HTTP request that has the list id in the path
+     *
      * @return HTTP response contains a JSON body with the list information
      */
     private fun getListInfo(request: Request): Response = errorCatcher {
@@ -62,9 +67,11 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
     }
 
     /**
-     * Get the set of cards in a list
-     * requires authorization
+     * Get the set of cards in a list.
+     * Requires authorization.
+     *
      * @param request HTTP request that has the list id in the path
+     *
      * @return HTTP response contains a JSON body with the cards information
      */
     private fun getListCards(request: Request): Response = errorCatcher {
@@ -74,5 +81,20 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(ListCardsDTO(cards)))
+    }
+
+    /**
+     * Delete a list.
+     * Requires authorization.
+     *
+     * @param request HTTP request that has the list id in the path
+     *
+     * @return HTTP response with OK status
+     * */
+    private fun deleteList(request: Request): Response = errorCatcher {
+        val listId = request.pathOrThrow("list_id").toInt()
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        services.deleteList(listId, requestId)
+        return Response(Status.OK)
     }
 }

@@ -101,4 +101,24 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             source.cards.moveCard(conn, listId, cardId)
         }
     }
+
+    /**
+     * Delete a card.
+     *
+     * @param cardId card unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return true if it has deleted or false otherwise.
+     * */
+    fun deleteCard(cardId: Int, requestId: Int) {
+        isValidCardId(cardId)
+
+        return source.run { conn ->
+            authorizationCard(conn, cardId, requestId)
+
+            hasCard(conn, cardId)
+
+            source.cards.deleteCard(conn, cardId)
+        }
+    }
 }

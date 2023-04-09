@@ -31,6 +31,10 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
             }
         }
 
+    override fun deleteList(conn: TransactionManager, listId: Int) {
+        source.lists.remove(listId)
+    }
+
     override fun hasList(conn: TransactionManager, listId: Int): Boolean =
         source.lists[listId] != null
 }
