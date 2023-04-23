@@ -19,11 +19,13 @@ import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
 import pt.isel.ls.tasks.api.utils.pathOrThrow
-import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.modules.boards.BoardsServices
 
 class BoardsRouter(private val services: BoardsServices, private val tokenHandeler: TokenUtil) : TasksRouter {
     companion object {
+        private const val DEFAULT_SKIP = 0
+        private const val DEFAULT_LIMIT = 10
+
         fun routes(services: BoardsServices, tokenHandeler: TokenUtil) = BoardsRouter(services, tokenHandeler).routes
     }
 
@@ -98,7 +100,9 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun getLists(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val lists = services.getAllLists(boardId, requestId)
+        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
+        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
+        val lists = services.getAllLists(boardId, skip, limit, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardListsDTO(lists)))
@@ -114,7 +118,9 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun getBoardUsers(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val users = services.getBoardUsers(boardId, requestId)
+        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
+        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
+        val users = services.getBoardUsers(boardId, skip, limit, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardUsersDTO(users)))

@@ -1,9 +1,7 @@
 package pt.isel.ls.tasks.domain
 
 import kotlinx.datetime.LocalDate
-import org.eclipse.jetty.util.preventers.AWTLeakPreventer
 import pt.isel.ls.tasks.services.utils.isValidId
-import java.security.DrbgParameters.NextBytes
 
 /**
  * Represents the Boards table in the database.

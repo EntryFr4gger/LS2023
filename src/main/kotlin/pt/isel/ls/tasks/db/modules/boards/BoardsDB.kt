@@ -50,7 +50,7 @@ interface BoardsDB {
      *
      * @return list of lists in a board.
      * */
-    fun getAllLists(conn: TransactionManager, boardId: Int): List<_List>
+    fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List>
 
     /**
      * Get the list with the users of a board.
@@ -60,7 +60,7 @@ interface BoardsDB {
      *
      * @return list of Users in a board.
      * */
-    fun getBoardUsers(conn: TransactionManager, boardId: Int): List<User>
+    fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User>
 
     /**
      * Verify if name is new
