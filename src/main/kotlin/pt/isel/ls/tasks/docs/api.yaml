@@ -205,6 +205,7 @@ paths:
           schema:
             type: integer
             minimum: 1
+            example : 1
       responses:
         200:
           description: successful operation
@@ -343,6 +344,7 @@ paths:
           schema:
             type: integer
             minimum: 1
+            example : 1
       responses:
         200:
           description: successful operation
@@ -363,7 +365,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+    delete :
+      tags :
+        - Lists
+      summary : Delete list with list id
+      description : Delete list with list given its id
+      operationId : deleteList
+      security :
+        - bearerAuth : [ ]
+      parameters :
+        - name : list_id
+          in : path
+          description : ID of list that to be deleted
+          required : true
+          schema :
+            type : integer
+            minimum : 1
+      responses :
+        200 :
+          description : List Deleted
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/ListDeleted'
+        400 :
+          description : Invalid ID supplied
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
 
+        404 :
+          description : List not found
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
 
   /lists/{list_id}/cards:
     get:
@@ -402,7 +439,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-
 
   /cards:
     post:
@@ -449,6 +485,7 @@ paths:
           schema:
             type: integer
             minimum: 1
+            example : 1
       responses:
         200:
           description: successful operation
@@ -469,7 +506,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-
     put:
       tags:
         - Cards
@@ -515,6 +551,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+
+    delete :
+      tags :
+        - Cards
+      summary : Delete card with card_id
+      description : Delete list with list given its id
+      operationId : deleteList
+      security :
+        - bearerAuth : [ ]
+      parameters :
+        - name : card_id
+          in : path
+          description : ID of card that to be deleted
+          required : true
+          schema :
+            type : integer
+            minimum : 1
+            example : 1
+      responses :
+        200 :
+          description : Card Deleted
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/CardDeleted'
+        400 :
+          description : Invalid ID supplied
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+
+        404 :
+          description : Card not found
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+
 
 
 components:
@@ -728,4 +803,18 @@ components:
         error:
           type: string
           example: "Missing required parameter"
+
+    ListDeleted :
+      type : object
+      properties :
+        Message :
+          type : string
+          example : "List Deleted with success"
+
+    CardDeleted :
+      type : object
+      properties :
+        Message :
+          type : string
+          example : "Card Deleted with success"
 
