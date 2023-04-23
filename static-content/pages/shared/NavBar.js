@@ -1,5 +1,3 @@
-
-
 function NavBar() {
     const nav = document.createElement("nav");
     nav.style.display = "flex";

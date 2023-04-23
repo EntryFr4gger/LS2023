@@ -7,8 +7,7 @@ async function UserBoardsHandler(state) {
         throw ("Invalid param id");
 
 
-
-    const response = await fetch(state.path,{
+    const response = await fetch(state.path, {
         headers: {Authorization: 'Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9'}
     });
 

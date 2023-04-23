@@ -1,7 +1,5 @@
 import {Router} from "../routes/router.js";
-import HomePage from "../pages/shared/HomePage.js";
 import usersRouter from "../routes/usersRouter.js";
-import NotFoundPage from "../pages/shared/404Page.js";
 import NavBar from "../pages/shared/NavBar.js";
 import HomeHandeler from "./default/HomeHandeler.js";
 import boardsRouter from "../routes/boardsRouters.js";

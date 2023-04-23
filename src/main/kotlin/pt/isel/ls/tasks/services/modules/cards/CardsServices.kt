@@ -2,7 +2,6 @@ package pt.isel.ls.tasks.services.modules.cards
 
 import kotlinx.datetime.LocalDate
 import pt.isel.ls.tasks.db.TaskData
-import pt.isel.ls.tasks.db.TasksDataPostgres
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 
@@ -91,7 +90,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
     fun moveCard(listId: Int, cardId: Int, cix: Int?, requestId: Int): Boolean {
         isValidListId(listId)
         isValidCardId(cardId)
-        cix?.let {isValidCardCix(cix)}
+        cix?.let { isValidCardCix(cix) }
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)

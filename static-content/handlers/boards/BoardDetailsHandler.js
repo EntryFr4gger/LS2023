@@ -6,11 +6,11 @@ async function BoardDetailsHandler(state) {
     if (isNaN(id))
         throw ("Invalid param id");
 
-    const boardRes = await fetch(state.path,{
+    const boardRes = await fetch(state.path, {
         headers: {Authorization: state.token}
     });
 
-    const listRes = await fetch(`boards/${id}/lists`,{
+    const listRes = await fetch(`boards/${id}/lists`, {
         headers: {Authorization: state.token}
     });
 

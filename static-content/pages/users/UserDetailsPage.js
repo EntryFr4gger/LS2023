@@ -14,9 +14,9 @@ function UserDetailsPage(state) {
 
     const container = document.createElement("div");
     container.appendChild(list);
-    container.appendChild(buttonWithRef("Home","/#"));
+    container.appendChild(buttonWithRef("Home", "/#"));
     container.appendChild(document.createElement('br'))
-    container.appendChild(buttonWithRef("Board Details","#users/1/boards"));
+    container.appendChild(buttonWithRef("Board Details", "#users/1/boards"));
 
     return container
 

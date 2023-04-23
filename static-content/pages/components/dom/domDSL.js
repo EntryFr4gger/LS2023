@@ -1,4 +1,3 @@
-
 /**
  * Creates an HTML element.
  *

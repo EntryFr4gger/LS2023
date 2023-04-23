@@ -1,10 +1,8 @@
-import router from "./routes/router.js";
-import handlers from "./handlers/handlers.js";
 import App from "./handlers/App.js";
 
 
 window.addEventListener('load', loadHandler)
-window.addEventListener("load", (event) => {
+window.addEventListener("load", () => {
     console.log("page is fully loaded");
 });
 window.addEventListener('hashchange', loadHandler)
@@ -12,7 +10,7 @@ window.addEventListener('hashchange', loadHandler)
 function createState(path) {
     return {
         path: path,
-        queryParams : {},
+        queryParams: {},
         pathParams: {},
         bodyParams: {},
         token: 'Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9'

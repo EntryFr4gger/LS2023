@@ -80,8 +80,8 @@ class ListsServicesTests : ClearData() {
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, listId)
             assertEquals(
-                listOf(Card(cardId, "card", "card", null,1, boardId, listId)),
-                services.lists.getCardsOfList(listId, userId)
+                listOf(Card(cardId, "card", "card", null, 1, boardId, listId)),
+                services.lists.getCardsOfList(listId, 1, 1, userId)
             )
         }
     }
@@ -89,14 +89,14 @@ class ListsServicesTests : ClearData() {
     @Test
     fun `get cards of list throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.lists.getCardsOfList(-2, 1)
+            services.lists.getCardsOfList(-2, 1, 1, 1)
         }
     }
 
     @Test
     fun `get cards of list throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.lists.getCardsOfList(1, -2)
+            services.lists.getCardsOfList(1, 1, 1, -2)
         }
     }
 }

@@ -1,7 +1,6 @@
 package pt.isel.ls.tasks.services.modules.boards
 
 import pt.isel.ls.tasks.db.TaskData
-import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.utils.ServicesUtils
@@ -122,7 +121,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return list of Users in a board.
      * */
-    fun getBoardUsers(boardId: Int, skip: Int, limit: Int, requestId: Int): List<User>{
+    fun getBoardUsers(boardId: Int, skip: Int, limit: Int, requestId: Int): List<User> {
         isValidBoardId(boardId)
 
         return source.run { conn ->
