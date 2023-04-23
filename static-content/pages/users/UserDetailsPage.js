@@ -7,7 +7,7 @@ function UserDetailsPage(state) {
 
     return div(
         ul(
-            ...items.map( item => li((item + " = " + state.body[item]))),
+            ...items.map(item => li((item + " = " + state.body[item]))),
             buttonWithRef("Home", "/#"),
             br(),
             buttonWithRef("Board Details", "#users/1/boards")
