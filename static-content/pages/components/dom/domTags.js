@@ -49,6 +49,29 @@ export function h1(attributes, ...children) {
     return createElement("h1", attributes, ...children);
 }
 
+/**
+ * Creates a 'h2' HTML element.
+ *
+ * @param {Object | Promise<HTMLElement> | HTMLElement | string} [attributes] element attributes or an element child
+ * @param {Promise<HTMLElement> | HTMLElement | string} [children] element children
+ *
+ * @returns Promise<HTMLElement>
+ */
+export function h2(attributes, ...children) {
+    return createElement("h2", attributes, ...children);
+}
+
+/**
+ * Creates a 'h3' HTML element.
+ *
+ * @param {Object | Promise<HTMLElement> | HTMLElement | string} [attributes] element attributes or an element child
+ * @param {Promise<HTMLElement> | HTMLElement | string} [children] element children
+ *
+ * @returns Promise<HTMLElement>
+ */
+export function h3(attributes, ...children) {
+    return createElement("h3", attributes, ...children);
+}
 
 /**
  * Creates a 'button' HTML element.
@@ -73,4 +96,17 @@ export function button(attributes, ...children) {
 export function div(attributes, ...children) {
     return createElement("div", attributes, ...children);
 }
+
+/**
+ * Creates a 'p' HTML element.
+ *
+ * @param {Object | Promise<HTMLElement> | HTMLElement | string} [attributes] element attributes or an element child
+ * @param {Promise<HTMLElement> | HTMLElement | string} [children] element children
+ *
+ * @returns Promise<HTMLElement>
+ */
+export function p(attributes, ...children) {
+    return createElement("p", attributes, ...children);
+}
+
 
