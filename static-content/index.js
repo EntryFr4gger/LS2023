@@ -1,4 +1,5 @@
 import App from "./pages/App.js";
+import NotFoundPage from "./pages/shared/404Page.js";
 
 
 window.addEventListener('load', loadHandler)
@@ -17,18 +18,16 @@ function createState(path) {
     }
 }
 
+function handleComponentError(state, error) {
+    NotFoundPage(state,error).then(render);
+    throw error
+}
+
 function loadHandler() {
     const state = createState(window.location.hash.replace("#", "/"))
     App(state)
         .then(render)
-    /*
-
-    router.addRouteHandler("home", handlers.getHome)
-    router.addRouteHandler("boards/3", handlers.getBoard)
-    router.addRouteHandler("boards/3/lists", handlers.getBoardLists)
-    router.addDefaultNotFoundRouteHandler(() => window.location.hash = "home")
-
-    hashChangeHandler()*/
+        .catch((error) => handleComponentError(state, error));
 }
 
 export function render(element) {
