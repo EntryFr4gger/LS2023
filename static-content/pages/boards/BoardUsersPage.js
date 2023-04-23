@@ -1,5 +1,5 @@
 import buttonWithRef from "../components/ButtonWithRef.js";
-import {br, div, li, ul} from "../components/dom/domTags.js";
+import {br, div, h1, li, p, ul} from "../components/dom/domTags.js";
 
 
 async function BoardUsersPage(state) {
@@ -7,17 +7,10 @@ async function BoardUsersPage(state) {
     const users = state.body['users']
 
     return div(
+        h1("Users In Board: "),
         ul(
-            ...users.map( user =>
-                    items.map(currentItem =>
-                        li(
-                            (1),//currentItem + " = " + user[currentItem]
-                            buttonWithRef("Card Details", `/#cards/1`)//${user['id']}
-                        )
-                    )
-            )
+            ...users.map(user => li(`User = ${user[`id`]}-${user[`name`]}`))
         ),
-        br()
     )
 }
 
