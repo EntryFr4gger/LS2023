@@ -109,4 +109,27 @@ export function p(attributes, ...children) {
     return createElement("p", attributes, ...children);
 }
 
+/**
+ * Creates a 'nav' HTML element.
+ *
+ * @param {Object | Promise<HTMLElement> | HTMLElement | string} [attributes] element attributes or an element child
+ * @param {Promise<HTMLElement> | HTMLElement | string} [children] element children
+ *
+ * @returns Promise<HTMLElement>
+ */
+export function nav(attributes, ...children) {
+    return createElement("nav", attributes, ...children);
+}
+
+/**
+ * Creates a 'a' HTML element.
+ *
+ * @param {Object | Promise<HTMLElement> | HTMLElement | string} [attributes] element attributes or an element child
+ * @param {Promise<HTMLElement> | HTMLElement | string} [children] element children
+ *
+ * @returns Promise<HTMLElement>
+ */
+export function a(attributes, ...children) {
+    return createElement("a", attributes, ...children);
+}
 

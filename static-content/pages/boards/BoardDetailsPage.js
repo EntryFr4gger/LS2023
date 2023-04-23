@@ -1,40 +1,27 @@
 import buttonWithRef from "../components/ButtonWithRef.js";
+import {div, h1, p, li, ul} from "../components/dom/domTags.js";
 
 
 function BoardDetailsPage(state) {
-    const list = document.createElement('ul');
-
     const items = ['id', 'name', 'description'];
+    const lis = state.body["lists"]["lists"];
 
-    items.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item + " = " + state.body[item];
-        list.appendChild(li);
-    });
-    const li = document.createElement('li');
-    li.textContent = "lists ";
-    list.appendChild(li);
-    const lists = document.createElement('ul')
-    list.appendChild(lists)
-
-    const lis = state.body["lists"]["lists"]
-    lis.forEach(currentList => {
-        const li = document.createElement('li');
-        li.textContent = "name = " + currentList['name'];
-        lists.appendChild(li);
-        li.appendChild(buttonWithRef("List Details", `/#lists/${currentList['id']}`))
-    });
-
-
-    const container = document.createElement("div");
-
-    container.appendChild(list);
-    container.appendChild(buttonWithRef("Get Users for this Board", `#boards/${state.body["id"]}/users`));
-    container.appendChild(document.createElement('br'))
-    //container.appendChild(buttonWithRef("Back to Boards", `#users/1/boards`));
-
-    return container;
-
+    return div(
+        h1("Boards: "),
+        ul(
+            ...items.map(item => li(item + " = " + state.body[item])),
+            p("Lists:"),
+            ul(
+                ...lis.map(currentList =>
+                    li(
+                        ("name = " + currentList['name']),
+                        buttonWithRef("List Details", `/#lists/${currentList['id']}`)
+                    )
+                )
+            )
+        ),
+        buttonWithRef("Users in Board", `/#boards/${state.body['id']}/users`)
+    )
 }
 
 export default BoardDetailsPage;
