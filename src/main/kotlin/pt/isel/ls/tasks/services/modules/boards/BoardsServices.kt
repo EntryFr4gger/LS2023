@@ -1,7 +1,9 @@
 package pt.isel.ls.tasks.services.modules.boards
 
 import pt.isel.ls.tasks.db.TaskData
+import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 import kotlin.collections.List
 import pt.isel.ls.tasks.domain.List as _List
@@ -109,6 +111,24 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
             authorizationBoard(conn, boardId, requestId)
 
             source.boards.getAllLists(conn, boardId)
+        }
+    }
+
+    /**
+     * Get the list with the users of a board.
+     *
+     * @param boardId board unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return list of Users in a board.
+     * */
+    fun getBoardUsers(boardId: Int, requestId: Int): List<User>{
+        isValidBoardId(boardId)
+
+        return source.run { conn ->
+            authorizationBoard(conn, boardId, requestId)
+
+            source.boards.getBoardUsers(conn, boardId)
         }
     }
 }

@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres.Companion.toList
+import pt.isel.ls.tasks.db.modules.users.UsersDataPostgres.Companion.toUser
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Board
@@ -70,7 +71,7 @@ class BoardsDataPostgres : BoardsDB {
 
         val res = obj.executeQuery()
 
-        val lists = mutableListOf<pt.isel.ls.tasks.domain.List>()
+        val lists = mutableListOf<_List>()
         while (res.next())
             lists += res.toList()
 
@@ -78,7 +79,18 @@ class BoardsDataPostgres : BoardsDB {
     }
 
     override fun getBoardUsers(conn: TransactionManager, boardId: Int): List<User> {
-        TODO("Not yet implemented")
+        val obj = conn.connection().prepareStatement(
+            "SELECT * FROM user_board WHERE board_id = ?"
+        )
+        obj.setInt(1, boardId)
+
+        val res = obj.executeQuery()
+
+        val users = mutableListOf<User>()
+        while (res.next())
+            users += res.toUser()
+
+        return users
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean {

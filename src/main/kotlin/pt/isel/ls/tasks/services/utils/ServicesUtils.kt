@@ -219,6 +219,19 @@ open class ServicesUtils(open val source: TaskData) {
     }
 
     /**
+     * Verifys if cix is valid.
+     *
+     * @param cix a idx.
+     *
+     *  @throws ServicesError.InvalidArgumentException if idx isn't correct.
+     * */
+    fun isValidCardCix(cix: Int) {
+        if (isValidId(cix)) {
+            throw ServicesError.InvalidArgumentException("Card idx Incorrect")
+        }
+    }
+
+    /**
      * Verifys if user name is valid.
      *
      * @param name the user's name.
@@ -333,6 +346,38 @@ open class ServicesUtils(open val source: TaskData) {
         if (!Token.isValidBearerToken(token)) {
             throw ServicesError.InvalidArgumentException("Token does not obey rules")
         }
+    }
+
+    /**
+     *
+     * Organize
+     *
+     * */
+
+    /**
+     *
+     * */
+    fun organizeAfterMove(conn: TransactionManager, listId: Int, cardId: Int, cix: Int){
+        updateCardsList(conn, source.lists.getCardsOfList(conn, listId)
+            .map {
+                when {
+                    it.id == cardId -> it.copy(cix = cix)
+                    it.cix != null && it.cix == cix -> it.copy(cix = cix + 1)
+                    else -> it
+                }
+            })
+    }
+
+    fun organizeAfterDelete(conn: TransactionManager, listId: Int){
+        updateCardsList(conn, source.lists.getCardsOfList(conn, listId))
+    }
+
+    private fun updateCardsList(conn: TransactionManager, cardsList: kotlin.collections.List<Card>){
+        cardsList.sortedBy { it.cix }
+            .mapIndexed { index, card -> card.copy(cix = index + 1) }
+            .forEach {
+                source.cards.organizeCardSeq(conn, it.id, it.cix!!)
+            }
     }
 }
 

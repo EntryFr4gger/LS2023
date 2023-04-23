@@ -30,7 +30,7 @@ class TokensDataPostgres : TokensDB {
         if (res.next()) {
             return res.getInt(1)
         } else {
-            throw NotFoundException()
+            throw NotFoundException("Token does not exist")
         }
     }
 

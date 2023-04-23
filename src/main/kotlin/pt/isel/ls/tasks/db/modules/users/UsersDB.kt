@@ -12,7 +12,7 @@ interface UsersDB {
     /**
      * Create a new user.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param name the user's name.
      * @param email the user's unique email.
      *
@@ -23,7 +23,7 @@ interface UsersDB {
     /**
      * Get the details of a user.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param userId user unique identifier.
      *
      * @return a User.
@@ -33,7 +33,7 @@ interface UsersDB {
     /**
      * Get the list with all user available boards.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param userId user unique identifier.
      *
      * @return list with user boards.
@@ -43,7 +43,7 @@ interface UsersDB {
     /**
      * Verify if email is new
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param email the user's unique email.
      *
      * @return true if exists or false if it does not exist.
@@ -53,7 +53,7 @@ interface UsersDB {
     /**
      * Verify if user exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param userId user unique identifier.
      *
      * @return true if exists or false if it does not exist.
@@ -63,7 +63,7 @@ interface UsersDB {
     /**
      * Verify if user exists in board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param userId user unique identifier.
      *
      * @return true if exists or false if it does not exist.
@@ -73,7 +73,7 @@ interface UsersDB {
     /**
      * Validates the resquest premissions to access a board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param boardId board unique identifier.
      * @param requestId request user unique identifier.
      *
@@ -84,7 +84,7 @@ interface UsersDB {
     /**
      * Validates the resquest premissions to access a card.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param cardId card unique identifier.
      * @param requestId request user unique identifier.
      *
@@ -95,7 +95,7 @@ interface UsersDB {
     /**
      * Validates the resquest premissions to access a list.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param listId list unique identifier.
      * @param requestId request user unique identifier.
      *

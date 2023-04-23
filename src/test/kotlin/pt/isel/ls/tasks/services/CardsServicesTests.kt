@@ -22,7 +22,7 @@ class CardsServicesTests : ClearData() {
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = services.cards.createNewCard("card", "card", null, boardId, null, userId)
             assertEquals(
-                Card(cardId, "card", "card", null, boardId, null),
+                Card(cardId, "card", "card", null, 1,boardId,null),
                 source.cards.getCardDetails(it, cardId)
             )
         }
@@ -71,7 +71,7 @@ class CardsServicesTests : ClearData() {
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, null)
             assertEquals(
-                Card(cardId, "card", "card", null, boardId, null),
+                Card(cardId, "card", "card", null, 1,boardId, null),
                 services.cards.getCardDetails(cardId, userId)
             )
         }
@@ -99,10 +99,10 @@ class CardsServicesTests : ClearData() {
             val listId = source.lists.createList(it, "list", boardId)
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, null)
-            assertTrue(services.cards.moveCard(listId, cardId, userId))
+            assertTrue(services.cards.moveCard(listId, cardId, 1, userId))
             assertTrue(
                 source.lists.getCardsOfList(it, listId)
-                    .contains(Card(cardId, "card", "card", null, boardId, listId))
+                    .contains(Card(cardId, "card", "card", null,1, boardId, listId))
             )
         }
     }
@@ -110,14 +110,14 @@ class CardsServicesTests : ClearData() {
     @Test
     fun `move card throws InvalidArgumentException if list id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.cards.moveCard(-2, 1, 1)
+            services.cards.moveCard(-2, 1, 1,1)
         }
     }
 
     @Test
     fun `move card throws InvalidArgumentException if card id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.cards.moveCard(1, -1, 1)
+            services.cards.moveCard(1, -1, 1,1)
         }
     }
 }

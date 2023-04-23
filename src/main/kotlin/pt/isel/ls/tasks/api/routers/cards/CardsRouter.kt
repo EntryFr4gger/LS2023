@@ -62,7 +62,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val cardId = request.pathOrThrow("card_id").toInt()
         val card = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val response = services.moveCard(card.lid, cardId, requestId)
+        val response = services.moveCard(card.lid, cardId, 0,requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(response.toString()))

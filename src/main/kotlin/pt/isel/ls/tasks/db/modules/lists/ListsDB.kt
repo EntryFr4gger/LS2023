@@ -12,7 +12,7 @@ interface ListsDB {
     /**
      * Creates a new list in a board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param name list name.
      * @param boardId board unique identifier.
      *
@@ -23,7 +23,7 @@ interface ListsDB {
     /**
      * Get detailed information of a list.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param listId list unique identifier.
      *
      * @return a List.
@@ -33,7 +33,7 @@ interface ListsDB {
     /**
      * Get the set of cards in a list.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param listId list unique identifier.
      *
      * @return list of Cards in List.
@@ -43,7 +43,7 @@ interface ListsDB {
     /**
      * Delete a list.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param listId list unique identifier.
      *
      * @return true if it has deleted or false otherwise.
@@ -53,7 +53,7 @@ interface ListsDB {
     /**
      * Verify if list exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param listId list unique identifier.
      *
      * @return true if exists or false if it does not exist.

@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.services.modules.cards
 
 import kotlinx.datetime.LocalDate
 import pt.isel.ls.tasks.db.TaskData
+import pt.isel.ls.tasks.db.TasksDataPostgres
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 
@@ -87,9 +88,10 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
-    fun moveCard(listId: Int, cardId: Int, requestId: Int): Boolean {
+    fun moveCard(listId: Int, cardId: Int, cix: Int?, requestId: Int): Boolean {
         isValidListId(listId)
         isValidCardId(cardId)
+        cix?.let {isValidCardCix(cix)}
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
@@ -98,7 +100,9 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             hasList(conn, listId)
             hasCard(conn, cardId)
 
-            source.cards.moveCard(conn, listId, cardId)
+            val bol = source.cards.moveCard(conn, listId, cardId)
+            cix?.let { organizeAfterMove(conn, listId, cardId, cix) }
+            bol
         }
     }
 
@@ -118,7 +122,17 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
 
             hasCard(conn, cardId)
 
+            val listId = source.cards.getCardDetails(conn, cardId).listId!!
             source.cards.deleteCard(conn, cardId)
+            organizeAfterDelete(conn, listId)
         }
     }
+
+}
+
+fun main() {
+    val source = TasksDataPostgres("JDBC_DATABASE_URL")
+    val cards = CardsServices(source)
+
+    cards.deleteCard(2, 1)
 }
