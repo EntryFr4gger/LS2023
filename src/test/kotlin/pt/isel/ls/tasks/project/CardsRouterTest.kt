@@ -95,7 +95,8 @@ class CardsRouterTest : InstanceProjectTest() {
 
         val requestBody = """
             {
-             "lid": $list2Id
+             "lid": $list2Id,
+             "cix": 1
              }
          """
 
