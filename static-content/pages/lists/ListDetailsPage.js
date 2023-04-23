@@ -20,19 +20,18 @@ function ListDetailsPage(state) {
     const car = state.body["cards"]["cards"]
     car.forEach(currentList => {
         const li = document.createElement('li');
-        li.textContent ="name = " + currentList['name'];
+        li.textContent = "name = " + currentList['name'];
         lists.appendChild(li);
-        const t = `/#cards/${currentList['id']}`
-        li.appendChild(buttonWithRef("Card Details",`/#cards/${currentList['id']}`))
+        //const t = `/#cards/${currentList['id']}`
+        li.appendChild(buttonWithRef("Card Details", `/#cards/${currentList['id']}`))
     });
-
 
 
     const container = document.createElement("div");
 
     container.appendChild(list)
     container.appendChild(document.createElement('br'))
-    container.appendChild(buttonWithRef("Back to Lists",`#lists/1`));
+    container.appendChild(buttonWithRef("Back to Lists", `#lists/1`));
 
     return container;
 

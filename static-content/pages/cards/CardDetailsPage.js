@@ -16,7 +16,7 @@ function CardDetailsPage(state) {
 
     container.appendChild(list)
     container.appendChild(document.createElement('br'))
-    container.appendChild(buttonWithRef("Back to Cards",`#boards/1`));
+    container.appendChild(buttonWithRef("Back to Cards", `#boards/1`));
 
     return container;
 

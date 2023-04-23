@@ -6,7 +6,7 @@ async function CardDetailsHandler(state) {
     if (isNaN(id))
         throw ("Invalid param id");
 
-    const cardRes = await fetch(state.path,{
+    const cardRes = await fetch(state.path, {
         headers: {Authorization: state.token}
     });
 

@@ -16,7 +16,7 @@ Note: You have to use the DOM Api, but not directly
 const API_BASE_URL = "http://localhost:9000/"
 
 
-function getHome(mainContent){
+function getHome(mainContent) {
 
     const h1 = document.createElement("h1")
     const text = document.createTextNode("Home")
@@ -24,7 +24,7 @@ function getHome(mainContent){
     mainContent.replaceChildren(h1)
 }
 
-function getBoard(mainContent){
+function getBoard(mainContent) {
     fetch(API_BASE_URL + "boards/3",
         {
             headers: {Authorization: 'Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9'}
@@ -45,10 +45,10 @@ function getBoard(mainContent){
             ulStd.appendChild(liNumber)
 
             mainContent.replaceChildren(ulStd)
-    })
+        })
 }
 
-function getBoardLists(mainContent){
+function getBoardLists(mainContent) {
     fetch(API_BASE_URL + "boards")
         .then(res => res.json())
         .then(students => {
@@ -66,7 +66,7 @@ function getBoardLists(mainContent){
                 const a = document.createElement("a")
                 const aText = document.createTextNode("Link Example to students/" + s.number);
                 a.appendChild(aText)
-                a.href="#students/" + s.number
+                a.href = "#students/" + s.number
                 p.appendChild(a)
                 div.appendChild(p)
             })

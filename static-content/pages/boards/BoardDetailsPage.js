@@ -20,19 +20,18 @@ function BoardDetailsPage(state) {
     const lis = state.body["lists"]["lists"]
     lis.forEach(currentList => {
         const li = document.createElement('li');
-        li.textContent ="name = " + currentList['name'];
+        li.textContent = "name = " + currentList['name'];
         lists.appendChild(li);
-        li.appendChild(buttonWithRef("List Details",`/#lists/${currentList['id']}`))
+        li.appendChild(buttonWithRef("List Details", `/#lists/${currentList['id']}`))
     });
-
 
 
     const container = document.createElement("div");
 
     container.appendChild(list);
-    container.appendChild(buttonWithRef("Get Users for this Board",`#boards/${state.body["id"]}/users`));
+    container.appendChild(buttonWithRef("Get Users for this Board", `#boards/${state.body["id"]}/users`));
     container.appendChild(document.createElement('br'))
-    container.appendChild(buttonWithRef("Back to Boards",`#users/1/boards`));
+    container.appendChild(buttonWithRef("Back to Boards", `#users/1/boards`));
 
     return container;
 
