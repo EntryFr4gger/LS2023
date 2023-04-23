@@ -40,16 +40,15 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
         source.boards[boardId] ?: throw NotFoundException()
 
-    override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> =
+    override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> =
         source.lists.toList().mapNotNull {
             it.second.takeIf { list ->
                 list.boardId == boardId
             }
         }
 
-    override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User> {
-        return source.userBoard.filter { it.value.contains(boardId) }
-            .map { source.users[it.key] ?: throw NotFoundException("User not found") }
+    override fun getBoardUsers(conn: TransactionManager, boardId: Int): List<User> {
+        TODO("Not yet implemented")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean =
