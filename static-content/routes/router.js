@@ -8,11 +8,13 @@ export function Router() {
     }
 
     router.handleRoute = function (state) {
-        const rotueWithDetails = this.getRouteHandler(state)
+        const rotueWithDetails = this.getRouteHandler(state.path)
         if(rotueWithDetails === undefined){
             return defaultHandeler(state)
         }
-        console.log(rotueWithDetails.handler)
+        state.queryParams = rotueWithDetails.queryParams
+        state.pathParams = rotueWithDetails.pathParams
+        state.bodyParams = {}
         return rotueWithDetails.handler(state)
     }
 
@@ -35,7 +37,7 @@ export function Router() {
 
             pathParams = Object.assign(newPath.pathParams,pathParams)
             queryParams = newPath.queryParams
-            if(newPath === ""){
+            if(newPath.newPath === ""){
                 return {
                     handler: handler.handler,
                     pathParams:pathParams,
@@ -69,14 +71,17 @@ export default Router()
 //Problema: Como as rotas estão defenidas, o path desaparece antes de aparecer o parametro do path...
 
 function isPath(handlerPath, path) {
-    if (!path.startsWith(handlerPath) || handlerPath ==="/") {
+    if (!path.startsWith(handlerPath.split(":")[0]) || handlerPath ==="/") {
         return null
     }
     const pathParams = {};
     const queryParams = {};
     const query = path.split("?")
     const pathSlice = path.split("/").slice(1); // remove the first empty string
-    let newPath = path.split("/").slice(3).join("/");
+    let newPath = path.replace(handlerPath,'')
+    if(pathSlice.length !== handlerPath.split("/").slice(1).length && !path.startsWith(handlerPath)){
+        return null
+    }
 
     if (query.length>1) {
         const queries = query[1].split("&")
@@ -85,12 +90,12 @@ function isPath(handlerPath, path) {
             const [name, value] = pair.split("=");
             queryParams[name] = value;
         }
-        newPath = query[0]
     }
-    if(pathSlice.length>1){
+    if(pathSlice.length>=1){
         const pathParamName = handlerPath.split(":")[1]
         if (pathParamName) {
-            pathParams[pathParamName] = pathSlice[1].split("?")[0]
+            pathParams[pathParamName.split("/")[0]] = pathSlice[0].split("?")[0]
+            newPath = ""
         }
     }
 

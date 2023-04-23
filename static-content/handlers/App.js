@@ -1,14 +1,16 @@
 import {Router} from "../routes/router.js";
-import HomePage from "../pages/HomePage.js";
+import HomePage from "../pages/shared/HomePage.js";
 import usersRouter from "../routes/usersRouter.js";
-import NotFoundPage from "../pages/404Page.js";
+import NotFoundPage from "../pages/shared/404Page.js";
 import NavBar from "../pages/shared/NavBar.js";
 import HomeHandeler from "./default/HomeHandeler.js";
+import boardsRouter from "../routes/boardsRouters.js";
 
 const router = Router();
 
 router.addRouteHandler("/", HomeHandeler);
 router.addRouteHandler("/users", usersRouter);
+router.addRouteHandler("/boards", boardsRouter);
 router.addDefaultNotFoundRouteHandler(() => window.location.hash = "")
 
 async function App(state) {

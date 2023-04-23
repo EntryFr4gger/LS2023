@@ -15,18 +15,18 @@ function NavBar() {
     const liHome = document.createElement("li");
     liHome.style.margin = "0";
     const aHome = document.createElement("a");
-    aHome.setAttribute("href", "#");
-    aHome.textContent = "Home";
+    //aHome.setAttribute("href", "#");
+    aHome.textContent = "Cool app U recon";
     liHome.appendChild(aHome);
     ul.appendChild(liHome);
 
     const liUser = document.createElement("li");
     liUser.style.margin = "0";
     const aUser = document.createElement("a");
-    aUser.setAttribute("href", "#users/1");
+    //aUser.setAttribute("href", "#users/1");
     aUser.textContent = "User";
-    liUser.appendChild(aUser);
-    ul.appendChild(liUser);
+    //liUser.appendChild(aUser);
+    //ul.appendChild(liUser);
 
     nav.appendChild(ul);
     return nav

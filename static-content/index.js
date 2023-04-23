@@ -9,9 +9,19 @@ window.addEventListener("load", (event) => {
 });
 window.addEventListener('hashchange', loadHandler)
 
+function createState(path) {
+    return {
+        path: path,
+        queryParams : {},
+        pathParams: {},
+        bodyParams: {},
+        token: 'Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9'
+    }
+}
+
 function loadHandler() {
-    const path = window.location.hash.replace("#", "/")
-    App(path)
+    const state = createState(window.location.hash.replace("#", "/"))
+    App(state)
         .then(render)
     /*
 

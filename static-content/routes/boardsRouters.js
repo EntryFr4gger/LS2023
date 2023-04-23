@@ -1,9 +1,11 @@
-import NotFoundPage from "../pages/404Page.js";
-import UsersHandeler from "../handlers/users/UsersHandeler.js";
+import NotFoundPage from "../pages/shared/404Page.js";
 import {Router} from "./router.js";
+import BoardDetailsHandler from "../handlers/boards/BoardDetailsHandler.js";
+import BoardUsersHandler from "../handlers/boards/BoardUsersHandler.js";
 
-const boardsRouters = Router()
-boardsRouters.addRouteHandler('/1', UsersHandeler);
-boardsRouters.addDefaultNotFoundRouteHandler(NotFoundPage);
+const boardsRouter = Router()
+boardsRouter.addRouteHandler('/:board_id', BoardDetailsHandler);
+boardsRouter.addRouteHandler('/:board_id/users', BoardUsersHandler);
+boardsRouter.addDefaultNotFoundRouteHandler(NotFoundPage);
 
-export default boardsRouters;
+export default boardsRouter;
