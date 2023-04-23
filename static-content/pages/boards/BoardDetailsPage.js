@@ -31,7 +31,7 @@ function BoardDetailsPage(state) {
     container.appendChild(list);
     container.appendChild(buttonWithRef("Get Users for this Board", `#boards/${state.body["id"]}/users`));
     container.appendChild(document.createElement('br'))
-    container.appendChild(buttonWithRef("Back to Boards", `#users/1/boards`));
+    //container.appendChild(buttonWithRef("Back to Boards", `#users/1/boards`));
 
     return container;
 

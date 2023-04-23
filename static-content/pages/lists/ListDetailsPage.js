@@ -20,7 +20,7 @@ function ListDetailsPage(state) {
             )
         ),
         br(),
-        buttonWithRef("Back to Lists", `#lists/1`)
+        //buttonWithRef("Back to Lists", `#lists/1`)
     )
 
     /*const list = document.createElement('ul');

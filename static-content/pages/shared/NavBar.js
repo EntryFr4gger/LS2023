@@ -13,8 +13,8 @@ function NavBar() {
     const liHome = document.createElement("li");
     liHome.style.margin = "0";
     const aHome = document.createElement("a");
-    //aHome.setAttribute("href", "#");
-    aHome.textContent = "Cool app U recon";
+    aHome.setAttribute("href", "#");
+    aHome.textContent = "Tasks App";
     liHome.appendChild(aHome);
     ul.appendChild(liHome);
 
