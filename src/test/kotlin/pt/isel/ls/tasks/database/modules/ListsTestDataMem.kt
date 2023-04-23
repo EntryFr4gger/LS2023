@@ -32,8 +32,8 @@ class ListsTestDataMem {
     fun `get all cards in the same list`() {
         source.run { conn ->
             val cards = listOf(
-                Card(3, "Ração", "Ração daquela que os cães comem e tal", LocalDate(2023, 3, 21), 2, 3),
-                Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", LocalDate(2023, 3, 21), 2, 3)
+                Card(3, "Ração", "Ração daquela que os cães comem e tal", LocalDate(2023, 3, 21),1, 2, 3),
+                Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", LocalDate(2023, 3, 21), 2, 2, 3)
             )
 
             val res = this.lists.getCardsOfList(conn, 3)
@@ -70,6 +70,14 @@ class ListsTestDataMem {
     fun `Confirm that the list do not exist`() {
         source.run { conn ->
             assertFalse { lists.hasList(conn, 69) }
+        }
+    }
+
+    @Test
+    fun `delete list from a board`(){
+        source.run { conn ->
+            lists.deleteList(conn, 1)
+            assertFalse {  lists.hasList(conn,1)}
         }
     }
 }

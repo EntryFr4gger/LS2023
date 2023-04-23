@@ -80,7 +80,7 @@ class ListsServicesTests : ClearData() {
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, listId)
             assertEquals(
-                listOf(Card(cardId, "card", "card", null, boardId, listId)),
+                listOf(Card(cardId, "card", "card", null,1, boardId, listId)),
                 services.lists.getCardsOfList(listId, userId)
             )
         }

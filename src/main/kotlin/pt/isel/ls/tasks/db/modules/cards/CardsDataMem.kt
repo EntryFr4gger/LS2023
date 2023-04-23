@@ -12,9 +12,9 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         val exampleLD2 = LocalDate(2023, 4, 2)
         val exampleLD3 = LocalDate(2023, 4, 3)
         source.cards[1] = Card(1, "Phase 1", "Entrega da parte 1 do trabalho de LS", exampleLD2,  1,1, 1)
-        source.cards[2] = Card(2, "Entrega 1", "Entrega inicial do autorouter", exampleLD3, 2,1, 2)
-        source.cards[3] = Card(3, "Ração", "Ração daquela que os cães comem e tal", exampleLD, 3,2, 3)
-        source.cards[4] = Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", exampleLD, 4,2, 3)
+        source.cards[2] = Card(2, "Entrega 1", "Entrega inicial do autorouter", exampleLD3, 1,1, 2)
+        source.cards[3] = Card(3, "Ração", "Ração daquela que os cães comem e tal", exampleLD, 1,2, 3)
+        source.cards[4] = Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", exampleLD, 2,2, 3)
         source.nextCardId.addAndGet(4)
     }
 
@@ -27,8 +27,10 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         boardId: Int,
         listId: Int?
     ): Int {
+        val cix = if (listId == null) null
+        else source.cards.filter { it.value.listId == listId }.size + 1
         source.nextCardId.getAndIncrement().also { id ->
-            source.cards[id] = Card(id, name, description, dueDate, 5, boardId, listId)
+            source.cards[id] = Card(id, name, description, dueDate, cix, boardId, listId)
             return id
         }
     }
