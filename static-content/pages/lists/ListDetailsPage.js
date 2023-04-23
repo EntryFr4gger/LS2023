@@ -1,7 +1,7 @@
 import buttonWithRef from "../components/ButtonWithRef.js";
 
 
-function BoardDetailsPage(state) {
+function ListDetailsPage(state) {
     const list = document.createElement('ul');
 
     const items = ['id', 'name', 'description'];
@@ -12,30 +12,30 @@ function BoardDetailsPage(state) {
         list.appendChild(li);
     });
     const li = document.createElement('li');
-    li.textContent = "lists ";
+    li.textContent = "cards ";
     list.appendChild(li);
     const lists = document.createElement('ul')
     list.appendChild(lists)
 
-    const lis = state.body["lists"]["lists"]
-    lis.forEach(currentList => {
+    const car = state.body["cards"]["cards"]
+    car.forEach(currentList => {
         const li = document.createElement('li');
         li.textContent ="name = " + currentList['name'];
         lists.appendChild(li);
-        li.appendChild(buttonWithRef("List Details",`/#lists/${currentList['id']}`))
+        const t = `/#cards/${currentList['id']}`
+        li.appendChild(buttonWithRef("Card Details",`/#cards/${currentList['id']}`))
     });
 
 
 
     const container = document.createElement("div");
 
-    container.appendChild(list);
-    container.appendChild(buttonWithRef("Get Users for this Board",`#boards/${state.body["id"]}/users`));
+    container.appendChild(list)
     container.appendChild(document.createElement('br'))
-    container.appendChild(buttonWithRef("Back to Boards",`#users/1/boards`));
+    container.appendChild(buttonWithRef("Back to Lists",`#lists/1`));
 
     return container;
 
 }
 
-export default BoardDetailsPage;
+export default ListDetailsPage;
