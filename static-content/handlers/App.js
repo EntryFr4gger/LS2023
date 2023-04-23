@@ -4,6 +4,9 @@ import NavBar from "../pages/shared/NavBar.js";
 import HomeHandeler from "./default/HomeHandeler.js";
 import boardsRouter from "../routes/boardsRouters.js";
 import listsRouter from "../routes/listsRouters.js";
+import {br} from "../pages/components/dom/domTags.js";
+import {div} from "../pages/components/dom/domTags.js";
+
 
 const router = Router();
 
@@ -14,12 +17,11 @@ router.addRouteHandler("/lists", listsRouter);
 router.addDefaultNotFoundRouteHandler(() => window.location.hash = "")
 
 async function App(state) {
-    const div = document.createElement("div");
-    div.appendChild(await NavBar(state));
-    div.appendChild(document.createElement("br"));
-    const t = await router.handleRoute(state)
-    div.appendChild(t);
-    return div;
+    return div(
+        await NavBar(state),
+        br(),
+        await router.handleRoute(state),
+    )
 }
 
 export default App;

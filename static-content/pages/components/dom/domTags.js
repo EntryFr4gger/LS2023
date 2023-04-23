@@ -1,4 +1,5 @@
-import {createElement} from "./domDSL";
+import {createElement} from "./domDSL.js";
+
 
 /**
  * Creates a 'li' HTML element.
@@ -60,3 +61,16 @@ export function h1(attributes, ...children) {
 export function button(attributes, ...children) {
     return createElement("button", attributes, ...children);
 }
+
+/**
+ * Creates a 'div' HTML element.
+ *
+ * @param {Object | Promise<HTMLElement> | HTMLElement | string} [attributes] element attributes or an element child
+ * @param {Promise<HTMLElement> | HTMLElement | string} [children] element children
+ *
+ * @returns Promise<HTMLElement>
+ */
+export function div(attributes, ...children) {
+    return createElement("div", attributes, ...children);
+}
+

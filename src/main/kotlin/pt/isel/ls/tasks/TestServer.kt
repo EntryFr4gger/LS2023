@@ -1,4 +1,4 @@
-package pt.isel.ls.http
+package pt.isel.ls.tasks
 
 import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
