@@ -4,8 +4,10 @@ import org.http4k.core.RequestContexts
 import org.http4k.core.then
 import org.http4k.filter.CorsPolicy.Companion.UnsafeGlobalPermissive
 import org.http4k.filter.ServerFilters
+import org.http4k.routing.ResourceLoader
 import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.routes
+import org.http4k.routing.singlePageApp
 import org.slf4j.Logger
 import pt.isel.ls.tasks.api.routers.boards.BoardsRouter
 import pt.isel.ls.tasks.api.routers.cards.CardsRouter
@@ -33,7 +35,8 @@ class TasksAPI(services: TaskServices) {
                 UsersRouter.routes(services.users, tokenHandeler),
                 BoardsRouter.routes(services.boards, tokenHandeler),
                 ListsRouter.routes(services.lists, tokenHandeler),
-                CardsRouter.routes(services.cards, tokenHandeler)
+                CardsRouter.routes(services.cards, tokenHandeler),
+                singlePageApp(ResourceLoader.Directory("static-content"))
             )
         )
 

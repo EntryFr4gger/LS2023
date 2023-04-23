@@ -1,14 +1,14 @@
-import {br, div, h3, p} from "../components/dom/domTags.js";
+import {br, div, h1, p} from "../components/dom/domTags.js";
 import buttonWithRef from "../components/ButtonWithRef.js";
+import NavBar from "./NavBar.js";
 
-async function NotFoundPage(state) {
+async function NotFoundPage(state,error) {
     return div(
-        h3(
-            p("Error"),
-            buttonWithRef("User Details", "#users/1"),
-            br(),
-            buttonWithRef("Boards", "#users/1/boards")
-        )
+        await NavBar(state),
+        br(),
+        h1("Error"),
+        br(),
+        p(error)
     )
 }
 
