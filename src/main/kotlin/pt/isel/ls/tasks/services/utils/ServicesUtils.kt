@@ -357,7 +357,7 @@ open class ServicesUtils(open val source: TaskData) {
     /**
      *
      * */
-    fun organizeAfterMove(conn: TransactionManager, listId: Int, cardId: Int, cix: Int) {
+    fun organizeAfterMove(conn: TransactionManager, listId: Int, cardId: Int, cix: Int){
         updateCardsList(conn, source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE)
             .map {
                 when {
@@ -371,14 +371,14 @@ open class ServicesUtils(open val source: TaskData) {
     /**
      *
      * */
-    fun organizeAfterDelete(conn: TransactionManager, listId: Int) {
+    fun organizeAfterDelete(conn: TransactionManager, listId: Int){
         updateCardsList(conn, source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE))
     }
 
     /**
      *
      * */
-    private fun updateCardsList(conn: TransactionManager, cardsList: kotlin.collections.List<Card>) {
+    private fun updateCardsList(conn: TransactionManager, cardsList: kotlin.collections.List<Card>){
         cardsList.sortedBy { it.cix }
             .mapIndexed { index, card -> card.copy(cix = index + 1) }
             .forEach {
