@@ -5,12 +5,14 @@ import NotFoundPage from "../pages/shared/404Page.js";
 import NavBar from "../pages/shared/NavBar.js";
 import HomeHandeler from "./default/HomeHandeler.js";
 import boardsRouter from "../routes/boardsRouters.js";
+import listsRouter from "../routes/listsRouters.js";
 
 const router = Router();
 
 router.addRouteHandler("/", HomeHandeler);
 router.addRouteHandler("/users", usersRouter);
 router.addRouteHandler("/boards", boardsRouter);
+router.addRouteHandler("/lists", listsRouter);
 router.addDefaultNotFoundRouteHandler(() => window.location.hash = "")
 
 async function App(state) {
