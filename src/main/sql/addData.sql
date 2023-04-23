@@ -24,10 +24,11 @@ VALUES ('PrimeiraLista', 1),
        ('TerceiraLista', 2);
 
 INSERT INTO Cards (name, description, dueDate, board_id, list_id)
-VALUES ('LS', 'Phase1', '23:44:59.903', 1, 1),
-       ('PC', 'Phase2', '23:44:59.903', 1, 1),
-       ('SI', 'Phase3', '23:44:59.903', 1, 2),
-       ('ALG', 'Phase4', '23:44:59.903', 2, 3),
-       ('IASA', 'Phase4', '23:44:59.903', 2, 3),
-       ('LAE', 'Phase4', '23:44:59.903', 2, 3);
+VALUES ('LS', 'Phase1', '2023-03-21', 1, 1),
+       ('PC', 'Phase2', '2023-03-21', 1, 1),
+       ('SI', 'Phase3', '2023-03-21', 1, 2),
+       ('ALG', 'Phase4', '2023-03-21', 2, 3),
+       ('IASA', 'Phase4', '2023-03-21', 2, 3),
+       ('LAE', 'Phase4', '2023-03-21', 2, 3);
 COMMIT;
+ROLLBACK;

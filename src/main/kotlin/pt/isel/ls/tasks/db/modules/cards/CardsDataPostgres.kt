@@ -1,12 +1,13 @@
 package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toKotlinLocalDate
-import pt.isel.ls.tasks.db.TasksDataPostgres
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Card
+import java.sql.Date
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
@@ -32,6 +33,12 @@ class CardsDataPostgres : CardsDB {
 
         fun PreparedStatement.setIntIfNotNull(parameterIndex: Int, data: Int?, type: Int) =
             if (data == null) setNull(parameterIndex, type) else setInt(parameterIndex, data)
+
+        fun PreparedStatement.setDateIfNotNull(parameterIndex: Int, data: LocalDate?, type: Int) =
+            if (data == null) setNull(parameterIndex, type) else setDate(
+                parameterIndex,
+                Date.valueOf(data.toJavaLocalDate())
+            )
     }
 
     override fun createNewCard(
@@ -48,7 +55,7 @@ class CardsDataPostgres : CardsDB {
         )
         obj.setString(1, name)
         obj.setString(2, description)
-        obj.setStringIfNotNull(3, dueDate.toString(), Types.CHAR)
+        obj.setDateIfNotNull(3, dueDate, Types.CHAR)
         obj.setInt(4, boardId)
         obj.setIntIfNotNull(5, listId, Types.INTEGER)
 
@@ -111,7 +118,7 @@ class CardsDataPostgres : CardsDB {
             Statement.RETURN_GENERATED_KEYS
         )
 
-        obj.setInt(1,cix)
+        obj.setInt(1, cix)
         obj.setInt(2, cardId)
 
         if (obj.executeUpdate() == 0) throw SQLException("Organization Card Failed")
@@ -119,18 +126,5 @@ class CardsDataPostgres : CardsDB {
         obj.generatedKeys.also {
             return it.next()
         }
-    }
-}
-
-fun main(){
-    val source = TasksDataPostgres("JDBC_DATABASE_URL")
-    val cards = CardsDataPostgres()
-
-    source.run {conn->
-        repeat(5){
-            cards.moveCard(conn, 1,it+ 1)
-            cards.organizeCardSeq(conn, it+1, it+1)
-        }
-
     }
 }

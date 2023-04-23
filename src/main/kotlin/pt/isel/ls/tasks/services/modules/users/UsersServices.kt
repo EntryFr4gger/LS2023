@@ -63,11 +63,11 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
      *
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
-    fun getUserBoards(requestId: Int): List<Board> {
+    fun getUserBoards(requestId: Int, skip: Int, limit: Int): List<Board> {
         isValidUserId(requestId)
 
         return source.run { conn ->
-            source.users.getUserBoards(conn, requestId)
+            source.users.getUserBoards(conn, skip, limit, requestId)
         }
     }
 }

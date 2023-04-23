@@ -15,6 +15,7 @@ Note: You have to use the DOM Api, but not directly
 
 const API_BASE_URL = "http://localhost:9000/"
 
+
 function getHome(mainContent){
 
     const h1 = document.createElement("h1")

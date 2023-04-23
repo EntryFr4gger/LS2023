@@ -63,11 +63,13 @@ class BoardsDataPostgres : BoardsDB {
         }
     }
 
-    override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> {
+    override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM lists WHERE board_id = ?"
+            "SELECT * FROM lists WHERE board_id = ? OFFSET ? LIMIT ?"
         )
         obj.setInt(1, boardId)
+        obj.setInt(2, skip)
+        obj.setInt(3, limit)
 
         val res = obj.executeQuery()
 
@@ -78,11 +80,20 @@ class BoardsDataPostgres : BoardsDB {
         return lists
     }
 
-    override fun getBoardUsers(conn: TransactionManager, boardId: Int): List<User> {
+    override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM user_board WHERE board_id = ?"
+            """
+                SELECT id, name, email FROM users u
+                    JOIN user_board ub ON ub.user_id = u.id
+                    WHERE board_id = ?
+                    OFFSET ? 
+                    LIMIT ?
+            """.trimIndent()
         )
+
         obj.setInt(1, boardId)
+        obj.setInt(2, skip)
+        obj.setInt(3, limit)
 
         val res = obj.executeQuery()
 

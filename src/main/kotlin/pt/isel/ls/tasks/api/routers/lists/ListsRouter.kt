@@ -22,6 +22,9 @@ import pt.isel.ls.tasks.services.modules.lists.ListsServices
 
 class ListsRouter(private val services: ListsServices, private val tokenHandeler: TokenUtil) : TasksRouter {
     companion object {
+        private const val DEFAULT_SKIP = 0
+        private const val DEFAULT_LIMIT = 10
+
         fun routes(services: ListsServices, tokenHandeler: TokenUtil) = ListsRouter(services, tokenHandeler).routes
     }
 
@@ -77,7 +80,10 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
     private fun getListCards(request: Request): Response = errorCatcher {
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val cards = services.getCardsOfList(listId, requestId)
+        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
+        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
+
+        val cards = services.getCardsOfList(listId, skip, limit, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(ListCardsDTO(cards)))

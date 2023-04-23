@@ -38,7 +38,7 @@ interface UsersDB {
      *
      * @return list with user boards.
      * */
-    fun getUserBoards(conn: TransactionManager, userId: Int): List<Board>
+    fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board>
 
     /**
      * Verify if email is new
