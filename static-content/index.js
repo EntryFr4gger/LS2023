@@ -1,4 +1,4 @@
-import App from "./handlers/App.js";
+import App from "./pages/App.js";
 
 
 window.addEventListener('load', loadHandler)
