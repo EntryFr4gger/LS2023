@@ -6,6 +6,7 @@ import NavBar from "../pages/shared/NavBar.js";
 import HomeHandeler from "./default/HomeHandeler.js";
 import boardsRouter from "../routes/boardsRouters.js";
 import listsRouter from "../routes/listsRouters.js";
+import cardsRouters from "../routes/cardsRouters.js";
 
 const router = Router();
 
@@ -13,6 +14,7 @@ router.addRouteHandler("/", HomeHandeler);
 router.addRouteHandler("/users", usersRouter);
 router.addRouteHandler("/boards", boardsRouter);
 router.addRouteHandler("/lists", listsRouter);
+router.addRouteHandler("/cards", cardsRouters);
 router.addDefaultNotFoundRouteHandler(() => window.location.hash = "")
 
 async function App(state) {
