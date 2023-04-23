@@ -5,9 +5,9 @@ VALUES ('Bernardo', 'bernardo@isel.pt'),
        ('Rafael', 'rafael@isel.pt');
 
 INSERT INTO Tokens (token, user_id)
-VALUES ('B123', 1),
-       ('M123', 2),
-       ('R123', 3);
+VALUES ('9f1e3d11-8c18-4cd7-93fc-985c4794cfd9', 1),
+       ('3b45e8dc-0315-4d4b-869b-5298b4db7242', 2),
+       ('9f1e3d11-8c18-4cd7-93fc-985c4794cfd8', 3);
 
 INSERT INTO Boards (name, description)
 VALUES ('UmaBoard', 'Esta é a board um'),
