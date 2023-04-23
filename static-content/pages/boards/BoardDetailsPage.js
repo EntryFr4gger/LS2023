@@ -1,5 +1,5 @@
 import buttonWithRef from "../components/ButtonWithRef.js";
-import {div, h1, li, ul} from "../components/dom/domTags.js";
+import {div, h1, p, li, ul} from "../components/dom/domTags.js";
 
 
 function BoardDetailsPage(state) {
@@ -10,13 +10,17 @@ function BoardDetailsPage(state) {
         h1("Boards: "),
         ul(
             ...items.map(item => li(item + " = " + state.body[item])),
-            ...lis.map(currentList =>
-                li("name = " + currentList['name'],
-                    buttonWithRef("List Details", `/#lists/${currentList['id']}`)
+            p("Lists:"),
+            ul(
+                ...lis.map(currentList =>
+                    li(
+                        ("name = " + currentList['name']),
+                        buttonWithRef("List Details", `/#lists/${currentList['id']}`)
+                    )
                 )
             )
         ),
-        buttonWithRef("Get Users for this Board", `#boards/${state.body["id"]}/users`)
+        buttonWithRef("Users in Board", `/#boards/${state.body['id']}/users`)
     )
 }
 

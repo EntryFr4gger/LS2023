@@ -40,6 +40,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
       x-codegen-request-body-name: user
   /users/{user_id}:
     get:
@@ -79,7 +81,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
   /users/{user_id}/boards:
     get:
@@ -119,6 +122,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
   /boards:
     post:
@@ -147,6 +152,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
   /boards/{board_id}:
     get:
@@ -186,6 +193,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
 
   /boards/{board_id}/lists:
@@ -226,6 +235,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
   /boards/{board_id}/users:
     get:
@@ -265,9 +276,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-
-
-
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
   /boards/{board_id}/users/{user_id}:
     post:
@@ -299,6 +309,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
   /lists:
     post:
       tags:
@@ -326,6 +338,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
   /lists/{list_id}:
     get:
@@ -365,6 +379,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
+
     delete :
       tags :
         - Lists
@@ -394,13 +411,15 @@ paths:
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-
         404 :
           description : List not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
+
 
   /lists/{list_id}/cards:
     get:
@@ -439,6 +458,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
+
 
   /cards:
     post:
@@ -467,6 +489,9 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
+
 
   /cards/{card_id}:
     get:
@@ -506,6 +531,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
+
     put:
       tags:
         - Cards
@@ -551,6 +579,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
+
 
     delete :
       tags :
@@ -582,15 +613,14 @@ paths:
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-
         404 :
           description : Card not found
           content :
             application/json :
               schema :
                 $ref : '#/components/schemas/InvalidRequest'
-
-
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
 components:
   securitySchemes:
@@ -803,6 +833,13 @@ components:
         error:
           type: string
           example: "Missing required parameter"
+
+    InternalServerErrorResponse:
+      type : object
+      properties :
+        message :
+          type : string
+          example : An internal error occurred
 
     ListDeleted :
       type : object
