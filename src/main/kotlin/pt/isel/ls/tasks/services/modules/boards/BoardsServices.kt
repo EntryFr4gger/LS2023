@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.services.modules.boards
 
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 import kotlin.collections.List
 import pt.isel.ls.tasks.domain.List as _List
@@ -102,13 +103,31 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      * @throws ServicesError.InvalidArgumentException - if id isn't correct.
      * @throws ServicesError.AuthorizationException - if user inst authorized.
      * */
-    fun getAllLists(boardId: Int, requestId: Int): List<_List> {
+    fun getAllLists(boardId: Int, skip: Int, limit: Int, requestId: Int): List<_List> {
         isValidBoardId(boardId)
 
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
 
-            source.boards.getAllLists(conn, boardId)
+            source.boards.getAllLists(conn, boardId, skip, limit)
+        }
+    }
+
+    /**
+     * Get the list with the users of a board.
+     *
+     * @param boardId board unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return list of Users in a board.
+     * */
+    fun getBoardUsers(boardId: Int, skip: Int, limit: Int, requestId: Int): List<User> {
+        isValidBoardId(boardId)
+
+        return source.run { conn ->
+            authorizationBoard(conn, boardId, requestId)
+
+            source.boards.getBoardUsers(conn, boardId, skip, limit)
         }
     }
 }

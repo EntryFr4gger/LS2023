@@ -71,7 +71,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      * @throws ServicesError.AuthorizationException if user inst authorized.
      * @throws ServicesError.InvalidArgumentException if id doesn't exist.
      * */
-    fun getCardsOfList(listId: Int, requestId: Int): List<Card> {
+    fun getCardsOfList(listId: Int, skip: Int, limit: Int, requestId: Int): List<Card> {
         isValidListId(listId)
 
         return source.run { conn ->
@@ -79,7 +79,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
 
             hasList(conn, listId)
 
-            source.lists.getCardsOfList(conn, listId)
+            source.lists.getCardsOfList(conn, listId, skip, limit)
         }
     }
 

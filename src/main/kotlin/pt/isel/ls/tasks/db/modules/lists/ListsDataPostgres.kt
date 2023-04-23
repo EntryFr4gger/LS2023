@@ -46,11 +46,13 @@ class ListsDataPostgres : ListsDB {
         }
     }
 
-    override fun getCardsOfList(conn: TransactionManager, listId: Int): List<Card> {
+    override fun getCardsOfList(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM cards WHERE list_id = ?"
+            "SELECT * FROM cards WHERE list_id = ? OFFSET ? LIMIT ?"
         )
         obj.setInt(1, listId)
+        obj.setInt(2, skip)
+        obj.setInt(3, limit)
 
         val res = obj.executeQuery()
 

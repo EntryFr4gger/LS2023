@@ -1,11 +1,13 @@
 package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toKotlinLocalDate
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Card
+import java.sql.Date
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
@@ -22,11 +24,21 @@ class CardsDataPostgres : CardsDB {
                 getString(3),
                 getDate(4)?.toLocalDate()?.toKotlinLocalDate(),
                 getInt(5),
-                getInt(6)
+                getInt(6),
+                getInt(7)
             )
 
-        fun <T> PreparedStatement.setType(parameterIndex: Int, data: T?, type: Int) =
-            if (data == null) setNull(parameterIndex, type) else setString(parameterIndex, data.toString())
+        fun PreparedStatement.setStringIfNotNull(parameterIndex: Int, data: String?, type: Int) =
+            if (data == null) setNull(parameterIndex, type) else setString(parameterIndex, data)
+
+        fun PreparedStatement.setIntIfNotNull(parameterIndex: Int, data: Int?, type: Int) =
+            if (data == null) setNull(parameterIndex, type) else setInt(parameterIndex, data)
+
+        fun PreparedStatement.setDateIfNotNull(parameterIndex: Int, data: LocalDate?, type: Int) =
+            if (data == null) setNull(parameterIndex, type) else setDate(
+                parameterIndex,
+                Date.valueOf(data.toJavaLocalDate())
+            )
     }
 
     override fun createNewCard(
@@ -43,9 +55,9 @@ class CardsDataPostgres : CardsDB {
         )
         obj.setString(1, name)
         obj.setString(2, description)
-        obj.setType(3, dueDate, Types.CHAR)
+        obj.setDateIfNotNull(3, dueDate, Types.CHAR)
         obj.setInt(4, boardId)
-        obj.setType(5, listId, Types.INTEGER)
+        obj.setIntIfNotNull(5, listId, Types.INTEGER)
 
         if (obj.executeUpdate() == 0) throw SQLException("Card Creation Failed")
 
@@ -98,5 +110,21 @@ class CardsDataPostgres : CardsDB {
         res.setInt(1, cardId)
 
         return res.executeQuery().next()
+    }
+
+    override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean {
+        val obj = conn.connection().prepareStatement(
+            "UPDATE cards SET cix = ? WHERE id = ?",
+            Statement.RETURN_GENERATED_KEYS
+        )
+
+        obj.setInt(1, cix)
+        obj.setInt(2, cardId)
+
+        if (obj.executeUpdate() == 0) throw SQLException("Organization Card Failed")
+
+        obj.generatedKeys.also {
+            return it.next()
+        }
     }
 }

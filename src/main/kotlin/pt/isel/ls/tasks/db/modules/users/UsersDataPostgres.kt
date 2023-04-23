@@ -46,11 +46,13 @@ class UsersDataPostgres : UsersDB {
         }
     }
 
-    override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
+    override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM boards JOIN user_board ON id = board_id WHERE user_id = ?"
+            "SELECT * FROM boards JOIN user_board ON id = board_id WHERE user_id = ? OFFSET ? LIMIT ?"
         )
         obj.setInt(1, userId)
+        obj.setInt(2, skip)
+        obj.setInt(3, limit)
 
         val res = obj.executeQuery()
 

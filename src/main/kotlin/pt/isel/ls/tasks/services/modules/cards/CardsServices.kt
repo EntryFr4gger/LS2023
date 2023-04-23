@@ -87,9 +87,10 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
-    fun moveCard(listId: Int, cardId: Int, requestId: Int): Boolean {
+    fun moveCard(listId: Int, cardId: Int, cix: Int?, requestId: Int): Boolean {
         isValidListId(listId)
         isValidCardId(cardId)
+        cix?.let { isValidCardCix(cix) }
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
@@ -98,7 +99,9 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             hasList(conn, listId)
             hasCard(conn, cardId)
 
-            source.cards.moveCard(conn, listId, cardId)
+            val bol = source.cards.moveCard(conn, listId, cardId)
+            cix?.let { organizeAfterMove(conn, listId, cardId, cix) }
+            bol
         }
     }
 
@@ -118,7 +121,10 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
 
             hasCard(conn, cardId)
 
+            val listId = source.cards.getCardDetails(conn, cardId).listId!!
             source.cards.deleteCard(conn, cardId)
+            organizeAfterDelete(conn, listId)
         }
     }
+
 }

@@ -23,18 +23,23 @@ import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class UsersRouter(private val services: UsersServices, private val tokenHandeler: TokenUtil) : TasksRouter {
     companion object {
+        private const val DEFAULT_SKIP = 0
+        private const val DEFAULT_LIMIT = 10
+
         fun routes(services: UsersServices, tokenHandeler: TokenUtil) = UsersRouter(services, tokenHandeler).routes
     }
 
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
-        "users/{user_id}" bind Method.GET to ::getUsers,
+        "users/{user_id}" bind Method.GET to ::getUserDetails,
         ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(tokenHandeler::filter)
     )
 
     /**
      * Creates a new user
+     *
      * @param request HTTP request that contains a JSON body with a name and an email
+     *
      * @return HTTP response contains a JSON body with an id and a token for the new user
      */
     private fun postUser(request: Request): Response = errorCatcher {
@@ -47,12 +52,14 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
 
     /**
      * Get the details of a user
-     * requires authorization ?
+     * Requires authorization
+     *
      * @param request HTTP request that has a user_id in its path
+     *
      * @return HTTP response contains a JSON body with an id, name and email of a user
      */
-    private fun getUsers(request: Request): Response = errorCatcher {
-        val userId: Int = request.pathOrThrow("user_id").toInt() //
+    private fun getUserDetails(request: Request): Response = errorCatcher {
+        val userId = request.pathOrThrow("user_id").toInt()
         val user = services.getUserDetails(userId)
         return Response(OK)
             .header("content-type", "application/json")
@@ -61,13 +68,18 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
 
     /**
      * Get the list with all user available boards
-     * requires authentication
+     * Requires authentication
+     *
      * @param request HTTP request
+     *
      * @return HTTP response that contains the list of all user boards in the json body
      */
     private fun getUserBoards(request: Request): Response = errorCatcher {
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val boards = services.getUserBoards(requestId)
+        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
+        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
+
+        val boards = services.getUserBoards(requestId, skip, limit)
         return Response(OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(UserBoardsDTO(boards)))

@@ -27,7 +27,7 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         return source.users[userId] ?: throw NotFoundException()
     }
 
-    override fun getUserBoards(conn: TransactionManager, userId: Int): List<Board> {
+    override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board> {
         val userBoard = source.userBoard[userId]
         return userBoard?.mapNotNull { source.boards[it] } ?: emptyList()
     }

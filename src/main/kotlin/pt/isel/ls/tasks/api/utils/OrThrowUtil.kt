@@ -9,6 +9,9 @@ fun Request.pathOrThrow(string: String): String {
     return this.path(string) ?: throw IllegalArgumentException("Argument $string not found in path")
 }
 
+fun Request.path(string: String) = this.path(string)
+
+
 fun Request.headerOrThrow(string: String): String {
     return this.header(string) ?: throw AuthenticationException("$string not found in header")
 }
