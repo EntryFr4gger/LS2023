@@ -6,7 +6,7 @@ async function BoardUsersHandler(state) {
     if (isNaN(id))
         throw ("Invalid param id");
 
-    const response = await fetch(state.path,{
+    const response = await fetch(state.path, {
         headers: {Authorization: state.token}
     });
 

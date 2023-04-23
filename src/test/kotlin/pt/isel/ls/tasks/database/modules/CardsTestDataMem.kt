@@ -32,14 +32,14 @@ class CardsTestDataMem {
             val id =
                 this.cards.createNewCard(conn, card.name, card.description, card.dueDate, card.boardId, card.listId)
             val cardCreated = card.copy(id = id, cix = 2)
-            assertEquals(storage.cards[id],cardCreated)
+            assertEquals(storage.cards[id], cardCreated)
         }
     }
 
     @Test
     fun `Get detail in a card`() {
         source.run { conn ->
-            val card = Card(2, "Entrega 1", "Entrega inicial do autorouter", LocalDate(2023, 4, 3), 1,1, 2)
+            val card = Card(2, "Entrega 1", "Entrega inicial do autorouter", LocalDate(2023, 4, 3), 1, 1, 2)
             val res = cards.getCardDetails(conn, 2)
             assertEquals(card, res)
         }
@@ -77,10 +77,10 @@ class CardsTestDataMem {
     }
 
     @Test
-    fun `delete card from a list`(){
+    fun `delete card from a list`() {
         source.run { conn ->
             cards.deleteCard(conn, 1)
-            assertFalse {  cards.hasCard(conn,1)}
+            assertFalse { cards.hasCard(conn, 1) }
         }
     }
 }
