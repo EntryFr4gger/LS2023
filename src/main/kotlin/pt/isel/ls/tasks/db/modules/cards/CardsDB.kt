@@ -12,7 +12,7 @@ interface CardsDB {
     /**
      * Creates a new card in a list.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param name the task name.
      * @param description the task description.
      * @param dueDate the task's conclusion date.
@@ -33,7 +33,7 @@ interface CardsDB {
     /**
      * Get the detailed information of a card.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param cardId card unique identifier.
      *
      * @return a Card.
@@ -43,7 +43,7 @@ interface CardsDB {
     /**
      * Moves a card to a list.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param listId list unique identifier.
      * @param cardId card unique identifier.
      *
@@ -54,7 +54,7 @@ interface CardsDB {
     /**
      * Delete a card.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param cardId card unique identifier.
      *
      * @return true if it has deleted or false otherwise.
@@ -62,12 +62,18 @@ interface CardsDB {
     fun deleteCard(conn: TransactionManager, cardId: Int)
 
     /**
-     * Verify if card exists.
+     * Verify if the card exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param cardId card unique identifier.
      *
      * @return true if exists or false if it does not exist.
      */
     fun hasCard(conn: TransactionManager, cardId: Int): Boolean
+
+    /**
+     *
+     * */
+    fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean
+
 }

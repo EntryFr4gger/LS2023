@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres.Companion.toList
+import pt.isel.ls.tasks.db.modules.users.UsersDataPostgres.Companion.toUser
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Board
@@ -62,23 +63,45 @@ class BoardsDataPostgres : BoardsDB {
         }
     }
 
-    override fun getAllLists(conn: TransactionManager, boardId: Int): List<_List> {
+    override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM lists WHERE board_id = ?"
+            "SELECT * FROM lists WHERE board_id = ? OFFSET ? LIMIT ?"
         )
         obj.setInt(1, boardId)
+        obj.setInt(2, skip)
+        obj.setInt(3, limit)
 
         val res = obj.executeQuery()
 
-        val lists = mutableListOf<pt.isel.ls.tasks.domain.List>()
+        val lists = mutableListOf<_List>()
         while (res.next())
             lists += res.toList()
 
         return lists
     }
 
-    override fun getBoardUsers(conn: TransactionManager, boardId: Int): List<User> {
-        TODO("Not yet implemented")
+    override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User> {
+        val obj = conn.connection().prepareStatement(
+            """
+                SELECT id, name, email FROM users u
+                    JOIN user_board ub ON ub.user_id = u.id
+                    WHERE board_id = ?
+                    OFFSET ? 
+                    LIMIT ?
+            """.trimIndent()
+        )
+
+        obj.setInt(1, boardId)
+        obj.setInt(2, skip)
+        obj.setInt(3, limit)
+
+        val res = obj.executeQuery()
+
+        val users = mutableListOf<User>()
+        while (res.next())
+            users += res.toUser()
+
+        return users
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean {

@@ -13,6 +13,7 @@ import pt.isel.ls.tasks.api.routers.TasksRouter
 import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardIdDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardUsersDTO
 import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
@@ -22,6 +23,9 @@ import pt.isel.ls.tasks.services.modules.boards.BoardsServices
 
 class BoardsRouter(private val services: BoardsServices, private val tokenHandeler: TokenUtil) : TasksRouter {
     companion object {
+        private const val DEFAULT_SKIP = 0
+        private const val DEFAULT_LIMIT = 10
+
         fun routes(services: BoardsServices, tokenHandeler: TokenUtil) = BoardsRouter(services, tokenHandeler).routes
     }
 
@@ -29,13 +33,16 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         "boards" bind Method.POST to ::postBoard,
         "boards/{board_id}/users/{user_id}" bind Method.POST to ::postUserToBoard,
         "boards/{board_id}" bind Method.GET to ::getBoard,
-        "boards/{board_id}/lists" bind Method.GET to ::getLists
+        "boards/{board_id}/lists" bind Method.GET to ::getLists,
+        "boards/{board_id}/users" bind Method.GET to ::getBoardUsers
     ).withFilter(tokenHandeler::filter)
 
     /**
-     * Creates a new board
-     * requires authentication
+     * Creates a new board.
+     * Require authorization.
+     *
      * @param request HTTP request that contains a JSON body with a name and a description
+     *
      * @return HTTP response contains a JSON body with the id
      */
     private fun postBoard(request: Request): Response = errorCatcher {
@@ -48,9 +55,11 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     }
 
     /**
-     * Adds a user to a board
-     * requires authorization
+     * Adds a user to a board.
+     * Require authorization.
+     *
      * @param request HTTP request that contains the board id and user id in its path
+     *
      * @return HTTP response
      */
     private fun postUserToBoard(request: Request): Response = errorCatcher {
@@ -64,9 +73,11 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     }
 
     /**
-     * Get the detailed information of a board
-     * require authorization
+     * Get the detailed information of a board.
+     * Require authorization.
+     *
      * @param request HTTP request that contains the board id
+     *
      * @return HTTP response contains a JSON body with board details
      */
     private fun getBoard(request: Request): Response = errorCatcher {
@@ -79,17 +90,39 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     }
 
     /**
-     * Get the lists of a board
-     * require authorization
+     * Get the lists of a board.
+     * Require authorization.
+     *
      * @param request HTTP request that contains the board id
+     *
      * @return HTTP response contains a JSON body with the lists
      */
     private fun getLists(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val lists = services.getAllLists(boardId, requestId)
+        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
+        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
+        val lists = services.getAllLists(boardId, skip, limit, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardListsDTO(lists)))
+    }
+
+    /**
+     * Get the list with the users of a board.
+     *
+     * @param request HTTP request that contains the board id
+     *
+     * @return list of Users in a board.
+     * */
+    private fun getBoardUsers(request: Request): Response = errorCatcher {
+        val boardId = request.pathOrThrow("board_id").toInt()
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
+        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
+        val users = services.getBoardUsers(boardId, skip, limit, requestId)
+        return Response(Status.OK)
+            .header("content-type", "application/json")
+            .body(Json.encodeToString(BoardUsersDTO(users)))
     }
 }
