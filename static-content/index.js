@@ -19,7 +19,7 @@ function createState(path) {
 }
 
 function handleComponentError(state, error) {
-    NotFoundPage(state,error).then(render);
+    NotFoundPage(state, error).then(render);
     throw error
 }
 

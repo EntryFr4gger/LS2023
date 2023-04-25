@@ -18,8 +18,10 @@ class TokensTestDataMem {
     @Test
     fun `check is token have a user assigned`() {
         source.run { conn ->
-            val res = tokens.getUserID(conn, "9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
-            assertEquals(1, res)
+            assertEquals(
+                1,
+                tokens.getUserID(conn, "9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
+            )
         }
     }
 

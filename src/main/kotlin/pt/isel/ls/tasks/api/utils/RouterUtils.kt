@@ -14,36 +14,27 @@ inline fun errorCatcher(code: () -> Response): Response {
 
     return try {
         code()
-    }
-    catch (error: SerializationException) {
+    } catch (error: SerializationException) {
         json.response(Status.BAD_REQUEST, "Bad Request", error.message)
-    }
-    catch (error: SQLException) {
+    } catch (error: SQLException) {
         json.response(Status.INTERNAL_SERVER_ERROR, "Data Base Error", error.message)
-    }
-    catch (error: NotFoundException) {
+    } catch (error: NotFoundException) {
         json.response(Status.NOT_FOUND, "Resource Not Found", error.message)
-    }
-    catch (error: ServicesError.AuthenticationException) {
+    } catch (error: ServicesError.AuthenticationException) {
         json.response(Status.UNAUTHORIZED, "Authentication Not Found", error.message)
-    }
-    catch (error: ServicesError.InvalidArgumentException) {
+    } catch (error: ServicesError.InvalidArgumentException) {
         json.response(Status.BAD_REQUEST, "Invalid Arguments", error.message)
-    }
-    catch (error: ServicesError.AuthorizationException) {
+    } catch (error: ServicesError.AuthorizationException) {
         json.response(Status.FORBIDDEN, "Authorization Error", error.message)
-    }
-    catch (error: ServicesError.AlreadyExistsException) {
+    } catch (error: ServicesError.AlreadyExistsException) {
         json.response(Status.CONFLICT, "Resource Already Exists", error.message)
-    }
-    catch (error: Exception) {
+    } catch (error: Exception) {
         println(error)
         Response(Status.INTERNAL_SERVER_ERROR)
     }
 }
 
-fun Json.response(status: Status, message: String, error: String?)=
+fun Json.response(status: Status, message: String, error: String?) =
     Response(status)
         .header("Content-Type", "application/json")
         .body(encodeToString("$message -> ${error ?: "No Message"}"))
-

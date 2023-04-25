@@ -20,37 +20,21 @@ class UsersTestDataMem {
     @Test
     fun `User is created correctly and with right identifier`() {
         source.run { conn ->
-            val user = User(1, "Bernardo", "bernardo@isel.pt")
-            val id = users.createNewUser(conn, user.name, user.email)
-            val newUser = user.copy(id = id)
-            assertEquals(newUser, storage.users[id])
+            val id = users.createNewUser(conn, "Bernardo", "bernardo@isel.pt")
+            assertEquals(
+                User(id, "Bernardo", "bernardo@isel.pt"),
+                storage.users[id]
+            )
         }
     }
 
     @Test
     fun `Gets the correct user`() {
         source.run { conn ->
-            val user = User(3, "Godofredo", "Godofredo@outlook.pt")
-            val res = users.getUserDetails(conn, 3)
-            assertEquals(user, res)
-        }
-    }
-
-    @Test
-    fun `verify that the user do not have boards`() {
-        source.run { conn ->
-            assertEquals(emptyList(), users.getUserBoards(conn, 4))
-        }
-    }
-
-    @Test
-    fun `Verify if the user has boards if not, throws an error`() {
-        source.run { conn ->
-            val cboards = listOf(
-                Board(1, "ISEL", "Cenas do 4 semestre do isel"),
-                Board(2, "Compras", "Ida ao supermercado")
+            assertEquals(
+                User(3, "Godofredo", "Godofredo@outlook.pt"),
+                users.getUserDetails(conn, 3)
             )
-            assertEquals(cboards, users.getUserBoards(conn, 2))
         }
     }
 
@@ -58,15 +42,26 @@ class UsersTestDataMem {
     fun `Throws an error for a nonexistent user `() {
         source.run { conn ->
             assertFailsWith<NotFoundException> {
-                users.getUserDetails(conn, 10)
+                users.getUserDetails(conn, Int.MAX_VALUE)
             }
         }
     }
 
     @Test
-    fun `Confirm that the email already exist`() {
+    fun `Gets User Boards`() {
         source.run { conn ->
-            assertTrue { users.hasUserEmail(conn, "UserWithNoBoard@outlook.pt") }
+            val cboards = listOf(
+                Board(1, "ISEL", "Cenas do 4 semestre do isel"),
+                Board(2, "Compras", "Ida ao supermercado")
+            )
+            assertEquals(cboards, users.getUserBoards(conn, 1, 1, 2))
+        }
+    }
+
+    @Test
+    fun `Verify that the user do not have boards`() {
+        source.run { conn ->
+            assertEquals(emptyList(), users.getUserBoards(conn, 1, 1, Int.MAX_VALUE))
         }
     }
 
@@ -78,9 +73,9 @@ class UsersTestDataMem {
     }
 
     @Test
-    fun `Confirm that the user already exist`() {
+    fun `Confirm that the email already exist`() {
         source.run { conn ->
-            assertTrue { users.hasUser(conn, 1) }
+            assertTrue { users.hasUserEmail(conn, "UserWithNoBoard@outlook.pt") }
         }
     }
 
@@ -92,16 +87,86 @@ class UsersTestDataMem {
     }
 
     @Test
-    fun `confirm that have a user in the board`() {
+    fun `Confirm that the user already exist`() {
+        source.run { conn ->
+            assertTrue { users.hasUser(conn, 1) }
+        }
+    }
+
+    @Test
+    fun `Confirm that have a user in the board`() {
         source.run { conn ->
             assertTrue { users.hasUserInBoard(conn, 1) }
         }
     }
 
     @Test
-    fun `confirm that do not have a user in the board`() {
+    fun `Confirm that do not have a user in the board`() {
         source.run { conn ->
             assertFalse { users.hasUserInBoard(conn, 4) }
+        }
+    }
+
+    @Test
+    fun `Validate request Board is successfully`() {
+        source.run { conn ->
+            assertTrue { users.validateResquestBoard(conn, 1, 1) }
+        }
+    }
+
+    @Test
+    fun `Validate request Board isn't successfully with wrong boardId`() {
+        source.run { conn ->
+            assertFalse { users.validateResquestBoard(conn, Int.MAX_VALUE, 1) }
+        }
+    }
+
+    @Test
+    fun `Validate request Board isn't successfully with wrong requestId`() {
+        source.run { conn ->
+            assertFalse { users.validateResquestBoard(conn, 1, Int.MAX_VALUE) }
+        }
+    }
+
+    @Test
+    fun `Validate request Card is successfully`() {
+        source.run { conn ->
+            assertTrue { users.validateResquestCard(conn, 1, 1) }
+        }
+    }
+
+    @Test
+    fun `Validate request Card is isn't successfully with wrong cardId`() {
+        source.run { conn ->
+            assertFalse { users.validateResquestCard(conn, Int.MAX_VALUE, 1) }
+        }
+    }
+
+    @Test
+    fun `Validate request Card isn't successfully with wrong requestId`() {
+        source.run { conn ->
+            assertFalse { users.validateResquestCard(conn, 1, Int.MAX_VALUE) }
+        }
+    }
+
+    @Test
+    fun `Validate request List is successfully`() {
+        source.run { conn ->
+            assertTrue { users.validateResquestList(conn, 1, 1) }
+        }
+    }
+
+    @Test
+    fun `Validate request List is isn't successfully with wrong ListId`() {
+        source.run { conn ->
+            assertFalse { users.validateResquestList(conn, Int.MAX_VALUE, 1) }
+        }
+    }
+
+    @Test
+    fun `Validate request List isn't successfully with wrong RequestId`() {
+        source.run { conn ->
+            assertFalse { users.validateResquestList(conn, 1, Int.MAX_VALUE) }
         }
     }
 }

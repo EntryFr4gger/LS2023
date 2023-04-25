@@ -17,7 +17,9 @@ import pt.isel.ls.tasks.api.routers.lists.models.ListIdDTO
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
+import pt.isel.ls.tasks.api.utils.limitOrDefault
 import pt.isel.ls.tasks.api.utils.pathOrThrow
+import pt.isel.ls.tasks.api.utils.skipOrDefault
 import pt.isel.ls.tasks.services.modules.lists.ListsServices
 
 class ListsRouter(private val services: ListsServices, private val tokenHandeler: TokenUtil) : TasksRouter {
@@ -80,10 +82,13 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
     private fun getListCards(request: Request): Response = errorCatcher {
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
-        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
-
-        val cards = services.getCardsOfList(listId, skip, limit, requestId)
+        val cards =
+            services.getCardsOfList(
+                listId,
+                request.skipOrDefault(DEFAULT_SKIP),
+                request.limitOrDefault(DEFAULT_LIMIT),
+                requestId
+            )
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(ListCardsDTO(cards)))

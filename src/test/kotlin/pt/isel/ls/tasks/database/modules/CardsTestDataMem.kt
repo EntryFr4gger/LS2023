@@ -30,26 +30,28 @@ class CardsTestDataMem {
                 1
             )
             val id =
-                this.cards.createNewCard(conn, card.name, card.description, card.dueDate, card.boardId, card.listId)
-            val cardCreated = card.copy(id = id, cix = 2)
-            assertEquals(storage.cards[id], cardCreated)
+                cards.createNewCard(
+                    conn,
+                    card.name,
+                    card.description,
+                    card.dueDate,
+                    card.boardId,
+                    card.listId
+                )
+            assertEquals(
+                card.copy(id = id),
+                storage.cards[id]
+            )
         }
     }
 
     @Test
-    fun `Get detail in a card`() {
+    fun `Get detail of a card`() {
         source.run { conn ->
-            val card = Card(2, "Entrega 1", "Entrega inicial do autorouter", LocalDate(2023, 4, 3), 1, 1, 2)
-            val res = cards.getCardDetails(conn, 2)
-            assertEquals(card, res)
-        }
-    }
-
-    @Test
-    fun `move card from a list`() {
-        source.run { conn ->
-            val res = cards.moveCard(conn, 3, 2)
-            assertTrue { res }
+            assertEquals(
+                Card(2, "Entrega 1", "Entrega inicial do autorouter", LocalDate(2023, 4, 3), 1, 1, 2),
+                cards.getCardDetails(conn, 2)
+            )
         }
     }
 
@@ -57,8 +59,23 @@ class CardsTestDataMem {
     fun `Throws an error for a nonexistent card`() {
         source.run { conn ->
             assertFailsWith<NotFoundException> {
-                cards.getCardDetails(conn, 10)
+                cards.getCardDetails(conn, Int.MAX_VALUE)
             }
+        }
+    }
+
+    @Test
+    fun `Move card from a list`() {
+        source.run { conn ->
+            assertTrue { cards.moveCard(conn, 3, 2) }
+        }
+    }
+
+    @Test
+    fun `Delete card from a list`() {
+        source.run { conn ->
+            cards.deleteCard(conn, 1)
+            assertFalse { cards.hasCard(conn, 1) }
         }
     }
 
@@ -72,15 +89,22 @@ class CardsTestDataMem {
     @Test
     fun `Confirm that the card do not exist`() {
         source.run { conn ->
-            assertFalse { cards.hasCard(conn, 69) }
+            assertFalse { cards.hasCard(conn, Int.MAX_VALUE) }
         }
     }
 
     @Test
-    fun `delete card from a list`() {
+    fun `Organize cards`() {
         source.run { conn ->
-            cards.deleteCard(conn, 1)
-            assertFalse { cards.hasCard(conn, 1) }
+            assertTrue(cards.organizeCardSeq(conn, 3, 2))
+            assertEquals(storage.cards[3]!!.cix, 2)
+        }
+    }
+
+    @Test
+    fun `Organize cards fails`() {
+        source.run { conn ->
+            assertFalse(cards.organizeCardSeq(conn, Int.MAX_VALUE, 2))
         }
     }
 }

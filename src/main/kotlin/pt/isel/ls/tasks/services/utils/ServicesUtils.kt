@@ -358,22 +358,24 @@ open class ServicesUtils(open val source: TaskData) {
      *
      * */
     fun organizeAfterMove(conn: TransactionManager, listId: Int, cardId: Int, cix: Int) {
-        updateCardsList(conn, source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE)
-            .map {
-                when {
-                    it.id == cardId -> it.copy(cix = cix)
-                    it.cix != null && it.cix == cix -> it.copy(cix = cix + 1)
-                    else -> it
+        updateCardsList(
+            conn,
+            source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE)
+                .map {
+                    when {
+                        it.id == cardId -> it.copy(cix = cix)
+                        it.cix != null && it.cix == cix -> it.copy(cix = cix + 1)
+                        else -> it
+                    }
                 }
-            })
+        )
     }
 
     /**
      *
      * */
-    fun organizeAfterDelete(conn: TransactionManager, listId: Int) {
+    fun organizeCards(conn: TransactionManager, listId: Int) =
         updateCardsList(conn, source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE))
-    }
 
     /**
      *

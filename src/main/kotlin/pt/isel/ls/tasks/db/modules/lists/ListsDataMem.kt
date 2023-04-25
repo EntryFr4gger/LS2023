@@ -14,15 +14,14 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
         source.nextListId.addAndGet(3)
     }
 
-    override fun createList(conn: TransactionManager, name: String, boardId: Int): Int {
-        source.nextListId.getAndIncrement().also { id ->
+    override fun createList(conn: TransactionManager, name: String, boardId: Int) =
+        source.nextListId.getAndIncrement().let { id ->
             source.lists[id] = _List(id, name, boardId)
-            return id
+            id
         }
-    }
 
     override fun getListDetails(conn: TransactionManager, listId: Int): _List =
-        source.lists[listId] ?: throw NotFoundException()
+        source.lists[listId] ?: throw NotFoundException("Couldn't get List($listId) Details")
 
     override fun getCardsOfList(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card> =
         source.cards.toList().mapNotNull {

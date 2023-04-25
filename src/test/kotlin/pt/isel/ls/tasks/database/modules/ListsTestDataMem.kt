@@ -21,40 +21,21 @@ class ListsTestDataMem {
     @Test
     fun `List is created correctly and with right identifier`() {
         source.run { conn ->
-            val lists = List(1, "Study", 1)
-            val id = this.lists.createList(conn, lists.name, lists.boardId)
-            val listCreated = lists.copy(id = id)
-            assertEquals(listCreated, storage.lists[id])
-        }
-    }
-
-    @Test
-    fun `get all cards in the same list`() {
-        source.run { conn ->
-            val cards = listOf(
-                Card(3, "Ração", "Ração daquela que os cães comem e tal", LocalDate(2023, 3, 21), 1, 2, 3),
-                Card(
-                    4,
-                    "Trela nova",
-                    "Daquela para eles n andarem muito para a frente",
-                    LocalDate(2023, 3, 21),
-                    2,
-                    2,
-                    3
-                )
+            val id = lists.createList(conn, "Study", 1)
+            assertEquals(
+                List(id, "Study", 1),
+                storage.lists[id]
             )
-
-            val res = this.lists.getCardsOfList(conn, 1, 1, 3)
-            assertEquals(cards, res)
         }
     }
 
     @Test
-    fun `Get the correct list`() {
+    fun `Get the correct list details`() {
         source.run { conn ->
-            val list = List(1, "Aula de LS", 1)
-            val res = lists.getListDetails(conn, 1)
-            assertEquals(list, res)
+            assertEquals(
+                List(1, "Aula de LS", 1),
+                lists.getListDetails(conn, 1)
+            )
         }
     }
 
@@ -62,8 +43,36 @@ class ListsTestDataMem {
     fun `Throws an error for a nonexistent lists`() {
         source.run { conn ->
             assertFailsWith<NotFoundException> {
-                lists.getListDetails(conn, 10)
+                lists.getListDetails(conn, Int.MAX_VALUE)
             }
+        }
+    }
+
+    @Test
+    fun `get all cards in the same list`() {
+        source.run { conn ->
+            assertEquals(
+                listOf(
+                    Card(
+                        1,
+                        "Phase 1",
+                        "Entrega da parte 1 do trabalho de LS",
+                        LocalDate(2023, 4, 2),
+                        1,
+                        1,
+                        1
+                    )
+                ),
+                lists.getCardsOfList(conn, 1, 1, 3)
+            )
+        }
+    }
+
+    @Test
+    fun `delete list from a board`() {
+        source.run { conn ->
+            lists.deleteList(conn, 1)
+            assertFalse { lists.hasList(conn, 1) }
         }
     }
 
@@ -78,14 +87,6 @@ class ListsTestDataMem {
     fun `Confirm that the list do not exist`() {
         source.run { conn ->
             assertFalse { lists.hasList(conn, 69) }
-        }
-    }
-
-    @Test
-    fun `delete list from a board`() {
-        source.run { conn ->
-            lists.deleteList(conn, 1)
-            assertFalse { lists.hasList(conn, 1) }
         }
     }
 }

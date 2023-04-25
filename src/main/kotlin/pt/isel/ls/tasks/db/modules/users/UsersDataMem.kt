@@ -3,7 +3,6 @@ package pt.isel.ls.tasks.db.modules.users
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
-import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 
 class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
@@ -16,29 +15,25 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         source.nextUserId.addAndGet(4)
     }
 
-    override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
-        source.nextUserId.getAndIncrement().also { id ->
+    override fun createNewUser(conn: TransactionManager, name: String, email: String) =
+        source.nextUserId.getAndIncrement().let { id ->
             source.users[id] = User(id, name, email)
-            return id
+            id
         }
-    }
 
-    override fun getUserDetails(conn: TransactionManager, userId: Int): User {
-        return source.users[userId] ?: throw NotFoundException()
-    }
+    override fun getUserDetails(conn: TransactionManager, userId: Int) =
+        source.users[userId] ?: throw NotFoundException("Couldn't get User($userId) Details")
 
-    override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board> {
-        val userBoard = source.userBoard[userId]
-        return userBoard?.mapNotNull { source.boards[it] } ?: emptyList()
-    }
+    override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int) =
+        source.userBoard[userId]?.mapNotNull { source.boards[it] } ?: emptyList()
 
-    override fun hasUserEmail(conn: TransactionManager, email: String): Boolean =
+    override fun hasUserEmail(conn: TransactionManager, email: String) =
         source.users.values.find { it.email == email } != null
 
-    override fun hasUser(conn: TransactionManager, userId: Int): Boolean =
+    override fun hasUser(conn: TransactionManager, userId: Int) =
         source.users[userId] != null
 
-    override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean =
+    override fun hasUserInBoard(conn: TransactionManager, userId: Int) =
         source.userBoard[userId] != null
 
     override fun validateResquestBoard(conn: TransactionManager, boardId: Int, requestId: Int): Boolean {

@@ -1,4 +1,4 @@
-import {a, div, li, nav, ul} from "../components/dom/domTags.js";
+import {a, nav} from "../components/dom/domTags.js";
 
 async function NavBar() {
     return nav(

@@ -10,8 +10,8 @@ create table Users
     id    SERIAL PRIMARY KEY,
     name  VARCHAR(60)         NOT NULL,
     email VARCHAR(320) UNIQUE NOT NULL CHECK ( email ~ '^[A-Za-z0-9+_.-]+@(.+)$'
-        )
-);
+)
+    );
 
 create table Tokens
 (

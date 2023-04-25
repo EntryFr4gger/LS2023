@@ -18,7 +18,6 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         source.nextCardId.addAndGet(4)
     }
 
-    // make due date optional
     override fun createNewCard(
         conn: TransactionManager,
         name: String,
@@ -26,20 +25,17 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         dueDate: LocalDate?,
         boardId: Int,
         listId: Int?
-    ): Int {
-        val cix = if (listId == null) null
-        else source.cards.filter { it.value.listId == listId }.size + 1
-        source.nextCardId.getAndIncrement().also { id ->
-            source.cards[id] = Card(id, name, description, dueDate, cix, boardId, listId)
-            return id
+    ) =
+        source.nextCardId.getAndIncrement().let { id ->
+            source.cards[id] = Card(id, name, description, dueDate, null, boardId, listId)
+            id
         }
-    }
 
     override fun getCardDetails(conn: TransactionManager, cardId: Int): Card =
-        source.cards[cardId] ?: throw NotFoundException()
+        source.cards[cardId] ?: throw NotFoundException("Couldn't get Card($cardId) Details")
 
     override fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Boolean {
-        val card = source.cards[cardId] ?: throw NotFoundException()
+        val card = source.cards[cardId] ?: throw NotFoundException("Card($cardId) Not Found")
         source.cards[cardId] = card.copy(listId = listId)
         return source.cards[cardId]?.listId != null
     }
@@ -52,6 +48,8 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         source.cards[cardId] != null
 
     override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean {
-        TODO("Not yet implemented")
+        val card = source.cards[cardId] ?: return false
+        source.cards[cardId] = card.copy(cix = cix)
+        return true
     }
 }

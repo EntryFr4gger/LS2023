@@ -15,7 +15,9 @@ class TokensDataPostgres : TokensDB {
         obj.setString(1, token)
         obj.setInt(2, userId)
 
-        if (obj.executeUpdate() == 0) throw SQLException("Token Creation Failed")
+        if (obj.executeUpdate() == 0) {
+            throw SQLException("Token Creation Failed with token:$token and userId:$userId")
+        }
 
         return token
     }
@@ -30,7 +32,7 @@ class TokensDataPostgres : TokensDB {
         if (res.next()) {
             return res.getInt(1)
         } else {
-            throw NotFoundException("Token does not exist")
+            throw NotFoundException("Token($token) does not exist")
         }
     }
 

@@ -75,5 +75,4 @@ interface CardsDB {
      *
      * */
     fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean
-
 }

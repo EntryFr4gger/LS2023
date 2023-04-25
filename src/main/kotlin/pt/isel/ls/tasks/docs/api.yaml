@@ -40,8 +40,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
       x-codegen-request-body-name: user
   /users/{user_id}:
     get:
@@ -81,8 +81,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
   /users/{user_id}/boards:
     get:
@@ -122,8 +122,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
   /boards:
     post:
@@ -152,8 +152,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
   /boards/{board_id}:
     get:
@@ -193,8 +193,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
 
   /boards/{board_id}/lists:
@@ -214,7 +214,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-            example : 1
+            example: 1
       responses:
         200:
           description: successful operation
@@ -235,8 +235,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
   /boards/{board_id}/users:
     get:
@@ -276,8 +276,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
   /boards/{board_id}/users/{user_id}:
     post:
@@ -309,8 +309,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
   /lists:
     post:
       tags:
@@ -338,8 +338,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
   /lists/{list_id}:
     get:
@@ -358,7 +358,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-            example : 1
+            example: 1
       responses:
         200:
           description: successful operation
@@ -379,46 +379,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
-    delete :
-      tags :
+    delete:
+      tags:
         - Lists
-      summary : Delete list with list id
-      description : Delete list with list given its id
-      operationId : deleteList
-      security :
-        - bearerAuth : [ ]
-      parameters :
-        - name : list_id
-          in : path
-          description : ID of list that to be deleted
-          required : true
-          schema :
-            type : integer
-            minimum : 1
-      responses :
-        200 :
-          description : List Deleted
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/ListDeleted'
-        400 :
-          description : Invalid ID supplied
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/InvalidRequest'
-        404 :
-          description : List not found
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+      summary: Delete list with list id
+      description: Delete list with list given its id
+      operationId: deleteList
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: list_id
+          in: path
+          description: ID of list that to be deleted
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        200:
+          description: List Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListDeleted'
+        400:
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+        404:
+          description: List not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
 
   /lists/{list_id}/cards:
@@ -458,8 +458,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
 
   /cards:
@@ -489,8 +489,8 @@ paths:
         400:
           description: Invalid input, object invalid
           content: { }
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
 
   /cards/{card_id}:
@@ -510,7 +510,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-            example : 1
+            example: 1
       responses:
         200:
           description: successful operation
@@ -531,8 +531,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
     put:
       tags:
@@ -579,48 +579,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
 
-    delete :
-      tags :
+    delete:
+      tags:
         - Cards
-      summary : Delete card with card_id
-      description : Delete list with list given its id
-      operationId : deleteList
-      security :
-        - bearerAuth : [ ]
-      parameters :
-        - name : card_id
-          in : path
-          description : ID of card that to be deleted
-          required : true
-          schema :
-            type : integer
-            minimum : 1
-            example : 1
-      responses :
-        200 :
-          description : Card Deleted
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/CardDeleted'
-        400 :
-          description : Invalid ID supplied
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/InvalidRequest'
-        404 :
-          description : Card not found
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+      summary: Delete card with card_id
+      description: Delete list with list given its id
+      operationId: deleteList
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: card_id
+          in: path
+          description: ID of card that to be deleted
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            example: 1
+      responses:
+        200:
+          description: Card Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardDeleted'
+        400:
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+        404:
+          description: Card not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
 components:
   securitySchemes:
@@ -835,23 +835,23 @@ components:
           example: "Missing required parameter"
 
     InternalServerErrorResponse:
-      type : object
-      properties :
-        message :
-          type : string
-          example : An internal error occurred
+      type: object
+      properties:
+        message:
+          type: string
+          example: An internal error occurred
 
-    ListDeleted :
-      type : object
-      properties :
-        Message :
-          type : string
-          example : "List Deleted with success"
+    ListDeleted:
+      type: object
+      properties:
+        Message:
+          type: string
+          example: "List Deleted with success"
 
-    CardDeleted :
-      type : object
-      properties :
-        Message :
-          type : string
-          example : "Card Deleted with success"
+    CardDeleted:
+      type: object
+      properties:
+        Message:
+          type: string
+          example: "Card Deleted with success"
 

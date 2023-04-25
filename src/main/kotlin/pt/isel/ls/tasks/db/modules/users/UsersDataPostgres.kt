@@ -25,7 +25,7 @@ class UsersDataPostgres : UsersDB {
         obj.setString(1, name)
         obj.setString(2, email)
 
-        if (obj.executeUpdate() == 0) throw SQLException("User Creation Failed")
+        if (obj.executeUpdate() == 0) throw SQLException("User Creation Failed with name:$name")
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -42,7 +42,7 @@ class UsersDataPostgres : UsersDB {
         if (res.next()) {
             return res.toUser()
         } else {
-            throw NotFoundException()
+            throw NotFoundException("Couldn't get User($userId) Details")
         }
     }
 

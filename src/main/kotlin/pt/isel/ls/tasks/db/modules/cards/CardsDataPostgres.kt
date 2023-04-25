@@ -35,10 +35,14 @@ class CardsDataPostgres : CardsDB {
             if (data == null) setNull(parameterIndex, type) else setInt(parameterIndex, data)
 
         fun PreparedStatement.setDateIfNotNull(parameterIndex: Int, data: LocalDate?, type: Int) =
-            if (data == null) setNull(parameterIndex, type) else setDate(
-                parameterIndex,
-                Date.valueOf(data.toJavaLocalDate())
-            )
+            if (data == null) {
+                setNull(parameterIndex, type)
+            } else {
+                setDate(
+                    parameterIndex,
+                    Date.valueOf(data.toJavaLocalDate())
+                )
+            }
     }
 
     override fun createNewCard(
@@ -59,7 +63,7 @@ class CardsDataPostgres : CardsDB {
         obj.setInt(4, boardId)
         obj.setIntIfNotNull(5, listId, Types.INTEGER)
 
-        if (obj.executeUpdate() == 0) throw SQLException("Card Creation Failed")
+        if (obj.executeUpdate() == 0) throw SQLException("Card Creation Failed with name:$name")
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -76,7 +80,7 @@ class CardsDataPostgres : CardsDB {
         if (res.next()) {
             return res.toCard()
         } else {
-            throw NotFoundException()
+            throw NotFoundException("Couldn't get Card($cardId) Details")
         }
     }
 
@@ -88,7 +92,9 @@ class CardsDataPostgres : CardsDB {
         obj.setInt(1, listId)
         obj.setInt(2, cardId)
 
-        if (obj.executeUpdate() == 0) throw SQLException("Card Move Failed")
+        if (obj.executeUpdate() == 0) {
+            throw SQLException("Card Move Failed with cardId: $cardId and listId: $listId")
+        }
 
         obj.generatedKeys.also {
             return it.next()
@@ -100,7 +106,7 @@ class CardsDataPostgres : CardsDB {
             "DELETE FROM cards WHERE id = ?"
         )
         res.setInt(1, cardId)
-        if (res.executeUpdate() == 0) throw SQLException("Card Delete was unsuccessful")
+        if (res.executeUpdate() == 0) throw SQLException("Card($cardId) delete was unsuccessful")
     }
 
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean {
@@ -121,7 +127,7 @@ class CardsDataPostgres : CardsDB {
         obj.setInt(1, cix)
         obj.setInt(2, cardId)
 
-        if (obj.executeUpdate() == 0) throw SQLException("Organization Card Failed")
+        if (obj.executeUpdate() == 0) throw SQLException("Organization Card($cardId) Failed to index $cix")
 
         obj.generatedKeys.also {
             return it.next()

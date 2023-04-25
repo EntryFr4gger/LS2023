@@ -18,7 +18,9 @@ import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
+import pt.isel.ls.tasks.api.utils.limitOrDefault
 import pt.isel.ls.tasks.api.utils.pathOrThrow
+import pt.isel.ls.tasks.api.utils.skipOrDefault
 import pt.isel.ls.tasks.services.modules.boards.BoardsServices
 
 class BoardsRouter(private val services: BoardsServices, private val tokenHandeler: TokenUtil) : TasksRouter {
@@ -100,9 +102,13 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun getLists(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
-        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
-        val lists = services.getAllLists(boardId, skip, limit, requestId)
+        val lists =
+            services.getAllLists(
+                boardId,
+                request.skipOrDefault(DEFAULT_SKIP),
+                request.limitOrDefault(DEFAULT_LIMIT),
+                requestId
+            )
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardListsDTO(lists)))
@@ -110,6 +116,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
 
     /**
      * Get the list with the users of a board.
+     * Require authorization.
      *
      * @param request HTTP request that contains the board id
      *
@@ -118,9 +125,13 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun getBoardUsers(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
-        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
-        val users = services.getBoardUsers(boardId, skip, limit, requestId)
+        val users =
+            services.getBoardUsers(
+                boardId,
+                request.skipOrDefault(DEFAULT_SKIP),
+                request.limitOrDefault(DEFAULT_LIMIT),
+                requestId
+            )
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardUsersDTO(users)))

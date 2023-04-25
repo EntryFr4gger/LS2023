@@ -29,4 +29,4 @@ class Token(val token: String, val userId: Int) {
     }
 }
 
-fun String.stripBearer() = this.substring(7)
+fun String.stripBearer() = substring(7)

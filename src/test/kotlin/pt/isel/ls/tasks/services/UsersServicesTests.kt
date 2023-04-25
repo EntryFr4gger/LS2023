@@ -62,14 +62,14 @@ class UsersServicesTests : ClearData() {
             val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
-            assertEquals(listOf(Board(boardId, "Armandio", "sadsad")), services.users.getUserBoards(userId))
+            assertEquals(listOf(Board(boardId, "Armandio", "sadsad")), services.users.getUserBoards(userId, 1, 1))
         }
     }
 
     @Test
     fun `get user boards throws InvalidArgumentException if id isn't valid`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.users.getUserBoards(-2)
+            services.users.getUserBoards(-2, 1, 1)
         }
     }
 }

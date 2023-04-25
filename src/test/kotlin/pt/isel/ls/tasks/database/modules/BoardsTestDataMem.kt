@@ -6,6 +6,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.boards.BoardsDataMem
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.User
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -20,24 +21,29 @@ class BoardsTestDataMem {
     fun `Board is created correctly and with right identifier`() {
         source.run { conn ->
             val id = boards.createNewBoard(conn, "Every day", "Tomorrow is a new day")
-            val boardCreated = Board(id, "Every day", "Tomorrow is a new day")
-            assertEquals(boardCreated, storage.boards[id])
+            assertEquals(
+                Board(id, "Every day", "Tomorrow is a new day"),
+                storage.boards[id]
+            )
         }
     }
 
     @Test
-    fun `return true if user do not exist`() {
+    fun `Verify if the user was correctly added to the board`() {
         source.run { conn ->
-            val ret = boards.addUserToBoard(conn, 1, 1)
-            assertTrue { ret }
+            assertTrue {
+                boards.addUserToBoard(conn, 1, 2)
+            }
         }
     }
 
     @Test
-    fun `Verify if the user was correctly added to the board  `() {
+    fun `Verify if the board details are correct`() {
         source.run { conn ->
-            val ret = boards.addUserToBoard(conn, 1, 2)
-            assertTrue { ret }
+            assertEquals(
+                Board(1, "ISEL", "Cenas do 4 semestre do isel"),
+                boards.getBoardDetails(conn, 1)
+            )
         }
     }
 
@@ -45,7 +51,7 @@ class BoardsTestDataMem {
     fun `Throws an error for a nonexistent board`() {
         source.run { conn ->
             assertFailsWith<NotFoundException> {
-                boards.getBoardDetails(conn, 100)
+                boards.getBoardDetails(conn, Int.MAX_VALUE)
             }
         }
     }
@@ -53,12 +59,26 @@ class BoardsTestDataMem {
     @Test
     fun `Gets the correct lists of a board`() {
         source.run { conn ->
-            val lists = listOf(
-                pt.isel.ls.tasks.domain.List(1, "Aula de LS", 1),
-                pt.isel.ls.tasks.domain.List(2, "Aula de LAE", 1)
+            assertEquals(
+                listOf(
+                    pt.isel.ls.tasks.domain.List(1, "Aula de LS", 1),
+                    pt.isel.ls.tasks.domain.List(2, "Aula de LAE", 1)
+                ),
+                boards.getAllLists(conn, 1, 1, 1)
             )
-            val res = boards.getAllLists(conn, 1)
-            assertEquals(lists, res)
+        }
+    }
+
+    @Test
+    fun `Gets the correct lists of a users in a board`() {
+        source.run { conn ->
+            assertEquals(
+                listOf(
+                    User(1, "Gilberto", "Gilberto@gmail.com"),
+                    User(2, "Alberto", "Alberto@hotmail.com")
+                ),
+                boards.getBoardUsers(conn, 2, 1, 1)
+            )
         }
     }
 

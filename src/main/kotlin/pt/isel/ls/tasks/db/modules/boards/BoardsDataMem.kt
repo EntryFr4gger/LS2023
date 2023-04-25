@@ -4,7 +4,17 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
-import pt.isel.ls.tasks.domain.User
+import kotlin.collections.List
+import kotlin.collections.emptyList
+import kotlin.collections.filter
+import kotlin.collections.find
+import kotlin.collections.isNullOrEmpty
+import kotlin.collections.listOf
+import kotlin.collections.map
+import kotlin.collections.mapNotNull
+import kotlin.collections.plus
+import kotlin.collections.set
+import kotlin.collections.toList
 import pt.isel.ls.tasks.domain.List as _List
 
 class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
@@ -15,30 +25,23 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         source.boards[3] = Board(3, "Limpeza", "O que falta limpar cá em casa")
         source.nextBoardId.addAndGet(3)
 
-        source.userBoard[1] = listOf(3, 1, 2)
+        source.userBoard[1] = listOf(1, 2, 3)
         source.userBoard[2] = listOf(1, 2)
     }
 
-    override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
-        val id = source.nextBoardId.getAndIncrement()
-        source.boards[id] = Board(id, name, description)
-        return id
-    }
-
-    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Boolean {
-        val userBoard = source.userBoard[userId]
-        if (source.userBoard.containsKey(userId)) {
-            if (userBoard != null) {
-                source.userBoard[userId] = userBoard + listOf(boardId)
-            }
-        } else {
-            source.userBoard[userId] = listOf(boardId)
+    override fun createNewBoard(conn: TransactionManager, name: String, description: String) =
+        source.nextBoardId.getAndIncrement().let { id ->
+            source.boards[id] = Board(id, name, description)
+            id
         }
-        return !source.userBoard[userId].isNullOrEmpty()
-    }
+
+    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int) =
+        !source.userBoard[userId].also {
+            source.userBoard[userId] = (it ?: emptyList()) + boardId
+        }.isNullOrEmpty()
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
-        source.boards[boardId] ?: throw NotFoundException()
+        source.boards[boardId] ?: throw NotFoundException("Couldn't get Board($boardId) Details")
 
     override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> =
         source.lists.toList().mapNotNull {
@@ -47,14 +50,13 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
             }
         }
 
-    override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User> {
-        return source.userBoard.filter { it.value.contains(boardId) }
-            .map { source.users[it.key] ?: throw NotFoundException("User not found") }
-    }
+    override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int) =
+        source.userBoard.filter { hash -> hash.value.contains(boardId) }
+            .map { source.users[it.key] ?: throw NotFoundException("User not found with userId:${it.key}") }
 
-    override fun hasBoardName(conn: TransactionManager, name: String): Boolean =
+    override fun hasBoardName(conn: TransactionManager, name: String) =
         source.boards.values.find { it.name == name } != null
 
-    override fun hasBoard(conn: TransactionManager, boardId: Int): Boolean =
+    override fun hasBoard(conn: TransactionManager, boardId: Int) =
         source.boards[boardId] != null
 }

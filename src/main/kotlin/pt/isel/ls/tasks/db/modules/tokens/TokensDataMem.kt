@@ -20,7 +20,7 @@ class TokensDataMem(private val source: TasksDataStorage) : TokensDB {
     }
 
     override fun getUserID(conn: TransactionManager, token: String): Int {
-        val res = source.tokens[token] ?: throw NotFoundException()
+        val res = source.tokens[token] ?: throw NotFoundException("Token($token) does not exist")
         return res.userId
     }
 

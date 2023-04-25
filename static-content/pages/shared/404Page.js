@@ -1,8 +1,7 @@
 import {br, div, h1, p} from "../components/dom/domTags.js";
-import buttonWithRef from "../components/ButtonWithRef.js";
 import NavBar from "./NavBar.js";
 
-async function NotFoundPage(state,error) {
+async function NotFoundPage(state, error) {
     return div(
         await NavBar(state),
         br(),

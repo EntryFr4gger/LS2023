@@ -20,31 +20,33 @@ class BoardsDataPostgres : BoardsDB {
     }
 
     override fun createNewBoard(conn: TransactionManager, name: String, description: String): Int {
-        val res = conn.connection().prepareStatement(
+        val prp = conn.connection().prepareStatement(
             "INSERT INTO boards(name, description) VALUES (?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
-        res.setString(1, name)
-        res.setString(2, description)
+        prp.setString(1, name)
+        prp.setString(2, description)
 
-        if (res.executeUpdate() == 0) throw SQLException("Board Creation Failed")
+        if (prp.executeUpdate() == 0) throw SQLException("New Board Creation Failed with name: $name")
 
-        res.generatedKeys.also {
+        prp.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
         }
     }
 
     override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Boolean {
-        val res = conn.connection().prepareStatement(
+        val prp = conn.connection().prepareStatement(
             "INSERT INTO user_board(user_id, board_id) VALUES (?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
-        res.setInt(1, userId)
-        res.setInt(2, boardId)
+        prp.setInt(1, userId)
+        prp.setInt(2, boardId)
 
-        if (res.executeUpdate() == 0) throw SQLException("User Addition to Board Failed")
+        if (prp.executeUpdate() == 0) {
+            throw SQLException("User Addition to Board Failed with userId: $userId and boardId: $boardId")
+        }
 
-        res.generatedKeys.also {
+        prp.generatedKeys.also {
             return it.next()
         }
     }
@@ -59,19 +61,19 @@ class BoardsDataPostgres : BoardsDB {
         if (res.next()) {
             return res.toBoard()
         } else {
-            throw NotFoundException()
+            throw NotFoundException("Couldn't get Board($boardId) Details")
         }
     }
 
     override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> {
-        val obj = conn.connection().prepareStatement(
+        val prp = conn.connection().prepareStatement(
             "SELECT * FROM lists WHERE board_id = ? OFFSET ? LIMIT ?"
         )
-        obj.setInt(1, boardId)
-        obj.setInt(2, skip)
-        obj.setInt(3, limit)
+        prp.setInt(1, boardId)
+        prp.setInt(2, skip)
+        prp.setInt(3, limit)
 
-        val res = obj.executeQuery()
+        val res = prp.executeQuery()
 
         val lists = mutableListOf<_List>()
         while (res.next())
@@ -81,7 +83,7 @@ class BoardsDataPostgres : BoardsDB {
     }
 
     override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User> {
-        val obj = conn.connection().prepareStatement(
+        val prp = conn.connection().prepareStatement(
             """
                 SELECT id, name, email FROM users u
                     JOIN user_board ub ON ub.user_id = u.id
@@ -91,11 +93,11 @@ class BoardsDataPostgres : BoardsDB {
             """.trimIndent()
         )
 
-        obj.setInt(1, boardId)
-        obj.setInt(2, skip)
-        obj.setInt(3, limit)
+        prp.setInt(1, boardId)
+        prp.setInt(2, skip)
+        prp.setInt(3, limit)
 
-        val res = obj.executeQuery()
+        val res = prp.executeQuery()
 
         val users = mutableListOf<User>()
         while (res.next())

@@ -87,6 +87,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
 
     /**
      * Delete a card.
+     * Require authorization.
      *
      * @param request HTTP request that contains the card id
      *

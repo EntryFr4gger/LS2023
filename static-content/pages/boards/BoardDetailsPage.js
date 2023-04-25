@@ -1,5 +1,5 @@
 import buttonWithRef from "../components/ButtonWithRef.js";
-import {div, h1, p, li, ul} from "../components/dom/domTags.js";
+import {div, h1, li, p, ul} from "../components/dom/domTags.js";
 
 
 function BoardDetailsPage(state) {

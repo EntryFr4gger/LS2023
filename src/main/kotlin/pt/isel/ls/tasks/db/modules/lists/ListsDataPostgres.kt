@@ -8,6 +8,8 @@ import pt.isel.ls.tasks.domain.Card
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
+import kotlin.collections.List
+import kotlin.collections.mutableListOf
 import pt.isel.ls.tasks.domain.List as _List
 
 class ListsDataPostgres : ListsDB {
@@ -25,7 +27,9 @@ class ListsDataPostgres : ListsDB {
         obj.setString(1, name)
         obj.setInt(2, boardId)
 
-        if (obj.executeUpdate() == 0) throw SQLException("List Creation Failed")
+        if (obj.executeUpdate() == 0) {
+            throw SQLException("List Creation Failed with name:$name in board:$boardId")
+        }
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
@@ -42,13 +46,13 @@ class ListsDataPostgres : ListsDB {
         if (res.next()) {
             return res.toList()
         } else {
-            throw NotFoundException()
+            throw NotFoundException("Couldn't get List($listId) Details")
         }
     }
 
     override fun getCardsOfList(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card> {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM cards WHERE list_id = ? OFFSET ? LIMIT ?"
+            "SELECT * FROM cards WHERE list_id = ? ORDER BY cix OFFSET ? LIMIT ?"
         )
         obj.setInt(1, listId)
         obj.setInt(2, skip)
@@ -68,7 +72,7 @@ class ListsDataPostgres : ListsDB {
             "DELETE FROM lists WHERE id = ?"
         )
         res.setInt(1, listId)
-        if (res.executeUpdate() == 0) throw SQLException("List delete was unsuccessful")
+        if (res.executeUpdate() == 0) throw SQLException("List($listId) delete was unsuccessful")
     }
 
     override fun hasList(conn: TransactionManager, listId: Int): Boolean {

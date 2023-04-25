@@ -18,7 +18,9 @@ import pt.isel.ls.tasks.api.routers.users.models.UserInfoDTO
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
+import pt.isel.ls.tasks.api.utils.limitOrDefault
 import pt.isel.ls.tasks.api.utils.pathOrThrow
+import pt.isel.ls.tasks.api.utils.skipOrDefault
 import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class UsersRouter(private val services: UsersServices, private val tokenHandeler: TokenUtil) : TasksRouter {
@@ -36,7 +38,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     )
 
     /**
-     * Creates a new user
+     * Creates a new user.
      *
      * @param request HTTP request that contains a JSON body with a name and an email
      *
@@ -51,8 +53,8 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     }
 
     /**
-     * Get the details of a user
-     * Requires authorization
+     * Get the details of a user.
+     * Requires authorization.
      *
      * @param request HTTP request that has a user_id in its path
      *
@@ -67,8 +69,8 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     }
 
     /**
-     * Get the list with all user available boards
-     * Requires authentication
+     * Get the list with all user available boards.
+     * Requires authentication.
      *
      * @param request HTTP request
      *
@@ -76,10 +78,12 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
      */
     private fun getUserBoards(request: Request): Response = errorCatcher {
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val skip = request.query("skip")?.toInt() ?: DEFAULT_SKIP
-        val limit = request.query("limit")?.toInt() ?: DEFAULT_LIMIT
-
-        val boards = services.getUserBoards(requestId, skip, limit)
+        val boards =
+            services.getUserBoards(
+                requestId,
+                request.skipOrDefault(DEFAULT_SKIP),
+                request.limitOrDefault(DEFAULT_LIMIT)
+            )
         return Response(OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(UserBoardsDTO(boards)))

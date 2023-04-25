@@ -49,6 +49,9 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             listId?.let { hasList(conn, listId) }
 
             source.cards.createNewCard(conn, name, description, dueDate, boardId, listId)
+                .also {
+                    listId?.let { organizeCards(conn, listId) }
+                }
         }
     }
 
@@ -123,8 +126,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
 
             val listId = source.cards.getCardDetails(conn, cardId).listId!!
             source.cards.deleteCard(conn, cardId)
-            organizeAfterDelete(conn, listId)
+            organizeCards(conn, listId)
         }
     }
-
 }
