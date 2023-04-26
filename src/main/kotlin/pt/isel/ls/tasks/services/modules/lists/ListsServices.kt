@@ -18,20 +18,13 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      * @param boardId board unique identifier.
      * @param requestId request user unique identifier.
      *
-     * @return list's unique identifier.
-     *
-     * @throws ServicesError.InvalidArgumentException name is the worng length.
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
-     * @throws ServicesError.AuthorizationException if user inst authorized.
-     * @throws ServicesError.InvalidArgumentException if id doesn't exists.
+     * @return new list unique identifier.
      * */
     fun createList(name: String, boardId: Int, requestId: Int): Int {
         isValidListName(name)
         isValidBoardId(boardId)
 
         return source.run { conn ->
-            hasBoard(conn, boardId)
-
             authorizationBoard(conn, boardId, requestId)
 
             source.lists.createList(conn, name, boardId)
@@ -45,9 +38,6 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return a List.
-     *
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
-     * @throws ServicesError.AuthorizationException if user inst authorized.
      * */
     fun getListDetails(listId: Int, requestId: Int): _List {
         isValidListId(listId)
@@ -66,18 +56,12 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return list of Cards in List.
-     *
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
-     * @throws ServicesError.AuthorizationException if user inst authorized.
-     * @throws ServicesError.InvalidArgumentException if id doesn't exist.
      * */
     fun getCardsOfList(listId: Int, skip: Int, limit: Int, requestId: Int): List<Card> {
         isValidListId(listId)
 
         return source.run { conn ->
             authorizationList(conn, listId, requestId)
-
-            hasList(conn, listId)
 
             source.lists.getCardsOfList(conn, listId, skip, limit)
         }
@@ -96,8 +80,6 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
 
         return source.run { conn ->
             authorizationList(conn, listId, requestId)
-
-            hasList(conn, listId)
 
             source.lists.deleteList(conn, listId)
         }

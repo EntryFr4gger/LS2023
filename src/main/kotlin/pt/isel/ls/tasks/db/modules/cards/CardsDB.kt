@@ -68,11 +68,17 @@ interface CardsDB {
      * @param cardId card unique identifier.
      *
      * @return true if exists or false if it does not exist.
-     */
+     * */
     fun hasCard(conn: TransactionManager, cardId: Int): Boolean
 
     /**
+     * Updates card with new index.
      *
+     * @param conn connection to a database.
+     * @param cardId card unique identifier.
+     * @param cix desired index.
+     *
+     * @return true if executed correctly, false otherwise.
      * */
     fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean
 }

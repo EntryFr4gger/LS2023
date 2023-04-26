@@ -39,7 +39,7 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `create board throws AuthenticationException if user doesn't exist`() {
         assertFailsWith<ServicesError.AuthenticationException> {
-            services.boards.createNewBoard("Board", "boas", -2)
+            services.boards.createNewBoard("Board", "boas", Int.MAX_VALUE)
         }
     }
 
@@ -59,6 +59,7 @@ class BoardsServicesTests : ClearData() {
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             assertTrue(services.boards.addUserToBoard(userIdTest, boardId, userId))
+            assertTrue(storage.userBoard[userIdTest]!!.contains(boardId))
         }
     }
 
@@ -79,7 +80,7 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `add user to board throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.boards.addUserToBoard(1, 1, -2)
+            services.boards.addUserToBoard(1, 1, 3)
         }
     }
 
@@ -103,7 +104,7 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `get board details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.boards.getBoardDetails(1, -2)
+            services.boards.getBoardDetails(1, 3)
         }
     }
 
@@ -128,7 +129,7 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `get all lists throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.boards.getAllLists(1, 1, 1, -2)
+            services.boards.getAllLists(1, 1, 1, 3)
         }
     }
 }

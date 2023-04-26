@@ -42,7 +42,7 @@ class ListsServicesTests : ClearData() {
     @Test
     fun `create list throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.lists.createList("list", 1, -2)
+            services.lists.createList("list", 1, 3)
         }
     }
 
@@ -67,7 +67,7 @@ class ListsServicesTests : ClearData() {
     @Test
     fun `get list details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.lists.getListDetails(1, -2)
+            services.lists.getListDetails(1, 3)
         }
     }
 
@@ -78,10 +78,10 @@ class ListsServicesTests : ClearData() {
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             val listId = source.lists.createList(it, "list", boardId)
             source.boards.addUserToBoard(it, userId, boardId)
-            val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, listId)
+            val cardId = services.cards.createNewCard("card", "card", null, boardId, listId, userId)
             assertEquals(
                 listOf(Card(cardId, "card", "card", null, 1, boardId, listId)),
-                services.lists.getCardsOfList(listId, 1, 1, userId)
+                services.lists.getCardsOfList(listId, 0, 10, userId)
             )
         }
     }
@@ -96,7 +96,7 @@ class ListsServicesTests : ClearData() {
     @Test
     fun `get cards of list throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.lists.getCardsOfList(1, 1, 1, -2)
+            services.lists.getCardsOfList(1, 1, 1, 3)
         }
     }
 }

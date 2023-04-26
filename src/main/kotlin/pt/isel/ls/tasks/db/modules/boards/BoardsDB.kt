@@ -13,7 +13,7 @@ interface BoardsDB {
     /**
      * Creates a new board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param name unique name for the board.
      * @param description board description.
      *
@@ -24,7 +24,7 @@ interface BoardsDB {
     /**
      * Add a user to the board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param userId user unique identifier.
      * @param boardId board unique identifier.
      *
@@ -35,7 +35,7 @@ interface BoardsDB {
     /**
      * Get the detailed information of a board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param boardId board unique identifier.
      *
      * @return a Board.
@@ -45,7 +45,7 @@ interface BoardsDB {
     /**
      * Get the lists of a board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param boardId board unique identifier.
      *
      * @return list of lists in a board.
@@ -55,7 +55,7 @@ interface BoardsDB {
     /**
      * Get the list with the users of a board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param boardId board unique identifier.
      *
      * @return list of Users in a board.
@@ -63,9 +63,9 @@ interface BoardsDB {
     fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User>
 
     /**
-     * Verify if name is new
+     * Verify if the name is new
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param name unique name for the board.
      *
      * @return true if exists or false if it does not exist.
@@ -73,9 +73,9 @@ interface BoardsDB {
     fun hasBoardName(conn: TransactionManager, name: String): Boolean
 
     /**
-     * Verify if board exists.
+     * Verify if the board exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param boardId board unique identifier.
      *
      * @return true if exists or false if it does not exist.

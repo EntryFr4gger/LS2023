@@ -111,6 +111,7 @@ saying there was an error without crashing the server.
 ## Critical Evaluation
 
 There are several functionalities that didn't make it due to time constraints:
+
 * A Json response maker to shorten code length on responses
 * More detailed server answers to the API response when something goes wrong
 * A route to run the Open API in the docs section automatically

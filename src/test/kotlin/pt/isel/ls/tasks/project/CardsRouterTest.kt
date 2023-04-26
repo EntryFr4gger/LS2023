@@ -21,7 +21,6 @@ class CardsRouterTest : InstanceProjectTest() {
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val nameL1 = "testList"
         val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
-        val exampleLD = LocalDate(2023, 3, 21) // optional
 
         val requestBody = """
             {
@@ -83,7 +82,7 @@ class CardsRouterTest : InstanceProjectTest() {
         val list2Name = "testList 2"
         val list1Id = services.lists.createList(list1Name, boardId, idNToken.id)
         val list2Id = services.lists.createList(list2Name, boardId, idNToken.id)
-        val exampleLD = LocalDate(2023, 3, 21) // optional
+        val exampleLD = LocalDate(2023, 3, 21)
         val cardName = "Card 1"
         val cardDescription = "Card 1 description"
         val cardId =

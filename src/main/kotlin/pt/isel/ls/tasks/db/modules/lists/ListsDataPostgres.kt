@@ -9,7 +9,6 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 import kotlin.collections.List
-import kotlin.collections.mutableListOf
 import pt.isel.ls.tasks.domain.List as _List
 
 class ListsDataPostgres : ListsDB {

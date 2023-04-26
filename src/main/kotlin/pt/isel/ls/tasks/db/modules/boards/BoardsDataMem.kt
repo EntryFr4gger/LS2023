@@ -5,16 +5,7 @@ import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
 import kotlin.collections.List
-import kotlin.collections.emptyList
-import kotlin.collections.filter
-import kotlin.collections.find
-import kotlin.collections.isNullOrEmpty
-import kotlin.collections.listOf
-import kotlin.collections.map
-import kotlin.collections.mapNotNull
-import kotlin.collections.plus
 import kotlin.collections.set
-import kotlin.collections.toList
 import pt.isel.ls.tasks.domain.List as _List
 
 class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
@@ -35,10 +26,11 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
             id
         }
 
-    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int) =
-        !source.userBoard[userId].also {
-            source.userBoard[userId] = (it ?: emptyList()) + boardId
-        }.isNullOrEmpty()
+    override fun addUserToBoard(conn: TransactionManager, userId: Int, boardId: Int): Boolean {
+        val ub = source.userBoard[userId]
+        source.userBoard[userId] = (ub ?: emptyList()) + boardId
+        return !source.userBoard[userId].isNullOrEmpty()
+    }
 
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
         source.boards[boardId] ?: throw NotFoundException("Couldn't get Board($boardId) Details")

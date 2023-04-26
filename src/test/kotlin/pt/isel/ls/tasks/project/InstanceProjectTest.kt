@@ -18,7 +18,7 @@ abstract class InstanceProjectTest {
         val logger = LoggerFactory.getLogger("Tasks API")
         val db = TasksDataMem(TasksDataStorage())
         val services =
-            TaskServices(db) // TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
+            TaskServices(db) /*TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))*/
         val app = TasksAPI.invoke(services, logger)
 
         val jettyServer = app.asServer(Jetty(PORT)).start()

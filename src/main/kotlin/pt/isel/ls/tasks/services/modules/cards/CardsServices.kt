@@ -20,14 +20,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      * @param listId list unique identifier.
      * @param requestId request user unique identifier.
      *
-     * @return card unique identifier.
-     *
-     * @throws ServicesError.InvalidArgumentException name is the worng length.
-     * @throws ServicesError.InvalidArgumentException description is the worng length.
-     * @throws ServicesError.InvalidArgumentException if board id isn't correct.
-     * @throws ServicesError.InvalidArgumentException if list id isn't correct.
-     * @throws ServicesError.AuthorizationException if user inst authorized.
-     * @throws ServicesError.InvalidArgumentException if id doesn't exist.
+     * @return new card unique identifier.
      * */
     fun createNewCard(
         name: String,
@@ -40,13 +33,12 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
         isValidCardName(name)
         isValidCardDescription(description)
         isValidBoardId(boardId)
-        listId?.let { isValidListId(it) }
+        listId?.let { isValidListId(listId) }
+        isValidUserId(requestId)
 
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
-
-            hasBoard(conn, boardId)
-            listId?.let { hasList(conn, listId) }
+            listId?.let { authorizationList(conn, listId, requestId) }
 
             source.cards.createNewCard(conn, name, description, dueDate, boardId, listId)
                 .also {
@@ -62,12 +54,10 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return a Card.
-     *
-     * @throws ServicesError.InvalidArgumentException if card id isn't correct.
-     * @throws ServicesError.AuthorizationException if user inst authorized.
      * */
     fun getCardDetails(cardId: Int, requestId: Int): Card {
         isValidCardId(cardId)
+        isValidUserId(requestId)
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
@@ -81,30 +71,25 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @param listId list unique identifier.
      * @param cardId card unique identifier.
+     * @param cix desired index.
      * @param requestId request user unique identifier.
      *
      * @return a card id.
-     *
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
-     * @throws ServicesError.InvalidArgumentException if id doesn't exists.
-     * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
     fun moveCard(listId: Int, cardId: Int, cix: Int?, requestId: Int): Boolean {
         isValidListId(listId)
         isValidCardId(cardId)
         cix?.let { isValidCardCix(cix) }
+        isValidUserId(requestId)
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
             authorizationList(conn, listId, requestId)
 
-            hasList(conn, listId)
-            hasCard(conn, cardId)
-
-            val bol = source.cards.moveCard(conn, listId, cardId)
-            cix?.let { organizeAfterMove(conn, listId, cardId, cix) }
-            bol
+            source.cards.moveCard(conn, listId, cardId)
+                .also {
+                    cix?.let { organizeAfterMove(conn, listId, cardId, cix) }
+                }
         }
     }
 
@@ -118,15 +103,16 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      * */
     fun deleteCard(cardId: Int, requestId: Int) {
         isValidCardId(cardId)
+        isValidUserId(requestId)
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
 
-            hasCard(conn, cardId)
-
-            val listId = source.cards.getCardDetails(conn, cardId).listId!!
-            source.cards.deleteCard(conn, cardId)
-            organizeCards(conn, listId)
+            source.cards.getCardDetails(conn, cardId)
+                .also { card ->
+                    source.cards.deleteCard(conn, cardId)
+                    card.listId?.let { id -> organizeCards(conn, id) }
+                }
         }
     }
 }

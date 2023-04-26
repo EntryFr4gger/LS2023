@@ -9,7 +9,7 @@ interface TokensDB {
     /**
      * Create a new token.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param token user token.
      * @param userId user unique identifier.
      *
@@ -20,7 +20,7 @@ interface TokensDB {
     /**
      * Get the id of a user.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param token user token.
      *
      * @return a User id.
@@ -30,7 +30,7 @@ interface TokensDB {
     /**
      * Verify if token exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param token user unique token.
      *
      * @return true if exists or false if it does not exist.

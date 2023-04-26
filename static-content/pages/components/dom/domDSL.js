@@ -36,6 +36,8 @@ export async function createElement(tag, attributes, ...children) {
 }
 
 /**
+ * Appends the Child.
+ *
  * @param {HTMLElement} element
  * @param {string | HTMLElement} child
  */
@@ -47,6 +49,8 @@ function appendChild(element, child) {
 }
 
 /**
+ * Set the Attributes.
+ *
  * @param {HTMLElement} element
  * @param {Object} attributes
  */
@@ -90,8 +94,10 @@ function setAttributes(element, attributes) {
 
 /**
  * Checks if an object is a DOM element.
+ *
  * @param {any} obj object to check
- * @returns true if it is a DOM element; false otherwise
+ *
+ * @returns true if it is a DOM element, false otherwise
  */
 function isElement(obj) {
     return (

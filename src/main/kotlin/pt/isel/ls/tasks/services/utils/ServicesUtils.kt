@@ -18,146 +18,206 @@ open class ServicesUtils(open val source: TaskData) {
      * */
 
     /**
-     * Validates if email is new.
+     * Validates if user email is new.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param email the user's unique email.
      *
      * @throws ServicesError.AlreadyExistsException if email is in use.
      * */
     fun isUserNewEmail(conn: TransactionManager, email: String) {
         if (source.users.hasUserEmail(conn, email)) {
-            throw ServicesError.AlreadyExistsException("User email is already in use")
+            throw ServicesError.AlreadyExistsException("User email($email) is already in use")
         }
     }
 
     /**
-     * Validates if email is new.
+     * Validates if board name is new.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param name unique name for the board.
      *
      * @throws ServicesError.AlreadyExistsException if name is in use.
      * */
     fun isBoardNewName(conn: TransactionManager, name: String) {
         if (source.boards.hasBoardName(conn, name)) {
-            throw ServicesError.AlreadyExistsException("Board name is already in use")
+            throw ServicesError.AlreadyExistsException("Board name($name) is already in use")
         }
     }
 
     /**
      * Verifys if User exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param userId user unique identifier.
      *
      * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
-    fun hasUser(conn: TransactionManager, userId: Int) {
+    private fun hasUser(conn: TransactionManager, userId: Int) {
         if (!source.users.hasUser(conn, userId)) {
-            throw ServicesError.InvalidArgumentException("User id doesn't exists")
+            throw ServicesError.InvalidArgumentException("User id($userId) doesn't exists")
         }
     }
 
     /**
      * Verifys if Board exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param boardId board unique identifier.
      *
      * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
-    fun hasBoard(conn: TransactionManager, boardId: Int) {
+    private fun hasBoard(conn: TransactionManager, boardId: Int) {
         if (!source.boards.hasBoard(conn, boardId)) {
-            throw ServicesError.InvalidArgumentException("Board id doesn't exists")
+            throw ServicesError.InvalidArgumentException("Board id($boardId) doesn't exists")
         }
     }
 
     /**
      * Verifys if List exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param listId list unique identifier.
      *
      * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
-    fun hasList(conn: TransactionManager, listId: Int) {
+    private fun hasList(conn: TransactionManager, listId: Int) {
         if (!source.lists.hasList(conn, listId)) {
-            throw ServicesError.InvalidArgumentException("List id doesnt exists")
+            throw ServicesError.InvalidArgumentException("List id($listId) doesn't exists")
         }
     }
 
     /**
      * Verifys if Card exists.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param cardId card unique identifier.
      *
      * @throws ServicesError.InvalidArgumentException if id doesn't exists.
      * */
-    fun hasCard(conn: TransactionManager, cardId: Int) {
+    private fun hasCard(conn: TransactionManager, cardId: Int) {
         if (!source.cards.hasCard(conn, cardId)) {
-            throw ServicesError.InvalidArgumentException("Card id doesnt exists")
+            throw ServicesError.InvalidArgumentException("Card id($cardId) doesn't exists")
         }
     }
 
     /**
      * Verifys if User is authenticated.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param requestId request user unique identifier.
      *
-     * @throws ServicesError.AuthenticationException if user inst authenticated.
+     * @throws ServicesError.AuthenticationException if user ins't authenticated.
      * */
     fun authentication(conn: TransactionManager, requestId: Int) {
         if (!source.users.hasUser(conn, requestId)) {
-            throw ServicesError.AuthenticationException("Invalid User Request")
+            throw ServicesError.AuthenticationException("Invalid User Request($requestId)")
         }
     }
 
     /**
      * Verifys if User as authorization to access Board.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param boardId board unique identifier.
      * @param requestId request user unique identifier.
      *
-     * @throws ServicesError.AuthorizationException if user inst authorized.
+     * @throws ServicesError.AuthorizationException if user ins't authorized.
      * */
     fun authorizationBoard(conn: TransactionManager, boardId: Int, requestId: Int) {
+        hasBoard(conn, boardId)
+        hasUser(conn, requestId)
         if (!source.users.validateResquestBoard(conn, boardId, requestId)) {
-            throw ServicesError.AuthorizationException("You are not authorized to access this Board")
+            throw ServicesError
+                .AuthorizationException("You are not authorized to access this Board($boardId) with requestId:$requestId")
         }
     }
 
     /**
      * Verifys if User as authorization to access List.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param listId list unique identifier.
      * @param requestId request user unique identifier.
      *
-     * @throws ServicesError.AuthorizationException if user inst authorized.
+     * @throws ServicesError.AuthorizationException if user ins't authorized.
      * */
     fun authorizationList(conn: TransactionManager, listId: Int, requestId: Int) {
+        hasList(conn, listId)
+        hasUser(conn, requestId)
         if (!source.users.validateResquestList(conn, listId, requestId)) {
-            throw ServicesError.AuthorizationException("You are not authorized to access this List")
+            throw ServicesError
+                .AuthorizationException("You are not authorized to access this List($listId) with requestId:$requestId")
         }
     }
 
     /**
      * Verifys if User as authorization to access Card.
      *
-     * @param conn connection to database.
+     * @param conn connection to a database.
      * @param cardId card unique identifier.
      * @param requestId request user unique identifier.
      *
-     * @throws ServicesError.AuthorizationException if user inst authorized.
+     * @throws ServicesError.AuthorizationException if user ins't authorized.
      * */
     fun authorizationCard(conn: TransactionManager, cardId: Int, requestId: Int) {
+        hasCard(conn, cardId)
+        hasUser(conn, requestId)
         if (!source.users.validateResquestCard(conn, cardId, requestId)) {
-            throw ServicesError.AuthorizationException("You are not authorized to access this Card")
+            throw ServicesError
+                .AuthorizationException("You are not authorized to access this Card($cardId) with requestId:$requestId")
         }
+    }
+
+    /**
+     *
+     * Organize
+     *
+     * */
+
+    /**
+     * Organize all cards after change the index of the disered card.
+     *
+     * @param conn connection to a database.
+     * @param listId list unique identifier.
+     * @param cardId card unique identifier.
+     * @param cix desired index.
+     * */
+    fun organizeAfterMove(conn: TransactionManager, listId: Int, cardId: Int, cix: Int) {
+        updateCardsList(
+            conn,
+            source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE)
+                .map {
+                    when {
+                        it.id == cardId -> it.copy(cix = cix)
+                        it.cix != null && it.cix == cix -> it.copy(cix = cix + 1)
+                        else -> it
+                    }
+                }
+        )
+    }
+
+    /**
+     * Reorganize all cards.
+     *
+     * @param conn connection to a database.
+     * @param listId list unique identifier.
+     * */
+    fun organizeCards(conn: TransactionManager, listId: Int) =
+        updateCardsList(conn, source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE))
+
+    /**
+     * Sorts the list of cards, reorganize for index and update the database.
+     *
+     * @param conn connection to a database.
+     * @param cardsList list of Cards.
+     * */
+    private fun updateCardsList(conn: TransactionManager, cardsList: kotlin.collections.List<Card>) {
+        cardsList.sortedBy { it.cix }
+            .mapIndexed { index, card -> card.copy(cix = index + 1) }
+            .forEach {
+                source.cards.organizeCardSeq(conn, it.id, it.cix!!)
+            }
     }
 
     /**
@@ -175,7 +235,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidUserId(id: Int) {
         if (isValidId(id)) {
-            throw ServicesError.InvalidArgumentException("User id Incorrect")
+            throw ServicesError.InvalidArgumentException("User id Incorrect($id)")
         }
     }
 
@@ -188,7 +248,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidBoardId(id: Int) {
         if (isValidId(id)) {
-            throw ServicesError.InvalidArgumentException("Board id Incorrect")
+            throw ServicesError.InvalidArgumentException("Board id Incorrect($id)")
         }
     }
 
@@ -201,7 +261,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidListId(id: Int) {
         if (isValidId(id)) {
-            throw ServicesError.InvalidArgumentException("List id Incorrect")
+            throw ServicesError.InvalidArgumentException("List id Incorrect($id)")
         }
     }
 
@@ -214,7 +274,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidCardId(id: Int) {
         if (isValidId(id)) {
-            throw ServicesError.InvalidArgumentException("Card id Incorrect")
+            throw ServicesError.InvalidArgumentException("Card id Incorrect($id)")
         }
     }
 
@@ -223,11 +283,11 @@ open class ServicesUtils(open val source: TaskData) {
      *
      * @param cix a idx.
      *
-     *  @throws ServicesError.InvalidArgumentException if idx isn't correct.
+     * @throws ServicesError.InvalidArgumentException if idx isn't correct.
      * */
     fun isValidCardCix(cix: Int) {
         if (isValidId(cix)) {
-            throw ServicesError.InvalidArgumentException("Card idx Incorrect")
+            throw ServicesError.InvalidArgumentException("Card idx Incorrect($cix)")
         }
     }
 
@@ -240,7 +300,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidUserName(name: String) {
         if (!User.isValidName(name)) {
-            throw ServicesError.InvalidArgumentException("User name with wrong length")
+            throw ServicesError.InvalidArgumentException("User name with wrong length($name)")
         }
     }
 
@@ -253,7 +313,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidUserEmail(email: String) {
         if (!User.isValidEmail(email)) {
-            throw ServicesError.InvalidArgumentException("User email with wrong length")
+            throw ServicesError.InvalidArgumentException("User email with wrong length($email)")
         }
     }
 
@@ -266,7 +326,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidBoardName(name: String) {
         if (!Board.isValidName(name)) {
-            throw ServicesError.InvalidArgumentException("Board name with wrong length")
+            throw ServicesError.InvalidArgumentException("Board name with wrong length($name)")
         }
     }
 
@@ -279,7 +339,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidBoardDescription(description: String) {
         if (!Board.isValidDescription(description)) {
-            throw ServicesError.InvalidArgumentException("Board description with wrong length")
+            throw ServicesError.InvalidArgumentException("Board description with wrong length($description)")
         }
     }
 
@@ -292,7 +352,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidCardName(name: String) {
         if (!Card.isValidName(name)) {
-            throw ServicesError.InvalidArgumentException("Card name with wrong length")
+            throw ServicesError.InvalidArgumentException("Card name with wrong length($name)")
         }
     }
 
@@ -305,7 +365,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidCardDescription(description: String) {
         if (!Card.isValidDescription(description)) {
-            throw ServicesError.InvalidArgumentException("Card description with wrong length")
+            throw ServicesError.InvalidArgumentException("Card description with wrong length($description)")
         }
     }
 
@@ -318,7 +378,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidListName(name: String) {
         if (!List.isValidName(name)) {
-            throw ServicesError.InvalidArgumentException("List name with wrong length")
+            throw ServicesError.InvalidArgumentException("List name with wrong length($name)")
         }
     }
 
@@ -331,7 +391,7 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidToken(token: String) {
         if (!Token.isValidToken(token)) {
-            throw ServicesError.InvalidArgumentException("Token does not obey rules")
+            throw ServicesError.InvalidArgumentException("Token does not obey rules($token)")
         }
     }
 
@@ -344,48 +404,8 @@ open class ServicesUtils(open val source: TaskData) {
      * */
     fun isValidBearerToken(token: String) {
         if (!Token.isValidBearerToken(token)) {
-            throw ServicesError.InvalidArgumentException("Token does not obey rules")
+            throw ServicesError.InvalidArgumentException("Token does not obey rules($token)")
         }
-    }
-
-    /**
-     *
-     * Organize
-     *
-     * */
-
-    /**
-     *
-     * */
-    fun organizeAfterMove(conn: TransactionManager, listId: Int, cardId: Int, cix: Int) {
-        updateCardsList(
-            conn,
-            source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE)
-                .map {
-                    when {
-                        it.id == cardId -> it.copy(cix = cix)
-                        it.cix != null && it.cix == cix -> it.copy(cix = cix + 1)
-                        else -> it
-                    }
-                }
-        )
-    }
-
-    /**
-     *
-     * */
-    fun organizeCards(conn: TransactionManager, listId: Int) =
-        updateCardsList(conn, source.lists.getCardsOfList(conn, listId, 0, Int.MAX_VALUE))
-
-    /**
-     *
-     * */
-    private fun updateCardsList(conn: TransactionManager, cardsList: kotlin.collections.List<Card>) {
-        cardsList.sortedBy { it.cix }
-            .mapIndexed { index, card -> card.copy(cix = index + 1) }
-            .forEach {
-                source.cards.organizeCardSeq(conn, it.id, it.cix!!)
-            }
     }
 }
 

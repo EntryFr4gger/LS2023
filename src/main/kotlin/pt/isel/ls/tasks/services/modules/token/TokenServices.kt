@@ -10,13 +10,11 @@ import pt.isel.ls.tasks.services.utils.ServicesUtils
 class TokenServices(source: TaskData) : ServicesUtils(source) {
 
     /**
-     * Get the id of a user.
+     * Get the id of a user using the token.
      *
      * @param token user token.
      *
      * @return a User id.
-     *
-     * @throws ServicesError.InvalidArgumentException token isn't correct.
      * */
     fun getUserId(token: String): Int {
         isValidBearerToken(token)

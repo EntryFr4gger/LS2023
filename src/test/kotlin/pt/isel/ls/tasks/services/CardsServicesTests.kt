@@ -59,7 +59,7 @@ class CardsServicesTests : ClearData() {
     @Test
     fun `create new card throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.cards.createNewCard("Cards", "asdsa", null, 1, null, -2)
+            services.cards.createNewCard("Cards", "asdsa", null, 1, null, 3)
         }
     }
 
@@ -87,7 +87,7 @@ class CardsServicesTests : ClearData() {
     @Test
     fun `get card details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.cards.getCardDetails(1, -2)
+            services.cards.getCardDetails(1, 3)
         }
     }
 
@@ -101,7 +101,7 @@ class CardsServicesTests : ClearData() {
             val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, null)
             assertTrue(services.cards.moveCard(listId, cardId, 1, userId))
             assertTrue(
-                source.lists.getCardsOfList(it, 1, 1, listId)
+                source.lists.getCardsOfList(it, listId, 0, 10)
                     .contains(Card(cardId, "card", "card", null, 1, boardId, listId))
             )
         }

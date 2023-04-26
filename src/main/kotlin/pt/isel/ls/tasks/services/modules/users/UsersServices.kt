@@ -17,11 +17,7 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
      * @param name the user's name.
      * @param email the user's unique email.
      *
-     * @return user's unique identifier and token.
-     *
-     * @throws ServicesError.InvalidArgumentException name is the worng length.
-     * @throws ServicesError.InvalidArgumentException email is the worng length.
-     * @throws ServicesError.AlreadyExistsException if email is in use.
+     * @return new user unique identifier and token.
      * */
     fun createNewUser(name: String, email: String): UserCreateResponse {
         isValidUserName(name)
@@ -43,8 +39,6 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
      * @param userId user unique identifier.
      *
      * @return a User.
-     *
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun getUserDetails(userId: Int): User {
         isValidUserId(userId)
@@ -60,8 +54,6 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      *
      * @return list with user boards.
-     *
-     * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun getUserBoards(requestId: Int, skip: Int, limit: Int): List<Board> {
         isValidUserId(requestId)
