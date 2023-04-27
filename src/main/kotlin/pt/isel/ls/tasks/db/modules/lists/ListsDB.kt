@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.db.modules.lists
 
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List as _List
@@ -27,6 +28,8 @@ interface ListsDB {
      * @param listId list unique identifier.
      *
      * @return a List.
+     *
+     * @throws NotFoundException couldn't get List Details
      * */
     fun getListDetails(conn: TransactionManager, listId: Int): _List
 
@@ -56,7 +59,7 @@ interface ListsDB {
      * @param conn connection to a database.
      * @param listId list unique identifier.
      *
-     * @return true if exists or false if it does not exist.
+     * @return true if exists or false if it doesn't exist.
      */
     fun hasList(conn: TransactionManager, listId: Int): Boolean
 }

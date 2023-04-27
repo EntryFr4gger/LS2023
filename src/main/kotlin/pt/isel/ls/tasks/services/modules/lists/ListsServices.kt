@@ -53,12 +53,15 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      * Get the set of cards in a list.
      *
      * @param listId list unique identifier.
+     * @param skip skip database tables.
+     * @param limit limit database tables.
      * @param requestId request user unique identifier.
      *
      * @return list of Cards in List.
      * */
     fun getCardsOfList(listId: Int, skip: Int, limit: Int, requestId: Int): List<Card> {
         isValidListId(listId)
+        isValidSkipAndLimit(skip, limit)
 
         return source.run { conn ->
             authorizationList(conn, listId, requestId)

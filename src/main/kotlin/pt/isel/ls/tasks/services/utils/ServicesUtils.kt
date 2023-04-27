@@ -292,6 +292,24 @@ open class ServicesUtils(open val source: TaskData) {
     }
 
     /**
+     * Verifys if skip and limit is valid.
+     *
+     * @param skip skip database tables.
+     * @param limit limit database tables.
+     *
+     * @throws ServicesError.InvalidArgumentException skip isn't correct.
+     * @throws ServicesError.InvalidArgumentException limit isn't correct.
+     * */
+    fun isValidSkipAndLimit(skip: Int, limit: Int) {
+        if (skip < 0) {
+            throw ServicesError.InvalidArgumentException("Skip($skip) is invalid")
+        }
+        if (limit < 0) {
+            throw ServicesError.InvalidArgumentException("Limit($limit) is invalid")
+        }
+    }
+
+    /**
      * Verifys if user name is valid.
      *
      * @param name the user's name.

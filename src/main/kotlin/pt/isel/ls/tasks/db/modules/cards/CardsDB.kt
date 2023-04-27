@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.db.modules.cards
 
 import kotlinx.datetime.LocalDate
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
 
@@ -37,6 +38,8 @@ interface CardsDB {
      * @param cardId card unique identifier.
      *
      * @return a Card.
+     *
+     * @throws NotFoundException couldn't get Card Details
      * */
     fun getCardDetails(conn: TransactionManager, cardId: Int): Card
 
@@ -67,7 +70,7 @@ interface CardsDB {
      * @param conn connection to a database.
      * @param cardId card unique identifier.
      *
-     * @return true if exists or false if it does not exist.
+     * @return true if exists or false if it doesn't exist.
      * */
     fun hasCard(conn: TransactionManager, cardId: Int): Boolean
 

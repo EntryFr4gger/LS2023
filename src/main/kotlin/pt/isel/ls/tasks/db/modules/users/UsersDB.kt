@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.db.modules.users
 
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
@@ -27,6 +28,8 @@ interface UsersDB {
      * @param userId user unique identifier.
      *
      * @return a User.
+     *
+     * @throws NotFoundException couldn't get User
      * */
     fun getUserDetails(conn: TransactionManager, userId: Int): User
 

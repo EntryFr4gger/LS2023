@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.db.modules.boards
 
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
@@ -39,6 +40,8 @@ interface BoardsDB {
      * @param boardId board unique identifier.
      *
      * @return a Board.
+     *
+     * @throws NotFoundException couldn't get Board Details
      * */
     fun getBoardDetails(conn: TransactionManager, boardId: Int): Board
 
@@ -68,7 +71,7 @@ interface BoardsDB {
      * @param conn connection to a database.
      * @param name unique name for the board.
      *
-     * @return true if exists or false if it does not exist.
+     * @return true if exists or false if it doesn't exist.
      * */
     fun hasBoardName(conn: TransactionManager, name: String): Boolean
 
@@ -78,7 +81,7 @@ interface BoardsDB {
      * @param conn connection to a database.
      * @param boardId board unique identifier.
      *
-     * @return true if exists or false if it does not exist.
+     * @return true if exists or false if it doesn't exist.
      */
     fun hasBoard(conn: TransactionManager, boardId: Int): Boolean
 }

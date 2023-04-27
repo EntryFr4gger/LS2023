@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.db.modules.tokens
 
+import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 
 /**
@@ -24,6 +25,8 @@ interface TokensDB {
      * @param token user token.
      *
      * @return a User id.
+     *
+     * @throws NotFoundException Token does not exist
      * */
     fun getUserID(conn: TransactionManager, token: String): Int
 

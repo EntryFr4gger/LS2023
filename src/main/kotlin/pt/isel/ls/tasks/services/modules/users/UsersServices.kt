@@ -52,11 +52,14 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
      * Get the list with all user available boards.
      *
      * @param requestId request user unique identifier.
+     * @param skip skip database tables.
+     * @param limit limit database tables.
      *
      * @return list with user boards.
      * */
     fun getUserBoards(requestId: Int, skip: Int, limit: Int): List<Board> {
         isValidUserId(requestId)
+        isValidSkipAndLimit(skip, limit)
 
         return source.run { conn ->
             source.users.getUserBoards(conn, skip, limit, requestId)

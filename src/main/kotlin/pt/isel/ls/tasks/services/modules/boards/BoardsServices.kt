@@ -82,6 +82,8 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      * Get the lists in a board.
      *
      * @param boardId board unique identifier.
+     * @param skip skip database tables.
+     * @param limit limit database tables.
      * @param requestId request user unique identifier.
      *
      * @return list of lists in a board.
@@ -89,6 +91,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
     fun getAllLists(boardId: Int, skip: Int, limit: Int, requestId: Int): List<_List> {
         isValidBoardId(boardId)
         isValidUserId(requestId)
+        isValidSkipAndLimit(skip, limit)
 
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
@@ -101,6 +104,8 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      * Get the list with the users of a board.
      *
      * @param boardId board unique identifier.
+     * @param skip skip database tables.
+     * @param limit limit database tables.
      * @param requestId request user unique identifier.
      *
      * @return list of Users in a board.
@@ -108,6 +113,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
     fun getBoardUsers(boardId: Int, skip: Int, limit: Int, requestId: Int): List<User> {
         isValidBoardId(boardId)
         isValidUserId(requestId)
+        isValidSkipAndLimit(skip, limit)
 
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
