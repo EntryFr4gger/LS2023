@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.api.utils
 
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -34,7 +35,11 @@ inline fun errorCatcher(code: () -> Response): Response {
     }
 }
 
+@Serializable
+data class ErrorDTO(val message: String, val error: String = "No Message")
+
 fun Json.response(status: Status, message: String, error: String?) =
     Response(status)
         .header("Content-Type", "application/json")
-        .body(encodeToString("$message -> ${error ?: "No Message"}"))
+        .body(encodeToString(ErrorDTO(message,error ?: "No Message")))
+
