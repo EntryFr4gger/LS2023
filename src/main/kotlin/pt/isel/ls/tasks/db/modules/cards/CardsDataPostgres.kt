@@ -59,7 +59,7 @@ class CardsDataPostgres : CardsDB {
         )
         obj.setString(1, name)
         obj.setString(2, description)
-        obj.setDateIfNotNull(3, dueDate, Types.CHAR)
+        obj.setDateIfNotNull(3, dueDate, Types.DATE)
         obj.setInt(4, boardId)
         obj.setIntIfNotNull(5, listId, Types.INTEGER)
 
