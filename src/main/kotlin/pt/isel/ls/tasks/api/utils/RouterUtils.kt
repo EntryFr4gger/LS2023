@@ -36,10 +36,9 @@ inline fun errorCatcher(code: () -> Response): Response {
 }
 
 @Serializable
-data class ErrorDTO(val message: String, val error: String = "No Message")
+data class ErrorDTO(val message: String, val error: String)
 
 fun Json.response(status: Status, message: String, error: String?) =
     Response(status)
         .header("Content-Type", "application/json")
-        .body(encodeToString(ErrorDTO(message,error ?: "No Message")))
-
+        .body(encodeToString(ErrorDTO(message, error ?: "No Message")))

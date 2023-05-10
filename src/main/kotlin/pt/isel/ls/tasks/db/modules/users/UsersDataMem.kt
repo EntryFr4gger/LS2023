@@ -27,6 +27,10 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
     override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int) =
         source.userBoard[userId]?.mapNotNull { source.boards[it] } ?: emptyList()
 
+    override fun deleteBoardUsers(conn: TransactionManager, boardId: Int) {
+        TODO("Not yet implemented")
+    }
+
     override fun hasUserEmail(conn: TransactionManager, email: String) =
         source.users.values.find { it.email == email } != null
 

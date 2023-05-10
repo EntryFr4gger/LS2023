@@ -15,6 +15,7 @@ import pt.isel.ls.tasks.api.routers.boards.models.BoardIdDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardUsersDTO
 import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
+import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
@@ -36,7 +37,9 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         "boards/{board_id}/users/{user_id}" bind Method.POST to ::postUserToBoard,
         "boards/{board_id}" bind Method.GET to ::getBoard,
         "boards/{board_id}/lists" bind Method.GET to ::getLists,
-        "boards/{board_id}/users" bind Method.GET to ::getBoardUsers
+        "boards/{board_id}/users" bind Method.GET to ::getBoardUsers,
+        "boards" bind Method.GET to ::searchBoards,
+        "boards/{board_id}" bind Method.DELETE to ::deleteBoard
     ).withFilter(tokenHandeler::filter)
 
     /**
@@ -135,5 +138,42 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         return Response(Status.OK)
             .header("content-type", "application/json")
             .body(Json.encodeToString(BoardUsersDTO(users)))
+    }
+
+    /**
+     * Search for the name of the board in the database.
+     *
+     * @param request HTTP request that contains the name to search
+     *
+     * @return list of Boards.
+     * */
+    private fun searchBoards(request: Request): Response = errorCatcher {
+        val name = request.query("name")
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        val boards =
+            services.searchBoards(
+                request.skipOrDefault(DEFAULT_SKIP),
+                request.limitOrDefault(DEFAULT_LIMIT),
+                name,
+                requestId
+            )
+        return Response(Status.OK)
+            .header("content-type", "application/json")
+            .body(Json.encodeToString(UserBoardsDTO(boards)))
+    }
+
+    /**
+     * Delete a board.
+     * Require authorization.
+     *
+     * @param request HTTP request that contains the board id
+     *
+     * @return HTTP response with OK status
+     * */
+    private fun deleteBoard(request: Request): Response = errorCatcher {
+        val boardId = request.pathOrThrow("board_id").toInt()
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        services.deleteBoard(boardId, requestId)
+        return Response(Status.OK)
     }
 }

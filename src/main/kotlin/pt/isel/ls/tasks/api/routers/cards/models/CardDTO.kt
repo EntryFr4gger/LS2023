@@ -5,8 +5,16 @@ import kotlinx.serialization.Serializable
 import pt.isel.ls.tasks.domain.Card
 
 @Serializable
-data class CardDTO(val id: Int, val name: String, val description: String, val dueDate: LocalDate? = null) {
+data class CardDTO(
+    val id: Int,
+    val name: String,
+    val description: String,
+    val dueDate: LocalDate? = null,
+    val boardId: Int,
+    val listId: Int? = null
+) {
     companion object {
-        operator fun invoke(card: Card) = CardDTO(card.id, card.name, card.description, card.dueDate)
+        operator fun invoke(card: Card) =
+            CardDTO(card.id, card.name, card.description, card.dueDate, card.boardId, card.listId)
     }
 }

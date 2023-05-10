@@ -1,16 +1,16 @@
-import buttonWithRef from "../components/ButtonWithRef.js";
-import {br, div, li, ul} from "../components/dom/domTags.js";
-
+import {br, div, li, ul} from "../../components/dom/domTags.js";
+import {buttonWithHref} from "../../components/ui/button/with-href.js";
+import {getUser} from "../../components/utils/get-user.js";
 
 function UserDetailsPage(state) {
     const items = ['id', 'name', 'email'];
 
     return div(
         ul(
-            ...items.map(item => li((item + " = " + state.body[item]))),
-            buttonWithRef("Home", "/#"),
+            ...items.map(item => li((`${item} : ${state.body[item]}`))),
             br(),
-            buttonWithRef("Board Details", "#users/1/boards")
+            buttonWithHref("Home"),
+            buttonWithHref("User Boards", `#users/${getUser()}/boards`)
         )
     )
 }

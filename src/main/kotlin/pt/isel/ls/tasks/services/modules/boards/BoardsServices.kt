@@ -121,4 +121,43 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
             source.boards.getBoardUsers(conn, boardId, skip, limit)
         }
     }
+
+    /**
+     * Search for the name of the board in the database.
+     *
+     * @param skip skip tables.
+     * @param limit limits the return values.
+     * @param name name for the board.
+     * @param requestId request user unique identifier.
+     *
+     * @return list of Boards.
+     * */
+    fun searchBoards(skip: Int, limit: Int, name: String?, requestId: Int): List<Board> {
+        isValidUserId(requestId)
+        isValidSkipAndLimit(skip, limit)
+
+        return source.run { conn ->
+            source.boards.searchBoards(conn, skip, limit, name ?: "", requestId)
+        }
+    }
+
+    /**
+     * Delete a board.
+     *
+     * @param boardId board unique identifier.
+     * @param requestId request user unique identifier.
+     *
+     * @return true if it has deleted or false otherwise.
+     * */
+    fun deleteBoard(boardId: Int, requestId: Int) {
+        isValidBoardId(boardId)
+        isValidUserId(requestId)
+
+        return source.run { conn ->
+            authorizationBoard(conn, boardId, requestId)
+
+            source.users.deleteBoardUsers(conn, boardId)
+            source.boards.deleteBoard(conn, boardId)
+        }
+    }
 }

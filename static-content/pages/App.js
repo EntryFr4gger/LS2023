@@ -1,10 +1,10 @@
 import {Router} from "../routes/router.js";
 import usersRouter from "../routes/usersRouter.js";
 import NavBar from "./shared/NavBar.js";
-import HomeHandeler from "../handlers/default/HomeHandeler.js";
+import HomeHandeler from "../components/handlers/_default/HomeHandeler.js";
 import boardsRouter from "../routes/boardsRouters.js";
 import listsRouter from "../routes/listsRouters.js";
-import {br, div} from "./components/dom/domTags.js";
+import {br, div} from "../components/dom/domTags.js";
 import cardsRouters from "../routes/cardsRouters.js";
 
 const router = Router();
