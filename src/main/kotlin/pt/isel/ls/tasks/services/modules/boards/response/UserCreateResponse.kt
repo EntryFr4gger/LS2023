@@ -9,5 +9,5 @@ data class BoardDetailsResponse(
     val id: Int,
     val name: String,
     val description: String,
-    val lists: kotlin.collections.List<List> = emptyList()
+    val lists: kotlin.collections.List<List>?
 )

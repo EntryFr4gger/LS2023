@@ -6,6 +6,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.services.errors.ServicesError
+import pt.isel.ls.tasks.services.modules.boards.response.BoardDetailsResponse
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -90,21 +91,21 @@ class BoardsServicesTests : ClearData() {
             val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
-            assertEquals(Board(boardId, "Armandio", "sadsad"), services.boards.getBoardDetails(boardId, userId, fields))
+            assertEquals(BoardDetailsResponse(boardId, "Armandio", "sadsad", emptyList()), services.boards.getBoardDetails(boardId, userId, emptyList()))
         }
     }
 
     @Test
     fun `get board details throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.boards.getBoardDetails(-2, 1, fields)
+            services.boards.getBoardDetails(-2, 1, emptyList())
         }
     }
 
     @Test
     fun `get board details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.boards.getBoardDetails(1, 3, fields)
+            services.boards.getBoardDetails(1, 3, emptyList())
         }
     }
 

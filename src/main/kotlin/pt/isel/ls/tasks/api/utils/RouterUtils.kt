@@ -1,5 +1,6 @@
 package pt.isel.ls.tasks.api.utils
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.encodeToString
@@ -10,35 +11,41 @@ import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.services.errors.ServicesError
 import java.sql.SQLException
 
-inline fun errorCatcher(code: () -> Response): Response {
-    val json = Json { encodeDefaults = false }
-
-    return try {
+inline fun errorCatcher(code: () -> Response): Response =
+    try {
         code()
     } catch (error: SerializationException) {
-        json.response(Status.BAD_REQUEST, "Bad Request", error.message)
+        Responde(Status.BAD_REQUEST, ErrorDTO("Bad Request", error))
     } catch (error: SQLException) {
-        json.response(Status.INTERNAL_SERVER_ERROR, "Data Base Error", error.message)
+        Responde(Status.INTERNAL_SERVER_ERROR, ErrorDTO("Data Base Error", error))
     } catch (error: NotFoundException) {
-        json.response(Status.NOT_FOUND, "Resource Not Found", error.message)
+        Responde(Status.NOT_FOUND, ErrorDTO("Resource Not Found", error))
     } catch (error: ServicesError.AuthenticationException) {
-        json.response(Status.UNAUTHORIZED, "Authentication Not Found", error.message)
+        Responde(Status.UNAUTHORIZED, ErrorDTO("Authentication Not Found",error))
     } catch (error: ServicesError.InvalidArgumentException) {
-        json.response(Status.BAD_REQUEST, "Invalid Arguments", error.message)
+        Responde(Status.BAD_REQUEST, ErrorDTO("Invalid Arguments", error))
     } catch (error: ServicesError.AuthorizationException) {
-        json.response(Status.FORBIDDEN, "Authorization Error", error.message)
+        Responde(Status.FORBIDDEN, ErrorDTO("Authorization Error", error))
     } catch (error: ServicesError.AlreadyExistsException) {
-        json.response(Status.CONFLICT, "Resource Already Exists", error.message)
+        Responde(Status.CONFLICT, ErrorDTO("Resource Already Exists", error))
     } catch (error: Exception) {
         println(error)
         Response(Status.INTERNAL_SERVER_ERROR)
     }
-}
+
 
 @Serializable
-data class ErrorDTO(val message: String, val error: String)
+data class ErrorDTO(val message: String, val error: String){
+    companion object {
+        operator fun invoke(message: String,error: Exception) =
+            ErrorDTO(message, error.message ?: "No Message")
+    }
+}
 
-fun Json.response(status: Status, message: String, error: String?) =
-    Response(status)
-        .header("Content-Type", "application/json")
-        .body(encodeToString(ErrorDTO(message, error ?: "No Message")))
+@OptIn(ExperimentalSerializationApi::class)
+val format = Json { explicitNulls = false }
+inline fun <reified T> Responde(status: Status, dto: T): Response {
+    return Response(status)
+        .header("content-type", "application/json")
+        .body(format.encodeToString(dto))
+}
