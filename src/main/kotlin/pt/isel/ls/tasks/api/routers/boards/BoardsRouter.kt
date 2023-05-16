@@ -85,6 +85,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun getBoard(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        val lists = request.query("lists").toBoolean()
         val board = services.getBoardDetails(boardId, requestId)
         return Response(Status.OK)
             .header("content-type", "application/json")
