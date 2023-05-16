@@ -3,6 +3,7 @@ package pt.isel.ls.tasks.services.modules.users
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
+import pt.isel.ls.tasks.services.modules.users.responses.UserCreateResponse
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 import java.util.*
 

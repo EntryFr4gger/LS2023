@@ -1,6 +1,5 @@
 package pt.isel.ls.tasks.api.routers.boards
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
@@ -85,11 +84,11 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun getBoard(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val lists = request.query("lists").toBoolean()
-        val board = services.getBoardDetails(boardId, requestId)
+        val fields = request.query("fields")?.split(",") ?: emptyList()
+        val boardResponse = services.getBoardDetails(boardId, requestId,fields)
         return Response(Status.OK)
             .header("content-type", "application/json")
-            .body(Json.encodeToString(BoardDTO(board)))
+            .body(Json.encodeToString(BoardDTO(boardResponse)))
     }
 
     /**

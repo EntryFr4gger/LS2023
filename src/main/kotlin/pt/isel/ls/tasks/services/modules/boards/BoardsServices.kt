@@ -1,8 +1,8 @@
 package pt.isel.ls.tasks.services.modules.boards
 
 import pt.isel.ls.tasks.db.TaskData
-import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
+import pt.isel.ls.tasks.services.modules.boards.response.BoardDetailsResponse
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 import kotlin.collections.List
 import pt.isel.ls.tasks.domain.List as _List
@@ -67,14 +67,19 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a Board.
      * */
-    fun getBoardDetails(boardId: Int, requestId: Int): Board {
+    fun getBoardDetails(boardId: Int, requestId: Int, fields: List<String>): BoardDetailsResponse {
         isValidBoardId(boardId)
         isValidUserId(requestId)
+        isValidFieldsBoardDetails(fields)
 
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
-
-            source.boards.getBoardDetails(conn, boardId)
+            val board = source.boards.getBoardDetails(conn, boardId)
+            var lists = emptyList<pt.isel.ls.tasks.domain.List>()
+            if(fields.contains("lists")){
+                lists = source.boards.getAllLists(conn,boardId,0, Int.MAX_VALUE)
+            }
+            BoardDetailsResponse(board.id,board.name,board.description,lists)
         }
     }
 

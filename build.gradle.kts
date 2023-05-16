@@ -26,6 +26,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testImplementation("io.rest-assured:kotlin-extensions:5.3.0")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation(kotlin("reflect"))
 }
 
 group = "pt.isel.ls.tasks.api.core"

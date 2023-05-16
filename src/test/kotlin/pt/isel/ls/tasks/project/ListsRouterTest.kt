@@ -1,7 +1,6 @@
 package pt.isel.ls.tasks.project
 
 import kotlinx.datetime.LocalDate
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request

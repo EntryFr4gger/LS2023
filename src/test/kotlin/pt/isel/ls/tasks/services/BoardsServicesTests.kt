@@ -90,21 +90,21 @@ class BoardsServicesTests : ClearData() {
             val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
-            assertEquals(Board(boardId, "Armandio", "sadsad"), services.boards.getBoardDetails(boardId, userId))
+            assertEquals(Board(boardId, "Armandio", "sadsad"), services.boards.getBoardDetails(boardId, userId, fields))
         }
     }
 
     @Test
     fun `get board details throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.boards.getBoardDetails(-2, 1)
+            services.boards.getBoardDetails(-2, 1, fields)
         }
     }
 
     @Test
     fun `get board details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.boards.getBoardDetails(1, 3)
+            services.boards.getBoardDetails(1, 3, fields)
         }
     }
 

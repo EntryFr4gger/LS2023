@@ -8,6 +8,8 @@ import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.domain.Token
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.errors.ServicesError
+import kotlin.reflect.KClass
+import kotlin.reflect.full.declaredMemberProperties
 
 open class ServicesUtils(open val source: TaskData) {
 
@@ -263,6 +265,28 @@ open class ServicesUtils(open val source: TaskData) {
         if (isValidId(id)) {
             throw ServicesError.InvalidArgumentException("List id Incorrect($id)")
         }
+    }
+
+
+
+    /**
+     * Verifys if the given fields are valid for the board details.
+     *
+     * @param id card unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * */
+    fun isValidFieldsBoardDetails(fields: kotlin.collections.List<String>) {
+        val validFields = listOf("id","name","description","lists")
+        if (!isValidFields(validFields,fields)) {
+            throw ServicesError.InvalidArgumentException("Given fields were invalid ${fields.joinToString(" ")}")
+        }
+    }
+
+    private fun isValidFields(
+        validFields: kotlin.collections.List<String>,
+        fields: kotlin.collections.List<String>): Boolean {
+        return validFields.containsAll(fields)
     }
 
     /**
