@@ -63,6 +63,14 @@ class UsersDataPostgres : UsersDB {
         return boards
     }
 
+    override fun deleteBoardUsers(conn: TransactionManager, boardId: Int) {
+        val res = conn.connection().prepareStatement(
+            "DELETE FROM user_board WHERE board_id = ?"
+        )
+        res.setInt(1, boardId)
+        if (res.executeUpdate() == 0) throw SQLException("UserBoard($boardId) delete was unsuccessful")
+    }
+
     override fun hasUserEmail(conn: TransactionManager, email: String): Boolean {
         val res = conn.connection().prepareStatement(
             "SELECT * FROM users WHERE email = ?"

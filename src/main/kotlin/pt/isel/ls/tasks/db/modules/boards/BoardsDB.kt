@@ -66,6 +66,29 @@ interface BoardsDB {
     fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User>
 
     /**
+     * Search for the name of the board in the database.
+     *
+     * @param conn connection to a database.
+     * @param name name for the board.
+     * @param userId user unique identifier.
+     * @param skip skip tables.
+     * @param limit limits the return values.
+     *
+     * @return list of Boards.
+     * */
+    fun searchBoards(conn: TransactionManager, skip: Int, limit: Int, name: String, userId: Int): List<Board>
+
+    /**
+     * Delete a board.
+     *
+     * @param conn connection to a database.
+     * @param boardId board unique identifier.
+     *
+     * @return true if it has deleted or false otherwise.
+     * */
+    fun deleteBoard(conn: TransactionManager, boardId: Int)
+
+    /**
      * Verify if the name is new
      *
      * @param conn connection to a database.

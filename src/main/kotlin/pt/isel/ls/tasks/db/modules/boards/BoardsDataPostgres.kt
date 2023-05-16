@@ -10,6 +10,9 @@ import pt.isel.ls.tasks.domain.User
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
+import kotlin.collections.List
+import kotlin.collections.mutableListOf
+import kotlin.collections.plusAssign
 import pt.isel.ls.tasks.domain.List as _List
 
 class BoardsDataPostgres : BoardsDB {
@@ -104,6 +107,39 @@ class BoardsDataPostgres : BoardsDB {
             users += res.toUser()
 
         return users
+    }
+
+    override fun searchBoards(conn: TransactionManager, skip: Int, limit: Int, name: String, userId: Int): List<Board> {
+        val prp = conn.connection().prepareStatement(
+            """
+                SELECT id, name, description FROM boards b
+                    JOIN user_board ub ON ub.board_id = b.id
+                    WHERE name ILIKE ? AND user_id = ?
+                    OFFSET ? 
+                    LIMIT ?
+            """.trimIndent()
+        )
+
+        prp.setString(1, "%$name%")
+        prp.setInt(2, userId)
+        prp.setInt(3, skip)
+        prp.setInt(4, limit)
+
+        val res = prp.executeQuery()
+
+        val boards = mutableListOf<Board>()
+        while (res.next())
+            boards += res.toBoard()
+
+        return boards
+    }
+
+    override fun deleteBoard(conn: TransactionManager, boardId: Int) {
+        val res = conn.connection().prepareStatement(
+            "DELETE FROM boards WHERE id = ?"
+        )
+        res.setInt(1, boardId)
+        if (res.executeUpdate() == 0) throw SQLException("Board($boardId) delete was unsuccessful")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean {

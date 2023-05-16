@@ -38,10 +38,22 @@ interface UsersDB {
      *
      * @param conn connection to a database.
      * @param userId user unique identifier.
+     * @param skip skip tables.
+     * @param limit limits the return values.
      *
      * @return list with user boards.
      * */
     fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board>
+
+    /**
+     * Delete the board of all users.
+     *
+     * @param conn connection to a database.
+     * @param boardId board unique identifier.
+     *
+     * @return true if it has deleted or false otherwise.
+     * */
+    fun deleteBoardUsers(conn: TransactionManager, boardId: Int)
 
     /**
      * Verify if email is new

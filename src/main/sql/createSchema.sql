@@ -29,7 +29,8 @@ create table Boards
 create table User_Board
 (
     user_id  INT NOT NULL REFERENCES Users (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    board_id INT NOT NULL REFERENCES Boards (id) ON DELETE CASCADE ON UPDATE CASCADE
+    board_id INT NOT NULL REFERENCES Boards (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (user_id, board_id)
 );
 
 create table Lists

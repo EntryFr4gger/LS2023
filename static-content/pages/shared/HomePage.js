@@ -1,14 +1,13 @@
-import buttonWithRef from "../components/ButtonWithRef.js";
-import {br, div, h3, p} from "../components/dom/domTags.js";
+import {div, h1, p} from "../../components/dom/domTags.js";
 
 
 async function HomePage() {
-    return div(
-        h3(
-            p("User Home"),
-            buttonWithRef("User Details", "#users/1"),
-            br(),
-            buttonWithRef("Boards", "#users/1/boards")
+    return div({class: "container-fluid mt-3"},
+        div({class: "row"},
+            div({class: "col-md-6"},
+                h1("Welcome to Tasks"),
+                p("Here's where you can manage all your tasks.")
+            )
         )
     )
 }

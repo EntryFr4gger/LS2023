@@ -1,10 +1,10 @@
 import {Router} from "./router.js";
-import ListDetailsHandler from "../handlers/lists/ListDetailsHandler.js";
 import NotFoundPage from "../pages/shared/404Page.js";
 import cardsRouters from "./cardsRouters.js";
+import DetailsListHandler from "../components/handlers/lists/DetailsListHandler.js";
 
 const listsRouter = Router()
-listsRouter.addRouteHandler('/:list_id', ListDetailsHandler);
+listsRouter.addRouteHandler('/:list_id', DetailsListHandler);
 cardsRouters.addDefaultNotFoundRouteHandler(NotFoundPage);
 
 export default listsRouter;

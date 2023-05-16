@@ -38,6 +38,8 @@ interface ListsDB {
      *
      * @param conn connection to a database.
      * @param listId list unique identifier.
+     * @param skip skip tables.
+     * @param limit limits the return values.
      *
      * @return list of Cards in List.
      * */

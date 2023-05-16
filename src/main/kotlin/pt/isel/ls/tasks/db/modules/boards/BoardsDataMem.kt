@@ -46,6 +46,14 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         source.userBoard.filter { hash -> hash.value.contains(boardId) }
             .map { source.users[it.key] ?: throw NotFoundException("User not found with userId:${it.key}") }
 
+    override fun searchBoards(conn: TransactionManager, skip: Int, limit: Int, name: String, userId: Int): List<Board> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteBoard(conn: TransactionManager, boardId: Int) {
+        TODO("Not yet implemented")
+    }
+
     override fun hasBoardName(conn: TransactionManager, name: String) =
         source.boards.values.find { it.name == name } != null
 
