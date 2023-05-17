@@ -134,12 +134,13 @@ class BoardsDataPostgres : BoardsDB {
         return boards
     }
 
-    override fun deleteBoard(conn: TransactionManager, boardId: Int) {
+    override fun deleteBoard(conn: TransactionManager, boardId: Int) : Int{
         val res = conn.connection().prepareStatement(
             "DELETE FROM boards WHERE id = ?"
         )
         res.setInt(1, boardId)
         if (res.executeUpdate() == 0) throw SQLException("Board($boardId) delete was unsuccessful")
+        return boardId
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean {
