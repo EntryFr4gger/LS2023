@@ -62,7 +62,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val fields = request.query("fields")?.split(",") ?: emptyList()
-        val listResponse = services.getListDetails(listId, requestId,fields)
+        val listResponse = services.getListDetails(listId, requestId, fields)
         return Responde(Status.OK, ListDTO(listResponse))
     }
 

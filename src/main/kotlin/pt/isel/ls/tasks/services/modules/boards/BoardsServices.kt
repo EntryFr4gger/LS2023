@@ -4,7 +4,6 @@ import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.modules.boards.response.BoardDetailsResponse
-import pt.isel.ls.tasks.services.modules.boards.response.ListDetailsResponse
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 import kotlin.collections.List
 import pt.isel.ls.tasks.domain.List as _List

@@ -140,7 +140,7 @@ class BoardsDataPostgres : BoardsDB {
         )
         obj.setInt(1, boardId)
         val res = obj.executeQuery()
-        return if(res.next()) res.toBoard() else throw SQLException("Board($boardId) delete was unsuccessful")
+        return if (res.next()) res.toBoard() else throw SQLException("Board($boardId) delete was unsuccessful")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean {

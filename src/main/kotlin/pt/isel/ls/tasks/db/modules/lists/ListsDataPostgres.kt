@@ -72,7 +72,7 @@ class ListsDataPostgres : ListsDB {
         )
         obj.setInt(1, listId)
         val res = obj.executeQuery()
-        return if(res.next()) res.toList() else throw SQLException("List($listId) delete was unsuccessful")
+        return if (res.next()) res.toList() else throw SQLException("List($listId) delete was unsuccessful")
     }
 
     override fun hasList(conn: TransactionManager, listId: Int): Boolean {

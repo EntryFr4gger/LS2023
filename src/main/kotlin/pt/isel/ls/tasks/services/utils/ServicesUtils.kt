@@ -280,14 +280,14 @@ open class ServicesUtils(open val source: TaskData) {
     }
 
     fun isValidFieldsListDetails(fields: kotlin.collections.List<String>) {
-        val validFields = listOf("id", "name", "boardId","cards")
+        val validFields = listOf("id", "name", "boardId", "cards")
         if (!isValidFields(validFields, fields)) {
             throw ServicesError.InvalidArgumentException("Given fields were invalid ${fields.joinToString(" ")}")
         }
     }
 
     fun isValidFieldsCardDetails(fields: kotlin.collections.List<String>) {
-        val validFields = listOf("id", "name", "description", "dueDate", "cix", "boardId","listId")
+        val validFields = listOf("id", "name", "description", "dueDate", "cix", "boardId", "listId")
         if (!isValidFields(validFields, fields)) {
             throw ServicesError.InvalidArgumentException("Given fields were invalid ${fields.joinToString(" ")}")
         }

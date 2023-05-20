@@ -11,10 +11,14 @@ import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
 import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
-import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserDTO
-import pt.isel.ls.tasks.api.utils.*
-import pt.isel.ls.tasks.domain.User
+import pt.isel.ls.tasks.api.utils.Responde
+import pt.isel.ls.tasks.api.utils.TokenUtil
+import pt.isel.ls.tasks.api.utils.errorCatcher
+import pt.isel.ls.tasks.api.utils.hasOrThrow
+import pt.isel.ls.tasks.api.utils.limitOrDefault
+import pt.isel.ls.tasks.api.utils.pathOrThrow
+import pt.isel.ls.tasks.api.utils.skipOrDefault
 import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class UsersRouter(private val services: UsersServices, private val tokenHandeler: TokenUtil) : TasksRouter {
