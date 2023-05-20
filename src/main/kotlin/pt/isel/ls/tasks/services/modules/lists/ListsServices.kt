@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.services.modules.lists
 
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Card
+import pt.isel.ls.tasks.services.modules.boards.response.ListDetailsResponse
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 import kotlin.collections.List
 import pt.isel.ls.tasks.domain.List as _List
@@ -39,13 +40,19 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a List.
      * */
-    fun getListDetails(listId: Int, requestId: Int): _List {
+    fun getListDetails(listId: Int, requestId: Int, fields: List<String>): ListDetailsResponse {
         isValidListId(listId)
-
+        isValidFieldsListDetails(fields)
         return source.run { conn ->
             authorizationList(conn, listId, requestId)
-
-            source.lists.getListDetails(conn, listId)
+            var cards: List<Card>? = null
+            if (fields.contains("cards")) {
+                cards = source.lists.getAllCards(conn, listId, 0, Int.MAX_VALUE)
+            }
+            ListDetailsResponse(
+                source.lists.getListDetails(conn, listId),
+                cards
+            )
         }
     }
 
@@ -66,7 +73,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authorizationList(conn, listId, requestId)
 
-            source.lists.getCardsOfList(conn, listId, skip, limit)
+            source.lists.getAllCards(conn, listId, skip, limit)
         }
     }
 

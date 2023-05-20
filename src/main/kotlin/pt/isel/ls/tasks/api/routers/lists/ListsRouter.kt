@@ -1,6 +1,5 @@
 package pt.isel.ls.tasks.api.routers.lists
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
@@ -31,7 +30,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
 
     override val routes = routes(
         "lists" bind Method.POST to ::postList,
-        "lists/{list_id}" bind Method.GET to ::getListInfo,
+        "lists/{list_id}" bind Method.GET to ::getListDetails,
         "lists/{list_id}/cards" bind Method.GET to ::getListCards,
         "lists/{list_id}" bind Method.DELETE to ::deleteList
     ).withFilter(tokenHandeler::filter)
@@ -59,11 +58,12 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
      *
      * @return HTTP response contains a JSON body with the list information
      */
-    private fun getListInfo(request: Request): Response = errorCatcher {
+    private fun getListDetails(request: Request): Response = errorCatcher {
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val lists = services.getListDetails(listId, requestId)
-        return Responde(Status.OK, ListDTO(lists))
+        val fields = request.query("fields")?.split(",") ?: emptyList()
+        val listResponse = services.getListDetails(listId, requestId,fields)
+        return Responde(Status.OK, ListDTO(listResponse))
     }
 
     /**

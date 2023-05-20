@@ -43,7 +43,7 @@ interface ListsDB {
      *
      * @return list of Cards in List.
      * */
-    fun getCardsOfList(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card>
+    fun getAllCards(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card>
 
     /**
      * Delete a list.

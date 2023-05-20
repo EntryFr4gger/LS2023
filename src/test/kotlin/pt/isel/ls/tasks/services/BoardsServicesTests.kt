@@ -6,7 +6,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.services.errors.ServicesError
-import pt.isel.ls.tasks.services.modules.boards.response.BoardDetailsResponse
+import pt.isel.ls.tasks.services.modules.boards.response.ListDetailsResponse
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -91,7 +91,7 @@ class BoardsServicesTests : ClearData() {
             val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
-            assertEquals(BoardDetailsResponse(boardId, "Armandio", "sadsad", emptyList()), services.boards.getBoardDetails(boardId, userId, emptyList()))
+            assertEquals(ListDetailsResponse(boardId, "Armandio", "sadsad", emptyList()), services.boards.getBoardDetails(boardId, userId, emptyList()))
         }
     }
 

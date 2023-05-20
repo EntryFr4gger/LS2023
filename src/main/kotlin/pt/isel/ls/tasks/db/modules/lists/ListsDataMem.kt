@@ -24,7 +24,7 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
     override fun getListDetails(conn: TransactionManager, listId: Int): _List =
         source.lists[listId] ?: throw NotFoundException("Couldn't get List($listId) Details")
 
-    override fun getCardsOfList(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card> =
+    override fun getAllCards(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card> =
         source.cards.toList().mapNotNull {
             it.second.takeIf { card ->
                 card.listId == listId

@@ -7,7 +7,7 @@ import org.http4k.core.Status
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
-import pt.isel.ls.tasks.api.routers.users.models.UserInfoDTO
+import pt.isel.ls.tasks.api.routers.users.models.UserDTO
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -47,7 +47,7 @@ class UsersRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val user = Json.decodeFromString<UserInfoDTO>(this.bodyString())
+                val user = Json.decodeFromString<UserDTO>(this.bodyString())
                 assertEquals(idNToken.id, user.id)
                 assertEquals(name, user.name)
                 assertEquals(email, user.email)

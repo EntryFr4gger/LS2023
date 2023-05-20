@@ -4,6 +4,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
+import java.sql.SQLException
 import kotlin.collections.List
 import kotlin.collections.set
 import pt.isel.ls.tasks.domain.List as _List
@@ -50,9 +51,8 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         TODO("Not yet implemented")
     }
 
-    override fun deleteBoard(conn: TransactionManager, boardId: Int): Int {
-        source.boards.remove(boardId)
-        return boardId
+    override fun deleteBoard(conn: TransactionManager, boardId: Int): Board {
+        return source.boards.remove(boardId) ?: throw SQLException("List($boardId) delete was unsuccessful")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String) =

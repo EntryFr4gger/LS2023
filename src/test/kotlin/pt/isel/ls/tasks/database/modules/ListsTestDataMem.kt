@@ -63,7 +63,7 @@ class ListsTestDataMem {
                         1
                     )
                 ),
-                lists.getCardsOfList(conn, 1, 1, 3)
+                lists.getAllCards(conn, 1, 1, 3)
             )
         }
     }

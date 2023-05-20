@@ -4,6 +4,7 @@ import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.modules.boards.response.BoardDetailsResponse
+import pt.isel.ls.tasks.services.modules.boards.response.ListDetailsResponse
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 import kotlin.collections.List
 import pt.isel.ls.tasks.domain.List as _List
@@ -80,7 +81,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
             if (fields.contains("lists")) {
                 lists = source.boards.getAllLists(conn, boardId, 0, Int.MAX_VALUE)
             }
-            BoardDetailsResponse(board.id, board.name, board.description, lists)
+            BoardDetailsResponse(board, lists)
         }
     }
 
@@ -155,7 +156,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteBoard(boardId: Int, requestId: Int): Int {
+    fun deleteBoard(boardId: Int, requestId: Int): Board {
         isValidBoardId(boardId)
         isValidUserId(requestId)
 

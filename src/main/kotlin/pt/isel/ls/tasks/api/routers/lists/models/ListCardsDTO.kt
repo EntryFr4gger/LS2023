@@ -7,6 +7,7 @@ import pt.isel.ls.tasks.domain.Card
 @Serializable
 data class ListCardsDTO(val cards: List<CardDTO>) {
     companion object {
+
         operator fun invoke(cards: List<Card>): ListCardsDTO =
             ListCardsDTO(
                 cards.fold(emptyList()) { acc, card ->

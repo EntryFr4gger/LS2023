@@ -1,6 +1,5 @@
 package pt.isel.ls.tasks.api.routers.users
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
@@ -13,8 +12,9 @@ import pt.isel.ls.tasks.api.routers.TasksRouter
 import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
-import pt.isel.ls.tasks.api.routers.users.models.UserInfoDTO
+import pt.isel.ls.tasks.api.routers.users.models.UserDTO
 import pt.isel.ls.tasks.api.utils.*
+import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class UsersRouter(private val services: UsersServices, private val tokenHandeler: TokenUtil) : TasksRouter {
@@ -41,7 +41,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     private fun postUser(request: Request): Response = errorCatcher {
         val user = Json.decodeFromString<CreateUserDTO>(request.bodyString())
         val userCreateInfo = services.createNewUser(user.name, user.email)
-        return Responde(CREATED, UserCreationReturnDTO(userCreateInfo.id, userCreateInfo.token))
+        return Responde(CREATED, UserDTO(userCreateInfo.id, userCreateInfo.token))
     }
 
     /**
@@ -55,7 +55,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     private fun getUserDetails(request: Request): Response = errorCatcher {
         val userId = request.pathOrThrow("user_id").toInt()
         val user = services.getUserDetails(userId)
-        return Responde(OK, UserInfoDTO(user))
+        return Responde(OK, UserDTO(user))
     }
 
     /**

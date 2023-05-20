@@ -53,21 +53,21 @@ class ListsServicesTests : ClearData() {
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             val listId = source.lists.createList(it, "list", boardId)
-            assertEquals(List(listId, "list", boardId), services.lists.getListDetails(listId, userId))
+            assertEquals(List(listId, "list", boardId), services.lists.getListDetails(listId, userId, fields))
         }
     }
 
     @Test
     fun `get list details throws InvalidArgumentException if list id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.lists.getListDetails(-2, 1)
+            services.lists.getListDetails(-2, 1, fields)
         }
     }
 
     @Test
     fun `get list details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.lists.getListDetails(1, 3)
+            services.lists.getListDetails(1, 3, fields)
         }
     }
 

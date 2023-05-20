@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.api.routers.users.models
 
 import kotlinx.serialization.Serializable
+import pt.isel.ls.tasks.domain.User
 
 @Serializable
-data class UserCreationReturnDTO(val user: UserDTO, val token: String)
+data class UserIdDTO(val id: Int)
