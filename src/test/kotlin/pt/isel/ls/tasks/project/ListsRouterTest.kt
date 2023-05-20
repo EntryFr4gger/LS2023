@@ -6,13 +6,14 @@ import org.http4k.core.Method
 import org.http4k.core.Request
 import org.http4k.core.Status
 import org.junit.jupiter.api.Test
+import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
-import pt.isel.ls.tasks.api.routers.lists.models.ListIdDTO
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ListsRouterTest : InstanceProjectTest() {
+
     @Test
     fun `Creates a new list`() {
         val name = "testUser"
@@ -34,7 +35,7 @@ class ListsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.CREATED, this.status)
-                val list = Json.decodeFromString<ListIdDTO>(this.bodyString())
+                val list = format.decodeFromString<BoardDTO>(this.bodyString())
                 db.run { conn ->
                     assertTrue(db.lists.hasList(conn, list.id))
                 }
@@ -56,7 +57,7 @@ class ListsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val list = Json.decodeFromString<ListDTO>(this.bodyString())
+                val list = format.decodeFromString<ListDTO>(this.bodyString())
                 assertEquals(list1Id, list.id)
                 assertEquals(nameL1, list.name)
                 assertEquals(boardId, list.boardId)

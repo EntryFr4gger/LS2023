@@ -1,17 +1,19 @@
 package pt.isel.ls.tasks.project
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
 import org.http4k.core.Status
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
-import pt.isel.ls.tasks.api.routers.boards.models.BoardIdDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class BoardsRouterTest : InstanceProjectTest() {
+    @OptIn(ExperimentalSerializationApi::class)
+    val format = Json { explicitNulls = false }
 
     @Test
     fun `Creates a new valid Board`() {
@@ -30,7 +32,7 @@ class BoardsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.CREATED, this.status, "Status was not created")
-                val board = Json.decodeFromString<BoardIdDTO>(this.bodyString())
+                val board = format.decodeFromString<BoardDTO>(this.bodyString())
                 db.run { conn ->
                     assertTrue(db.boards.hasBoard(conn, board.id), "board does not exist")
                     assertTrue(db.users.hasUserInBoard(conn, idNToken.id), "user was not added to board on creation")
@@ -43,13 +45,19 @@ class BoardsRouterTest : InstanceProjectTest() {
         val idNToken = services.users.createNewUser("testUser", "tests@gmail.com")
         val idNToken2 = services.users.createNewUser("testUser1", "tests1@gmail.com")
         val boardId = services.boards.createNewBoard("TestBoard", "This is a big test Board", idNToken.id)
-        val request = Request(Method.POST, "${path}boards/$boardId/users/${idNToken2.id}")
+        val requestBody = """
+            {
+                "id": ${idNToken2.id}
+            }
+        """
+        val request = Request(Method.POST, "${path}boards/$boardId/users")
             .header("Authorization", "Bearer ${idNToken.token}")
+            .body(requestBody)
 
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status, "Status was not ok")
-                val board = Json.decodeFromString<String>(this.bodyString())
+                val board = format.decodeFromString<String>(this.bodyString())
                 assertTrue(board.toBoolean(), "user was not added to board")
                 db.run { conn ->
                     assertTrue(db.users.hasUserInBoard(conn, idNToken.id), "user was not added to board")
@@ -72,7 +80,7 @@ class BoardsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val board = Json.decodeFromString<BoardDTO>(this.bodyString())
+                val board = format.decodeFromString<BoardDTO>(this.bodyString())
                 assertEquals(boardId, board.id)
                 assertEquals(nameB, board.name)
                 assertEquals(description, board.description)
@@ -95,13 +103,13 @@ class BoardsRouterTest : InstanceProjectTest() {
         val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
         val list2Id = services.lists.createList(nameL2, boardId, idNToken.id)
 
-        val request = Request(Method.GET, "${path}boards/$boardId/lists")
+        val request = Request(Method.GET, "${path}boards/$boardId/lists?fields=cards")
             .header("Authorization", "Bearer ${idNToken.token}")
 
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val board = Json.decodeFromString<BoardListsDTO>(this.bodyString())
+                val board = format.decodeFromString<BoardListsDTO>(this.bodyString())
                 assertEquals(board.lists[0].id, list1Id)
                 assertEquals(board.lists[0].name, nameL1)
                 assertEquals(board.lists[0].boardId, boardId)

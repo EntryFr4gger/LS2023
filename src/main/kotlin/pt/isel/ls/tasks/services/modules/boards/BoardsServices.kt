@@ -68,16 +68,16 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a Board.
      * */
-    fun getBoardDetails(boardId: Int, requestId: Int, fields: List<String>): BoardDetailsResponse {
+    fun getBoardDetails(boardId: Int, requestId: Int, fields: List<String>?): BoardDetailsResponse {
         isValidBoardId(boardId)
         isValidUserId(requestId)
-        isValidFieldsBoardDetails(fields)
+        if (fields != null) isValidFieldsBoardDetails(fields)
 
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
             val board = source.boards.getBoardDetails(conn, boardId)
             var lists: List<_List>? = null
-            if (fields.contains("lists")) {
+            if (fields?.contains("lists") == true) {
                 lists = source.boards.getAllLists(conn, boardId, 0, Int.MAX_VALUE)
             }
             BoardDetailsResponse(board, lists)

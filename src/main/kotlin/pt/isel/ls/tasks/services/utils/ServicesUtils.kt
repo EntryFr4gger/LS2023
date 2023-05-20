@@ -273,14 +273,14 @@ open class ServicesUtils(open val source: TaskData) {
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidFieldsBoardDetails(fields: kotlin.collections.List<String>) {
-        val validFields = listOf("id", "name", "description", "lists")
+        val validFields = listOf("lists") // "id", "name", "description"
         if (!isValidFields(validFields, fields)) {
             throw ServicesError.InvalidArgumentException("Given fields were invalid ${fields.joinToString(" ")}")
         }
     }
 
     fun isValidFieldsListDetails(fields: kotlin.collections.List<String>) {
-        val validFields = listOf("id", "name", "boardId", "cards")
+        val validFields = listOf("cards") // "id", "name", "boardId",
         if (!isValidFields(validFields, fields)) {
             throw ServicesError.InvalidArgumentException("Given fields were invalid ${fields.joinToString(" ")}")
         }

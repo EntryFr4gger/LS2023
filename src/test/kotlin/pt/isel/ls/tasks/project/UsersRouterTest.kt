@@ -1,17 +1,18 @@
 package pt.isel.ls.tasks.project
 
-import kotlinx.serialization.json.Json
+import kotlinx.serialization.Serializable
 import org.http4k.core.Method
 import org.http4k.core.Request
 import org.http4k.core.Status
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
-import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserDTO
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class UsersRouterTest : InstanceProjectTest() {
+    @Serializable
+    data class UserCreationReturn(val id: Int, val token: String)
 
     @Test
     fun `Create new user valid user`() {
@@ -28,7 +29,7 @@ class UsersRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.CREATED, this.status)
-                val user = Json.decodeFromString<UserCreationReturnDTO>(this.bodyString())
+                val user = format.decodeFromString<UserCreationReturn>(this.bodyString())
                 db.run { conn ->
                     assertTrue(db.users.hasUser(conn, user.id))
                 }
@@ -47,7 +48,7 @@ class UsersRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val user = Json.decodeFromString<UserDTO>(this.bodyString())
+                val user = format.decodeFromString<UserDTO>(this.bodyString())
                 assertEquals(idNToken.id, user.id)
                 assertEquals(name, user.name)
                 assertEquals(email, user.email)
@@ -76,7 +77,7 @@ class UsersRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val boardsDTO = Json.decodeFromString<UserBoardsDTO>(this.bodyString())
+                val boardsDTO = format.decodeFromString<UserBoardsDTO>(this.bodyString())
                 val boardIds = boardsDTO.boards.map { it.id }
                 assertTrue(boards.containsAll(boardIds))
             }

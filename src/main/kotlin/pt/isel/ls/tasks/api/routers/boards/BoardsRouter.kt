@@ -83,7 +83,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun getBoardDetails(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val fields = request.query("fields")?.split(",") ?: emptyList()
+        val fields = request.query("fields")?.split(",")
         val boardResponse = services.getBoardDetails(boardId, requestId, fields)
         return Responde(Status.OK, BoardDTO(boardResponse))
     }
