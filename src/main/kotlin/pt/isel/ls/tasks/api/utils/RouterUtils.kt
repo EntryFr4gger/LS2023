@@ -21,7 +21,7 @@ inline fun errorCatcher(code: () -> Response): Response =
     } catch (error: NotFoundException) {
         Responde(Status.NOT_FOUND, ErrorDTO("Resource Not Found", error))
     } catch (error: ServicesError.AuthenticationException) {
-        Responde(Status.UNAUTHORIZED, ErrorDTO("Authentication Not Found",error))
+        Responde(Status.UNAUTHORIZED, ErrorDTO("Authentication Not Found", error))
     } catch (error: ServicesError.InvalidArgumentException) {
         Responde(Status.BAD_REQUEST, ErrorDTO("Invalid Arguments", error))
     } catch (error: ServicesError.AuthorizationException) {
@@ -33,11 +33,10 @@ inline fun errorCatcher(code: () -> Response): Response =
         Response(Status.INTERNAL_SERVER_ERROR)
     }
 
-
 @Serializable
-data class ErrorDTO(val message: String, val error: String){
+data class ErrorDTO(val message: String, val error: String) {
     companion object {
-        operator fun invoke(message: String,error: Exception) =
+        operator fun invoke(message: String, error: Exception) =
             ErrorDTO(message, error.message ?: "No Message")
     }
 }

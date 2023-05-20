@@ -53,7 +53,7 @@ interface ListsDB {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteList(conn: TransactionManager, listId: Int)
+    fun deleteList(conn: TransactionManager, listId: Int): _List
 
     /**
      * Verify if list exists.

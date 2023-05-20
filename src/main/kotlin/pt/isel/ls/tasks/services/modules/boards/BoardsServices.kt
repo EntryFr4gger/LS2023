@@ -76,11 +76,11 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
             val board = source.boards.getBoardDetails(conn, boardId)
-            var lists:List<_List>? = null
-            if(fields.contains("lists")){
-                lists = source.boards.getAllLists(conn,boardId,0, Int.MAX_VALUE)
+            var lists: List<_List>? = null
+            if (fields.contains("lists")) {
+                lists = source.boards.getAllLists(conn, boardId, 0, Int.MAX_VALUE)
             }
-            BoardDetailsResponse(board.id,board.name,board.description,lists)
+            BoardDetailsResponse(board.id, board.name, board.description, lists)
         }
     }
 
@@ -155,7 +155,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteBoard(boardId: Int, requestId: Int) : Int {
+    fun deleteBoard(boardId: Int, requestId: Int): Int {
         isValidBoardId(boardId)
         isValidUserId(requestId)
 

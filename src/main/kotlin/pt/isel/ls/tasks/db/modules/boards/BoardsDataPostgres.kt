@@ -134,7 +134,7 @@ class BoardsDataPostgres : BoardsDB {
         return boards
     }
 
-    override fun deleteBoard(conn: TransactionManager, boardId: Int) : Int{
+    override fun deleteBoard(conn: TransactionManager, boardId: Int): Int {
         val res = conn.connection().prepareStatement(
             "DELETE FROM boards WHERE id = ?"
         )

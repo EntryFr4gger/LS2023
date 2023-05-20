@@ -1,7 +1,6 @@
 package pt.isel.ls.tasks.api.routers.cards
 
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
@@ -14,6 +13,7 @@ import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
 import pt.isel.ls.tasks.api.routers.cards.models.CardId
 import pt.isel.ls.tasks.api.routers.cards.models.CardListUpdate
 import pt.isel.ls.tasks.api.routers.cards.models.CreateCardDTO
+import pt.isel.ls.tasks.api.utils.Responde
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
@@ -45,9 +45,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val card = Json.decodeFromString<CreateCardDTO>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val id = services.createNewCard(card.name, card.description, card.dueDate, card.boardId, card.listId, requestId)
-        return Response(Status.CREATED)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(CardId(id))) // change
+        return Responde(Status.CREATED, CardId(id))
     }
 
     /**
@@ -63,9 +61,8 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val card = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val response = services.moveCard(card.lid, cardId, card.cix, requestId)
-        return Response(Status.OK)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(response.toString()))
+        return Response(Status.OK, response.toString())
+        TODO()
     }
 
     /**
@@ -80,9 +77,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val cardId = request.pathOrThrow("card_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val card = services.getCardDetails(cardId, requestId)
-        return Response(Status.OK)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(CardDTO(card)))
+        return Responde(Status.OK, CardDTO(card))
     }
 
     /**
@@ -96,7 +91,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
     private fun deleteCard(request: Request): Response = errorCatcher {
         val cardId = request.pathOrThrow("card_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        services.deleteCard(cardId, requestId)
-        return Response(Status.OK)
+        val card = services.deleteCard(cardId, requestId)
+        return Responde(Status.OK, CardDTO(card))
     }
 }

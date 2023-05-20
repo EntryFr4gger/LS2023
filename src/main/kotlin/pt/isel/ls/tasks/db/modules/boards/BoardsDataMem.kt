@@ -50,7 +50,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         TODO("Not yet implemented")
     }
 
-    override fun deleteBoard(conn: TransactionManager, boardId: Int) : Int {
+    override fun deleteBoard(conn: TransactionManager, boardId: Int): Int {
         source.boards.remove(boardId)
         return boardId
     }

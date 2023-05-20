@@ -86,7 +86,7 @@ interface BoardsDB {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteBoard(conn: TransactionManager, boardId: Int) : Int
+    fun deleteBoard(conn: TransactionManager, boardId: Int): Int
 
     /**
      * Verify if the name is new

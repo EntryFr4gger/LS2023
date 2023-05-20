@@ -1,7 +1,5 @@
 package pt.isel.ls.tasks.api.routers.boards
 
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
@@ -15,7 +13,13 @@ import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardUsersDTO
 import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
-import pt.isel.ls.tasks.api.utils.*
+import pt.isel.ls.tasks.api.utils.Responde
+import pt.isel.ls.tasks.api.utils.TokenUtil
+import pt.isel.ls.tasks.api.utils.errorCatcher
+import pt.isel.ls.tasks.api.utils.hasOrThrow
+import pt.isel.ls.tasks.api.utils.limitOrDefault
+import pt.isel.ls.tasks.api.utils.pathOrThrow
+import pt.isel.ls.tasks.api.utils.skipOrDefault
 import pt.isel.ls.tasks.services.modules.boards.BoardsServices
 
 class BoardsRouter(private val services: BoardsServices, private val tokenHandeler: TokenUtil) : TasksRouter {
@@ -48,7 +52,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         val boardInfo = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val boardID = services.createNewBoard(boardInfo.name, boardInfo.description, requestId)
-        return Responde(Status.CREATED,BoardDTO(boardID))
+        return Responde(Status.CREATED, BoardDTO(boardID))
     }
 
     /**
@@ -75,13 +79,12 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
      *
      * @return HTTP response contains a JSON body with board details
      */
-     private fun getBoard(request: Request): Response = errorCatcher {
+    private fun getBoard(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val fields = request.query("fields")?.split(",") ?: emptyList()
-        val boardResponse = services.getBoardDetails(boardId, requestId,fields)
-        return Responde(Status.OK,BoardDTO(boardResponse))
-
+        val boardResponse = services.getBoardDetails(boardId, requestId, fields)
+        return Responde(Status.OK, BoardDTO(boardResponse))
     }
 
     /**
@@ -158,6 +161,6 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val deletedID = services.deleteBoard(boardId, requestId)
-        return Responde(Status.OK,BoardDTO(deletedID))
+        return Responde(Status.OK, BoardDTO(deletedID))
     }
 }

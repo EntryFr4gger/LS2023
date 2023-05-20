@@ -78,7 +78,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteList(listId: Int, requestId: Int) {
+    fun deleteList(listId: Int, requestId: Int): _List {
         isValidListId(listId)
 
         return source.run { conn ->

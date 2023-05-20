@@ -19,10 +19,6 @@
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
   </component>
-  <component name="DBNavigator.Project.FileConnectionMappingManager">
-    <mapping file-url="file://$PROJECT_DIR$/src/main/sql/createSchema.sql" connection-id="fcf05958-a52f-4562-b1b4-c1ce43269dce" session-id="MAIN" current-schema="public" />
-    <mapping file-url="file://$PROJECT_DIR$/src/main/sql/addLargeData.sql" connection-id="fcf05958-a52f-4562-b1b4-c1ce43269dce" session-id="MAIN" current-schema="public" />
-  </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />

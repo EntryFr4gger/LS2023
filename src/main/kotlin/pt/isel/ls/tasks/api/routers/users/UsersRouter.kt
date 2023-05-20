@@ -1,7 +1,6 @@
 package pt.isel.ls.tasks.api.routers.users
 
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
@@ -15,12 +14,7 @@ import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserCreationReturnDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserInfoDTO
-import pt.isel.ls.tasks.api.utils.TokenUtil
-import pt.isel.ls.tasks.api.utils.errorCatcher
-import pt.isel.ls.tasks.api.utils.hasOrThrow
-import pt.isel.ls.tasks.api.utils.limitOrDefault
-import pt.isel.ls.tasks.api.utils.pathOrThrow
-import pt.isel.ls.tasks.api.utils.skipOrDefault
+import pt.isel.ls.tasks.api.utils.*
 import pt.isel.ls.tasks.services.modules.users.UsersServices
 
 class UsersRouter(private val services: UsersServices, private val tokenHandeler: TokenUtil) : TasksRouter {
@@ -47,9 +41,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     private fun postUser(request: Request): Response = errorCatcher {
         val user = Json.decodeFromString<CreateUserDTO>(request.bodyString())
         val userCreateInfo = services.createNewUser(user.name, user.email)
-        return Response(CREATED)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(UserCreationReturnDTO(userCreateInfo.id, userCreateInfo.token)))
+        return Responde(CREATED, UserCreationReturnDTO(userCreateInfo.id, userCreateInfo.token))
     }
 
     /**
@@ -63,9 +55,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     private fun getUserDetails(request: Request): Response = errorCatcher {
         val userId = request.pathOrThrow("user_id").toInt()
         val user = services.getUserDetails(userId)
-        return Response(OK)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(UserInfoDTO(user)))
+        return Responde(OK, UserInfoDTO(user))
     }
 
     /**
@@ -84,8 +74,6 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
                 request.skipOrDefault(DEFAULT_SKIP),
                 request.limitOrDefault(DEFAULT_LIMIT)
             )
-        return Response(OK)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(UserBoardsDTO(boards)))
+        return Responde(OK, UserBoardsDTO(boards))
     }
 }

@@ -101,7 +101,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteCard(cardId: Int, requestId: Int) {
+    fun deleteCard(cardId: Int, requestId: Int): Card {
         isValidCardId(cardId)
         isValidUserId(requestId)
 

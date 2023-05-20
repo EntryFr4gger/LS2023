@@ -4,6 +4,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
+import java.sql.SQLException
 import pt.isel.ls.tasks.domain.List as _List
 
 class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
@@ -30,8 +31,8 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
             }
         }
 
-    override fun deleteList(conn: TransactionManager, listId: Int) {
-        source.lists.remove(listId)
+    override fun deleteList(conn: TransactionManager, listId: Int): _List {
+        return source.lists.remove(listId) ?: throw SQLException("List($listId) delete was unsuccessful")
     }
 
     override fun hasList(conn: TransactionManager, listId: Int): Boolean =

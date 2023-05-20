@@ -1,7 +1,6 @@
 package pt.isel.ls.tasks.api.routers.lists
 
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
@@ -13,7 +12,7 @@ import pt.isel.ls.tasks.api.routers.TasksRouter
 import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
-import pt.isel.ls.tasks.api.routers.lists.models.ListIdDTO
+import pt.isel.ls.tasks.api.utils.Responde
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
 import pt.isel.ls.tasks.api.utils.hasOrThrow
@@ -49,9 +48,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val listInfo = Json.decodeFromString<CreateListDTO>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val listId = services.createList(listInfo.name, listInfo.boardId, requestId)
-        return Response(Status.CREATED)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(ListIdDTO(listId)))
+        return Responde(Status.CREATED, ListDTO(listId))
     }
 
     /**
@@ -66,9 +63,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val lists = services.getListDetails(listId, requestId)
-        return Response(Status.OK)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(ListDTO(lists)))
+        return Responde(Status.OK, ListDTO(lists))
     }
 
     /**
@@ -89,9 +84,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
                 request.limitOrDefault(DEFAULT_LIMIT),
                 requestId
             )
-        return Response(Status.OK)
-            .header("content-type", "application/json")
-            .body(Json.encodeToString(ListCardsDTO(cards)))
+        return Responde(Status.OK, ListCardsDTO(cards))
     }
 
     /**
@@ -105,7 +98,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
     private fun deleteList(request: Request): Response = errorCatcher {
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        services.deleteList(listId, requestId)
-        return Response(Status.OK)
+        val list = services.deleteList(listId, requestId)
+        return Responde(Status.OK, ListDTO(list))
     }
 }
