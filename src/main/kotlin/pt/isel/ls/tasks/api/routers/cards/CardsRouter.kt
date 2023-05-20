@@ -60,7 +60,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val cardId = request.pathOrThrow("card_id").toInt()
         val card = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val response = services.moveCard(card.lid, cardId, card.cix, requestId)
+        val response = services.moveCard(cardId, card.lid, card.cix, requestId)
         return Response(Status.OK, response.toString())
         TODO()
     }
