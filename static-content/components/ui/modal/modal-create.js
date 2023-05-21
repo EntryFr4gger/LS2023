@@ -1,9 +1,9 @@
-import {button, div, form, h1, h5, i, input, label, svg, textarea, use} from "../../dom/domTags.js";
+import {button, div, form, h5, i, input, label, textarea} from "../../dom/domTags.js";
 
 export function ModalCreate(func, id) {
     return div(
         div(
-            {class:"icon-card-create"},
+            {class: "icon-card-create"},
             i({class: "fas fa-plus", style: {color: "#000000"}}),
             button({type: "button", class: "btn", "data-bs-toggle": "modal", "data-bs-target": "#exampleModal"},
                 "Add Card",

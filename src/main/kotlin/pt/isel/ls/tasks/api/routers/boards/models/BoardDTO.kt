@@ -14,8 +14,10 @@ data class BoardDTO(val id: Int, val name: String?, val description: String?, va
                 boardRes.board.description,
                 boardRes.lists?.let { BoardListsDTO(it) }
             )
+
         operator fun invoke(board: Board) =
             BoardDTO(board.id, board.name, board.description, null)
+
         operator fun invoke(id: Int) =
             BoardDTO(id, null, null, null)
     }

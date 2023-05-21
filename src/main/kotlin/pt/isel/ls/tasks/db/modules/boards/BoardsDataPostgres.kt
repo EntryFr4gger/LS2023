@@ -13,8 +13,6 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 import kotlin.collections.List
-import kotlin.collections.mutableListOf
-import kotlin.collections.plusAssign
 import pt.isel.ls.tasks.domain.List as _List
 
 class BoardsDataPostgres : BoardsDB {
@@ -87,7 +85,13 @@ class BoardsDataPostgres : BoardsDB {
         return lists
     }
 
-    override fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int, onlyReturnArchived: Boolean): List<Card> {
+    override fun getAllCards(
+        conn: TransactionManager,
+        boardId: Int,
+        skip: Int,
+        limit: Int,
+        onlyReturnArchived: Boolean
+    ): List<Card> {
         val prp = conn.connection().prepareStatement(
             "SELECT * FROM cards WHERE board_id = ? AND (? OR (? AND list_id IS null)) OFFSET ? LIMIT ?"
         )

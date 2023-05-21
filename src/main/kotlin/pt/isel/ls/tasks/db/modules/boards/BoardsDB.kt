@@ -67,7 +67,13 @@ interface BoardsDB {
      *
      * @return list of Users in a board.
      * */
-    fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int, onlyReturnArchived: Boolean): List<Card>
+    fun getAllCards(
+        conn: TransactionManager,
+        boardId: Int,
+        skip: Int,
+        limit: Int,
+        onlyReturnArchived: Boolean
+    ): List<Card>
 
     /**
      * Get the list with the users of a board.

@@ -9,6 +9,7 @@ data class ListDTO(val id: Int, val name: String?, val boardId: Int?, val cards:
     companion object {
         operator fun invoke(list: _List) =
             ListDTO(list.id, list.name, list.boardId, null)
+
         operator fun invoke(listRes: ListDetailsResponse) =
             ListDTO(
                 listRes.list.id,
@@ -16,6 +17,7 @@ data class ListDTO(val id: Int, val name: String?, val boardId: Int?, val cards:
                 listRes.list.boardId,
                 listRes.cards?.let { ListCardsDTO(it) }
             )
+
         operator fun invoke(id: Int) = ListDTO(id, null, null, null)
     }
 }

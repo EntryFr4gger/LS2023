@@ -8,7 +8,11 @@ import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
-import pt.isel.ls.tasks.api.routers.boards.models.*
+import pt.isel.ls.tasks.api.routers.boards.models.BoardCardsDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardUsersDTO
+import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserIdDTO
 import pt.isel.ls.tasks.api.utils.Responde
