@@ -1,16 +1,27 @@
 import {SearchBoardsFetch} from "../../api/fetch/boards/SearchBoardsFetch.js";
-import BoardsPage from "../../../pages/boards/BoardsPage.js";
 import {SessionGetRemove} from "../../utils/session-get-remove.js";
+import {ListOfBoards} from "../../ui/pagination/boards/ListOfBoards.js";
+import BoardsPage from "../../../pages/boards/BoardsPage.js";
 
 async function SearchBoardsHandler(state) {
 
     const name = SessionGetRemove("search-res")
 
-    const reponse = await SearchBoardsFetch(name)
+    let boardSkip = 0;
 
-    state.body = await reponse.json()
+    async function loadNewBoards(boardsToLoad) {
+        const response = await SearchBoardsFetch(name, boardSkip, boardsToLoad)
 
-    return BoardsPage(state)
+        const {boards} = await response.json()
+
+        boardSkip += boards.length;
+
+        return boards.map(async board => {
+                return await ListOfBoards(board)
+            })
+    }
+
+    return BoardsPage(state, {loadBoards: loadNewBoards})
 }
 
 export default SearchBoardsHandler;

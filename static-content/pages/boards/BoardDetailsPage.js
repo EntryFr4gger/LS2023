@@ -1,35 +1,66 @@
-import {div, h1, h4, h5, li, th, tr, ul} from "../../components/dom/domTags.js";
+import {
+    div,
+    h1,
+    h3,
+    h4,
+    h5,
+    i,
+    li,
+    path,
+    script,
+    span,
+    svg,
+    table,
+    th,
+    tr,
+    ul,
+    use
+} from "../../components/dom/domTags.js";
 import {buttonWithHref} from "../../components/ui/button/with-href.js";
 import DeleteBoardHandler from "../../components/handlers/board/DeleteBoardHandler.js";
 import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js";
 import CreateListHandler from "../../components/handlers/lists/CreateListHandler.js";
+import {createRef} from "../../components/utils/create-ref.js";
+import InfiniteScroll from "../../components/ui/infinite-scroll/InfiniteScroll.js";
 
 
-function BoardDetailsPage(state) {
-    const items = ['id', 'name', 'description'];
-    const lis = state.body["lists"]["lists"];
+function BoardDetailsPage(state, props) {
+    const ref = createRef()
 
+    const {loadBoardDetails} = props
 
     return div(
-        h1("Boards:"),
+        h1(`${state.body["name"]}`),
+        h5(`${state.body["description"]}`),
         ul(
-            ...items.map(item => li(`${item} : ${state.body[item]}`)),
+            {class: "list-inline  d-flex"},
             li(
-                h4("Lists:"),
+                {class: "list-inline-item"},
+                div(
+                    {class: "btn-group-vertical", role: "group", "aria-label": "Vertical button group"},
+                    buttonWithHref("Users in Board", `/#boards/${state.body['id']}/users`),
+                    DeleteBoardHandler(state),
+                    OffCanvasCreate("List Create", CreateListHandler(state))
+                )
+            ),
+            li(
+                {class: "list-inline-item"},
                 ul(
-                    ...lis.map(currentList =>
-                        tr(
-                            th(h5(currentList['name'])),
-                            th(buttonWithHref("List Details", `/#lists/${currentList['id']}`)
-                            )
+                    {class: "d-flex justify-content-center"},
+                    div(
+                        InfiniteScroll(state, {
+                                onLoadMore: loadBoardDetails,
+                                resetRef: ref,
+                                initialNumChildren: 16,
+                                numChildren: 5,
+                                overflowHeight: "650px"
+                            },
+                            "scroll-div"
                         )
                     )
                 )
             )
-        ),
-        buttonWithHref("Users in Board", `/#boards/${state.body['id']}/users`),
-        DeleteBoardHandler(state),
-        OffCanvasCreate("List Create", CreateListHandler(state))
+        )
     )
 }
 

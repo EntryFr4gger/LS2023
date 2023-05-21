@@ -1,4 +1,4 @@
-import NotFoundPage from "../pages/shared/404Page.js";
+import NotFoundPage from "../pages/_shared/404Page.js";
 import DetailsUserHandler from "../components/handlers/user/DetailsUserHandler.js";
 import {Router} from "./router.js";
 import UserBoardsHandler from "../components/handlers/user/UserBoardsHandler.js";

@@ -9,8 +9,11 @@ async function NavBar() {
 
     function search(event) {
         event.preventDefault()
-        sessionStorage.setItem("search-res", document.getElementById("search-res").value)
-        changeHashLocation(`#boards/search`)
+        const searchValue = document.getElementById("search-res").value
+        if(searchValue.trim() !== "") {
+            sessionStorage.setItem("search-res", document.getElementById("search-res").value)
+            changeHashLocation(`#boards/search`)
+        }
     }
 
     return nav(

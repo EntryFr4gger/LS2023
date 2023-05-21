@@ -166,6 +166,18 @@ export function embed(attributes) {
     return createElement("embed", attributes);
 }
 
+// Creates an HTML <path> element
+export function path(attributes, ...children) {
+    return createElement("path", attributes, ...children);
+}
+
+
+// Creates an HTML <use> element
+export function use(attributes, ...children) {
+    return createElement("use", attributes, ...children);
+}
+
+
 // Creates an HTML <fieldset> element
 export function fieldset(attributes, ...children) {
     return createElement("fieldset", attributes, ...children);
@@ -434,6 +446,11 @@ export function source(attributes) {
 // Creates an HTML <span> element
 export function span(attributes, ...children) {
     return createElement("span", attributes, ...children);
+}
+
+// Creates an SVG <svg> element with children
+export function svg(attributes, ...children) {
+    return createElement("svg", attributes, ...children);
 }
 
 // Creates an HTML <strong> element
