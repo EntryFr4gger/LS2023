@@ -107,6 +107,17 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
         }
     }
 
+    /**
+     * Get the cards in a board.
+     *
+     * @param boardId board unique identifier.
+     * @param skip skip database tables.
+     * @param limit limit database tables.
+     * @param requestId request user unique identifier.
+     * @param onlyReturnArchived if true only returns the archived cards for that board
+     *
+     * @return list of lists in a board.
+     * */
     fun getAllCards(boardId: Int, skip: Int, limit: Int, requestId: Int, onlyReturnArchived: Boolean): List<Card> {
         isValidBoardId(boardId)
         isValidUserId(requestId)

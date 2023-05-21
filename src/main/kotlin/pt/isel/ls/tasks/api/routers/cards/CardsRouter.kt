@@ -49,7 +49,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
     }
 
     /**
-     * Moves a card given a new list.
+     * Moves a card given a new location.
      * requires authentication.
      *
      * @param request HTTP request that contains a JSON body with an end list id

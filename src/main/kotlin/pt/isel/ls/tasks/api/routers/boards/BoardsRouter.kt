@@ -127,6 +127,14 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
             )
         return Responde(Status.OK, BoardUsersDTO(users))
     }
+
+    /**
+     * Gets the list of a cards for a given board.
+     *
+     * @param request HTTP request that contains the name to search
+     *
+     * @return list of Cards.
+     * */
     private fun getBoardCards(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
