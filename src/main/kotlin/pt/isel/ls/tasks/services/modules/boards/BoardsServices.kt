@@ -2,6 +2,7 @@ package pt.isel.ls.tasks.services.modules.boards
 
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.modules.boards.response.BoardDetailsResponse
 import pt.isel.ls.tasks.services.utils.ServicesUtils
@@ -103,6 +104,18 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
             authorizationBoard(conn, boardId, requestId)
 
             source.boards.getAllLists(conn, boardId, skip, limit)
+        }
+    }
+
+    fun getAllCards(boardId: Int, skip: Int, limit: Int, requestId: Int): List<Card> {
+        isValidBoardId(boardId)
+        isValidUserId(requestId)
+        isValidSkipAndLimit(skip, limit)
+
+        return source.run { conn ->
+            authorizationBoard(conn, boardId, requestId)
+
+            source.boards.getAllCards(conn, boardId, skip, limit)
         }
     }
 

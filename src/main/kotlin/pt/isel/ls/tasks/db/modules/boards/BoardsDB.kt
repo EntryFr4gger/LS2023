@@ -3,6 +3,7 @@ package pt.isel.ls.tasks.db.modules.boards
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.domain.List as _List
 
@@ -54,6 +55,8 @@ interface BoardsDB {
      * @return list of lists in a board.
      * */
     fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List>
+
+    fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<Card>
 
     /**
      * Get the list with the users of a board.

@@ -4,6 +4,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.Card
 import java.sql.SQLException
 import kotlin.collections.List
 import kotlin.collections.set
@@ -38,6 +39,13 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
     override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> =
         source.lists.toList().mapNotNull {
+            it.second.takeIf { list ->
+                list.boardId == boardId
+            }
+        }
+
+    override fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<Card>  =
+        source.cards.toList().mapNotNull {
             it.second.takeIf { list ->
                 list.boardId == boardId
             }

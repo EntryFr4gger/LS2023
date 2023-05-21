@@ -1,11 +1,13 @@
 package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.errors.NotFoundException
+import pt.isel.ls.tasks.db.modules.cards.CardsDataPostgres.Companion.toCard
 import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres.Companion.toList
 import pt.isel.ls.tasks.db.modules.users.UsersDataPostgres.Companion.toUser
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.db.transactionManager.connection
 import pt.isel.ls.tasks.domain.Board
+import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.User
 import java.sql.ResultSet
 import java.sql.SQLException
@@ -81,6 +83,23 @@ class BoardsDataPostgres : BoardsDB {
         val lists = mutableListOf<_List>()
         while (res.next())
             lists += res.toList()
+
+        return lists
+    }
+
+    override fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<Card> {
+        val prp = conn.connection().prepareStatement(
+            "SELECT * FROM cards WHERE board_id = ? OFFSET ? LIMIT ?"
+        )
+        prp.setInt(1, boardId)
+        prp.setInt(2, skip)
+        prp.setInt(3, limit)
+
+        val res = prp.executeQuery()
+
+        val lists = mutableListOf<Card>()
+        while (res.next())
+            lists += res.toCard()
 
         return lists
     }
