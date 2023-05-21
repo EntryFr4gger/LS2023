@@ -125,10 +125,10 @@ The pages section of our codebase is responsible for rendering the user interfac
 
 ## Critical Evaluation
 
-There are several functionalities that didn't make it due to time constraints:
-	*   Cannot unarchive a card via the SPA 
-	*  Drag and drop of the cards
-	* Further testing on all API routes
+There here are some functionalities that didn't make it due to time constraints:
+*   Cannot unarchive a card via the SPA 
+*  Drag and drop of the cards
+* Further testing on all API routes
 	
 We also hope to improve:
 * General beauty of the website
