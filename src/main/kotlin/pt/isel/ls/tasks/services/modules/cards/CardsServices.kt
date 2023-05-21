@@ -84,12 +84,15 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
-            listId?.let { authorizationList(conn, listId, requestId)}
+            listId?.let {
+                authorizationList(conn, listId, requestId)
+            }
             source.cards.moveCard(conn, listId, cardId)
-            if(listId!=null && cix!=null){
-                organizeAfterMove(conn, listId, cardId, cix)
+            if(listId!=null){
+                organizeAfterMove(conn, cardId, listId,cix)
             }
         }
+        TODO("This can work without the list being given")
     }
 
     /**

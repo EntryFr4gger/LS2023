@@ -1,3 +1,5 @@
+Select * from user_board
+
 BEGIN;
 INSERT INTO Users(name, email)
 VALUES ('Bernardo', 'bernardo@isel.pt'),
@@ -244,7 +246,7 @@ FROM (SELECT CASE
 
 INSERT INTO Cards (name, description, dueDate, cix, board_id, list_id)
 SELECT CASE
-           WHEN row_number <= 1 THEN 'm'
+           WHEN row_number <= 1 THEN 'Project 1'
            ELSE 'Project ' || row_number
            END                 AS name,
        'This is the description for ' || CASE

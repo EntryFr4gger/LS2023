@@ -1,3 +1,5 @@
+Select * from cards
+rollback ;
 BEGIN;
 INSERT INTO Users(name, email)
 VALUES ('Bernardo', 'bernardo@isel.pt'),
