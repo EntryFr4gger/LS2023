@@ -1,5 +1,5 @@
-import {a, br, div, form, input, li, span} from "../../../dom/domTags.js";
-import {userIdLS} from "../../../utils/get-user.js";
+import {a, br, div, form, input, li, span} from "../../../components/dom/domTags.js";
+import {userIdLS} from "../../../components/utils/get-user.js";
 
 
 async function LoginRegister() {

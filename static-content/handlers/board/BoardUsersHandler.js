@@ -1,5 +1,5 @@
-import BoardUsersPage from "../../../pages/boards/BoardUsersPage.js";
-import {GetBoardUsersFetch} from "../../api/fetch/boards/GetBoardUsersFetch.js";
+import BoardUsersPage from "../../pages/boards/BoardUsersPage.js";
+import {GetBoardUsersFetch} from "../../components/api/fetch/boards/GetBoardUsersFetch.js";
 
 async function BoardUsersHandler(state) {
     const boardId = state.pathParams["board_id"];

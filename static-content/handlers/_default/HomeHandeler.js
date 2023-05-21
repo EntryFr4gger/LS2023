@@ -1,4 +1,4 @@
-import HomePage from "../../../pages/_shared/HomePage.js";
+import HomePage from "../../pages/_shared/HomePage.js";
 
 
 async function HomeHandeler(state) {

@@ -1,7 +1,7 @@
 import {Router} from "../routes/router.js";
 import usersRouter from "../routes/usersRouter.js";
 import NavBar from "./_shared/NavBar.js";
-import HomeHandeler from "../components/handlers/_default/HomeHandeler.js";
+import HomeHandeler from "../handlers/_default/HomeHandeler.js";
 import boardsRouter from "../routes/boardsRouters.js";
 import listsRouter from "../routes/listsRouters.js";
 import {br, div} from "../components/dom/domTags.js";

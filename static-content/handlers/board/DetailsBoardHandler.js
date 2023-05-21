@@ -1,12 +1,8 @@
-import BoardDetailsPage from "../../../pages/boards/BoardDetailsPage.js";
-import {GetBoardFetch} from "../../api/fetch/boards/GetBoardFetch.js";
-import {GetBoardListsFetch} from "../../api/fetch/boards/GetBoardListsFetch.js";
-import {SearchBoardsFetch} from "../../api/fetch/boards/SearchBoardsFetch.js";
-import {ListOfBoards} from "../../ui/pagination/boards/ListOfBoards.js";
-import {ListOfLists} from "../../ui/pagination/lists/ListOfLists.js";
-import {GetListCardsFetch} from "../../api/fetch/lists/GetListCardsFetch.js";
-import {changeHashLocation} from "../../utils/change-hash-location.js";
-import {getUser} from "../../utils/get-user.js";
+import BoardDetailsPage from "../../pages/boards/BoardDetailsPage.js";
+import {GetBoardFetch} from "../../components/api/fetch/boards/GetBoardFetch.js";
+import {GetBoardListsFetch} from "../../components/api/fetch/boards/GetBoardListsFetch.js";
+import {ListOfLists} from "../../components/ui/pagination/lists/ListOfLists.js";
+import {GetListCardsFetch} from "../../components/api/fetch/lists/GetListCardsFetch.js";
 
 async function DetailsBoardHandler(state) {
     const id = state.pathParams["board_id"];
@@ -20,7 +16,7 @@ async function DetailsBoardHandler(state) {
 
         const {lists} = await response.json()
 
-        if(response.ok) {
+        if (response.ok) {
             listSkip += lists.length;
 
             return lists.map(async list => {
@@ -28,8 +24,7 @@ async function DetailsBoardHandler(state) {
                 const cards = await resCard.json()
                 return await ListOfLists(list, cards.cards)
             })
-        }
-        else
+        } else
             alert(lists.error)
     }
 
@@ -37,11 +32,10 @@ async function DetailsBoardHandler(state) {
 
     const json = await response.json()
 
-    if(response.ok){
+    if (response.ok) {
         state.body = json
         return BoardDetailsPage(state, loadBoardDetails)
-    }
-    else
+    } else
         alert(json.error)
 }
 

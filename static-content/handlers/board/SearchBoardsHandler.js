@@ -1,7 +1,7 @@
-import {SearchBoardsFetch} from "../../api/fetch/boards/SearchBoardsFetch.js";
-import {SessionGetRemove} from "../../utils/session-get-remove.js";
-import {ListOfBoards} from "../../ui/pagination/boards/ListOfBoards.js";
-import BoardsPage from "../../../pages/boards/BoardsPage.js";
+import {SearchBoardsFetch} from "../../components/api/fetch/boards/SearchBoardsFetch.js";
+import {SessionGetRemove} from "../../components/utils/session-get-remove.js";
+import {ListOfBoards} from "../../components/ui/pagination/boards/ListOfBoards.js";
+import BoardsPage from "../../pages/boards/BoardsPage.js";
 
 async function SearchBoardsHandler(state) {
 
@@ -14,14 +14,13 @@ async function SearchBoardsHandler(state) {
 
         const {boards} = await response.json()
 
-        if(response.ok) {
+        if (response.ok) {
             boardSkip += boards.length;
 
             return boards.map(async board => {
                 return await ListOfBoards(board)
             })
-        }
-        else
+        } else
             alert(boards.error)
     }
 

@@ -1,5 +1,5 @@
-import CardDetailsPage from "../../../pages/cards/CardDetailsPage.js";
-import {GetCardFetch} from "../../api/fetch/cards/GetCardFetch.js";
+import CardDetailsPage from "../../pages/cards/CardDetailsPage.js";
+import {GetCardFetch} from "../../components/api/fetch/cards/GetCardFetch.js";
 
 async function DetailsCardHandler(state) {
     const cardId = state.pathParams["card_id"];
@@ -10,12 +10,11 @@ async function DetailsCardHandler(state) {
 
     const json = await response.json()
 
-    if(response.ok) {
+    if (response.ok) {
         state.body = json
 
         return CardDetailsPage(state)
-    }
-    else
+    } else
         alert(json.error)
 }
 

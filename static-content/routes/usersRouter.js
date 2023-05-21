@@ -1,7 +1,7 @@
 import NotFoundPage from "../pages/_shared/404Page.js";
-import DetailsUserHandler from "../components/handlers/user/DetailsUserHandler.js";
+import DetailsUserHandler from "../handlers/user/DetailsUserHandler.js";
 import {Router} from "./router.js";
-import UserBoardsHandler from "../components/handlers/user/UserBoardsHandler.js";
+import UserBoardsHandler from "../handlers/user/UserBoardsHandler.js";
 
 const userRouter = Router()
 userRouter.addRouteHandler('/:user_id', DetailsUserHandler);

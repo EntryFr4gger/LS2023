@@ -1,25 +1,8 @@
-import {
-    div,
-    h1,
-    h3,
-    h4,
-    h5,
-    i,
-    li,
-    path,
-    script,
-    span,
-    svg,
-    table,
-    th,
-    tr,
-    ul,
-    use
-} from "../../components/dom/domTags.js";
+import {div, h1, h5, li, ul,} from "../../components/dom/domTags.js";
 import {buttonWithHref} from "../../components/ui/button/with-href.js";
-import DeleteBoardHandler from "../../components/handlers/board/DeleteBoardHandler.js";
+import DeleteBoardHandler from "../../handlers/board/DeleteBoardHandler.js";
 import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js";
-import CreateListHandler from "../../components/handlers/lists/CreateListHandler.js";
+import CreateListHandler from "../../handlers/lists/CreateListHandler.js";
 import {createRef} from "../../components/utils/create-ref.js";
 import InfiniteScroll from "../../components/ui/infinite-scroll/InfiniteScroll.js";
 
@@ -38,7 +21,8 @@ function BoardDetailsPage(state, loadBoardDetails) {
                     {class: "btn-group-vertical", role: "group", "aria-label": "Vertical button group"},
                     buttonWithHref("Users in Board", `/#boards/${state.body['id']}/users`),
                     DeleteBoardHandler(state),
-                    OffCanvasCreate("List Create", CreateListHandler(state))
+                    OffCanvasCreate("List Create", CreateListHandler(state)),
+                    buttonWithHref("Archived Cards", `#cards/${state.body["id"]}/archived`)
                 )
             ),
             li(

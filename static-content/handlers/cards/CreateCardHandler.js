@@ -1,6 +1,6 @@
-import {changeHashLocation} from "../../utils/change-hash-location.js";
-import {CreateCardFetch} from "../../api/fetch/cards/CreateCardFetch.js";
-import {ModalCreate} from "../../ui/modal/modal-create.js";
+import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
+import {CreateCardFetch} from "../../components/api/fetch/cards/CreateCardFetch.js";
+import {ModalCreate} from "../../components/ui/modal/modal-create.js";
 
 function CreateCardHandler(state, board, list) {
 
@@ -13,14 +13,14 @@ function CreateCardHandler(state, board, list) {
 
         if (name.trim() === "" || description.trim() === "")
             alert("Please fill out all fields")
-        else{
+        else {
             const response =
                 await CreateCardFetch(name, description, boardId, listId)
 
             const json = await response.json()
 
-            if(response.ok)
-                changeHashLocation(`#boards/${boardId}`)
+            if (response.ok)
+                hashChangeLoc(`#boards/${boardId}`)
             else
                 alert(json.error)
         }
