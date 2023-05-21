@@ -92,6 +92,26 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
+        - name : name
+          in : query
+          description : Board's name
+          required : false
+          schema :
+            type : string
+        - name : skip
+          in : query
+          description : Number of boards to skip
+          required : false
+          schema :
+            type : integer
+            default : 0
+        - name : limit
+          in : query
+          description : Number of boards that are returned
+          required : false
+          schema :
+            type : integer
+            default : 10
         - name: user_id
           in: path
           description: ID of user that to be fetched
@@ -128,7 +148,7 @@ paths:
       tags:
         - Boards
       summary: Create a Board
-      description: Create a new board in the system
+      description: Create a new board
       operationId: createBoard
       security:
         - bearerAuth: [ ]
@@ -279,6 +299,26 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
+        - name : name
+          in : query
+          description : list's name
+          required : false
+          schema :
+            type : string
+        - name : skip
+          in : query
+          description : Number of lists to skip
+          required : false
+          schema :
+            type : integer
+            default : 0
+        - name : limit
+          in : query
+          description : Number of lists that are returned
+          required : false
+          schema :
+            type : integer
+            default : 10
         - name: board_id
           in: path
           description: ID of board that to be fetched
@@ -320,6 +360,26 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
+        - name : name
+          in : query
+          description : user's name
+          required : false
+          schema :
+            type : string
+        - name : skip
+          in : query
+          description : Number of users to skip
+          required : false
+          schema :
+            type : integer
+            default : 0
+        - name : limit
+          in : query
+          description : Number of users that are returned
+          required : false
+          schema :
+            type : integer
+            default : 10
         - name: board_id
           in: path
           description: ID of board that to be fetched
@@ -500,6 +560,26 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
+        - name : name
+          in : query
+          description : card's name
+          required : false
+          schema :
+            type : string
+        - name : skip
+          in : query
+          description : Number of cards to skip
+          required : false
+          schema :
+            type : integer
+            default : 0
+        - name : limit
+          in : query
+          description : Number of cards that are returned
+          required : false
+          schema :
+            type : integer
+            default : 10
         - name: list_id
           in: path
           description: ID of list that to be fetched
