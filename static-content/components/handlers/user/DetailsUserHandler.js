@@ -1,7 +1,6 @@
 import UserDetailsPage from "../../../pages/users/UserDetailsPage.js";
 import {GetUserFetch} from "../../api/fetch/users/GetUserFetch.js";
 
-
 async function DetailsUserHandler(state) {
     const userId = state.pathParams["user_id"];
     if (isNaN(userId))
@@ -9,9 +8,15 @@ async function DetailsUserHandler(state) {
 
     const response = await GetUserFetch(userId)
 
-    state.body = await response.json()
+    const json = await response.json()
 
-    return UserDetailsPage(state)
+    if(response.ok) {
+        state.body = json
+
+        return UserDetailsPage(state)
+    }
+    else
+        alert(json.error)
 }
 
 export default DetailsUserHandler;

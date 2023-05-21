@@ -8,7 +8,7 @@ async function BoardUsersPage(state) {
     return div(
         h1("Users In Board: "),
         ul(
-            ...users.map(user => li(`User : ${user[`name`]} (${user[`id`]})`))
+            ...users.map(user => li(`User : ${user[`name`]}`))
         ),
         buttonWithHref("Board Details", `#boards/${state.pathParams["board_id"]}`)
     )

@@ -25,7 +25,7 @@ export async function UpdateCard(state) {
 
         const response = await UpdateCardFetch(cardId, listId)
 
-        const updated = await response.json()
+        //const updated = await response.json()
 
         changeHashLocation(`#boards/${boardId}`)
     }

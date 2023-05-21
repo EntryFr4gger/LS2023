@@ -13,7 +13,10 @@ function CreateBoardHandler() {
 
         const boardId = await response.json()
 
-        changeHashLocation(`#boards/${boardId.id}`)
+        if(response.ok)
+            changeHashLocation(`#boards/${boardId.id}`)
+        else
+            alert(boardId.error)
     }
 
     return FormCreateBoard(createBoard)

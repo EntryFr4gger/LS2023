@@ -23,10 +23,18 @@ class CardsDataPostgres : CardsDB {
                 getString(2),
                 getString(3),
                 getDate(4)?.toLocalDate()?.toKotlinLocalDate(),
-                getInt(5),
+                getIntOrNull(5),
                 getInt(6),
-                getInt(7)
+                getIntOrNull(7)
             )
+
+        private fun ResultSet.getIntOrNull(columnIndex: Int): Int? {
+            return try {
+                getInt(columnIndex)
+            } catch (e: SQLException){
+                null
+            }
+        }
 
         fun PreparedStatement.setStringIfNotNull(parameterIndex: Int, data: String?, type: Int) =
             if (data == null) setNull(parameterIndex, type) else setString(parameterIndex, data)
@@ -85,11 +93,12 @@ class CardsDataPostgres : CardsDB {
     }
 
     override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int): Boolean {
-        /*val obj = conn.connection().prepareStatement(
+        val obj = conn.connection().prepareStatement(
             "UPDATE cards SET list_id = ? WHERE id = ?",
             Statement.RETURN_GENERATED_KEYS
         )
-        obj.setInt(1, listId ?: Types.INTEGER)
+
+        obj.setIntIfNotNull(1, listId,Types.INTEGER)
         obj.setInt(2, cardId)
 
         if (obj.executeUpdate() == 0) {
@@ -98,8 +107,7 @@ class CardsDataPostgres : CardsDB {
 
         obj.generatedKeys.also {
             return it.next()
-        }*/
-        return false
+        }
     }
 
     override fun deleteCard(conn: TransactionManager, cardId: Int) {

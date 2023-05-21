@@ -1,6 +1,7 @@
 import {GetListFetch} from "../../api/fetch/lists/GetListFetch.js";
 import {GetListCardsFetch} from "../../api/fetch/lists/GetListCardsFetch.js";
 import ListDetailsPage from "../../../pages/lists/ListDetailsPage.js";
+import CardDetailsPage from "../../../pages/cards/CardDetailsPage.js";
 
 
 async function DetailsListHandler(state) {
@@ -8,14 +9,24 @@ async function DetailsListHandler(state) {
     if (isNaN(listId))
         throw ("Invalid param id");
 
-    const listRes = await GetListFetch(listId)
+    const responseList = await GetListFetch(listId)
+    const responseCard = await GetListCardsFetch(listId)
 
-    const cardRes = await GetListCardsFetch(listId)
+    const jsonList = await responseList.json()
+    const jsonCard = await responseCard.json()
 
-    state.body = await listRes.json()
-    state.body["cards"] = await cardRes.json()
+    if(responseList.ok) {
+        if(responseCard.ok){
+            state.body = jsonList
+            state.body["cards"] = jsonCard
 
-    return ListDetailsPage(state)
+            return ListDetailsPage(state)
+        }
+        else
+            alert(jsonCard.error)
+    }
+    else
+        alert(jsonList.error)
 }
 
 export default DetailsListHandler;

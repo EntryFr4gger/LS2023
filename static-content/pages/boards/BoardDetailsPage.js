@@ -24,10 +24,8 @@ import {createRef} from "../../components/utils/create-ref.js";
 import InfiniteScroll from "../../components/ui/infinite-scroll/InfiniteScroll.js";
 
 
-function BoardDetailsPage(state, props) {
+function BoardDetailsPage(state, loadBoardDetails) {
     const ref = createRef()
-
-    const {loadBoardDetails} = props
 
     return div(
         h1(`${state.body["name"]}`),

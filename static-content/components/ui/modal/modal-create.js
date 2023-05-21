@@ -29,7 +29,7 @@ export function ModalCreate(func, id) {
 
                             div({class: "mb-3"},
                                 label({for: "name", class: "form-label"}, "Name"),
-                                input({type: "text", class: "form-control", id: `name-card-${id}`})
+                                input({type: "text", class: "form-control", id: `name-card`})
                             ),
                             div({class: "mb-3"},
                                 label({for: "message", class: "form-label"}, "Description"),

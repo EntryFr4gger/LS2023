@@ -62,7 +62,6 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val response = services.moveCard(cardId, card.lid, card.cix, requestId)
         return Response(Status.OK, response.toString())
-        TODO()
     }
 
     /**

@@ -8,10 +8,7 @@ import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
-import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
-import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
-import pt.isel.ls.tasks.api.routers.boards.models.BoardUsersDTO
-import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
+import pt.isel.ls.tasks.api.routers.boards.models.*
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserIdDTO
 import pt.isel.ls.tasks.api.utils.Responde
@@ -37,6 +34,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         "boards/{board_id}" bind Method.GET to ::getBoardDetails,
         "boards/{board_id}/lists" bind Method.GET to ::getLists,
         "boards/{board_id}/users" bind Method.GET to ::getBoardUsers,
+        "boards/{board_id}/cards" bind Method.GET to ::getBoardCards,
         "boards" bind Method.GET to ::searchBoards,
         "boards/{board_id}" bind Method.DELETE to ::deleteBoard
     ).withFilter(tokenHandeler::filter)
@@ -128,6 +126,20 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
                 requestId
             )
         return Responde(Status.OK, BoardUsersDTO(users))
+    }
+    private fun getBoardCards(request: Request): Response = errorCatcher {
+        val boardId = request.pathOrThrow("board_id").toInt()
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        val onlyReturnArchived = request.uri.query.contains("archived")
+        val cards =
+            services.getAllCards(
+                boardId,
+                request.skipOrDefault(DEFAULT_SKIP),
+                request.limitOrDefault(DEFAULT_LIMIT),
+                requestId,
+                onlyReturnArchived
+            )
+        return Responde(Status.OK, BoardCardsDTO(cards))
     }
 
     /**
