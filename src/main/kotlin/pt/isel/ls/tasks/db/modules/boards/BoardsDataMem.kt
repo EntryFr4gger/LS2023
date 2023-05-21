@@ -44,10 +44,10 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
             }
         }
 
-    override fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int, onlyReturnArchived: Boolean): List<Card>  =
+    override fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int, onlyReturnArchived: Boolean): List<Card> =
         source.cards.toList().mapNotNull {
             it.second.takeIf { card ->
-                card.boardId == boardId && if(onlyReturnArchived) card.listId == null else true
+                card.boardId == boardId && if (onlyReturnArchived) card.listId == null else true
             }
         }
 

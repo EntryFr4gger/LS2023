@@ -1,7 +1,6 @@
 package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.errors.NotFoundException
-import pt.isel.ls.tasks.db.modules.cards.CardsDataPostgres.Companion.setIntIfNotNull
 import pt.isel.ls.tasks.db.modules.cards.CardsDataPostgres.Companion.toCard
 import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres.Companion.toList
 import pt.isel.ls.tasks.db.modules.users.UsersDataPostgres.Companion.toUser

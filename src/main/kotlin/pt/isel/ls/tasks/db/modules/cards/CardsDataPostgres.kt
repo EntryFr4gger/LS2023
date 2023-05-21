@@ -31,7 +31,7 @@ class CardsDataPostgres : CardsDB {
         private fun ResultSet.getIntOrNull(columnIndex: Int): Int? {
             return try {
                 getInt(columnIndex)
-            } catch (e: SQLException){
+            } catch (e: SQLException) {
                 null
             }
         }
@@ -98,7 +98,7 @@ class CardsDataPostgres : CardsDB {
             Statement.RETURN_GENERATED_KEYS
         )
 
-        obj.setIntIfNotNull(1, listId,Types.INTEGER)
+        obj.setIntIfNotNull(1, listId, Types.INTEGER)
         obj.setInt(2, cardId)
 
         if (obj.executeUpdate() == 0) {

@@ -115,7 +115,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
 
-            source.boards.getAllCards(conn, boardId, skip, limit,onlyReturnArchived)
+            source.boards.getAllCards(conn, boardId, skip, limit, onlyReturnArchived)
         }
     }
 
