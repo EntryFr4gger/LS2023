@@ -5,33 +5,44 @@ import {SearchBoardsFetch} from "../../api/fetch/boards/SearchBoardsFetch.js";
 import {ListOfBoards} from "../../ui/pagination/boards/ListOfBoards.js";
 import {ListOfLists} from "../../ui/pagination/lists/ListOfLists.js";
 import {GetListCardsFetch} from "../../api/fetch/lists/GetListCardsFetch.js";
+import {changeHashLocation} from "../../utils/change-hash-location.js";
+import {getUser} from "../../utils/get-user.js";
 
 async function DetailsBoardHandler(state) {
     const id = state.pathParams["board_id"];
     if (isNaN(id))
         throw ("Invalid param id");
 
-    const boardRes = await GetBoardFetch(id)
-
     let listSkip = 0;
 
     async function loadBoardDetails(listsToLoad) {
-        const resList = await GetBoardListsFetch(id, listSkip, listsToLoad)
+        const response = await GetBoardListsFetch(id, listSkip, listsToLoad)
 
-        const {lists} = await resList.json()
+        const {lists} = await response.json()
 
-        listSkip += lists.length;
+        if(response.ok) {
+            listSkip += lists.length;
 
-        return lists.map(async list => {
-            const resCard = await GetListCardsFetch(list.id)
-            const cards = await resCard.json()
-            return await ListOfLists(list, cards.cards)
-        })
+            return lists.map(async list => {
+                const resCard = await GetListCardsFetch(list.id)
+                const cards = await resCard.json()
+                return await ListOfLists(list, cards.cards)
+            })
+        }
+        else
+            alert(lists.error)
     }
 
-    state.body = await boardRes.json()
+    const response = await GetBoardFetch(id)
 
-    return BoardDetailsPage(state, {loadBoardDetails: loadBoardDetails})
+    const json = await response.json()
+
+    if(response.ok){
+        state.body = json
+        return BoardDetailsPage(state, loadBoardDetails)
+    }
+    else
+        alert(json.error)
 }
 
 export default DetailsBoardHandler;

@@ -7,11 +7,8 @@ import {createRef} from "../../components/utils/create-ref.js";
 import InfiniteScroll from "../../components/ui/infinite-scroll/InfiniteScroll.js";
 
 
-async function BoardsPage(state, props) {
-
+async function BoardsPage(state, loadBoards) {
     const ref = createRef()
-
-    const {loadBoards} = props
 
     return await div(
         h1({class: "d-flex"}, "My Boards"),

@@ -7,8 +7,15 @@ function DeleteBoardHandler(state) {
 
     async function deleteBoard(event) {
         event.preventDefault()
-        await DeleteBoardFetch(state.body["id"])
-        changeHashLocation(`#users/${getUser()}/boards`)
+
+        const response = await DeleteBoardFetch(state.body["id"])
+
+        const json = await response.json()
+
+        if(response.ok)
+            changeHashLocation(`#users/${getUser()}/boards`)
+        else
+            alert(json.error)
     }
 
     return DeleteButton(deleteBoard)

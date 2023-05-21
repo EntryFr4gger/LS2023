@@ -2,7 +2,6 @@ import BoardsPage from "../../../pages/boards/BoardsPage.js";
 import {GetUserBoardsFetch} from "../../api/fetch/users/GetUserBoardsFetch.js";
 import {ListOfBoards} from "../../ui/pagination/boards/ListOfBoards.js";
 
-
 async function UserBoardsHandler(state) {
     const userId = state.pathParams["user_id"];
     if (isNaN(userId))
@@ -10,19 +9,23 @@ async function UserBoardsHandler(state) {
 
     let boardSkip = 0
 
-    async function loadNewBoards(boardsToLoad) {
+    async function loadBoards(boardsToLoad) {
         const response = await GetUserBoardsFetch(userId, boardSkip, boardsToLoad)
 
         const {boards} = await response.json()
 
-        boardSkip += boards.length;
+        if(response.ok) {
+            boardSkip += boards.length;
 
-        return boards.map(async board => {
-            return await ListOfBoards(board)
-        })
+            return boards.map(async board => {
+                return await ListOfBoards(board)
+            })
+        }
+        else
+            alert(boards.error)
     }
 
-    return BoardsPage(state, {loadBoards: loadNewBoards})
+    return BoardsPage(state, loadBoards)
 }
 
 export default UserBoardsHandler;

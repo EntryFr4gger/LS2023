@@ -12,7 +12,10 @@ function CreateListHandler(state) {
 
         const listId = await response.json()
 
-        changeHashLocation(`#boards/${boardId}`)
+        if(response.ok)
+            changeHashLocation(`#boards/${boardId}`)
+        else
+            alert(listId.error)
     }
 
     return FormCreateList(createList)

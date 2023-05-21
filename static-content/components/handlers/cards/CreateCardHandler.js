@@ -11,16 +11,18 @@ function CreateCardHandler(state, board, list) {
         const name = document.getElementById("name-card").value
         const description = document.getElementById("description-card").value
 
-        if (name.trim() === "" || description.trim() === "") {
-            alert("Please fill out all fields");
-        }
+        if (name.trim() === "" || description.trim() === "")
+            alert("Please fill out all fields")
         else{
             const response =
                 await CreateCardFetch(name, description, boardId, listId)
 
-            const cardId = await response.json()
+            const json = await response.json()
 
-            changeHashLocation(`#boards/${boardId}`)
+            if(response.ok)
+                changeHashLocation(`#boards/${boardId}`)
+            else
+                alert(json.error)
         }
     }
 

@@ -6,8 +6,15 @@ function DeleteCardHandler(state) {
 
     async function deleteCard(event) {
         event.preventDefault()
-        await DeleteCardFetch(state.body["id"])
-        changeHashLocation(`#boards/${state.body["boardId"]}`)
+
+        const response = await DeleteCardFetch(state.body["id"])
+
+        const json = await response.json()
+
+        if(response.ok)
+            changeHashLocation(`#boards/${state.body["boardId"]}`)
+        else
+            alert(json.error)
     }
 
     return DeleteButton(deleteCard)
