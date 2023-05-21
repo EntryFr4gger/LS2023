@@ -76,7 +76,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a card id.
      * */
-    fun moveCard(cardId: Int, listId: Int?, cix: Int?, requestId: Int) {
+    fun moveCard(cardId: Int, listId: Int?, cix: Int?, requestId: Int) : Boolean{
         listId?.let { isValidListId(it) }
         cix?.let { isValidCardCix(cix) }
         isValidCardId(cardId)
@@ -87,10 +87,11 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             listId?.let {
                 authorizationList(conn, listId, requestId)
             }
-            source.cards.moveCard(conn, listId, cardId)
+            val sucess = source.cards.moveCard(conn, listId, cardId)
             if(listId!=null){
                 organizeAfterMove(conn, cardId, listId,cix)
             }
+            sucess
         }
         TODO("This can work without the list being given")
     }
