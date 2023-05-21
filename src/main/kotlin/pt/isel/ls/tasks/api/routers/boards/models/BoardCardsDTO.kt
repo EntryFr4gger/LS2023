@@ -6,7 +6,7 @@ import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
 import pt.isel.ls.tasks.domain.Card
 
 @Serializable
-data class BoardCardsDTO(val lists: List<CardDTO>) {
+data class BoardCardsDTO(val cards: List<CardDTO>) {
     companion object {
         operator fun invoke(cards: List<Card>): BoardCardsDTO =
             BoardCardsDTO(

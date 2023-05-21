@@ -107,7 +107,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
         }
     }
 
-    fun getAllCards(boardId: Int, skip: Int, limit: Int, requestId: Int): List<Card> {
+    fun getAllCards(boardId: Int, skip: Int, limit: Int, requestId: Int, onlyReturnArchived: Boolean): List<Card> {
         isValidBoardId(boardId)
         isValidUserId(requestId)
         isValidSkipAndLimit(skip, limit)
@@ -115,7 +115,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
 
-            source.boards.getAllCards(conn, boardId, skip, limit)
+            source.boards.getAllCards(conn, boardId, skip, limit,onlyReturnArchived)
         }
     }
 

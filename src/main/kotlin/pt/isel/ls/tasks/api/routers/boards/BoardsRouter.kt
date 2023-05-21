@@ -130,12 +130,14 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun getBoardCards(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        val onlyReturnArchived = request.uri.query.contains("archived")
         val cards =
             services.getAllCards(
                 boardId,
                 request.skipOrDefault(DEFAULT_SKIP),
                 request.limitOrDefault(DEFAULT_LIMIT),
-                requestId
+                requestId,
+                onlyReturnArchived
             )
         return Responde(Status.OK, BoardCardsDTO(cards))
     }

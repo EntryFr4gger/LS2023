@@ -23,10 +23,18 @@ class CardsDataPostgres : CardsDB {
                 getString(2),
                 getString(3),
                 getDate(4)?.toLocalDate()?.toKotlinLocalDate(),
-                getInt(5),
+                getIntOrNull(5),
                 getInt(6),
-                getInt(7)
+                getIntOrNull(7)
             )
+
+        private fun ResultSet.getIntOrNull(columnIndex: Int): Int? {
+            return try {
+                getInt(columnIndex)
+            } catch (e: SQLException){
+                null
+            }
+        }
 
         fun PreparedStatement.setStringIfNotNull(parameterIndex: Int, data: String?, type: Int) =
             if (data == null) setNull(parameterIndex, type) else setString(parameterIndex, data)

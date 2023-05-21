@@ -1,6 +1,7 @@
 package pt.isel.ls.tasks.db.modules.boards
 
 import pt.isel.ls.tasks.db.errors.NotFoundException
+import pt.isel.ls.tasks.db.modules.cards.CardsDataPostgres.Companion.setIntIfNotNull
 import pt.isel.ls.tasks.db.modules.cards.CardsDataPostgres.Companion.toCard
 import pt.isel.ls.tasks.db.modules.lists.ListsDataPostgres.Companion.toList
 import pt.isel.ls.tasks.db.modules.users.UsersDataPostgres.Companion.toUser
@@ -87,13 +88,15 @@ class BoardsDataPostgres : BoardsDB {
         return lists
     }
 
-    override fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<Card> {
+    override fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int, onlyReturnArchived: Boolean): List<Card> {
         val prp = conn.connection().prepareStatement(
-            "SELECT * FROM cards WHERE board_id = ? OFFSET ? LIMIT ?"
+            "SELECT * FROM cards WHERE board_id = ? AND (? OR (? AND list_id IS null)) OFFSET ? LIMIT ?"
         )
         prp.setInt(1, boardId)
-        prp.setInt(2, skip)
-        prp.setInt(3, limit)
+        prp.setBoolean(2, !onlyReturnArchived)
+        prp.setBoolean(3, onlyReturnArchived)
+        prp.setInt(4, skip)
+        prp.setInt(5, limit)
 
         val res = prp.executeQuery()
 
