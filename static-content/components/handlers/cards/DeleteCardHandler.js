@@ -1,20 +1,16 @@
 import {changeHashLocation} from "../../utils/change-hash-location.js";
-import {form} from "../../dom/domTags.js";
-import {dangerOutlineButton} from "../../ui/button/color-buttons.js";
 import {DeleteCardFetch} from "../../api/fetch/cards/DeleteCardsFetch.js";
+import {DeleteButton} from "../../ui/button/delete-button.js";
 
 function DeleteCardHandler(state) {
 
     async function deleteCard(event) {
         event.preventDefault()
         await DeleteCardFetch(state.body["id"])
-        changeHashLocation(`#lists/${state.body["listId"]}`)
+        changeHashLocation(`#boards/${state.body["boardId"]}`)
     }
 
-    return form(
-        {onSubmit: deleteCard},
-        dangerOutlineButton("Delete", "submit")
-    )
+    return DeleteButton(deleteCard)
 }
 
 export default DeleteCardHandler;

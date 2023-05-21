@@ -1,5 +1,6 @@
 import BoardsPage from "../../../pages/boards/BoardsPage.js";
 import {GetUserBoardsFetch} from "../../api/fetch/users/GetUserBoardsFetch.js";
+import {ListOfBoards} from "../../ui/pagination/boards/ListOfBoards.js";
 
 
 async function UserBoardsHandler(state) {
@@ -7,11 +8,21 @@ async function UserBoardsHandler(state) {
     if (isNaN(userId))
         throw ("Invalid param id");
 
-    const response = await GetUserBoardsFetch(userId)
+    let boardSkip = 0
 
-    state.body = await response.json()
+    async function loadNewBoards(boardsToLoad) {
+        const response = await GetUserBoardsFetch(userId, boardSkip, boardsToLoad)
 
-    return BoardsPage(state)
+        const {boards} = await response.json()
+
+        boardSkip += boards.length;
+
+        return boards.map(async board => {
+            return await ListOfBoards(board)
+        })
+    }
+
+    return BoardsPage(state, {loadBoards: loadNewBoards})
 }
 
 export default UserBoardsHandler;

@@ -1,4 +1,4 @@
-import {a} from "../../dom/domTags.js";
+import {a, br} from "../../dom/domTags.js";
 import {lightOutlineButton} from "./color-buttons.js";
 
 export function buttonWithHref(text, href = "/#", padding = 1) {

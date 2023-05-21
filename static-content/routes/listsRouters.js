@@ -1,5 +1,5 @@
 import {Router} from "./router.js";
-import NotFoundPage from "../pages/shared/404Page.js";
+import NotFoundPage from "../pages/_shared/404Page.js";
 import cardsRouters from "./cardsRouters.js";
 import DetailsListHandler from "../components/handlers/lists/DetailsListHandler.js";
 

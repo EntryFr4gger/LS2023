@@ -1,7 +1,6 @@
 import {changeHashLocation} from "../../utils/change-hash-location.js";
-import {form} from "../../dom/domTags.js";
-import {dangerOutlineButton} from "../../ui/button/color-buttons.js";
 import {DeleteListFetch} from "../../api/fetch/lists/DeleteListFetch.js";
+import {DeleteButton} from "../../ui/button/delete-button.js";
 
 function DeleteListHandler(state) {
 
@@ -11,10 +10,7 @@ function DeleteListHandler(state) {
         changeHashLocation(`#boards/${state.body["boardId"]}`)
     }
 
-    return form(
-        {onSubmit: deleteList},
-        dangerOutlineButton("Delete", "submit")
-    )
+    return DeleteButton(deleteList)
 }
 
 export default DeleteListHandler;

@@ -52,7 +52,7 @@ interface CardsDB {
      *
      * @return a card id.
      * */
-    fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Boolean
+    fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int): Boolean
 
     /**
      * Delete a card.

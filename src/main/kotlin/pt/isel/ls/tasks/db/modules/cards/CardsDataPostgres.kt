@@ -84,12 +84,12 @@ class CardsDataPostgres : CardsDB {
         }
     }
 
-    override fun moveCard(conn: TransactionManager, listId: Int, cardId: Int): Boolean {
-        val obj = conn.connection().prepareStatement(
+    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int): Boolean {
+        /*val obj = conn.connection().prepareStatement(
             "UPDATE cards SET list_id = ? WHERE id = ?",
             Statement.RETURN_GENERATED_KEYS
         )
-        obj.setInt(1, listId)
+        obj.setInt(1, listId ?: Types.INTEGER)
         obj.setInt(2, cardId)
 
         if (obj.executeUpdate() == 0) {
@@ -98,7 +98,8 @@ class CardsDataPostgres : CardsDB {
 
         obj.generatedKeys.also {
             return it.next()
-        }
+        }*/
+        return false
     }
 
     override fun deleteCard(conn: TransactionManager, cardId: Int) {

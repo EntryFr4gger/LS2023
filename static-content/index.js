@@ -1,5 +1,5 @@
 import App from "./pages/App.js";
-import NotFoundPage from "./pages/shared/404Page.js";
+import NotFoundPage from "./pages/_shared/404Page.js";
 import {getUserToken} from "./components/utils/get-token.js";
 
 
