@@ -93,7 +93,6 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             }
             sucess
         }
-        TODO("This can work without the list being given")
     }
 
     /**
