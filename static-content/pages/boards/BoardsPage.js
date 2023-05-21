@@ -2,7 +2,7 @@ import {div, h1, li, ul} from "../../components/dom/domTags.js";
 import {buttonWithHref} from "../../components/ui/button/with-href.js";
 import {getUser} from "../../components/utils/get-user.js";
 import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js";
-import CreateBoardHandler from "../../components/handlers/board/CreateBoardHandler.js";
+import CreateBoardHandler from "../../handlers/board/CreateBoardHandler.js";
 import {createRef} from "../../components/utils/create-ref.js";
 import InfiniteScroll from "../../components/ui/infinite-scroll/InfiniteScroll.js";
 

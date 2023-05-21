@@ -56,14 +56,32 @@ interface BoardsDB {
      * */
     fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List>
 
-    fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int, onlyReturnArchived: Boolean): List<Card>
+    /**
+     * Get the list with the cards of a board.
+     *
+     * @param conn connection to a database.
+     * @param boardId board unique identifier.
+     * @param skip skip database tables.
+     * @param limit limit database tables.
+     * @param onlyReturnArchived if true only returns the archived cards for that board
+     *
+     * @return list of Users in a board.
+     * */
+    fun getAllCards(
+        conn: TransactionManager,
+        boardId: Int,
+        skip: Int,
+        limit: Int,
+        onlyReturnArchived: Boolean
+    ): List<Card>
 
     /**
      * Get the list with the users of a board.
      *
      * @param conn connection to a database.
      * @param boardId board unique identifier.
-     *
+     * @param skip skip database tables.
+     * @param limit limit database tables.
      * @return list of Users in a board.
      * */
     fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User>

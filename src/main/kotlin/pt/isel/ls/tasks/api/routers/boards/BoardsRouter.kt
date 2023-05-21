@@ -8,7 +8,11 @@ import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
-import pt.isel.ls.tasks.api.routers.boards.models.*
+import pt.isel.ls.tasks.api.routers.boards.models.BoardCardsDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
+import pt.isel.ls.tasks.api.routers.boards.models.BoardUsersDTO
+import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserIdDTO
 import pt.isel.ls.tasks.api.utils.Responde
@@ -127,6 +131,14 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
             )
         return Responde(Status.OK, BoardUsersDTO(users))
     }
+
+    /**
+     * Gets the list of a cards for a given board.
+     *
+     * @param request HTTP request that contains the name to search
+     *
+     * @return list of Cards.
+     * */
     private fun getBoardCards(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")

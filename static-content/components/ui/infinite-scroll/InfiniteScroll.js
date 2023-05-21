@@ -10,7 +10,7 @@ async function InfiniteScroll(state, props, className) {
         resetRef
     } = props;
 
-    const container = await div({class:className, style: {height: overflowHeight}});
+    const container = await div({class: className, style: {height: overflowHeight}});
 
     let loading = false;
 
@@ -31,9 +31,6 @@ async function InfiniteScroll(state, props, className) {
         }
     }, false);
 
-    /**
-     * Resets the container.
-     */
     async function reset() {
         if (loading)
             return;

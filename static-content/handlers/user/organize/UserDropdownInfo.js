@@ -1,5 +1,5 @@
-import {a, button, div, li, ul} from "../../../dom/domTags.js";
-import {getUser, userIdLS} from "../../../utils/get-user.js";
+import {a, button, div, li, ul} from "../../../components/dom/domTags.js";
+import {getUser, userIdLS} from "../../../components/utils/get-user.js";
 
 
 async function UserDropdownInfo() {

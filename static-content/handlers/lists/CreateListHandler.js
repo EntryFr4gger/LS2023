@@ -1,6 +1,6 @@
-import {changeHashLocation} from "../../utils/change-hash-location.js";
-import {CreateListFetch} from "../../api/fetch/lists/CreateListFetch.js";
-import {FormCreateList} from "../../ui/pagination/lists/FormCreateList.js";
+import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
+import {CreateListFetch} from "../../components/api/fetch/lists/CreateListFetch.js";
+import {FormCreateList} from "../../components/ui/pagination/lists/FormCreateList.js";
 
 function CreateListHandler(state) {
     async function createList(event) {
@@ -12,8 +12,8 @@ function CreateListHandler(state) {
 
         const listId = await response.json()
 
-        if(response.ok)
-            changeHashLocation(`#boards/${boardId}`)
+        if (response.ok)
+            hashChangeLoc(`#boards/${boardId}`)
         else
             alert(listId.error)
     }

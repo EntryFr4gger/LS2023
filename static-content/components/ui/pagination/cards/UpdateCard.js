@@ -1,6 +1,6 @@
-import {button, div, form, input, li, ul} from "../../../dom/domTags.js";
+import {button, div, form, li, ul} from "../../../dom/domTags.js";
 import {GetBoardListsFetch} from "../../../api/fetch/boards/GetBoardListsFetch.js";
-import {changeHashLocation} from "../../../utils/change-hash-location.js";
+import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {UpdateCardFetch} from "../../../api/fetch/cards/UpdateCardFetch.js";
 
 export async function UpdateCard(state) {
@@ -27,7 +27,7 @@ export async function UpdateCard(state) {
 
         //const updated = await response.json()
 
-        changeHashLocation(`#boards/${boardId}`)
+        hashChangeLoc(`#boards/${boardId}`)
     }
 
     return div(
@@ -46,7 +46,11 @@ export async function UpdateCard(state) {
             form(
                 {onSubmit: updateCard},
                 ...listNamesMove.map(list =>
-                    li(button({class:"dropdown-item", type: "submit", id: `${list.id}-${state.body["id"]}`}, list.name))),
+                    li(button({
+                        class: "dropdown-item",
+                        type: "submit",
+                        id: `${list.id}-${state.body["id"]}`
+                    }, list.name))),
             )
         )
     )

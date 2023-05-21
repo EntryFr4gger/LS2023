@@ -1,6 +1,6 @@
-import {changeHashLocation} from "../../utils/change-hash-location.js";
-import {CreateBoardFetch} from "../../api/fetch/boards/CreateBoardFetch.js";
-import {FormCreateBoard} from "../../ui/pagination/boards/FormCreateBoard.js";
+import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
+import {CreateBoardFetch} from "../../components/api/fetch/boards/CreateBoardFetch.js";
+import {FormCreateBoard} from "../../components/ui/pagination/boards/FormCreateBoard.js";
 
 function CreateBoardHandler() {
 
@@ -13,8 +13,8 @@ function CreateBoardHandler() {
 
         const boardId = await response.json()
 
-        if(response.ok)
-            changeHashLocation(`#boards/${boardId.id}`)
+        if (response.ok)
+            hashChangeLoc(`#boards/${boardId.id}`)
         else
             alert(boardId.error)
     }

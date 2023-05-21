@@ -1,5 +1,5 @@
-import UserDetailsPage from "../../../pages/users/UserDetailsPage.js";
-import {GetUserFetch} from "../../api/fetch/users/GetUserFetch.js";
+import UserDetailsPage from "../../pages/users/UserDetailsPage.js";
+import {GetUserFetch} from "../../components/api/fetch/users/GetUserFetch.js";
 
 async function DetailsUserHandler(state) {
     const userId = state.pathParams["user_id"];
@@ -10,12 +10,11 @@ async function DetailsUserHandler(state) {
 
     const json = await response.json()
 
-    if(response.ok) {
+    if (response.ok) {
         state.body = json
 
         return UserDetailsPage(state)
-    }
-    else
+    } else
         alert(json.error)
 }
 

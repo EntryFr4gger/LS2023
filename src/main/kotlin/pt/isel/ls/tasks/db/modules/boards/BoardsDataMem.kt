@@ -44,10 +44,16 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
             }
         }
 
-    override fun getAllCards(conn: TransactionManager, boardId: Int, skip: Int, limit: Int, onlyReturnArchived: Boolean): List<Card>  =
+    override fun getAllCards(
+        conn: TransactionManager,
+        boardId: Int,
+        skip: Int,
+        limit: Int,
+        onlyReturnArchived: Boolean
+    ): List<Card> =
         source.cards.toList().mapNotNull {
             it.second.takeIf { card ->
-                card.boardId == boardId && if(onlyReturnArchived) card.listId == null else true
+                card.boardId == boardId && if (onlyReturnArchived) card.listId == null else true
             }
         }
 
@@ -56,7 +62,10 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
             .map { source.users[it.key] ?: throw NotFoundException("User not found with userId:${it.key}") }
 
     override fun searchBoards(conn: TransactionManager, skip: Int, limit: Int, name: String, userId: Int): List<Board> {
-        TODO("Not yet implemented")
+        val filteredBoards = source.boards.values.filter { board -> board.name == name }
+        val startIndex = minOf(skip, filteredBoards.size)
+        val endIndex = minOf(startIndex + limit, filteredBoards.size)
+        return filteredBoards.subList(startIndex, endIndex)
     }
 
     override fun deleteBoard(conn: TransactionManager, boardId: Int): Board {

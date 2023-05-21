@@ -2,7 +2,6 @@ package pt.isel.ls.tasks.api.routers.boards.models
 
 import kotlinx.serialization.Serializable
 import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
-import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
 import pt.isel.ls.tasks.domain.Card
 
 @Serializable

@@ -1,6 +1,6 @@
-import {changeHashLocation} from "../../utils/change-hash-location.js";
-import {DeleteListFetch} from "../../api/fetch/lists/DeleteListFetch.js";
-import {DeleteButton} from "../../ui/button/delete-button.js";
+import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
+import {DeleteListFetch} from "../../components/api/fetch/lists/DeleteListFetch.js";
+import {DeleteButton} from "../../components/ui/button/delete-button.js";
 
 function DeleteListHandler(state) {
 
@@ -11,8 +11,8 @@ function DeleteListHandler(state) {
 
         const json = await response.json()
 
-        if(response.ok)
-            changeHashLocation(`#boards/${state.body["boardId"]}`)
+        if (response.ok)
+            hashChangeLoc(`#boards/${state.body["boardId"]}`)
         else
             alert(json.error)
     }

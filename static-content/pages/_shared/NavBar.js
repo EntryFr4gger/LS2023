@@ -1,8 +1,8 @@
 import {a, button, div, form, h5, input, li, nav, span, ul} from "../../components/dom/domTags.js";
-import UserDropdownInfo from "../../components/handlers/user/organize/UserDropdownInfo.js"
-import LoginRegister from "../../components/handlers/user/organize/LoginRegister.js";
+import UserDropdownInfo from "../../handlers/user/organize/UserDropdownInfo.js"
+import LoginRegister from "../../handlers/user/organize/LoginRegister.js";
 import {getUser} from "../../components/utils/get-user.js";
-import {changeHashLocation} from "../../components/utils/change-hash-location.js";
+import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 
 async function NavBar() {
     const userId = getUser()
@@ -10,9 +10,9 @@ async function NavBar() {
     function search(event) {
         event.preventDefault()
         const searchValue = document.getElementById("search-res").value
-        if(searchValue.trim() !== "") {
+        if (searchValue.trim() !== "") {
             sessionStorage.setItem("search-res", document.getElementById("search-res").value)
-            changeHashLocation(`#boards/search`)
+            hashChangeLoc(`#boards/search`)
         }
     }
 

@@ -1,5 +1,5 @@
-import {a, div, h4, h5, img, li, p, script, span, ul} from "../../../dom/domTags.js";
-import CreateCardHandler from "../../../handlers/cards/CreateCardHandler.js";
+import {a, div, h5, li, ul} from "../../../dom/domTags.js";
+import CreateCardHandler from "../../../../handlers/cards/CreateCardHandler.js";
 
 export async function ListOfLists(list, cards) {
     return li(
@@ -9,7 +9,7 @@ export async function ListOfLists(list, cards) {
             div(
                 {class: "card-header"},
                 a(
-                    {href: `/#lists/${list.id}`, style:{"text-decoration":"none", color:"#000000"}},
+                    {href: `/#lists/${list.id}`, style: {"text-decoration": "none", color: "#000000"}},
                     h5({class: "card-title"}, `${list.name}`)
                 )
             ),

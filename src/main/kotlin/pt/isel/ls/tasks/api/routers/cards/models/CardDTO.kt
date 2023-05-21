@@ -18,7 +18,8 @@ data class CardDTO(
 
         operator fun invoke(card: Card) =
             CardDTO(card.id, card.name, card.description, card.boardId, card.dueDate, card.listId)
-        operator fun invoke(id: Int,listId: Int,cix:Int) =
-            CardDTO(id, null, null, null, null, listId,cix)
+
+        operator fun invoke(id: Int, listId: Int, cix: Int) =
+            CardDTO(id, null, null, null, null, listId, cix)
     }
 }

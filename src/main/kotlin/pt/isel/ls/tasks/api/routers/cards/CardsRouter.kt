@@ -1,6 +1,5 @@
 package pt.isel.ls.tasks.api.routers.cards
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
@@ -49,7 +48,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
     }
 
     /**
-     * Moves a card given a new list.
+     * Moves a card given a new location.
      * requires authentication.
      *
      * @param request HTTP request that contains a JSON body with an end list id

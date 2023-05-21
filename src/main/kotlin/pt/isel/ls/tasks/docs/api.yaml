@@ -92,26 +92,26 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
-        - name : name
-          in : query
-          description : Board's name
-          required : false
-          schema :
-            type : string
-        - name : skip
-          in : query
-          description : Number of boards to skip
-          required : false
-          schema :
-            type : integer
-            default : 0
-        - name : limit
-          in : query
-          description : Number of boards that are returned
-          required : false
-          schema :
-            type : integer
-            default : 10
+        - name: name
+          in: query
+          description: Board's name
+          required: false
+          schema:
+            type: string
+        - name: skip
+          in: query
+          description: Number of boards to skip
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Number of boards that are returned
+          required: false
+          schema:
+            type: integer
+            default: 10
         - name: user_id
           in: path
           description: ID of user that to be fetched
@@ -171,44 +171,44 @@ paths:
           content: { }
         500:
           $ref: '#/components/schemas/InternalServerErrorResponse'
-    get :
-      tags :
+    get:
+      tags:
         - Boards
-      summary : Gets all boards
-      description : search for boards
-      operationId : searchBoard
-      security :
-        - bearerAuth : [ ]
-      parameters :
-        - name : name
-          in : query
-          description : Boar's name
-          required : false
-          schema :
-            type : string
-        - name : skip
-          in : query
-          description : Number of boards to skip
-          required : false
-          schema :
-            type : integer
-            default : 0
-        - name : limit
-          in : query
-          description : Number of boards that are returned
-          required : false
-          schema :
-            type : integer
-            default : 10
-      responses :
-        200 :
-          description : Users were found
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/Boards'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+      summary: Gets all boards
+      description: search for boards
+      operationId: searchBoard
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: name
+          in: query
+          description: Boar's name
+          required: false
+          schema:
+            type: string
+        - name: skip
+          in: query
+          description: Number of boards to skip
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Number of boards that are returned
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        200:
+          description: Users were found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Boards'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
 
 
   /boards/{board_id}:
@@ -258,43 +258,43 @@ paths:
         500:
           $ref: '#/components/schemas/InternalServerErrorResponse'
 
-    delete :
-      tags :
+    delete:
+      tags:
         - Boards
-      description : Delete board
-      operationId : deleteBoard
-      security :
-        - bearerAuth : [ ]
-      parameters :
-        - name : board_id
-          in : path
-          description : ID of board that to be fetched
-          required : true
-          schema :
-            type : integer
-            example : 1
-            minimum : 1
-      responses :
-        200 :
-          description : Board Deleted
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/BoardDeleted'
-        400 :
-          description : Invalid ID supplied
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/InvalidRequest'
-        404 :
-          description : Board not found
-          content :
-            application/json :
-              schema :
-                $ref : '#/components/schemas/InvalidRequest'
-        500 :
-          $ref : '#/components/schemas/InternalServerErrorResponse'
+      description: Delete board
+      operationId: deleteBoard
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: board_id
+          in: path
+          description: ID of board that to be fetched
+          required: true
+          schema:
+            type: integer
+            example: 1
+            minimum: 1
+      responses:
+        200:
+          description: Board Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardDeleted'
+        400:
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+        404:
+          description: Board not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+        500:
+          $ref: '#/components/schemas/InternalServerErrorResponse'
   /boards/{board_id}/lists:
     get:
       tags:
@@ -305,26 +305,26 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
-        - name : name
-          in : query
-          description : list's name
-          required : false
-          schema :
-            type : string
-        - name : skip
-          in : query
-          description : Number of lists to skip
-          required : false
-          schema :
-            type : integer
-            default : 0
-        - name : limit
-          in : query
-          description : Number of lists that are returned
-          required : false
-          schema :
-            type : integer
-            default : 10
+        - name: name
+          in: query
+          description: list's name
+          required: false
+          schema:
+            type: string
+        - name: skip
+          in: query
+          description: Number of lists to skip
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Number of lists that are returned
+          required: false
+          schema:
+            type: integer
+            default: 10
         - name: board_id
           in: path
           description: ID of board that to be fetched
@@ -366,26 +366,26 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
-        - name : name
-          in : query
-          description : user's name
-          required : false
-          schema :
-            type : string
-        - name : skip
-          in : query
-          description : Number of users to skip
-          required : false
-          schema :
-            type : integer
-            default : 0
-        - name : limit
-          in : query
-          description : Number of users that are returned
-          required : false
-          schema :
-            type : integer
-            default : 10
+        - name: name
+          in: query
+          description: user's name
+          required: false
+          schema:
+            type: string
+        - name: skip
+          in: query
+          description: Number of users to skip
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Number of users that are returned
+          required: false
+          schema:
+            type: integer
+            default: 10
         - name: board_id
           in: path
           description: ID of board that to be fetched
@@ -432,12 +432,12 @@ paths:
           schema:
             type: integer
             minimum: 1
-      requestBody :
-        description : User to add
-        content :
-          application/json :
-            schema :
-              $ref : '#/components/schemas/Id'
+      requestBody:
+        description: User to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Id'
       responses:
         201:
           description: User added successfully to the board
@@ -572,26 +572,26 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
-        - name : name
-          in : query
-          description : card's name
-          required : false
-          schema :
-            type : string
-        - name : skip
-          in : query
-          description : Number of cards to skip
-          required : false
-          schema :
-            type : integer
-            default : 0
-        - name : limit
-          in : query
-          description : Number of cards that are returned
-          required : false
-          schema :
-            type : integer
-            default : 10
+        - name: name
+          in: query
+          description: card's name
+          required: false
+          schema:
+            type: string
+        - name: skip
+          in: query
+          description: Number of cards to skip
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Number of cards that are returned
+          required: false
+          schema:
+            type: integer
+            default: 10
         - name: list_id
           in: path
           description: ID of list that to be fetched
@@ -1010,11 +1010,11 @@ components:
           example: "List Deleted with success"
 
     BoardDeleted:
-      type : object
-      properties :
-        Message :
-          type : string
-          example : "Board Deleted with success"
+      type: object
+      properties:
+        Message:
+          type: string
+          example: "Board Deleted with success"
 
     CardDeleted:
       type: object

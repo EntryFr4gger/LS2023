@@ -1,4 +1,5 @@
-Select * from user_board
+Select *
+from user_board
 
 BEGIN;
 INSERT INTO Users(name, email)
