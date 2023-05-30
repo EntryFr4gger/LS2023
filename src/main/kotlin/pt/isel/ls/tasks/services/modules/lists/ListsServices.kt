@@ -33,6 +33,30 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
     }
 
     /**
+     * Moves a card to a list.
+     *
+     * @param listId list unique identifier.
+     * @param cardId card unique identifier.
+     * @param cix desired index.
+     * @param requestId request user unique identifier.
+     *
+     * @return a card id.
+     * */
+    fun respositionCard(listId: Int, cardId: Int,cix:Int, requestId: Int): Int {
+        isValidListId(listId)
+        isValidUserId(requestId)
+        isValidCardId(cardId)
+        isValidCardCix(cix)
+
+        return source.run { conn ->
+            authorizationCard(conn, cardId, requestId)
+            authorizationList(conn, listId, requestId)
+            organizeListCards(conn, listId, cardId, cix)
+            cardId
+        }
+    }
+
+    /**
      * Get detailed information of a list.
      *
      * @param listId list unique identifier.

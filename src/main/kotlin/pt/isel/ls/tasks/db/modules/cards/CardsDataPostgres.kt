@@ -94,12 +94,13 @@ class CardsDataPostgres : CardsDB {
 
     override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) {
         val obj = conn.connection().prepareStatement(
-            "UPDATE cards SET list_id = ? WHERE id = ?",
+            "UPDATE cards SET list_id = ?, cix = (SELECT cix FROM cards WHERE list_id = ? ORDER BY cix DESC LIMIT 1)+1 WHERE id = ?",
             Statement.RETURN_GENERATED_KEYS
         )
 
         obj.setIntIfNotNull(1, listId, Types.INTEGER)
         obj.setInt(2, cardId)
+        obj.setIntIfNotNull(3, listId, Types.INTEGER)
 
         if (obj.executeUpdate() == 0) {
             throw SQLException("Card Move Failed with cardId: $cardId and listId: $listId")
@@ -127,7 +128,7 @@ class CardsDataPostgres : CardsDB {
         return res.executeQuery().next()
     }
 
-    override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean {
+    override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int) {
         val obj = conn.connection().prepareStatement(
             "UPDATE cards SET cix = ? WHERE id = ?",
             Statement.RETURN_GENERATED_KEYS
@@ -139,7 +140,7 @@ class CardsDataPostgres : CardsDB {
         if (obj.executeUpdate() == 0) throw SQLException("Organization Card($cardId) Failed to index $cix")
 
         obj.generatedKeys.also {
-            return it.next()
+            it.next()
         }
     }
 }

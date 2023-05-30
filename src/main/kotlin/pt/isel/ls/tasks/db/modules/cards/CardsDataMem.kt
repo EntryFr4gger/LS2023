@@ -46,9 +46,8 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean =
         source.cards[cardId] != null
 
-    override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean {
-        val card = source.cards[cardId] ?: return false
-        source.cards[cardId] = card.copy(cix = cix)
-        return true
+    override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int) {
+        val card = source.cards[cardId]
+        card?.let { source.cards[cardId] = card.copy(cix = cix) }
     }
 }
