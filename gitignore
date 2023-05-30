@@ -3,8 +3,8 @@
 
 # Ignore Gradle build output directory
 build
+gradlew
 
 # InteliJ
 .idea
-out/
-bin/
+lib
