@@ -26,7 +26,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
 
     override val routes = routes(
         "cards" bind Method.POST to ::createCard,
-        "cards/{card_id}" bind Method.PUT to ::updateCard,
+        "cards/{card_id}" bind Method.PUT to ::moveCard,
         "cards/{card_id}" bind Method.GET to ::getCardInfo,
         "cards/{card_id}" bind Method.DELETE to ::deleteCard
     ).withFilter(tokenHandeler::filter)
@@ -55,12 +55,12 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
      *
      * @return HTTP response contains a JSON body with the new list id
      */
-    private fun updateCard(request: Request): Response = errorCatcher {
-        val cardId = request.pathOrThrow("card_id").toInt()
+    private fun moveCard(request: Request): Response = errorCatcher {
+        val cardIdReq = request.pathOrThrow("card_id").toInt()
         val cardReq = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val card = services.moveCard(cardId, cardReq.lid, cardReq.cix, requestId)
-        return Responde(Status.OK, CardDTO(card))
+        val cardId = services.moveCard(cardIdReq, cardReq.lid, requestId)
+        return Responde(Status.OK, CardId(cardId))
     }
 
     /**

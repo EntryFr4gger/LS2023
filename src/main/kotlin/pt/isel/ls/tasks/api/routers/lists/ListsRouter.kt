@@ -8,6 +8,10 @@ import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
+import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
+import pt.isel.ls.tasks.api.routers.cards.models.CardId
+import pt.isel.ls.tasks.api.routers.cards.models.CardListUpdate
+import pt.isel.ls.tasks.api.routers.lists.models.CardReposition
 import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
@@ -32,6 +36,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         "lists" bind Method.POST to ::postList,
         "lists/{list_id}" bind Method.GET to ::getListDetails,
         "lists/{list_id}/cards" bind Method.GET to ::getListCards,
+        "lists/{list_id}/cards" bind Method.PUT to ::respositionCard,
         "lists/{list_id}" bind Method.DELETE to ::deleteList
     ).withFilter(tokenHandeler::filter)
 
@@ -48,6 +53,22 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val listId = services.createList(listInfo.name, listInfo.boardId, requestId)
         return Responde(Status.CREATED, ListDTO(listId))
+    }
+
+    /**
+     * Moves a card given a new card position.
+     * requires authentication.
+     *
+     * @param request HTTP request that contains a JSON body with an end list id
+     *
+     * @return HTTP response contains a JSON body with the new list id
+     */
+    private fun respositionCard(request: Request): Response = errorCatcher{
+        val listId = request.pathOrThrow("list_id").toInt()
+        val cardReq = Json.decodeFromString<CardReposition>(request.bodyString())
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        val cardId = services.respositionCard(listId, cardReq.cardId,cardReq.cix, requestId)
+        return Responde(Status.OK, CardId(cardId))
     }
 
     /**

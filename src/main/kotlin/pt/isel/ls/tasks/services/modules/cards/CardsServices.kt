@@ -76,22 +76,16 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a card id.
      * */
-    fun moveCard(cardId: Int, listId: Int?, cix: Int?, requestId: Int): Card {
+    fun moveCard(cardId: Int, listId: Int?, requestId: Int): Int {
         listId?.let { isValidListId(it) }
-        cix?.let { isValidCardCix(cix) }
         isValidCardId(cardId)
         isValidUserId(requestId)
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
-            listId?.let {
-                authorizationList(conn, listId, requestId)
-            }
+            listId?.let { authorizationList(conn, listId, requestId) }
             source.cards.moveCard(conn, listId, cardId)
-            if (listId != null) {
-                organizeAfterMove(conn, listId, cardId, cix)
-            }
-            source.cards.getCardDetails(conn,cardId)
+            cardId
         }
     }
 

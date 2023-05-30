@@ -83,5 +83,5 @@ interface CardsDB {
      *
      * @return true if executed correctly, false otherwise.
      * */
-    fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean
+    fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int)
 }

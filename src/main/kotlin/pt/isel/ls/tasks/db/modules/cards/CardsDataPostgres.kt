@@ -127,7 +127,7 @@ class CardsDataPostgres : CardsDB {
         return res.executeQuery().next()
     }
 
-    override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int): Boolean {
+    override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int) {
         val obj = conn.connection().prepareStatement(
             "UPDATE cards SET cix = ? WHERE id = ?",
             Statement.RETURN_GENERATED_KEYS
@@ -139,7 +139,7 @@ class CardsDataPostgres : CardsDB {
         if (obj.executeUpdate() == 0) throw SQLException("Organization Card($cardId) Failed to index $cix")
 
         obj.generatedKeys.also {
-            return it.next()
+            it.next()
         }
     }
 }
