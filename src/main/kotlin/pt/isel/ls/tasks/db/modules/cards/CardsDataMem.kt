@@ -34,10 +34,9 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
     override fun getCardDetails(conn: TransactionManager, cardId: Int): Card =
         source.cards[cardId] ?: throw NotFoundException("Couldn't get Card($cardId) Details")
 
-    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int): Boolean {
+    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) {
         val card = source.cards[cardId] ?: throw NotFoundException("Card($cardId) Not Found")
         source.cards[cardId] = card.copy(listId = listId)
-        return source.cards[cardId]?.listId != null
     }
 
     override fun deleteCard(conn: TransactionManager, cardId: Int) {
