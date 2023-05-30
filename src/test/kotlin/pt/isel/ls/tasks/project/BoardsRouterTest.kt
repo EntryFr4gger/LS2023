@@ -17,7 +17,7 @@ class BoardsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Creates a new valid Board`() {
-        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com")
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val requestBody = """
             {
                 "name": "Test Board",
@@ -42,8 +42,8 @@ class BoardsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Add a User to a Board`() {
-        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com")
-        val idNToken2 = services.users.createNewUser("testUser1", "tests1@gmail.com")
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
+        val idNToken2 = services.users.createNewUser("testUser1", "tests1@gmail.com", "Adsfs123&")
         val boardId = services.boards.createNewBoard("TestBoard", "This is a big test Board", idNToken.id)
         val requestBody = """
             {
@@ -69,7 +69,8 @@ class BoardsRouterTest : InstanceProjectTest() {
     fun `Get valid board details`() {
         val name = "testUser"
         val email = "test@gmail.com"
-        val idNToken = services.users.createNewUser(name, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(name, email, password)
         val nameB = "TestBoard"
         val description = "This is a big test Board"
         val boardId = services.boards.createNewBoard(nameB, description, idNToken.id)
@@ -94,7 +95,8 @@ class BoardsRouterTest : InstanceProjectTest() {
     fun `Get the Lists of a Board`() {
         val name = "testUser"
         val email = "test@gmail.com"
-        val idNToken = services.users.createNewUser(name, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(name, email, password)
         val nameB = "TestBoard"
         val description = "This is a big test Board"
         val boardId = services.boards.createNewBoard(nameB, description, idNToken.id)

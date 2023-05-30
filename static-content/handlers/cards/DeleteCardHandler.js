@@ -2,17 +2,17 @@ import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {DeleteCardFetch} from "../../components/api/fetch/cards/DeleteCardsFetch.js";
 import {DeleteButton} from "../../components/ui/button/delete-button.js";
 
-function DeleteCardHandler(state) {
+function DeleteCardHandler(state, card) {
 
     async function deleteCard(event) {
         event.preventDefault()
 
-        const response = await DeleteCardFetch(state.body["id"])
+        const response = await DeleteCardFetch(card)
 
         const json = await response.json()
 
         if (response.ok)
-            hashChangeLoc(`#boards/${state.body["boardId"]}`)
+            hashChangeLoc(`#boards/${state.pathParams["board_id"]}`)
         else
             alert(json.error)
     }

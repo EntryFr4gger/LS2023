@@ -2,10 +2,9 @@ import {UpdateCardFetch} from "../../../api/fetch/cards/UpdateCardFetch.js";
 import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
 
-export async function ArqCard(state) {
+export async function ArqCard(state, cardId) {
 
-    const boardId = state.body["boardId"]
-    const cardId = state.body["id"]
+    const boardId = state.pathParams["board_id"]
 
     async function arqCard(event) {
         event.preventDefault()
@@ -21,7 +20,7 @@ export async function ArqCard(state) {
         {class: "dropdown"},
         button(
             {
-                class: "btn btn-outline-light dropdown-toggle",
+                class: "btn btn-outline-dark dropdown-toggle",
                 type: "button",
                 "data-bs-toggle": "dropdown",
                 "aria-expanded": "false"

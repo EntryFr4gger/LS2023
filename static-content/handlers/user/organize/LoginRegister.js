@@ -1,56 +1,28 @@
-import {a, br, div, form, input, li, span} from "../../../components/dom/domTags.js";
-import {userIdLS} from "../../../components/utils/get-user.js";
-
+import {a, div, img, li, ul} from "../../../components/dom/domTags.js";
 
 async function LoginRegister() {
-
-    function login(event) {
-        event.preventDefault()
-        localStorage.setItem(userIdLS, document.getElementById("userId").value)
-        window.dispatchEvent(new HashChangeEvent("hashchange"));
-    }
-
-    function token(event) {
-        event.preventDefault()
-        localStorage.setItem("userToken", `Bearer ${document.getElementById("userToken").value}`)
-        window.dispatchEvent(new HashChangeEvent("hashchange"));
-    }
-
-    return div(
-        li({class: "nav-item"},
-            a({class: "nav-link", href: "#"}, "Login")),
-        li({class: "nav-item"},
-            a({class: "nav-link", href: "#"}, "Register")),
-        br(),
-        form(
-            {class: "container-fluid", onSubmit: login},
-            div({class: "input-group"},
-                span({class: "input-group-text", id: "basic-addon1"}, "@"),
-                input({
-                    type: "text",
-                    id: "userId",
-                    class: "form-control",
-                    placeholder: "Username",
-                    "aria-label": "Username",
-                    "aria-describedby": "basic-addon1"
-                })
-            )
+    return div({class: "dropdown dropstart dropup-center"},
+        a({
+                href: "#",
+                class: "d-flex align-items-center text-black text-decoration-none dropdown-toggle",
+                id: "dropdownUser1",
+                "data-bs-toggle": "dropdown",
+                "aria-expanded": "false"
+            },
+            img({src: "public/0.jpg", alt: "", width: "28", height: "28", class: "rounded-circle me-2"}),
         ),
-        form(
-            {class: "container-fluid", onSubmit: token},
-            div({class: "input-group"},
-                span({class: "input-group-text", id: "basic-addon1"}, "T"),
-                input({
-                    type: "text",
-                    id: "userToken",
-                    class: "form-control",
-                    placeholder: "Token",
-                    "aria-label": "Username",
-                    "aria-describedby": "basic-addon1"
-                })
-            )
+        ul({class: "dropdown-menu dropdown-menu-white text-small shadow", "aria-labelledby": "dropdownUser1"},
+            li(a({class: "dropdown-item", href: "#login"}, "Login")),
+            li(a({class: "dropdown-item", href: "#register"}, "Register")),
         )
     )
+
+    /*div(
+        li({class: "nav-item"},
+            a({class: "nav-link", href: "#login"}, "Login")),
+        li({class: "nav-item"},
+            a({class: "nav-link", href: "#register"}, "Register"))
+    )*/
 }
 
 export default LoginRegister;

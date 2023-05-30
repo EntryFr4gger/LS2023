@@ -3,7 +3,8 @@ package pt.isel.ls.tasks.services.modules.users
 import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
-import pt.isel.ls.tasks.services.modules.users.responses.UserCreateResponse
+import pt.isel.ls.tasks.services.errors.ServicesError
+import pt.isel.ls.tasks.services.modules.users.responses.UserInfoResponse
 import pt.isel.ls.tasks.services.utils.ServicesUtils
 import java.util.*
 
@@ -20,17 +21,41 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return new user unique identifier and token.
      * */
-    fun createNewUser(name: String, email: String): UserCreateResponse {
+    fun createNewUser(name: String, email: String, password: String): UserInfoResponse {
         isValidUserName(name)
         isValidUserEmail(email)
 
         return source.run { conn ->
             isUserNewEmail(conn, email)
 
-            val userId = source.users.createNewUser(conn, name, email)
+            val userId = source.users.createNewUser(conn, name, email, password)
             val token = source.tokens.createNewToken(conn, UUID.randomUUID().toString(), userId)
 
-            UserCreateResponse(userId, token)
+            UserInfoResponse(userId, token)
+        }
+    }
+
+    /**
+     * Login verifications.
+     *
+     * @param email the user's unique email.
+     * @param password user's passaword
+     *
+     * @return new user unique identifier and token.
+     * */
+    fun loginUser(email: String, password: String): UserInfoResponse {
+        isValidUserEmail(email)
+
+        return source.run { conn ->
+            val user = source.users.loginUserInfo(conn, email)
+
+            if (user.password != password) { // meter uma verificaçao melhor
+                throw ServicesError.AuthenticationException("Passwords dont match")
+            }
+
+            val token = source.tokens.getUserToken(conn, user.id)
+
+            UserInfoResponse(user.id, token)
         }
     }
 

@@ -14,21 +14,36 @@ class UsersDataPostgres : UsersDB {
 
     companion object {
         fun ResultSet.toUser() =
-            User(getInt(1), getString(2), getString(3))
+            User(getInt(1), getString(2), getString(3), getString(4))
     }
 
-    override fun createNewUser(conn: TransactionManager, name: String, email: String): Int {
+    override fun createNewUser(conn: TransactionManager, name: String, email: String, password: String): Int {
         val obj = conn.connection().prepareStatement(
-            "INSERT INTO users(name, email) VALUES (?, ?)",
+            "INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
         obj.setString(1, name)
         obj.setString(2, email)
+        obj.setString(3, password)
 
         if (obj.executeUpdate() == 0) throw SQLException("User Creation Failed with name:$name")
 
         obj.generatedKeys.also {
             return if (it.next()) it.getInt(1) else -1
+        }
+    }
+
+    override fun loginUserInfo(conn: TransactionManager, email: String): User {
+        val obj = conn.connection().prepareStatement(
+            "SELECT * FROM users WHERE email = ?"
+        )
+        obj.setString(1, email)
+
+        val res = obj.executeQuery()
+        if (res.next()) {
+            return res.toUser()
+        } else {
+            throw NotFoundException("Couldn't get User with email($email) Details")
         }
     }
 

@@ -8,9 +8,13 @@ async function BoardUsersHandler(state) {
 
     const response = await GetBoardUsersFetch(boardId)
 
-    state.body = await response.json()
+    const json = await response.json()
+    if (response.ok) {
+        state.body = json
 
-    return BoardUsersPage(state)
+        return BoardUsersPage(state)
+    } else
+        alert(json.error)
 }
 
 export default BoardUsersHandler;

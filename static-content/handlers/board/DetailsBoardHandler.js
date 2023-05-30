@@ -22,7 +22,7 @@ async function DetailsBoardHandler(state) {
             return lists.map(async list => {
                 const resCard = await GetListCardsFetch(list.id)
                 const cards = await resCard.json()
-                return await ListOfLists(list, cards.cards)
+                return await ListOfLists(state, list, cards.cards)
             })
         } else
             alert(lists.error)

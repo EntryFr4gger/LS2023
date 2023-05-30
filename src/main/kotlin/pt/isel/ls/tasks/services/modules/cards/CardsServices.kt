@@ -89,7 +89,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             }
             val sucess = source.cards.moveCard(conn, listId, cardId)
             if (listId != null) {
-                organizeAfterMove(conn, cardId, listId, cix)
+                organizeAfterMove(conn, listId, cardId, cix)
             }
             sucess
         }

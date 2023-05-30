@@ -31,6 +31,18 @@ interface TokensDB {
     fun getUserID(conn: TransactionManager, token: String): Int
 
     /**
+     * Get the token of a user.
+     *
+     * @param conn connection to a database.
+     * @param userId user unique id.
+     *
+     * @return a User token.
+     *
+     * @throws NotFoundException User Id token does not exist
+     * */
+    fun getUserToken(conn: TransactionManager, userId: Int): String
+
+    /**
      * Verify if token exists.
      *
      * @param conn connection to a database.

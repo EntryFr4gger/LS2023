@@ -1,45 +1,41 @@
 /**
- * Creates an HTML element.
- *
- * @param {string} tag element tag
- * @param {Object | Promise<HTMLElement> | HTMLElement | string} [attributes] element attributes or an element child
- * @param {Promise<HTMLElement> | HTMLElement | string} [children] element children
- *
- * @returns Promise<HTMLElement>
+ Creates an HTML element with the specified tag, attributes, and children.
+
+ @param {string} tag - The HTML element tag.
+ @param {Object | Promise<HTMLElement> | HTMLElement | string} [attributes] -
+ The attributes of the element or a single child element.
+ @param {Promise<HTMLElement> | HTMLElement | string} [children] - The children elements.
+
+ @returns {Promise<HTMLElement>} - A promise that resolves to the created HTML element.
  */
 export async function createElement(tag, attributes, ...children) {
-    /** @type {HTMLElement} */
     const element = document.createElement(tag);
 
     attributes = await attributes;
 
-    if (isElement(attributes) || typeof attributes === "string")
-        appendChild(element, attributes);
-
-    else if (attributes != null && typeof attributes === "object")
-        setAttributes(element, attributes);
-
+    if (isElement(attributes) || typeof attributes === "string") appendChild(element, attributes);
+    else if (attributes != null && typeof attributes === "object") setAttributes(element, attributes);
     else if (attributes != null)
-        throw new DOMException("Invalid attributes for createElement");
+        throw new DOMException("The attributes provided for createElement are invalid.");
 
     for (let child of children) {
         child = await child;
 
-        if (child != null && (isElement(child) || typeof child === "string"))
-            appendChild(element, child);
-
+        if (child != null && (isElement(child) || typeof child === "string")) appendChild(element, child);
         else if (child != null)
-            throw new DOMException("Invalid child:" + child + "for element:" + element);
+            throw new DOMException(`The provided child: ${child}, is invalid for the element: ${element}.`);
     }
 
     return element;
 }
 
 /**
- * Appends the Child.
- *
- * @param {HTMLElement} element
- * @param {string | HTMLElement} child
+ Appends a child to the given HTML element.
+
+ @param {HTMLElement} element - The parent element to which the child will be appended.
+ @param {string | HTMLElement} child - The child element to be appended, can be a string or an HTMLElement.
+
+ @return {void}
  */
 function appendChild(element, child) {
     if (typeof child === "string")
@@ -49,59 +45,35 @@ function appendChild(element, child) {
 }
 
 /**
- * Set the Attributes.
- *
- * @param {HTMLElement} element
- * @param {Object} attributes
+ Sets the attributes of an HTML element.
+
+ @param {HTMLElement} element - The HTML element to set the attributes for.
+ @param {Object} attributes - An object containing the attribute-value pairs.
+
+ @return {void}
  */
 function setAttributes(element, attributes) {
     for (const attribute in attributes) {
-        if (attribute == null)
-            continue;
-
         const value = attributes[attribute];
-        if (value == null)
-            continue;
+        if (value === null || attribute === "ref") continue;
 
-        switch (attribute) {
-            case "onClick":
-                element.addEventListener("click", value);
-                break;
-            case "onSubmit":
-                element.addEventListener("submit", value);
-                break;
-            case "onInvalid":
-                element.addEventListener("invalid", value);
-                break;
-            case "onChange":
-                element.addEventListener("change", value);
-                break;
-            case "onInput":
-                element.addEventListener("input", value);
-                break;
-            case "style":
-                for (const style in value)
-                    element.style[style] = value[style];
-                break;
-            case "ref":
-                value.resolve(element);
-                break;
-            default:
-                element.setAttribute(attribute, value);
-        }
+        if (attribute.startsWith("on")) {
+            element.addEventListener(attribute.slice(2).toLowerCase(), value);
+        } else if (attribute === "style") {
+            for (const style in value) {
+                element.style[style] = value[style];
+            }
+        } else element.setAttribute(attribute, value);
     }
 }
 
 /**
  * Checks if an object is a DOM element.
  *
- * @param {any} obj object to check
+ * @param {any} obj - The object to check
  *
- * @returns true if it is a DOM element, false otherwise
+ * @returns {boolean} - Returns true if the object is a DOM element, false otherwise
  */
 function isElement(obj) {
-    return (
-        typeof HTMLElement === "object" ? obj instanceof HTMLElement :
-            obj && typeof obj === "object" && obj.nodeType === 1 && typeof obj.nodeName === "string"
-    );
+    return obj instanceof Element || (obj !== null && typeof obj === "object" && obj.nodeType === 1 && typeof obj.nodeName === "string");
 }

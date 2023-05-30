@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks.database.modules
+package pt.isel.ls.tasks.database
 
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
@@ -20,9 +20,9 @@ class UsersTestDataMem {
     @Test
     fun `User is created correctly and with right identifier`() {
         source.run { conn ->
-            val id = users.createNewUser(conn, "Bernardo", "bernardo@isel.pt")
+            val id = users.createNewUser(conn, "Bernardo", "bernardo@isel.pt", "Adsfs123&")
             assertEquals(
-                User(id, "Bernardo", "bernardo@isel.pt"),
+                User(id, "Bernardo", "bernardo@isel.pt", "Adsfs123&"),
                 storage.users[id]
             )
         }
@@ -32,7 +32,7 @@ class UsersTestDataMem {
     fun `Gets the correct user`() {
         source.run { conn ->
             assertEquals(
-                User(3, "Godofredo", "Godofredo@outlook.pt"),
+                User(3, "Godofredo", "Godofredo@outlook.pt", "Adsfs123&"),
                 users.getUserDetails(conn, 3)
             )
         }

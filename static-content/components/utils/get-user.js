@@ -1,5 +1,5 @@
-export const userIdLS = "userId"
+export const userIdStorage = "userId"
 
 export function getUser() {
-    return localStorage.getItem(userIdLS)
+    return localStorage.getItem(userIdStorage)
 }

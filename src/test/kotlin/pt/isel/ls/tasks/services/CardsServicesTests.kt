@@ -18,7 +18,7 @@ class CardsServicesTests : ClearData() {
     @Test
     fun `create new card correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = services.cards.createNewCard("card", "card", null, boardId, null, userId)
@@ -67,7 +67,7 @@ class CardsServicesTests : ClearData() {
     @Test
     fun `get card details correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, null)
@@ -96,7 +96,7 @@ class CardsServicesTests : ClearData() {
     @Ignore
     fun `move card correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             val listId = source.lists.createList(it, "list", boardId)
             source.boards.addUserToBoard(it, userId, boardId)

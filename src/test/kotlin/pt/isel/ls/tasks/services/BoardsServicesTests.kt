@@ -55,8 +55,8 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `add user to board correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
-            val userIdTest = source.users.createNewUser(it, "Armandio", "dio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
+            val userIdTest = source.users.createNewUser(it, "Armandio", "dio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             assertTrue(services.boards.addUserToBoard(userIdTest, boardId, userId))
@@ -88,7 +88,7 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `get board details correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             assertEquals(
@@ -115,7 +115,7 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `get all lists correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             val listId = source.lists.createList(it, "list", boardId)
             source.boards.addUserToBoard(it, userId, boardId)

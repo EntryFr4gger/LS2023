@@ -17,7 +17,7 @@ class ListsServicesTests : ClearData() {
     @Test
     fun `create list correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             val listId = services.lists.createList("list", boardId, userId)
@@ -49,7 +49,7 @@ class ListsServicesTests : ClearData() {
     @Test
     fun `get list details correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             val listId = source.lists.createList(it, "list", boardId)
@@ -77,7 +77,7 @@ class ListsServicesTests : ClearData() {
     @Test
     fun `get cards of list correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             val listId = source.lists.createList(it, "list", boardId)
             source.boards.addUserToBoard(it, userId, boardId)

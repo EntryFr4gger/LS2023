@@ -1,11 +1,11 @@
 import {a, button, div, h2, h5, img, li, p, ul} from "../../components/dom/domTags.js";
-import {getUser, userIdLS} from "../../components/utils/get-user.js";
+import {getUser, userIdStorage} from "../../components/utils/get-user.js";
 
 function UserDetailsPage(state) {
 
     function logout(event) {
         event.preventDefault()
-        localStorage.removeItem(userIdLS);
+        localStorage.removeItem(userIdStorage);
         window.dispatchEvent(new HashChangeEvent("hashchange"));
     }
 

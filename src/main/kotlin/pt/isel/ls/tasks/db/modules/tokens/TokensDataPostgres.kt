@@ -36,6 +36,20 @@ class TokensDataPostgres : TokensDB {
         }
     }
 
+    override fun getUserToken(conn: TransactionManager, userId: Int): String {
+        val obj = conn.connection().prepareStatement(
+            "SELECT token FROM tokens WHERE user_id = ?"
+        )
+        obj.setInt(1, userId)
+
+        val res = obj.executeQuery()
+        if (res.next()) {
+            return res.getString(1)
+        } else {
+            throw NotFoundException("Token with userID($userId) does not exist")
+        }
+    }
+
     override fun hasToken(conn: TransactionManager, token: String): Boolean {
         val res = conn.connection().prepareStatement(
             "SELECT user_id FROM tokens WHERE token = ?"

@@ -16,37 +16,37 @@ class UsersServicesTests : ClearData() {
 
     @Test
     fun `create user correctly`() {
-        val id = services.users.createNewUser("Arlindo", "arlindo@gmail.com")
+        val id = services.users.createNewUser("Arlindo", "arlindo@gmail.com", "Adsfs123&")
         val user = source.run { source.users.getUserDetails(it, id.id) }
-        assertEquals(User(id.id, "Arlindo", "arlindo@gmail.com"), user)
+        assertEquals(User(id.id, "Arlindo", "arlindo@gmail.com", "Adsfs123&"), user)
     }
 
     @Test
     fun `create user throws InvalidArgumentException if name is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.users.createNewUser("A", "arlindo@gmail.com")
+            services.users.createNewUser("A", "arlindo@gmail.com", "Adsfs123&")
         }
     }
 
     @Test
     fun `create user throws InvalidArgumentException if email is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.users.createNewUser("Arlindo", "@@gmail.com")
+            services.users.createNewUser("Arlindo", "@@gmail.com", "Adsfs123&")
         }
     }
 
     @Test
     fun `create user throws AlreadyExistsException if email already exist`() {
-        source.run { source.users.createNewUser(it, "Armandio", "Armandio@gmail.com") }
+        source.run { source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&") }
         assertFailsWith<ServicesError.AlreadyExistsException> {
-            services.users.createNewUser("Armandio", "Armandio@gmail.com")
+            services.users.createNewUser("Armandio", "Armandio@gmail.com", "Adsfs123&")
         }
     }
 
     @Test
     fun `get user details correctly`() {
-        val id = source.run { source.users.createNewUser(it, "Armandio", "Armandio@gmail.com") }
-        assertEquals(User(id, "Armandio", "Armandio@gmail.com"), services.users.getUserDetails(id))
+        val id = source.run { source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&") }
+        assertEquals(User(id, "Armandio", "Armandio@gmail.com", "Adsfs123&"), services.users.getUserDetails(id))
     }
 
     @Test
@@ -59,7 +59,7 @@ class UsersServicesTests : ClearData() {
     @Test
     fun `get user boards correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com")
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
             source.boards.addUserToBoard(it, userId, boardId)
             assertEquals(listOf(Board(boardId, "Armandio", "sadsad")), services.users.getUserBoards(userId, 1, 1))

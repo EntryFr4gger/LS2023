@@ -1,4 +1,4 @@
-package pt.isel.ls.tasks.database.modules
+package pt.isel.ls.tasks.database
 
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem

@@ -1,4 +1,4 @@
-import {div} from "../../dom/domTags.js";
+import {div, p} from "../../dom/domTags.js";
 
 async function InfiniteScroll(state, props, className) {
 
@@ -39,7 +39,11 @@ async function InfiniteScroll(state, props, className) {
         container.innerHTML = "";
 
         const children = await Promise.all(await onLoadMore(initialNumChildren));
-        container.append(...children);
+        if (children.length === 0)
+            container.append(await p({style: {"margin-left": "-25%"}}, "Empty"));
+        else
+            container.append(...children);
+
 
         loading = false;
     }

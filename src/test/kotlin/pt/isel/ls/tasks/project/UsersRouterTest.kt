@@ -19,7 +19,8 @@ class UsersRouterTest : InstanceProjectTest() {
         val requestBody = """
             {
                 "name": "Manuel Maria",
-                "email": "tes23t@gmail.com"
+                "email": "tes23t@gmail.com",
+                "password": "Adsfs123&"
             }
         """
         val request = Request(Method.POST, "${path}users")
@@ -40,7 +41,8 @@ class UsersRouterTest : InstanceProjectTest() {
     fun `Get valid user details`() {
         val name = "testUser"
         val email = "test1@gmail.com"
-        val idNToken = services.users.createNewUser(name, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(name, email, password)
 
         val request = Request(Method.GET, "${path}users/${idNToken.id}")
             .header("Content-Type", "application/json")
@@ -62,7 +64,8 @@ class UsersRouterTest : InstanceProjectTest() {
     fun `Get the all user boards available`() {
         val name = "testUser"
         val email = "test@gmail.com"
-        val idNToken = services.users.createNewUser(name, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(name, email, password)
 
         val boards = listOf(
             services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id),

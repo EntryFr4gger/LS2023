@@ -113,7 +113,7 @@ class BoardsDataPostgres : BoardsDB {
     override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User> {
         val prp = conn.connection().prepareStatement(
             """
-                SELECT id, name, email FROM users u
+                SELECT id, name, email, password FROM users u
                     JOIN user_board ub ON ub.user_id = u.id
                     WHERE board_id = ?
                     OFFSET ? 

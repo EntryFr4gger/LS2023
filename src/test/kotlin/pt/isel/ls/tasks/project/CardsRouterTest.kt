@@ -17,7 +17,8 @@ class CardsRouterTest : InstanceProjectTest() {
     fun `Creates a new card`() {
         val name = "testUser"
         val email = "test1@gmail.com"
-        val idNToken = services.users.createNewUser(name, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(name, email, password)
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val nameL1 = "testList"
         val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
@@ -49,7 +50,8 @@ class CardsRouterTest : InstanceProjectTest() {
     fun `Get the detailed information of a card `() {
         val userName = "testUser"
         val email = "test1@gmail.com"
-        val idNToken = services.users.createNewUser(userName, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(userName, email, password)
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val listName = "testList"
         val listId = services.lists.createList(listName, boardId, idNToken.id)
@@ -78,7 +80,8 @@ class CardsRouterTest : InstanceProjectTest() {
         TODO("Change the way update works then make this test work")
         val userName = "testUser"
         val email = "test1@gmail.com"
-        val idNToken = services.users.createNewUser(userName, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(userName, email, password)
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val list1Name = "testList 1"
         val list2Name = "testList 2"

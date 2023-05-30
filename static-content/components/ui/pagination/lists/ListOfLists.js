@@ -1,83 +1,26 @@
 import {a, div, h5, li, ul} from "../../../dom/domTags.js";
 import CreateCardHandler from "../../../../handlers/cards/CreateCardHandler.js";
+import DeleteListHandler from "../../../../handlers/lists/DeleteListHandler.js";
+import {ModalCard} from "../../modal/modal-card.js";
 
-export async function ListOfLists(list, cards) {
+export async function ListOfLists(state, list, cards) {
     return li(
         {class: "list-inline-item"},
         div(
             {class: "card", style: {width: "18rem"}},
             div(
-                {class: "card-header"},
+                {class: "card-header hover-delete"},
                 a(
                     {href: `/#lists/${list.id}`, style: {"text-decoration": "none", color: "#000000"}},
-                    h5({class: "card-title"}, `${list.name}`)
+                    h5({class: "card-title", id: list.id}, `${list.name}`),
+                    DeleteListHandler(state, list)
                 )
             ),
             ul(
                 {class: "sortable-list list-group list-group-flush"},
-                ...cards.map(card =>
-                    a(
-                        {href: `/#cards/${card['id']}`, style: {"text-decoration": "none"}},
-                        li({class: "list-group-item"}, `${card.name}`),
-                    )
+                ...cards.map(card => ModalCard(state, card.id)
                 )
             ),
-            CreateCardHandler(undefined, list.boardId, list.id))
+            CreateCardHandler(list.boardId, list.id))
     )
 }
-
-/*
-li(
-                        { class: "item", draggable:"true"},
-                        div(
-                            {class:"details"},
-                            span({style: {color: "black"}},`${card.name}`),
-                        )
-                    )
-
-//script({src:"../../js.js"}),
-
-div(
-                { class: "col-md-6 col-12 mb-md-0 mb-4" },
-                h5("Pending Tasks"),
-                ul(
-                    { class: "sortable-list"},
-                    li(
-                        { class: "item", draggable:"true"},
-                        div(
-                            {class:"details"},
-                            span({style: {color: "black"}},"1"),
-                        )
-                    ),
-                    li(
-                        { class: "item", draggable:"true"},
-                        div(
-                            {class:"details"},
-                            span({style: {color: "black"}},"2"),
-                        )
-                    ),
-                    li(
-                        { class: "item", draggable:"true"},
-                        div(
-                            {class:"details"},
-                            span({style: {color: "black"}},"3")
-                        )
-                    ),
-                    li(
-                        { class: "item", draggable:"true"},
-                        div(
-                            {class:"details"},
-                            span({style: {color: "black"}},"4")
-                        )
-                    ),
-                    li(
-                        { class: "item", draggable:"true"},
-                        div(
-                            {class:"details"},
-                            span({style: {color: "black"}},"5")
-                        )
-                    )
-                ),
-                script({src:"../../js.js"})
-            )
-* */

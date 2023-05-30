@@ -10,6 +10,7 @@ import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
 import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
+import pt.isel.ls.tasks.api.routers.users.models.LoginUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserDTO
 import pt.isel.ls.tasks.api.utils.Responde
@@ -32,6 +33,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
         "users/{user_id}" bind Method.GET to ::getUserDetails,
+        "users/{user_id}/login" bind Method.POST to ::loginUser,
         ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(tokenHandeler::filter)
     )
 
@@ -44,8 +46,21 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
      */
     private fun postUser(request: Request): Response = errorCatcher {
         val user = Json.decodeFromString<CreateUserDTO>(request.bodyString())
-        val userCreateInfo = services.createNewUser(user.name, user.email)
+        val userCreateInfo = services.createNewUser(user.name, user.email, user.password)
         return Responde(CREATED, UserDTO(userCreateInfo.id, userCreateInfo.token))
+    }
+
+    /**
+     * Logins a user.
+     *
+     * @param request HTTP request that contains a JSON body with an email and password
+     *
+     * @return HTTP response contains a JSON body with an id and a token for the login
+     */
+    private fun loginUser(request: Request): Response = errorCatcher {
+        val user = Json.decodeFromString<LoginUserDTO>(request.bodyString())
+        val userLoginInfo = services.loginUser(user.email, user.password)
+        return Responde(OK, UserDTO(userLoginInfo.id, userLoginInfo.token))
     }
 
     /**

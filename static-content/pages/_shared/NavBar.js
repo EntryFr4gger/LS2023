@@ -1,4 +1,4 @@
-import {a, button, div, form, h5, input, li, nav, span, ul} from "../../components/dom/domTags.js";
+import {a, div, form, input, nav} from "../../components/dom/domTags.js";
 import UserDropdownInfo from "../../handlers/user/organize/UserDropdownInfo.js"
 import LoginRegister from "../../handlers/user/organize/LoginRegister.js";
 import {getUser} from "../../components/utils/get-user.js";
@@ -30,6 +30,11 @@ async function NavBar() {
                     "aria-label": "Search"
                 })
             ),
+            userId == null
+                ? LoginRegister()
+                : UserDropdownInfo()
+
+            /*,
             button({
                     class: "navbar-toggler",
                     type: "button",
@@ -59,7 +64,7 @@ async function NavBar() {
                             : UserDropdownInfo()
                     )
                 )
-            )
+            )*/
         )
     )
 }

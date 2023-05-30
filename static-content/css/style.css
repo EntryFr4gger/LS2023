@@ -9,15 +9,15 @@
 }
 
 .hide-scroll-div {
-    width: 80vw;
+    width: 78vw;
     max-width: 2000px;
     overflow: scroll;
     text-align: center;
-    padding-left: 8vw;
+    padding-left: 1vw;
 }
 
 .scroll-div {
-    width: 85vw;
+    width: 80vw;
     overflow-y: hidden;
     overflow-x: auto;
     text-align: center;
@@ -96,4 +96,23 @@
 
 .item.dragging :where(.details, i) {
     opacity: 0;
+}
+
+.hover-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    display: none;
+}
+
+.hover-delete:hover .hover-btn {
+    display: block;
+}
+
+.bi {
+    margin-top: -3px;
+}
+
+.solid {
+    border-top: 1px solid #bbb;
 }

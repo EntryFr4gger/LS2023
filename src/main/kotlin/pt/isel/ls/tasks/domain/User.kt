@@ -12,7 +12,8 @@ import pt.isel.ls.tasks.services.utils.isValidId
 data class User(
     val id: Int,
     val name: String,
-    val email: String
+    val email: String,
+    val password: String
 ) {
     companion object {
         private val nameLength = 2..60

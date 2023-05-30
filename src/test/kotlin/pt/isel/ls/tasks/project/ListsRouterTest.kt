@@ -18,7 +18,8 @@ class ListsRouterTest : InstanceProjectTest() {
     fun `Creates a new list`() {
         val name = "testUser"
         val email = "test1@gmail.com"
-        val idNToken = services.users.createNewUser(name, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(name, email, password)
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
 
         val requestBody = """
@@ -46,7 +47,8 @@ class ListsRouterTest : InstanceProjectTest() {
     fun `Get list details`() {
         val name = "testUser"
         val email = "test1@gmail.com"
-        val idNToken = services.users.createNewUser(name, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(name, email, password)
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val nameL1 = "testList"
         val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
@@ -68,7 +70,8 @@ class ListsRouterTest : InstanceProjectTest() {
     fun `Get the cards in a list`() {
         val name = "testUser"
         val email = "test1@gmail.com"
-        val idNToken = services.users.createNewUser(name, email)
+        val password = "Adsfs123&"
+        val idNToken = services.users.createNewUser(name, email, password)
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val nameL1 = "testList"
         val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)

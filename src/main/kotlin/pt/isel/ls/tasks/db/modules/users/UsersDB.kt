@@ -19,7 +19,17 @@ interface UsersDB {
      *
      * @return user's unique identifier.
      * */
-    fun createNewUser(conn: TransactionManager, name: String, email: String): Int
+    fun createNewUser(conn: TransactionManager, name: String, email: String, password: String): Int
+
+    /**
+     * Gets the login information.
+     *
+     * @param conn connection to a database.
+     * @param email the user's unique email.
+     *
+     * @return a User.
+     * */
+    fun loginUserInfo(conn: TransactionManager, email: String): User
 
     /**
      * Get the details of a user.

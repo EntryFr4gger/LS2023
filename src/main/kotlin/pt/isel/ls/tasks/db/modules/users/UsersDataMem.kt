@@ -8,18 +8,22 @@ import pt.isel.ls.tasks.domain.User
 class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
 
     init {
-        source.users[1] = User(1, "Gilberto", "Gilberto@gmail.com")
-        source.users[2] = User(2, "Alberto", "Alberto@hotmail.com")
-        source.users[3] = User(3, "Godofredo", "Godofredo@outlook.pt")
-        source.users[4] = User(3, "UserWithNoBoard", "UserWithNoBoard@outlook.pt")
+        source.users[1] = User(1, "Gilberto", "Gilberto@gmail.com", "Adsfs123&")
+        source.users[2] = User(2, "Alberto", "Alberto@hotmail.com", "Adsfs123&")
+        source.users[3] = User(3, "Godofredo", "Godofredo@outlook.pt", "Adsfs123&")
+        source.users[4] = User(3, "UserWithNoBoard", "UserWithNoBoard@outlook.pt", "Adsfs123&")
         source.nextUserId.addAndGet(4)
     }
 
-    override fun createNewUser(conn: TransactionManager, name: String, email: String) =
+    override fun createNewUser(conn: TransactionManager, name: String, email: String, password: String) =
         source.nextUserId.getAndIncrement().let { id ->
-            source.users[id] = User(id, name, email)
+            source.users[id] = User(id, name, email, password)
             id
         }
+
+    override fun loginUserInfo(conn: TransactionManager, email: String): User {
+        TODO("Not yet implemented")
+    }
 
     override fun getUserDetails(conn: TransactionManager, userId: Int) =
         source.users[userId] ?: throw NotFoundException("Couldn't get User($userId) Details")

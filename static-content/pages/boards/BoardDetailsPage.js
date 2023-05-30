@@ -1,5 +1,4 @@
-import {div, h1, h5, li, ul,} from "../../components/dom/domTags.js";
-import {buttonWithHref} from "../../components/ui/button/with-href.js";
+import {a, div, hr, li, span, svg, ul, use,} from "../../components/dom/domTags.js";
 import DeleteBoardHandler from "../../handlers/board/DeleteBoardHandler.js";
 import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js";
 import CreateListHandler from "../../handlers/lists/CreateListHandler.js";
@@ -11,19 +10,44 @@ function BoardDetailsPage(state, loadBoardDetails) {
     const ref = createRef()
 
     return div(
-        h1(`${state.body["name"]}`),
-        h5(`${state.body["description"]}`),
+        /*h5(`${state.body["description"]}`),*/
         ul(
-            {class: "list-inline  d-flex"},
-            li(
-                {class: "list-inline-item"},
+            {class: "list-inline d-flex"},
+            div({
+                    class: "d-flex flex-column flex-shrink-0 p-3 text-white bg-dark",
+                    style: {width: "280px", "margin-left": "-30px"}
+                },
                 div(
-                    {class: "btn-group-vertical", role: "group", "aria-label": "Vertical button group"},
-                    buttonWithHref("Users in Board", `/#boards/${state.body['id']}/users`),
-                    DeleteBoardHandler(state),
+                    svg({class: "bi me-2", width: "40", height: "32"}, use({xlink: "#bootstrap"})),
+                    span({class: "fs-4"}, `${state.body["name"]}`)
+                ),
+                hr(),
+                ul({class: "nav nav-pills flex-column mb-auto"},
+                    li(
+                        a({href: `/#boards/${state.body['id']}/users`, class: "nav-link text-white"},
+                            svg({
+                                class: "bi me-2 fas fa-users fa-xs",
+                                width: "16",
+                                height: "16"
+                            }, use({xlink: "#speedometer2"})),
+                            "Users in Board"
+                        )
+                    ),
+                    li(
+                        a({href: `#cards/${state.body["id"]}/archived`, class: "nav-link text-white"},
+                            svg({
+                                class: "bi me-2 fas fa-box",
+                                width: "16",
+                                height: "16",
+                                style: {color: "#FFFFFF"}
+                            }, use({xlink: "#table"})),
+                            "Archived Cards"
+                        )
+                    ),
                     OffCanvasCreate("List Create", CreateListHandler(state)),
-                    buttonWithHref("Archived Cards", `#cards/${state.body["id"]}/archived`)
-                )
+                ),
+                hr(),
+                DeleteBoardHandler(state),
             ),
             li(
                 {class: "list-inline-item"},
@@ -37,7 +61,7 @@ function BoardDetailsPage(state, loadBoardDetails) {
                                 numChildren: 5,
                                 overflowHeight: "650px"
                             },
-                            "scroll-div"
+                            "scroll-div d-flex justify-content-start"
                         )
                     )
                 )

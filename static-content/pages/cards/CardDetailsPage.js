@@ -2,7 +2,6 @@ import {br, div, h1, h2, h5} from "../../components/dom/domTags.js";
 import {buttonWithHref} from "../../components/ui/button/with-href.js";
 import DeleteCardHandler from "../../handlers/cards/DeleteCardHandler.js";
 import {UpdateCard} from "../../components/ui/pagination/cards/UpdateCard.js";
-import {ChangeCixCard} from "../../components/ui/pagination/cards/ChangeCixCard.js";
 import {ArqCard} from "../../components/ui/pagination/cards/ArqCard.js";
 
 
@@ -15,7 +14,7 @@ function CardDetailsPage(state) {
         buttonWithHref("Back To Board", `#boards/${state.body["boardId"]}`),
         DeleteCardHandler(state),
         UpdateCard(state),
-        ChangeCixCard(state),
+        //ChangeCixCard(state),
         ArqCard(state)
     )
 }
