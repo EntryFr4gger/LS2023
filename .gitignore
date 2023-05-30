@@ -4,7 +4,8 @@
 # Ignore Gradle build output directory
 build
 gradlew
-
+gradlew.bat
+build.gradle.kts
 # InteliJ
 .idea
 lib
