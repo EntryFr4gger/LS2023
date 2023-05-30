@@ -76,7 +76,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a card id.
      * */
-    fun moveCard(cardId: Int, listId: Int?, cix: Int?, requestId: Int): Boolean {
+    fun moveCard(cardId: Int, listId: Int?, cix: Int?, requestId: Int): Card {
         listId?.let { isValidListId(it) }
         cix?.let { isValidCardCix(cix) }
         isValidCardId(cardId)
@@ -87,11 +87,11 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             listId?.let {
                 authorizationList(conn, listId, requestId)
             }
-            val sucess = source.cards.moveCard(conn, listId, cardId)
+            source.cards.moveCard(conn, listId, cardId)
             if (listId != null) {
                 organizeAfterMove(conn, listId, cardId, cix)
             }
-            sucess
+            source.cards.getCardDetails(conn,cardId)
         }
     }
 

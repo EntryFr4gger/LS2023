@@ -57,10 +57,10 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
      */
     private fun updateCard(request: Request): Response = errorCatcher {
         val cardId = request.pathOrThrow("card_id").toInt()
-        val card = Json.decodeFromString<CardListUpdate>(request.bodyString())
+        val cardReq = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val response = services.moveCard(cardId, card.lid, card.cix, requestId)
-        return Response(Status.OK, response.toString())
+        val card = services.moveCard(cardId, cardReq.lid, cardReq.cix, requestId)
+        return Responde(Status.OK, CardDTO(card))
     }
 
     /**
