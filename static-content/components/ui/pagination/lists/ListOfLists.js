@@ -17,8 +17,8 @@ export async function ListOfLists(state, list, cards) {
                 )
             ),
             ul(
-                {class: "sortable-list list-group list-group-flush"},
-                ...cards.map(card => ModalCard(state, card.id)
+                {class: "sortable-list list-group "},
+                ...cards.map(card => ModalCard(state, card.id, card.name)
                 )
             ),
             CreateCardHandler(list.boardId, list.id))

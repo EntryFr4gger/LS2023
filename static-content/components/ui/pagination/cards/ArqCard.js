@@ -17,21 +17,28 @@ export async function ArqCard(state, cardId) {
     }
 
     return div(
-        {class: "dropdown"},
+        {class: "dropdown dropend"},
         button(
             {
-                class: "btn btn-outline-dark dropdown-toggle",
+                class: "btn dropdown-toggle",
                 type: "button",
                 "data-bs-toggle": "dropdown",
-                "aria-expanded": "false"
+                "aria-expanded": "false",
+                "data-bs-offset":"-6,10"
             },
-            "Arq"
+            "Archive"
         ),
         ul(
             {class: "dropdown-menu"},
             form(
                 {onSubmit: arqCard},
-                li(button({class: "dropdown-item", type: "submit"}, "Yes"))),
+                li(
+                    button(
+                        {class: "dropdown-item", type: "submit", "data-bs-dismiss": "modal", "aria-label": "Close"},
+                        "Yes"
+                    )
+                )
+            ),
         )
     )
 }
