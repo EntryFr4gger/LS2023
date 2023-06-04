@@ -1,41 +1,33 @@
 import {div, p} from "../../dom/domTags.js";
 
-async function InfiniteScroll(state, props, className) {
+async function CreateInfiniteScroll(state, props, className) {
 
-    const {
-        onLoadMore,
-        initialNumChildren,
-        numChildren,
-        overflowHeight,
-        resetRef
-    } = props;
+    const {onLoadMore, initialNumChildren, numChildren, overflowHeight, resetRef} = props
 
-    const container = await div({class: className, style: {height: overflowHeight}});
-
-    let loading = false;
+    const container = await div({class: className, style: {height: overflowHeight}})
+    let isLoading = false;
 
     container.addEventListener("scroll", async () => {
         const lastElement = container.lastElementChild;
-        if (lastElement == null)
-            return;
+        if (!lastElement) return
 
         const {top: lastEleTop} = lastElement.getBoundingClientRect();
         const {bottom: containerBottom} = container.getBoundingClientRect();
-        if (lastEleTop < containerBottom && !loading) {
-            loading = true;
+        if (lastEleTop < containerBottom && !isLoading) {
+            isLoading = true;
 
             const children = await Promise.all(await onLoadMore(numChildren));
             container.append(...children);
 
-            loading = false;
+            isLoading = false;
         }
     }, false);
 
     async function reset() {
-        if (loading)
+        if (isLoading)
             return;
 
-        loading = true;
+        isLoading = true;
         container.innerHTML = "";
 
         const children = await Promise.all(await onLoadMore(initialNumChildren));
@@ -45,7 +37,7 @@ async function InfiniteScroll(state, props, className) {
             container.append(...children);
 
 
-        loading = false;
+        isLoading = false;
     }
 
     resetRef.resolve(reset);
@@ -55,4 +47,4 @@ async function InfiniteScroll(state, props, className) {
     return container;
 }
 
-export default InfiniteScroll;
+export default CreateInfiniteScroll;

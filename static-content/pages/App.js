@@ -1,7 +1,7 @@
 import {Router} from "../routes/router.js";
 import usersRouter from "../routes/usersRouter.js";
 import NavBar from "./_shared/NavBar.js";
-import HomeHandeler from "../handlers/_default/HomeHandeler.js";
+import HomeHandler from "../handlers/_default/HomeHandler.js";
 import boardsRouter from "../routes/boardsRouters.js";
 import listsRouter from "../routes/listsRouters.js";
 import {br, div} from "../components/dom/domTags.js";
@@ -11,7 +11,7 @@ import LoginHandler from "../handlers/user/LoginHandler.js";
 
 const router = Router();
 
-router.addRouteHandler("/", HomeHandeler);
+router.addRouteHandler("/", HomeHandler);
 router.addRouteHandler("/login", LoginHandler);
 router.addRouteHandler("/register", RegisterHandler);
 router.addRouteHandler("/users", usersRouter);
