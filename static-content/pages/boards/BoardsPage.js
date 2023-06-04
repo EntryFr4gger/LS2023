@@ -3,7 +3,7 @@ import {getUser} from "../../components/utils/get-user.js";
 import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js";
 import CreateBoardHandler from "../../handlers/board/CreateBoardHandler.js";
 import {createRef} from "../../components/utils/create-ref.js";
-import InfiniteScroll from "../../components/ui/infinite-scroll/InfiniteScroll.js";
+import CreateInfiniteScroll from "../../components/ui/infinite-scroll/CreateInfiniteScroll.js";
 
 
 async function BoardsPage(state, loadBoards) {
@@ -39,7 +39,7 @@ async function BoardsPage(state, loadBoards) {
                 {class: "list-inline-item"},
                 ul(
                     {class: "d-flex justify-content-center"},
-                    InfiniteScroll(state, {
+                    CreateInfiniteScroll(state, {
                             onLoadMore: loadBoards,
                             resetRef: ref,
                             initialNumChildren: 16,

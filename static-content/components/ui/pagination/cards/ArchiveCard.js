@@ -2,7 +2,7 @@ import {UpdateCardFetch} from "../../../api/fetch/cards/UpdateCardFetch.js";
 import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
 
-export async function ArqCard(state, cardId) {
+export async function ArchiveCard(state, cardId) {
 
     const boardId = state.pathParams["board_id"]
 

@@ -3,11 +3,9 @@ import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
 import {GetListCardsFetch} from "../../../api/fetch/lists/GetListCardsFetch.js";
 
-export async function ChangeCixCard(state) {
+export async function ChangeCixCard(state, listId, cardId) {
 
-    const boardId = state.body["boardId"]
-    const listId = state.body["listId"]
-    const cardId = state.body["id"]
+    const boardId = state.body["id"]
 
     const response = await GetListCardsFetch(listId)
 
@@ -17,32 +15,43 @@ export async function ChangeCixCard(state) {
     async function changeCix(event) {
         event.preventDefault()
 
-        const value = Number(event.submitter.id)
+        const value = Number(event.submitter.id) + 1
 
         const response = await UpdateCardFetch(cardId, listId, value)
 
-        //const updated = await response.json()
+        const updated = await response.json()
 
         hashChangeLoc(`#boards/${boardId}`)
     }
 
     return div(
-        {class: "dropdown"},
+        {class: "dropdown dropend"},
         button(
             {
-                class: "btn btn-outline-light dropdown-toggle",
+                class: "btn dropdown-toggle",
                 type: "button",
                 "data-bs-toggle": "dropdown",
                 "aria-expanded": "false"
             },
-            "Change Cix"
+            "Change Place"
         ),
         ul(
             {class: "dropdown-menu"},
             form(
                 {onSubmit: changeCix},
                 ...json.cards.map((card, index) =>
-                    li(button({class: "dropdown-item", type: "submit", id: `${index}`}, card.name))),
+                    li(
+                        button(
+                            {
+                                class: "dropdown-item",
+                                type: "submit",
+                                id: `${index}`,
+                                "data-bs-dismiss": "modal",
+                                "aria-label": "Close"
+                            },
+                            card.name)
+                    )
+                ),
             )
         )
     )

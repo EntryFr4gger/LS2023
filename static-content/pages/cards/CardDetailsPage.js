@@ -2,7 +2,7 @@ import {br, div, h1, h2, h5} from "../../components/dom/domTags.js";
 import {buttonWithHref} from "../../components/ui/button/with-href.js";
 import DeleteCardHandler from "../../handlers/cards/DeleteCardHandler.js";
 import {UpdateCard} from "../../components/ui/pagination/cards/UpdateCard.js";
-import {ArqCard} from "../../components/ui/pagination/cards/ArqCard.js";
+import {ArchiveCard} from "../../components/ui/pagination/cards/ArchiveCard.js";
 
 
 function CardDetailsPage(state) {
@@ -15,7 +15,7 @@ function CardDetailsPage(state) {
         DeleteCardHandler(state),
         UpdateCard(state),
         //ChangeCixCard(state),
-        ArqCard(state)
+        ArchiveCard(state)
     )
 }
 

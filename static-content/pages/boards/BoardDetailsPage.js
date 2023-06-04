@@ -3,7 +3,7 @@ import DeleteBoardHandler from "../../handlers/board/DeleteBoardHandler.js";
 import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js";
 import CreateListHandler from "../../handlers/lists/CreateListHandler.js";
 import {createRef} from "../../components/utils/create-ref.js";
-import InfiniteScroll from "../../components/ui/infinite-scroll/InfiniteScroll.js";
+import CreateInfiniteScroll from "../../components/ui/infinite-scroll/CreateInfiniteScroll.js";
 
 
 function BoardDetailsPage(state, loadBoardDetails) {
@@ -54,7 +54,7 @@ function BoardDetailsPage(state, loadBoardDetails) {
                 ul(
                     {class: "d-flex justify-content-center"},
                     div(
-                        InfiniteScroll(state, {
+                        CreateInfiniteScroll(state, {
                                 onLoadMore: loadBoardDetails,
                                 resetRef: ref,
                                 initialNumChildren: 16,
