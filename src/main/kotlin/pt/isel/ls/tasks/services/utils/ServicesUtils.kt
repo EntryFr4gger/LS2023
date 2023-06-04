@@ -8,6 +8,7 @@ import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.domain.Token
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.errors.ServicesError
+import java.security.MessageDigest
 
 open class ServicesUtils(open val source: TaskData) {
 
@@ -460,8 +461,35 @@ open class ServicesUtils(open val source: TaskData) {
             throw ServicesError.InvalidArgumentException("Token does not obey rules($token)")
         }
     }
-}
 
+    /**
+     *
+     */
+    fun hashPassword(password:String) = sha256Hash(password)
+
+    /**
+     *
+     */
+    private fun sha256Hash(input: String): String {
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(input.toByteArray())
+        return bytesToHex(digest)
+    }
+
+    /**
+     *
+     */
+    private fun bytesToHex(bytes: ByteArray): String {
+        val hexChars = "0123456789ABCDEF"
+        val result = StringBuilder(bytes.size * 2)
+        for (byte in bytes) {
+            val index = byte.toInt() and 0xFF
+            result.append(hexChars[index ushr 4])
+            result.append(hexChars[index and 0x0F])
+        }
+        return result.toString()
+    }
+}
 /**
  * Verifys if id is valid.
  *

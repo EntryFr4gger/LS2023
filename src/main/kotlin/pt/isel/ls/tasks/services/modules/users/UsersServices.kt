@@ -28,7 +28,7 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             isUserNewEmail(conn, email)
 
-            val userId = source.users.createNewUser(conn, name, email, password)
+            val userId = source.users.createNewUser(conn, name, email, hashPassword(password))
             val token = source.tokens.createNewToken(conn, UUID.randomUUID().toString(), userId)
 
             UserInfoResponse(userId, token)
@@ -49,7 +49,7 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             val user = source.users.loginUserInfo(conn, email)
 
-            if (user.password != password) { // meter uma verificaçao melhor
+            if (hashPassword(user.password) != hashPassword(password)) { // meter uma verificaçao melhor
                 throw ServicesError.AuthenticationException("Passwords dont match")
             }
 
