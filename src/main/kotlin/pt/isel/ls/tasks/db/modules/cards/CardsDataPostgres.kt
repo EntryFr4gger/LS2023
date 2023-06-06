@@ -94,13 +94,12 @@ class CardsDataPostgres : CardsDB {
 
     override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) {
         val obj = conn.connection().prepareStatement(
-            "UPDATE cards SET list_id = ?, cix = (SELECT cix FROM cards WHERE list_id = ? ORDER BY cix DESC LIMIT 1)+1 WHERE id = ?",
-            Statement.RETURN_GENERATED_KEYS
+            "UPDATE cards SET list_id = ?, cix = (SELECT cix FROM cards WHERE list_id = ? ORDER BY cix DESC LIMIT 1)+1 WHERE id = ?"
         )
 
         obj.setIntIfNotNull(1, listId, Types.INTEGER)
-        obj.setInt(2, cardId)
-        obj.setIntIfNotNull(3, listId, Types.INTEGER)
+        obj.setIntIfNotNull(2, listId, Types.INTEGER)
+        obj.setInt(3, cardId)
 
         if (obj.executeUpdate() == 0) {
             throw SQLException("Card Move Failed with cardId: $cardId and listId: $listId")
