@@ -465,7 +465,7 @@ open class ServicesUtils(open val source: TaskData) {
     /**
      *
      */
-    fun hashPassword(password:String) = sha256Hash(password)
+    fun hashPassword(password: String) = sha256Hash(password)
 
     /**
      *
@@ -490,6 +490,7 @@ open class ServicesUtils(open val source: TaskData) {
         return result.toString()
     }
 }
+
 /**
  * Verifys if id is valid.
  *

@@ -42,7 +42,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a card id.
      * */
-    fun respositionCard(listId: Int, cardId: Int,cix:Int, requestId: Int): Int {
+    fun respositionCard(listId: Int, cardId: Int, cix: Int, requestId: Int): Int {
         isValidListId(listId)
         isValidUserId(requestId)
         isValidCardId(cardId)

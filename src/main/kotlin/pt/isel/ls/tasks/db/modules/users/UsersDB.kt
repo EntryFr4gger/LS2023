@@ -56,7 +56,7 @@ interface UsersDB {
     fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board>
 
     /**
-     * Delete the board of all users.
+     * Deletes a board.
      *
      * @param conn connection to a database.
      * @param boardId board unique identifier.

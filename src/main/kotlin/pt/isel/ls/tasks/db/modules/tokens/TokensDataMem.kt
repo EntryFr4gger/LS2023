@@ -24,9 +24,11 @@ class TokensDataMem(private val source: TasksDataStorage) : TokensDB {
         return res.userId
     }
 
-    override fun getUserToken(conn: TransactionManager, userId: Int): String {
-        TODO("Not yet implemented")
-    }
+    override fun getUserToken(conn: TransactionManager, userId: Int) =
+        (
+            source.tokens.values.find { it.userId == userId }
+                ?: throw NotFoundException("Token with userID($userId) does not exist")
+            ).token
 
     override fun hasToken(conn: TransactionManager, token: String): Boolean =
         source.tokens[token] != null

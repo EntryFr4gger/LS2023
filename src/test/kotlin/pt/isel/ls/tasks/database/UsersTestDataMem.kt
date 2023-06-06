@@ -32,7 +32,7 @@ class UsersTestDataMem {
     fun `Gets the correct user`() {
         source.run { conn ->
             assertEquals(
-                User(3, "Godofredo", "Godofredo@outlook.pt", "Adsfs123&"),
+                User(3, "Bernardo", "BSerra@outlook.pt", "880E1FBAA9260190E5CF57C34A4523EE7FD7056486922EE273053F2ED38C9A52"),
                 users.getUserDetails(conn, 3)
             )
         }

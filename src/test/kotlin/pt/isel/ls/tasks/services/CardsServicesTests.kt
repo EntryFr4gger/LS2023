@@ -112,14 +112,14 @@ class CardsServicesTests : ClearData() {
     @Test
     fun `move card throws InvalidArgumentException if list id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.cards.moveCard(-2, 1, 1, 1)
+            services.cards.moveCard(-2, 1, 1)
         }
     }
 
     @Test
     fun `move card throws InvalidArgumentException if card id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.cards.moveCard(1, -1, 1, 1)
+            services.cards.moveCard(1, -1, 1)
         }
     }
 }

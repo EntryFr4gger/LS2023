@@ -8,9 +8,7 @@ import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
-import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
 import pt.isel.ls.tasks.api.routers.cards.models.CardId
-import pt.isel.ls.tasks.api.routers.cards.models.CardListUpdate
 import pt.isel.ls.tasks.api.routers.lists.models.CardReposition
 import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
@@ -63,11 +61,11 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
      *
      * @return HTTP response contains a JSON body with the new list id
      */
-    private fun respositionCard(request: Request): Response = errorCatcher{
+    private fun respositionCard(request: Request): Response = errorCatcher {
         val listId = request.pathOrThrow("list_id").toInt()
         val cardReq = Json.decodeFromString<CardReposition>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val cardId = services.respositionCard(listId, cardReq.cardId,cardReq.cix, requestId)
+        val cardId = services.respositionCard(listId, cardReq.cardId, cardReq.cix, requestId)
         return Responde(Status.OK, CardId(cardId))
     }
 

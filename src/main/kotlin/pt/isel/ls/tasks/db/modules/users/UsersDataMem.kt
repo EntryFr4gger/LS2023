@@ -8,10 +8,10 @@ import pt.isel.ls.tasks.domain.User
 class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
 
     init {
-        source.users[1] = User(1, "Gilberto", "Gilberto@gmail.com", "Adsfs123&")
-        source.users[2] = User(2, "Alberto", "Alberto@hotmail.com", "Adsfs123&")
-        source.users[3] = User(3, "Godofredo", "Godofredo@outlook.pt", "Adsfs123&")
-        source.users[4] = User(3, "UserWithNoBoard", "UserWithNoBoard@outlook.pt", "Adsfs123&")
+        source.users[1] = User(1, "Admin", "Admin@gmail.com", "6593D31A65175D624AFC703A4070DB550D4C7B91C795E431DA9A69E52C1F313E") // Admin123&
+        source.users[2] = User(2, "Rafa", "rafaelDCosta@outlook.com", "D5989C7FFC36711AF4BD46606D051ECD70A45C581E85428C8B129722C260EBEE") // Drago123&
+        source.users[3] = User(3, "Bernardo", "BSerra@outlook.pt", "880E1FBAA9260190E5CF57C34A4523EE7FD7056486922EE273053F2ED38C9A52") // Serr123&
+        source.users[4] = User(3, "UserWithNoBoard", "UserWithNoBoard@outlook.pt", "D12CC6817061AA42A23AE259DED1F419C45D03DB2C2EE02ACC4784A9761D781A") // Adsfs123&
         source.nextUserId.addAndGet(4)
     }
 
@@ -22,7 +22,8 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         }
 
     override fun loginUserInfo(conn: TransactionManager, email: String): User {
-        TODO("Not yet implemented")
+        return source.users.values.find { it.email == email }
+            ?: throw NotFoundException("Couldn't get User with email($email) Details")
     }
 
     override fun getUserDetails(conn: TransactionManager, userId: Int) =
@@ -32,7 +33,7 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         source.userBoard[userId]?.mapNotNull { source.boards[it] } ?: emptyList()
 
     override fun deleteBoardUsers(conn: TransactionManager, boardId: Int) {
-        TODO("Not yet implemented")
+        source.boards.remove(boardId)
     }
 
     override fun hasUserEmail(conn: TransactionManager, email: String) =
