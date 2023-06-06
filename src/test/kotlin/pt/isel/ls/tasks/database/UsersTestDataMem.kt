@@ -121,7 +121,7 @@ class UsersTestDataMem {
         }
     }
 
-    @Testa
+    @Test
     fun `Validate request Board isn't successfully with wrong requestId`() {
         source.run { conn ->
             assertFalse { users.validateResquestBoard(conn, 1, Int.MAX_VALUE) }
