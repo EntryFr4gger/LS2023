@@ -1,14 +1,17 @@
 {
   "devDependencies": {
-    "esm": "^3.2.25",
-    "mocha": "^10.2.0"
+    "@babel/preset-env": "^7.22.5",
+    "babel-jest": "^29.5.0",
+    "esm": "^3.2.25"
   },
   "scripts": {
-    "test": "mocha -r esm -r ts-node / register test/**/*.test.js"
+    "test": "jest",
+    "type": "module"
   },
   "dependencies": {
     "@babel/core": "^7.22.5",
     "@babel/register": "^7.22.5",
+    "jest": "^29.5.0",
     "ts-node": "^10.9.1"
   }
 }
