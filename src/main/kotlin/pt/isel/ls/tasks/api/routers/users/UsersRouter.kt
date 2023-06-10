@@ -35,9 +35,9 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
 
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
-        ("users/{user_id}" bind Method.POST to ::getAllUsers).withFilter(tokenHandeler::filter),
+        "users/login" bind Method.POST to ::loginUser,
         "users/{user_id}" bind Method.GET to ::getUserDetails,
-        "users/{user_id}/login" bind Method.POST to ::loginUser,
+        ("users/{user_id}" bind Method.POST to ::getAllUsers).withFilter(tokenHandeler::filter),
         ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(tokenHandeler::filter)
     )
 
