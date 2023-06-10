@@ -1,6 +1,15 @@
 import {a} from "../../dom/domTags.js";
 import {lightOutlineButton} from "./color-buttons.js";
 
+/**
+ * ButtonWithHref function generates a link button with the specified text, href, and padding.
+ *
+ * @param {string} text - The text content of the button.
+ * @param {string} href - The URL to link to. Default is "/#".
+ * @param {number} padding - The padding size of the button. Default is 1.
+ *
+ * @returns {Promise} - The generated link button element.
+ */
 export function buttonWithHref(text, href = "/#", padding = 1) {
     switch (padding) {
         case 1:

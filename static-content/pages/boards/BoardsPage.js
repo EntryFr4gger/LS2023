@@ -5,11 +5,18 @@ import CreateBoardHandler from "../../handlers/board/CreateBoardHandler.js";
 import {createRef} from "../../components/utils/create-ref.js";
 import CreateInfiniteScroll from "../../components/ui/infinite-scroll/CreateInfiniteScroll.js";
 
-
-async function BoardsPage(state, loadBoards) {
+/**
+ * BoardsPage is an asynchronous function that generates the board page component.
+ *
+ * @param {Object} state - The state object.
+ * @param {Function} loadBoards - The function to load boards.
+ *
+ * @returns {Promise<HTMLElement>} The board page component.
+ */
+function BoardsPage(state, loadBoards) {
     const ref = createRef()
 
-    return await div(
+    return div(
         ul(
             {class: "list-inline  d-flex"},
             div({

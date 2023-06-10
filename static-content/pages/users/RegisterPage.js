@@ -1,8 +1,13 @@
-import {button, div, form, h2, input, label, section} from "../../components/dom/domTags.js";
+import {button, div, form, h2, input, section} from "../../components/dom/domTags.js";
 
-
+/**
+ * RegisterPage is a function that generates the register page component.
+ *
+ * @param {Function} registerUser - The function to handle user registration.
+ *
+ * @returns {Promise<HTMLElement>} The register page component.
+ */
 function RegisterPage(registerUser) {
-
     return section(
         {class: "text-center"},
         div(
@@ -12,7 +17,7 @@ function RegisterPage(registerUser) {
                 style: {
                     "margin-top": "100px",
                     background: "hsla(0, 0%, 100%, 0.1)",
-                    "background-color": "White"/*, opacity:"20%"*/
+                    "background-color": "White"
                 }
             },
             div(

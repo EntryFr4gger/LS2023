@@ -4,6 +4,8 @@ import DetailsCardHandler from "../handlers/cards/DetailsCardHandler.js";
 import ArchivedCardHandler from "../handlers/cards/ArchivedCardHandler.js";
 
 const cardsRouters = Router()
+
+// Add route handlers for different card routes
 cardsRouters.addRouteHandler('/:card_id', DetailsCardHandler);
 cardsRouters.addRouteHandler('/:board_id/archived', ArchivedCardHandler);
 cardsRouters.addDefaultNotFoundRouteHandler(NotFoundPage);

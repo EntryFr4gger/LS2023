@@ -3,6 +3,13 @@ import {CreateListFetch} from "../../components/api/fetch/lists/CreateListFetch.
 import {FormCreateList} from "../../components/ui/pagination/lists/FormCreateList.js";
 import {DisableAttribute} from "../../components/utils/disable-attribute.js";
 
+/**
+ * CreateListHandler is a function that handles the creation of a new list.
+ *
+ * @param {Object} state - The state object containing the necessary information.
+ *
+ * @returns {HTMLElement} A promise that resolves to the rendered created list form.
+ */
 function CreateListHandler(state) {
     async function createList(event) {
         event.preventDefault()

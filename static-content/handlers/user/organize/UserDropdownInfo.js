@@ -3,9 +3,18 @@ import {getUser, userIdStorage} from "../../../components/utils/get-user.js";
 import {userTokenStorage} from "../../../components/utils/get-token.js";
 import {hashChangeLoc} from "../../../components/utils/hash-change-loc.js";
 
-
+/**
+ * UserDropdownInfo is an asynchronous function that returns a dropdown menu component for user-specific options.
+ *
+ * @returns {HTMLElement} The dropdown menu component for user-specific options.
+ */
 async function UserDropdownInfo() {
 
+    /**
+     * logout is a function that handles the user logout.
+     *
+     * @param {Event} event - The event object triggered by the logout action.
+     */
     function logout(event) {
         event.preventDefault()
 
@@ -36,20 +45,6 @@ async function UserDropdownInfo() {
             li(a({class: "dropdown-item", href: "#", onClick: logout}, "Sign out"))
         )
     )
-    /*div(
-        li({class: "nav-item dropdown"},
-            a(
-                {class: "nav-link dropdown-toggle", href: "#", role: "button", "data-bs-toggle": "dropdown", "aria-expanded": "false"},
-                "User Info"
-            ),
-            ul({class: "dropdown-menu"},
-                li(a({class: "dropdown-item", href: `#users/${userId}`}, "User Details")),
-                li(a({class: "dropdown-item", href: `#users/${getUser()}/boards`}, "User Boards")),
-                li({class: "dropdown-divider"}),
-                li(button({class: "dropdown-item", onClick: logout}, "Logout"))
-            )
-        )
-    )*/
 }
 
 export default UserDropdownInfo;

@@ -71,7 +71,6 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @param listId list unique identifier.
      * @param cardId card unique identifier.
-     * @param cix desired index.
      * @param requestId request user unique identifier.
      *
      * @return a card id.

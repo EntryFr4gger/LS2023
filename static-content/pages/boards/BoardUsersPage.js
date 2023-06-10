@@ -1,6 +1,11 @@
 import {a, div, h3, img, li, ul} from "../../components/dom/domTags.js";
 
-
+/**
+ * BoardUsersPage is an asynchronous function that generates the board users page component.
+ *
+ * @param {Object} state - The state object.
+ * @returns {HTMLElement} The board users page component.
+ */
 async function BoardUsersPage(state) {
     const users = state.body['users']
 
@@ -36,19 +41,6 @@ async function BoardUsersPage(state) {
             )
         )
     )
-
-    /*div(
-        h1("Users In Board: "),
-        ul(
-            ...users.map(user =>
-                li(
-                    img({src: `public/${Math.floor(Math.random() * 10)}.jpg`, alt: "", width: "28", height: "28", class: "rounded-circle me-2"}),
-                    `${user[`name`]}`
-                )
-            )
-        ),
-        buttonWithHref("Board Details", `#boards/${state.pathParams["board_id"]}`)
-    )*/
 }
 
 

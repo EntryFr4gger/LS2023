@@ -7,7 +7,14 @@ import CreateInfiniteScroll from "../../components/ui/infinite-scroll/CreateInfi
 import OffCanvasAddUser from "../../components/ui/off-canvas/off-canvas-add-user.js";
 import AddUserToBoardHandler from "../../handlers/board/AddUserToBoardHandler.js";
 
-
+/**
+ * BoardDetailsPage is an asynchronous function that generates the board details page component.
+ *
+ * @param {Object} state - The state object.
+ * @param {Function} loadBoardDetails - The function to load board details.
+ *
+ * @returns {Promise<HTMLElement>} The board details a page component.
+ */
 function BoardDetailsPage(state, loadBoardDetails) {
     const ref = createRef()
 

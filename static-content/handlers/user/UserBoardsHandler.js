@@ -2,6 +2,11 @@ import BoardsPage from "../../pages/boards/BoardsPage.js";
 import {GetUserBoardsFetch} from "../../components/api/fetch/users/GetUserBoardsFetch.js";
 import {ListOfBoards} from "../../components/ui/pagination/boards/ListOfBoards.js";
 
+/**
+ * UserBoardsHandler is an asynchronous function that handles retrieving the boards associated with a user.
+ *
+ * @param {Object} state - The state object containing the current state of the application.
+ */
 async function UserBoardsHandler(state) {
     const userId = state.pathParams["user_id"];
     if (isNaN(userId))
@@ -9,6 +14,13 @@ async function UserBoardsHandler(state) {
 
     let boardSkip = 0
 
+    /**
+     * LoadBoards is an asynchronous function that loads the boards associated with the user.
+     *
+     * @param {Int} boardsToLoad - The number of boards to load.
+     *
+     * @returns {Promise<Array>} An array of board components.
+     */
     async function loadBoards(boardsToLoad) {
         const response = await GetUserBoardsFetch(userId, boardSkip, boardsToLoad)
 
@@ -18,7 +30,7 @@ async function UserBoardsHandler(state) {
             boardSkip += boards.length;
 
             return boards.map(async board => {
-                return await ListOfBoards(board)
+                return ListOfBoards(board);
             })
         } else
             alert(boards.error)

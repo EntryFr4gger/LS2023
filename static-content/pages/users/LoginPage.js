@@ -1,7 +1,13 @@
 import {button, div, form, h2, input, label, section} from "../../components/dom/domTags.js";
 
+/**
+ * LoginPage is a function that generates the login page component.
+ *
+ * @param {Function} loginUser - The function to handle user login.
+ *
+ * @returns {Promise<HTMLElement>} The login page component.
+ */
 function LoginPage(loginUser) {
-
     return section(
         {class: "text-center"},
         div(
@@ -11,7 +17,7 @@ function LoginPage(loginUser) {
                 style: {
                     "margin-top": "100px",
                     background: "hsla(0, 0%, 100%, 0.1)",
-                    "background-color": "White"/*, opacity:"20%"*/
+                    "background-color": "White"
                 }
             },
             div(

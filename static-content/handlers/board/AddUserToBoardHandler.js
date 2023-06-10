@@ -3,8 +3,20 @@ import {AddUserToBoardFetch} from "../../components/api/fetch/boards/AddUserToBo
 import {FormAddUserBoard} from "../../components/ui/pagination/boards/FormAddUserBoard.js";
 import GetAllUsersHandler from "../user/GetAllUsersHandler.js";
 
-function AddUserToBoardHandler(state) {
+/**
+ * AddUserToBoardHandler is an asynchronous function that handles adding a user to a board.
+ *
+ * @param {Object} state - The state object containing the necessary data.
+ *
+ * @returns {Promise} A promise that resolves to the rendered form for adding a user to a board.
+ */
+async function AddUserToBoardHandler(state) {
 
+    /**
+     * addUserToBoard is an asynchronous function that handles the form submission for adding a user to a board.
+     *
+     * @param {Event} event - The form submission event.
+     */
     async function addUserToBoard(event) {
         event.preventDefault()
         const boardId = state.pathParams["board_id"]
@@ -28,7 +40,7 @@ function AddUserToBoardHandler(state) {
         }
     }
 
-    return FormAddUserBoard(addUserToBoard, GetAllUsersHandler(state))
+    return FormAddUserBoard(addUserToBoard, await GetAllUsersHandler(state))
 }
 
 export default AddUserToBoardHandler;

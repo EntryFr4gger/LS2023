@@ -3,6 +3,15 @@ import CreateCardHandler from "../../../../handlers/cards/CreateCardHandler.js";
 import DeleteListHandler from "../../../../handlers/lists/DeleteListHandler.js";
 import {ModalCard} from "../../modal/modal-card.js";
 
+/**
+ * ListOfLists is a function that returns a list item representing a list.
+ *
+ * @param {object} state - The state object containing relevant data.
+ * @param {object} list - The list object containing list information.
+ * @param {array} cards - An array of card objects belonging to the list.
+ *
+ * @returns {HTMLElement} The list item representing a list.
+ */
 export async function ListOfLists(state, list, cards) {
     return li(
         {class: "list-inline-item"},

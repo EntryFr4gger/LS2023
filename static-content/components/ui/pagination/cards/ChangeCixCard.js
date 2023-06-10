@@ -1,8 +1,18 @@
 import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
 import {GetListCardsFetch} from "../../../api/fetch/lists/GetListCardsFetch.js";
-import {RepositionCardFetch} from "../../../api/fetch/cards/RepositionCardFetch.js";
+import {RepositionCardFetch} from "../../../api/fetch/lists/RepositionCardFetch.js";
 
+/**
+ * ChangeCixCard is a function that returns a dropdown menu for changing the position of a card within a list.
+ * It includes a list of options representing the available positions to move the card.
+ *
+ * @param {object} state - The state object containing application state.
+ * @param {Int} listId - The ID of the list containing the card.
+ * @param {Int} cardId - The ID of the card to be repositioned.
+ *
+ * @returns {HTMLElement} The dropdown menu element for changing the position of the card.
+ */
 export async function ChangeCixCard(state, listId, cardId) {
 
     const boardId = state.body["id"]

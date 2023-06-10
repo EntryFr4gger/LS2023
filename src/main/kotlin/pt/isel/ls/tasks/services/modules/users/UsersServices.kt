@@ -18,6 +18,7 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
      *
      * @param name the user's name.
      * @param email the user's unique email.
+     * @param password user's password.
      *
      * @return new user unique identifier and token.
      * */
@@ -95,6 +96,7 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
     /**
      * Gets all Users in the database.
      *
+     * @param boardId to remove users from board.
      * @param requestId request user unique identifier.
      *
      * @return list of Users.

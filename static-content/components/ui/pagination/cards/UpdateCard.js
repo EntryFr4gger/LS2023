@@ -3,6 +3,16 @@ import {GetBoardListsFetch} from "../../../api/fetch/boards/GetBoardListsFetch.j
 import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {MoveCardFetch} from "../../../api/fetch/cards/MoveCardFetch.js";
 
+/**
+ * UpdateCard is a function that returns a dropdown menu for updating the list of a card.
+ * It includes a list of options representing the available lists to move the card.
+ *
+ * @param {object} state - The state object containing application state.
+ * @param {Int} listId - The ID of the current list containing the card.
+ * @param {Int} cardId - The ID of the card to be updated.
+ *
+ * @returns {HTMLElement} The dropdown menu element for updating the card's list.
+ */
 export async function UpdateCard(state, listId, cardId) {
 
     const boardId = state.body["id"]

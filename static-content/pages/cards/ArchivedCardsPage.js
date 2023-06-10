@@ -1,6 +1,13 @@
 import {a, div, h3, h5, img, li, ul} from "../../components/dom/domTags.js";
 import {UnarchiveCard} from "../../components/ui/pagination/cards/UnarchiveCard.js";
 
+/**
+ * ArchivedCardsPage is a function that generates the archived cards page component.
+ *
+ * @param {Object} state - The state object.
+ *
+ * @returns {Promise<HTMLElement>} The archived cards page component.
+ */
 function ArchivedCardsPage(state) {
     const car = state.body["cards"];
     const boardId = state.pathParams["board_id"]

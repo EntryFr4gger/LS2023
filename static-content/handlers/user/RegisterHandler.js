@@ -4,8 +4,18 @@ import RegisterPage from "../../pages/users/RegisterPage.js";
 import {userIdStorage} from "../../components/utils/get-user.js";
 import {DisableAttribute} from "../../components/utils/disable-attribute.js";
 
+/**
+ * Handles the registration process.
+ *
+ * @returns {Function} The RegisterHandler function.
+ */
 async function RegisterHandler() {
 
+    /**
+     * Registers a user.
+     *
+     * @param {Event} event - The form submission event.
+     */
     async function registerUser(event) {
         event.preventDefault()
         const firstName = document.getElementById("register-first-name").value
