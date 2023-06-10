@@ -1,8 +1,18 @@
 import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {form, input} from "../../components/dom/domTags.js";
 
+/**
+ * SearchHandler is an asynchronous function that handles the search functionality.
+ *
+ * @returns {Promise} A promise that resolves to the rendered search form.
+ */
 async function SearchHandler() {
 
+    /**
+     * search is a function that handles the search event.
+     *
+     * @param {Event} event - The search event.
+     */
     function search(event) {
         event.preventDefault()
         const searchValue = document.getElementById("search-res").value

@@ -1,5 +1,14 @@
 import {a, button, div, h5, label, svg, use} from "../../dom/domTags.js";
 
+/**
+ * OffCanvasAddUser is a function that returns an offcanvas component for adding a user.
+ * It includes a button that triggers the offcanvas and a form for adding the user.
+ *
+ * @param {string} name - The name of the user.
+ * @param {HTMLElement} addUser - The element for adding a user.
+ *
+ * @returns {Promise<HTMLElement>} The offcanvas add a user element.
+ */
 function OffCanvasAddUser(name, addUser) {
     return div(
         a(
@@ -31,27 +40,6 @@ function OffCanvasAddUser(name, addUser) {
                     "Datalist example"
                 ),
                 addUser,
-                /*form({class: "d-flex", role: "search", onSubmit: addUser},
-                    input({
-                        class: "form-control",
-                        list: "datalistOptions",
-                        id: "exampleDataList",
-                        placeholder: "Type to search..."
-                    }),
-                    datalist(
-                        {id: "datalistOptions"},
-                        users
-                    )
-                )*/
-                /*form({class: "d-flex", role: "search", onSubmit: search},
-                    input({
-                        class: "form-control me-2",
-                        id: "search-res",
-                        type: "search",
-                        placeholder: "Search Board",
-                        "aria-label": "Search"
-                    })
-                )*/
             )
         )
     )

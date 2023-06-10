@@ -62,7 +62,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
     }
 
     /**
-     * Get the detailed information of a board.
+     * Get the detailed information on the board.
      *
      * @param boardId board unique identifier.
      * @param requestId request user unique identifier.
@@ -86,14 +86,14 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
     }
 
     /**
-     * Get the lists in a board.
+     * Get the lists on a board.
      *
      * @param boardId board unique identifier.
      * @param skip skip database tables.
      * @param limit limit database tables.
      * @param requestId request user unique identifier.
      *
-     * @return list of lists in a board.
+     * @return list of Lists in a Board.
      * */
     fun getAllLists(boardId: Int, skip: Int, limit: Int, requestId: Int): List<_List> {
         isValidBoardId(boardId)
@@ -116,7 +116,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      * @param requestId request user unique identifier.
      * @param onlyReturnArchived if true only returns the archived cards for that board
      *
-     * @return list of lists in a board.
+     * @return list of cards in a board.
      * */
     fun getAllCards(boardId: Int, skip: Int, limit: Int, requestId: Int, onlyReturnArchived: Boolean): List<Card> {
         isValidBoardId(boardId)

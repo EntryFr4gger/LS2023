@@ -4,6 +4,20 @@ import {ArchiveCard} from "../pagination/cards/ArchiveCard.js";
 import {UpdateCard} from "../pagination/cards/UpdateCard.js";
 import {ChangeCixCard} from "../pagination/cards/ChangeCixCard.js";
 
+/**
+ * ModalCard is a function that returns a modal card element.
+ * It includes a button that triggers a modal, and the modal content itself.
+ * The modal card displays the card name, description, and various actions.
+ * It also includes handlers for deleting, archiving, updating, and changing the card's CIX.
+ *
+ * @param {object} state - The state object.
+ * @param {string} id - The unique identifier of the modal card.
+ * @param {string} cardName - The name of the card.
+ * @param {string} cardDescription - The description of the card.
+ * @param {string} listId - The identifier of the list the card belongs to.
+ *
+ * @returns {Promise<HTMLElement>} Modal card element.
+ */
 export function ModalCard(state, id, cardName, cardDescription, listId) {
     return li(
         {class: "list-group-item"},

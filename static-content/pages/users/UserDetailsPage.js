@@ -1,8 +1,19 @@
 import {a, button, div, h2, h5, img, li, p, ul} from "../../components/dom/domTags.js";
 import {getUser, userIdStorage} from "../../components/utils/get-user.js";
 
+/**
+ * UserDetailsPage is a function that generates the user details page component.
+ *
+ * @param {Object} state - The state object containing user details.
+ * @returns {Promise<HTMLElement>} The user details a page component.
+ */
 function UserDetailsPage(state) {
 
+    /**
+     * logout is a function that handles user logout.
+     *
+     * @param {Event} event - The click event.
+     */
     function logout(event) {
         event.preventDefault()
         localStorage.removeItem(userIdStorage);

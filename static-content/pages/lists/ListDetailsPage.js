@@ -4,7 +4,13 @@ import DeleteListHandler from "../../handlers/lists/DeleteListHandler.js";
 import CreateCardHandler from "../../handlers/cards/CreateCardHandler.js";
 import {darkButton} from "../../components/ui/button/color-buttons.js";
 
-
+/**
+ * ListDetailsPage is a function that generates the list details page component.
+ *
+ * @param {Object} state - The state object.
+ *
+ * @returns {Promise<HTMLElement>} The list details a page component.
+ */
 function ListDetailsPage(state) {
     const car = state.body["cards"]["cards"];
 

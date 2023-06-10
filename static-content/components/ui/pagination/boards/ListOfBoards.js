@@ -1,5 +1,13 @@
 import {a, div, h5, img, li, p} from "../../../dom/domTags.js";
 
+/**
+ * ListOfBoards is a function that returns a list item representing a board.
+ * It includes a card with the board's name, description, and an image.
+ *
+ * @param {object} board - The board object containing board information.
+ *
+ * @returns {HTMLElement} The list item representing the board.
+ */
 export async function ListOfBoards(board) {
     return li(
         {class: "list-inline-item"},

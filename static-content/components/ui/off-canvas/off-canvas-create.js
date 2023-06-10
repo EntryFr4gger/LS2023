@@ -1,5 +1,14 @@
 import {a, button, div, h5, svg, use} from "../../dom/domTags.js";
 
+/**
+ * OffCanvasCreate is a function that returns an offcanvas component for creating a new item.
+ * It includes a button that triggers the offcanvas and a form for creating the item.
+ *
+ * @param {string} createName - The name of the item to be created.
+ * @param {HTMLElement} func - The element representing the form or function for creating the item.
+ *
+ * @returns {Promise<HTMLElement>} The offcanvas create an element.
+ */
 function OffCanvasCreate(createName, func) {
     return div(
         a(

@@ -16,6 +16,7 @@ interface UsersDB {
      * @param conn connection to a database.
      * @param name the user's name.
      * @param email the user's unique email.
+     * @param password the user's hashed password.
      *
      * @return user's unique identifier.
      * */
@@ -69,7 +70,7 @@ interface UsersDB {
      * Gets all Users in the database.
      *
      * @param conn connection to a database.
-     * @param boardId board unique identifier.
+     * @param boardId to remove users from board.
      *
      * @return list of Boards.
      * */

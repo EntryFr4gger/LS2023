@@ -1,5 +1,10 @@
 import {a, div, img, li, ul} from "../../../components/dom/domTags.js";
 
+/**
+ * LoginRegister is a function that returns a dropdown menu component for login and registration options.
+ *
+ * @returns {HTMLElement} The dropdown menu component for login and registration.
+ */
 async function LoginRegister() {
     return div({class: "dropdown dropstart dropup-center"},
         a({
@@ -16,13 +21,6 @@ async function LoginRegister() {
             li(a({class: "dropdown-item", href: "#register"}, "Register")),
         )
     )
-
-    /*div(
-        li({class: "nav-item"},
-            a({class: "nav-link", href: "#login"}, "Login")),
-        li({class: "nav-item"},
-            a({class: "nav-link", href: "#register"}, "Register"))
-    )*/
 }
 
 export default LoginRegister;

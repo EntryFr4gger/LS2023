@@ -3,8 +3,18 @@ import {CreateBoardFetch} from "../../components/api/fetch/boards/CreateBoardFet
 import {FormCreateBoard} from "../../components/ui/pagination/boards/FormCreateBoard.js";
 import {DisableAttribute} from "../../components/utils/disable-attribute.js";
 
+/**
+ * CreateBoardHandler is a function that handles creating a new board.
+ *
+ * @returns {Promise} A promise that resolves to the rendered form for creating a board.
+ */
 function CreateBoardHandler() {
 
+    /**
+     * createBoard is an asynchronous function that handles the form submission for creating a board.
+     *
+     * @param {Event} event - The form submission event.
+     */
     async function createBoard(event) {
         event.preventDefault()
         const name = document.getElementById("exampleFormControlInput1").value

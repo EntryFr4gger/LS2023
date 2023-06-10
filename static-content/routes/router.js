@@ -1,12 +1,14 @@
 export function Router() {
     let defaultHandeler = null
 
+    // Array to store route handlers
     router.handlers = [];
 
     function router(state) {
         return router.handleRoute(state);
     }
 
+    // Function to handle the route based on the state
     router.handleRoute = function (state) {
         const rotueWithDetails = this.getRouteHandler(state.path)
         if (rotueWithDetails === undefined) {
@@ -18,6 +20,7 @@ export function Router() {
         return rotueWithDetails.handler(state)
     }
 
+    // Function to get the appropriate route handler for a given path
     router.getRouteHandler = function (path, pathParamsP = {}, queryParamsP = {}) {
         let pathParams = pathParamsP
         let queryParams = queryParamsP
@@ -56,12 +59,16 @@ export function Router() {
         return undefined
     }
 
+    // Function to add a route handler to the router
     router.addRouteHandler = function (path, handler) {
         this.handlers.push({path, handler})
     }
+
+    // Function to set the default not found route handler
     router.addDefaultNotFoundRouteHandler = function (defaultH) {
         defaultHandeler = defaultH
     }
+
     return router;
 }
 
@@ -71,6 +78,7 @@ export default Router()
 //Problema: Como as rotas estão defenidas, o path desaparece antes de aparecer o parametro do path...
 
 function isPath(handlerPath, path) {
+    // Check if the path does not start with the initial part of the handlerPath or if the handlerPath is "/"
     if (!path.startsWith(handlerPath.split(":")[0]) || handlerPath === "/") {
         return null
     }
@@ -79,10 +87,13 @@ function isPath(handlerPath, path) {
     const query = path.split("?")
     const pathSlice = path.split("/").slice(1); // remove the first empty string
     let newPath = path.replace(handlerPath, '')
+
+    // Check if the length of pathSlice is not equal to the length of the initial part of handlerPath and if the path does not start with handlerPath
     if (pathSlice.length !== handlerPath.split("/").slice(1).length && !path.startsWith(handlerPath)) {
         return null
     }
 
+    // Extract query parameters from the path
     if (query.length > 1) {
         const queries = query[1].split("&")
         console.log(queries)
@@ -91,6 +102,8 @@ function isPath(handlerPath, path) {
             queryParams[name] = value;
         }
     }
+
+    // Extract path parameter from the pathSlice
     if (pathSlice.length >= 1) {
         const pathParamName = handlerPath.split(":")[1]
         if (pathParamName) {

@@ -2,14 +2,14 @@ import {getUserToken} from "../../../utils/get-token.js";
 
 /**
  * Executes a fetch request to API.
- * Get the set of cards in a list.
+ * Get detailed information of a list.
  *
  * @param {Int} listId list unique identifier.
  *
- * @return {Promise} list of Cards in List.
+ * @return {Promise} a List.
  * */
-export async function GetListCardsFetch(listId) {
-    return await fetch(`lists/${listId}/cards`, {
+export async function GetListDetailsFetch(listId) {
+    return await fetch(`lists/${listId}`, {
         headers: {Authorization: getUserToken()}
     });
 }

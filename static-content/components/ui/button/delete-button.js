@@ -1,5 +1,12 @@
 import {button, form, svg, use} from "../../dom/domTags.js";
 
+/**
+ * DeleteButton component generates a form with a delete button.
+ *
+ * @param {Function} deleteFunc - The function to be executed when the form is submitted (delete action).
+ *
+ * @returns {HTMLElement} - The generated form element with the delete button.
+ */
 export function DeleteButton(deleteFunc) {
     return form(
         {onSubmit: deleteFunc},
