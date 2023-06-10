@@ -20,15 +20,24 @@ export function ModalCard(state, id, cardName, cardDescription, listId) {
             div({class: "modal-dialog"},
                 div({class: "modal-content"},
                     div({class: "modal-header"},
-                        svg({class: "bi me-2 fa-solid fa-list fa-lm", width: "16", height: "16", style:{"padding-top":"8px"}}, use({xlink: "#people-circle"})),
+                        svg({
+                            class: "bi me-2 fa-solid fa-list fa-lm",
+                            width: "16",
+                            height: "16",
+                            style: {"padding-top": "8px"}
+                        }, use({xlink: "#people-circle"})),
                         h5({class: "modal-title", id: `${id}Label`}, cardName),
                         button({type: "button", class: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close"})
                     ),
                     div(
                         {class: "modal-body"},
                         ul(
-                            {class:"list-inline d-flex justify-content-start", style:{"margin-left":"10px"}},
-                            li({class: "list-inline-item"}, svg({class: "bi me-2 fa-regular fa-message", width: "16", height: "16"}, use({xlink: "#people-circle"}))),
+                            {class: "list-inline d-flex justify-content-start", style: {"margin-left": "10px"}},
+                            li({class: "list-inline-item"}, svg({
+                                class: "bi me-2 fa-regular fa-message",
+                                width: "16",
+                                height: "16"
+                            }, use({xlink: "#people-circle"}))),
                             li({class: "list-inline-item"}, p(cardDescription))
                         ),
                         ul(

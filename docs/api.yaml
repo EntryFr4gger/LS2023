@@ -221,12 +221,12 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
-        - name : fields
-          in : query
-          description : fields of a board that we want to get
-          required : false
-          schema :
-            type : string
+        - name: fields
+          in: query
+          description: fields of a board that we want to get
+          required: false
+          schema:
+            type: string
         - name: board_id
           in: path
           description: ID of board that to be fetched
@@ -486,12 +486,12 @@ paths:
       security:
         - bearerAuth: [ ]
       parameters:
-        - name : fields
-          in : query
-          description : fields of a list that we want to get
-          required : false
-          schema :
-            type : string
+        - name: fields
+          in: query
+          description: fields of a list that we want to get
+          required: false
+          schema:
+            type: string
         - name: list_id
           in: path
           description: ID of list that to be fetched

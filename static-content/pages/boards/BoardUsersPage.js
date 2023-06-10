@@ -16,7 +16,7 @@ async function BoardUsersPage(state) {
             div({class: "card-body"},
                 h3({class: "card-title"}, "User on Board"),
             ),
-            ul({class: "list-inline solid"},
+            ul({class: "list-inline solid", style: {overflow: "scroll"}},
                 ...users.map(user =>
                     li(
                         {class: "p-3 solid"},

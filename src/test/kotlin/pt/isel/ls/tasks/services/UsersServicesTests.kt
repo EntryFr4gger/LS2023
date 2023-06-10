@@ -18,7 +18,15 @@ class UsersServicesTests : ClearData() {
     fun `create user correctly`() {
         val id = services.users.createNewUser("Arlindo", "arlindo@gmail.com", "Adsfs123&")
         val user = source.run { source.users.getUserDetails(it, id.id) }
-        assertEquals(User(id.id, "Arlindo", "arlindo@gmail.com", "D12CC6817061AA42A23AE259DED1F419C45D03DB2C2EE02ACC4784A9761D781A"), user)
+        assertEquals(
+            User(
+                id.id,
+                "Arlindo",
+                "arlindo@gmail.com",
+                "D12CC6817061AA42A23AE259DED1F419C45D03DB2C2EE02ACC4784A9761D781A"
+            ),
+            user
+        )
     }
 
     @Test

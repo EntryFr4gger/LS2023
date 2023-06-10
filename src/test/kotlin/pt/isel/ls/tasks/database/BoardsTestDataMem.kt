@@ -74,8 +74,18 @@ class BoardsTestDataMem {
         source.run { conn ->
             assertEquals(
                 listOf(
-                    User(1, "Admin", "Admin@gmail.com", "6593D31A65175D624AFC703A4070DB550D4C7B91C795E431DA9A69E52C1F313E"),
-                    User(2, "Rafa", "rafaelDCosta@outlook.com", "D5989C7FFC36711AF4BD46606D051ECD70A45C581E85428C8B129722C260EBEE")
+                    User(
+                        1,
+                        "Admin",
+                        "Admin@gmail.com",
+                        "6593D31A65175D624AFC703A4070DB550D4C7B91C795E431DA9A69E52C1F313E"
+                    ),
+                    User(
+                        2,
+                        "Rafa",
+                        "rafaelDCosta@outlook.com",
+                        "D5989C7FFC36711AF4BD46606D051ECD70A45C581E85428C8B129722C260EBEE"
+                    )
                 ),
                 boards.getBoardUsers(conn, 2, 1, 1)
             )

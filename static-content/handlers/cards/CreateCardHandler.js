@@ -1,15 +1,16 @@
 import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {CreateCardFetch} from "../../components/api/fetch/cards/CreateCardFetch.js";
 import {ModalCreate} from "../../components/ui/modal/modal-create.js";
+import {DisableAttribute} from "../../components/utils/disable-attribute.js";
 
-function CreateCardHandler(board, list) {
+function CreateCardHandler(boardId, listId) {
 
     async function createCard(event) {
         event.preventDefault()
-        const boardId = board || state.body["boardId"]
-        const listId = list || state.pathParams["list_id"]
-        const name = document.getElementById(`name-card-${list}`).value
-        const description = document.getElementById(`description-card-${list}`).value
+        const name = document.getElementById(`name-card-${listId}`).value
+        const description = document.getElementById(`description-card-${listId}`).value
+
+        DisableAttribute(event.target[2])
 
         if (name.trim() === "" || description.trim() === "")
             alert("Please fill out all fields")
@@ -26,7 +27,7 @@ function CreateCardHandler(board, list) {
         }
     }
 
-    return ModalCreate(createCard, list)
+    return ModalCreate(createCard, listId)
 }
 
 export default CreateCardHandler;

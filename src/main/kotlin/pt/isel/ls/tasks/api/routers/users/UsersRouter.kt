@@ -4,15 +4,18 @@ import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
 import org.http4k.core.Response
+import org.http4k.core.Status
 import org.http4k.core.Status.Companion.CREATED
 import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
+import pt.isel.ls.tasks.api.routers.boards.models.BoardIdDTO
 import pt.isel.ls.tasks.api.routers.users.models.CreateUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.LoginUserDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserDTO
+import pt.isel.ls.tasks.api.routers.users.models.UsersDTO
 import pt.isel.ls.tasks.api.utils.Responde
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
@@ -32,6 +35,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
 
     override val routes = routes(
         "users" bind Method.POST to ::postUser,
+        ("users/{user_id}" bind Method.POST to ::getAllUsers).withFilter(tokenHandeler::filter),
         "users/{user_id}" bind Method.GET to ::getUserDetails,
         "users/{user_id}/login" bind Method.POST to ::loginUser,
         ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(tokenHandeler::filter)
@@ -94,5 +98,19 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
                 request.limitOrDefault(DEFAULT_LIMIT)
             )
         return Responde(OK, UserBoardsDTO(boards))
+    }
+
+    /**
+     * Gets all Users in the database.
+     *
+     * @param request HTTP request that contains the name to search
+     *
+     * @return list of Users.
+     * */
+    private fun getAllUsers(request: Request): Response = errorCatcher {
+        val boardId = Json.decodeFromString<BoardIdDTO>(request.bodyString())
+        val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
+        val users = services.getAllUsers(boardId.id, requestId)
+        return Responde(Status.OK, UsersDTO(users))
     }
 }

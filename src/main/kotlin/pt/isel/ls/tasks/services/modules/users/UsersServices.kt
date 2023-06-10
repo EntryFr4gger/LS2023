@@ -49,7 +49,7 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             val user = source.users.loginUserInfo(conn, email)
 
-            if (hashPassword(user.password) != hashPassword(password)) { // meter uma verificaçao melhor
+            if (user.password != hashPassword(password)) {
                 throw ServicesError.AuthenticationException("Passwords dont match")
             }
 
@@ -89,6 +89,23 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
 
         return source.run { conn ->
             source.users.getUserBoards(conn, skip, limit, requestId)
+        }
+    }
+
+    /**
+     * Gets all Users in the database.
+     *
+     * @param requestId request user unique identifier.
+     *
+     * @return list of Users.
+     * */
+    fun getAllUsers(boardId: Int, requestId: Int): List<User> {
+        isValidUserId(requestId)
+
+        return source.run { conn ->
+            authorizationBoard(conn, boardId, requestId)
+
+            source.users.getAllUsers(conn, boardId)
         }
     }
 }

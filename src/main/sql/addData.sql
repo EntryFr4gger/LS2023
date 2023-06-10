@@ -1,29 +1,47 @@
 BEGIN;
 INSERT INTO Users(name, email, password)
-VALUES ('Bernardo', 'bernardo@isel.pt', 'EDE898F11FBD617FC6306B19ACDDC9456CA7D4E36321BAC98A87531B6738BFAF'), --Abcd1234&1
-       ('Mary Johnson', 'mary.johnson@example.com', 'EDE898F11FBD617FC6306B19ACDDC9456CA7D4E36321BAC98A87531B6738BFAF'), --Abcd1234&1
-       ('David Lee', 'david.lee@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'), --Abcd1234&
+VALUES ('Bernardo', 'bernardo@isel.pt',
+        'EDE898F11FBD617FC6306B19ACDDC9456CA7D4E36321BAC98A87531B6738BFAF'),                                            --Abcd1234&1
+       ('Mary Johnson', 'mary.johnson@example.com',
+        'EDE898F11FBD617FC6306B19ACDDC9456CA7D4E36321BAC98A87531B6738BFAF'),                                            --Abcd1234&1
+       ('David Lee', 'david.lee@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),                                            --Abcd1234&
        ('Karen Wilson', 'karen.wilson@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Robert Miller', 'robert.miller@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Jennifer Jones', 'jennifer.jones@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('William Davis', 'william.davis@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Emily Martinez', 'emily.martinez@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Daniel Johnson', 'daniel.johnson@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Alexis Thompson', 'alexis.thompson@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Matthew Davis', 'matthew.davis@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Sophia Rodriguez', 'sophia.rodriguez@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Gabriel Hernandez', 'gabriel.hernandez@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Olivia Taylor', 'olivia.taylor@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Robert Miller', 'robert.miller@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Jennifer Jones', 'jennifer.jones@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('William Davis', 'william.davis@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Emily Martinez', 'emily.martinez@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Daniel Johnson', 'daniel.johnson@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Alexis Thompson', 'alexis.thompson@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Matthew Davis', 'matthew.davis@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Sophia Rodriguez', 'sophia.rodriguez@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Gabriel Hernandez', 'gabriel.hernandez@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Olivia Taylor', 'olivia.taylor@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
        ('Ethan Wilson', 'ethan.wilson@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Isabella Johnson', 'isabella.johnson@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Isabella Johnson', 'isabella.johnson@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
        ('Aiden Brown', 'aiden.brown@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
        ('Mia Davis', 'mia.davis@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Jackson Taylor', 'jackson.taylor@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Jackson Taylor', 'jackson.taylor@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
        ('Ava Martinez', 'ava.martinez@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Lucas Hernandez', 'lucas.hernandez@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Lucas Hernandez', 'lucas.hernandez@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
        ('Chloe Wilson', 'chloe.wilson@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Logan Johnson', 'logan.johnson@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
-       ('Emma Martinez', 'emma.martinez@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Logan Johnson', 'logan.johnson@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
+       ('Emma Martinez', 'emma.martinez@example.com',
+        'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406'),--Abcd1234&
        ('Noah Davis', 'noah.davis@example.com', 'E5E06F3C000F53DDA3EDC68512EDBCF1581A74E1D5EC90605956D47499E18406');--Abcd1234&
 
 INSERT INTO Tokens (token, user_id)

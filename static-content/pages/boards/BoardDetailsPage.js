@@ -4,6 +4,8 @@ import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js
 import CreateListHandler from "../../handlers/lists/CreateListHandler.js";
 import {createRef} from "../../components/utils/create-ref.js";
 import CreateInfiniteScroll from "../../components/ui/infinite-scroll/CreateInfiniteScroll.js";
+import OffCanvasAddUser from "../../components/ui/off-canvas/off-canvas-add-user.js";
+import AddUserToBoardHandler from "../../handlers/board/AddUserToBoardHandler.js";
 
 
 function BoardDetailsPage(state, loadBoardDetails) {
@@ -44,7 +46,9 @@ function BoardDetailsPage(state, loadBoardDetails) {
                             "Archived Cards"
                         )
                     ),
+
                     OffCanvasCreate("List Create", CreateListHandler(state)),
+                    OffCanvasAddUser("Add User To Board", AddUserToBoardHandler(state))
                 ),
                 hr(),
                 DeleteBoardHandler(state),

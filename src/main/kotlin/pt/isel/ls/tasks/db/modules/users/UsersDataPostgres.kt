@@ -13,8 +13,11 @@ import java.sql.Statement
 class UsersDataPostgres : UsersDB {
 
     companion object {
-        fun ResultSet.toUser() =
+        fun ResultSet.toUserWithPass() =
             User(getInt(1), getString(2), getString(3), getString(4))
+
+        fun ResultSet.toUser() =
+            User(getInt(1), getString(2), getString(3))
     }
 
     override fun createNewUser(conn: TransactionManager, name: String, email: String, password: String): Int {
@@ -41,7 +44,7 @@ class UsersDataPostgres : UsersDB {
 
         val res = obj.executeQuery()
         if (res.next()) {
-            return res.toUser()
+            return res.toUserWithPass()
         } else {
             throw NotFoundException("Couldn't get User with email($email) Details")
         }
@@ -49,7 +52,7 @@ class UsersDataPostgres : UsersDB {
 
     override fun getUserDetails(conn: TransactionManager, userId: Int): User {
         val obj = conn.connection().prepareStatement(
-            "SELECT * FROM users WHERE id = ?"
+            "SELECT id, name, email FROM users WHERE id = ?"
         )
         obj.setInt(1, userId)
 
@@ -84,6 +87,22 @@ class UsersDataPostgres : UsersDB {
         )
         res.setInt(1, boardId)
         if (res.executeUpdate() == 0) throw SQLException("UserBoard($boardId) delete was unsuccessful")
+    }
+
+    override fun getAllUsers(conn: TransactionManager, boardId: Int): List<User> {
+        val prp = conn.connection().prepareStatement(
+            "SELECT DISTINCT ON (id) id, name, email FROM users u JOIN user_board ub ON ub.user_id = u.id WHERE user_id NOT IN (SELECT DISTINCT user_id FROM user_board ub where ub.board_id = ?)"
+        )
+
+        prp.setInt(1, boardId)
+
+        val res = prp.executeQuery()
+
+        val users = mutableListOf<User>()
+        while (res.next())
+            users += res.toUser()
+
+        return users
     }
 
     override fun hasUserEmail(conn: TransactionManager, email: String): Boolean {

@@ -1,7 +1,7 @@
-import {UpdateCardFetch} from "../../../api/fetch/cards/UpdateCardFetch.js";
 import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
 import {GetListCardsFetch} from "../../../api/fetch/lists/GetListCardsFetch.js";
+import {RepositionCardFetch} from "../../../api/fetch/cards/RepositionCardFetch.js";
 
 export async function ChangeCixCard(state, listId, cardId) {
 
@@ -17,7 +17,7 @@ export async function ChangeCixCard(state, listId, cardId) {
 
         const value = Number(event.submitter.id) + 1
 
-        const response = await UpdateCardFetch(cardId, listId, value)
+        const response = await RepositionCardFetch(listId, cardId, value)
 
         const updated = await response.json()
 

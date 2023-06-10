@@ -1,5 +1,5 @@
 import {GetBoardListsFetch} from "../../../api/fetch/boards/GetBoardListsFetch.js";
-import {UpdateCardFetch} from "../../../api/fetch/cards/UpdateCardFetch.js";
+import {MoveCardFetch} from "../../../api/fetch/cards/MoveCardFetch.js";
 import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {a, button, div, form, li, strong, ul} from "../../../dom/domTags.js";
 
@@ -21,7 +21,7 @@ export async function UnarchiveCard(state, card) {
         const listId = split[0]
         const cardId = split[1]
 
-        const response = await UpdateCardFetch(cardId, listId)
+        const response = await MoveCardFetch(cardId, listId)
 
         //const updated = await response.json()
 

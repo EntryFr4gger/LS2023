@@ -1,6 +1,7 @@
 import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {CreateBoardFetch} from "../../components/api/fetch/boards/CreateBoardFetch.js";
 import {FormCreateBoard} from "../../components/ui/pagination/boards/FormCreateBoard.js";
+import {DisableAttribute} from "../../components/utils/disable-attribute.js";
 
 function CreateBoardHandler() {
 
@@ -8,6 +9,8 @@ function CreateBoardHandler() {
         event.preventDefault()
         const name = document.getElementById("exampleFormControlInput1").value
         const description = document.getElementById("validationTextarea").value
+
+        DisableAttribute(event.target[2])
 
         const response = await CreateBoardFetch(name, description)
 

@@ -1,8 +1,7 @@
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
 import {GetBoardListsFetch} from "../../../api/fetch/boards/GetBoardListsFetch.js";
 import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
-import {UpdateCardFetch} from "../../../api/fetch/cards/UpdateCardFetch.js";
-import ArchivedCardsPage from "../../../../pages/cards/ArchivedCardsPage.js";
+import {MoveCardFetch} from "../../../api/fetch/cards/MoveCardFetch.js";
 
 export async function UpdateCard(state, listId, cardId) {
 
@@ -24,14 +23,14 @@ export async function UpdateCard(state, listId, cardId) {
         const listId = split[0]
         const cardId = split[1]
 
-        const response = await UpdateCardFetch(cardId, listId)
+        const response = await MoveCardFetch(cardId, listId)
 
         const json = await response.json()
 
         if (response.ok) {
             hashChangeLoc(`#boards/${boardId}`)
         } else
-        alert(json.error)
+            alert(json.error)
     }
 
     return div(

@@ -1,4 +1,4 @@
-import {a, div, form, input, nav} from "../../components/dom/domTags.js";
+import {a, div, nav} from "../../components/dom/domTags.js";
 import UserDropdownInfo from "../../handlers/user/organize/UserDropdownInfo.js"
 import LoginRegister from "../../handlers/user/organize/LoginRegister.js";
 import {getUser} from "../../components/utils/get-user.js";

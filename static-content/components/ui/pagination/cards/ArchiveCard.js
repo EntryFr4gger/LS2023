@@ -1,4 +1,4 @@
-import {UpdateCardFetch} from "../../../api/fetch/cards/UpdateCardFetch.js";
+import {MoveCardFetch} from "../../../api/fetch/cards/MoveCardFetch.js";
 import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
 
@@ -9,9 +9,9 @@ export async function ArchiveCard(state, cardId) {
     async function arqCard(event) {
         event.preventDefault()
 
-        const response = await UpdateCardFetch(cardId, null)
+        const response = await MoveCardFetch(cardId)
 
-        //const json = await response.json()
+        const json = await response.json()
 
         hashChangeLoc(`#boards/${boardId}`)
     }
@@ -24,7 +24,7 @@ export async function ArchiveCard(state, cardId) {
                 type: "button",
                 "data-bs-toggle": "dropdown",
                 "aria-expanded": "false",
-                "data-bs-offset":"-6,10"
+                "data-bs-offset": "-6,10"
             },
             "Archive"
         ),

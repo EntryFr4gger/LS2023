@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "esm": "^3.2.25",
+    "mocha": "^10.2.0"
+  },
+  "scripts": {
+    "test": "mocha -r esm -r ts-node / register test/**/*.test.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.22.5",
+    "@babel/register": "^7.22.5",
+    "ts-node": "^10.9.1"
+  }
+}

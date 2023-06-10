@@ -1,12 +1,15 @@
 import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {CreateListFetch} from "../../components/api/fetch/lists/CreateListFetch.js";
 import {FormCreateList} from "../../components/ui/pagination/lists/FormCreateList.js";
+import {DisableAttribute} from "../../components/utils/disable-attribute.js";
 
 function CreateListHandler(state) {
     async function createList(event) {
         event.preventDefault()
         const boardId = state.pathParams["board_id"]
         const name = document.getElementById("exampleFormControlInput1").value
+
+        DisableAttribute(event.target[1])
 
         const response = await CreateListFetch(name, boardId)
 

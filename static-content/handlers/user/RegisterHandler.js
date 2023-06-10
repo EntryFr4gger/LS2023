@@ -2,6 +2,7 @@ import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {CreateUserFetch} from "../../components/api/fetch/users/CreateUserFetch.js";
 import RegisterPage from "../../pages/users/RegisterPage.js";
 import {userIdStorage} from "../../components/utils/get-user.js";
+import {DisableAttribute} from "../../components/utils/disable-attribute.js";
 
 async function RegisterHandler() {
 
@@ -11,6 +12,8 @@ async function RegisterHandler() {
         const lastName = document.getElementById("register-last-name").value
         const email = document.getElementById("register-email").value
         const password = document.getElementById("register-password").value
+
+        DisableAttribute(event.target[4])
 
         const response =
             await CreateUserFetch(

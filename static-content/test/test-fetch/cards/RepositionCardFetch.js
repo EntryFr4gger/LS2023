@@ -1,12 +1,12 @@
 import {getUserToken} from "../../../utils/get-token.js";
 
-export async function UpdateCardFetch(cardId, lid, cix = 1) {
+export async function RepositionCardFetch(listId, cardId, cix) {
 
-    return await fetch(`cards/${cardId}`, {
+    return await fetch(`lists/${listId}/cards`, {
         method: "PUT",
         headers: {Authorization: getUserToken()},
         body: JSON.stringify(
-            {lid, cix}
+            {cardId, cix}
         )
     });
 }

@@ -18,7 +18,7 @@
 
 .scroll-div {
     width: 80vw;
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: auto;
     text-align: center;
     padding: 2%;
