@@ -3,14 +3,14 @@ import SafeFetch from "../../../utils/safe-fetch.js";
 
 /**
  * Executes a fetch request to API.
- * Get the list with the users of a board.
+ * Get the cards on a board.
  *
  * @param {Number} boardId board unique identifier.
  *
- * @return {Promise} list of Users in a board.
+ * @return {Promise} list of cards in a board.
  * */
-export async function GetBoardUsersFetch(boardId) {
-    return await SafeFetch(`boards/${boardId}/users`, {
+export async function GetBoardCardsArchivedFetch(boardId) {
+    return await SafeFetch(`boards/${boardId}/cards?archived`, {
         headers: {Authorization: getUserToken()}
     });
 }

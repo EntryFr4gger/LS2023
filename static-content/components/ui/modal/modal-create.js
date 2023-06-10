@@ -5,7 +5,7 @@ import {button, div, form, h5, i, input, label, textarea} from "../../dom/domTag
  * It includes a button that triggers the modal and a form for entering card details.
  *
  * @param {function} func - The function to be called on form submission.
- * @param {Int} id - The unique identifier of the modal.
+ * @param {Number} id - The unique identifier of the modal.
  *
  * @returns {Promise<HTMLElement>} The modal create an element.
  */

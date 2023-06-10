@@ -15,7 +15,7 @@ async function NotFoundPage(state, error) {
         br(),
         h1("Error"),
         br(),
-        p(error)
+        p(error.message)
     )
 }
 

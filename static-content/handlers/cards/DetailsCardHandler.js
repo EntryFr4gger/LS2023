@@ -13,16 +13,13 @@ async function DetailsCardHandler(state) {
     if (isNaN(cardId))
         throw ("Invalid param id");
 
-    const response = await GetCardDetailsFetch(cardId)
+    const card = await GetCardDetailsFetch(cardId)
 
-    const json = await response.json()
-
-    if (response.ok) {
-        state.body = json
+    if (card) {
+        state.body = card
 
         return CardDetailsPage(state)
-    } else
-        alert(json.error)
+    }
 }
 
 export default DetailsCardHandler;

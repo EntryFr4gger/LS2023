@@ -1,7 +1,7 @@
 import {a, div, nav} from "../../components/dom/domTags.js";
-import UserDropdownInfo from "../../handlers/user/organize/UserDropdownInfo.js"
-import LoginRegister from "../../handlers/user/organize/LoginRegister.js";
-import {getUser} from "../../components/utils/get-user.js";
+import UserDropdownHandler from "../../handlers/user/UserDropdownHandler.js"
+import LoginRegister from "../../components/ui/pagination/users/LoginRegister.js";
+import {getUser} from "../../components/utils/storage/get-user.js";
 import SearchHandler from "../../handlers/_default/SearchHandler.js";
 
 /**
@@ -23,7 +23,7 @@ function NavBar() {
 
             userId == null
                 ? LoginRegister()
-                : UserDropdownInfo()
+                : UserDropdownHandler()
         )
     )
 }

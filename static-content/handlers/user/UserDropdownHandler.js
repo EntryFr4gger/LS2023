@@ -1,14 +1,14 @@
-import {a, div, hr, img, li, strong, ul} from "../../../components/dom/domTags.js";
-import {getUser, userIdStorage} from "../../../components/utils/get-user.js";
-import {userTokenStorage} from "../../../components/utils/get-token.js";
-import {hashChangeLoc} from "../../../components/utils/hash-change-loc.js";
+import {a, div, hr, img, li, strong, ul} from "../../components/dom/domTags.js";
+import {getUser, userIdStorage} from "../../components/utils/storage/get-user.js";
+import {userTokenStorage} from "../../components/utils/storage/get-token.js";
+import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 
 /**
- * UserDropdownInfo is an asynchronous function that returns a dropdown menu component for user-specific options.
+ * UserDropdownHandler is an asynchronous function that returns a dropdown menu component for user-specific options.
  *
  * @returns {HTMLElement} The dropdown menu component for user-specific options.
  */
-async function UserDropdownInfo() {
+async function UserDropdownHandler() {
 
     /**
      * logout is a function that handles the user logout.
@@ -18,8 +18,8 @@ async function UserDropdownInfo() {
     function logout(event) {
         event.preventDefault()
 
-        localStorage.removeItem(userIdStorage);
-        localStorage.removeItem(userTokenStorage);
+        sessionStorage.removeItem(userIdStorage);
+        sessionStorage.removeItem(userTokenStorage);
 
         hashChangeLoc(`#`)
     }
@@ -47,4 +47,4 @@ async function UserDropdownInfo() {
     )
 }
 
-export default UserDropdownInfo;
+export default UserDropdownHandler;

@@ -27,31 +27,25 @@ async function DetailsBoardHandler(state) {
      * @returns {Array} An array of promises for rendering the lists and cards.
      */
     async function loadBoardDetails(listsToLoad) {
-        const response = await GetBoardListsFetch(id, listSkip, listsToLoad)
+        const {lists} = await GetBoardListsFetch(id, listSkip, listsToLoad)
 
-        const {lists} = await response.json()
-
-        if (response.ok) {
+        if (lists) {
             listSkip += lists.length;
 
             return lists.map(async list => {
-                const resCard = await GetListCardsFetch(list.id)
-                const cards = await resCard.json()
+                const cards = await GetListCardsFetch(list.id)
+
                 return ListOfLists(state, list, cards.cards);
             })
-        } else
-            alert(lists.error)
+        }
     }
 
-    const response = await GetBoardDetailsFetch(id)
+    const board = await GetBoardDetailsFetch(id)
 
-    const json = await response.json()
-
-    if (response.ok) {
-        state.body = json
+    if (board) {
+        state.body = board
         return BoardDetailsPage(state, loadBoardDetails)
-    } else
-        alert(json.error)
+    }
 }
 
 export default DetailsBoardHandler;

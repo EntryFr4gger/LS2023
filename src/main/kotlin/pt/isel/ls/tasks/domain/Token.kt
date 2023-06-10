@@ -25,7 +25,7 @@ class Token(val token: String, val userId: Int) {
 
     init {
         require(isValidToken(token)) { "Invalid token" }
-        require(!isValidId(userId)) { "Invalid user id" }
+        require(isValidId(userId)) { "Invalid user id" }
     }
 }
 

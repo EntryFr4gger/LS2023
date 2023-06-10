@@ -28,7 +28,7 @@ import pt.isel.ls.tasks.services.modules.users.UsersServices
 class UsersRouter(private val services: UsersServices, private val tokenHandeler: TokenUtil) : TasksRouter {
     companion object {
         private const val DEFAULT_SKIP = 0
-        private const val DEFAULT_LIMIT = 10
+        private const val DEFAULT_LIMIT = Int.MAX_VALUE
 
         fun routes(services: UsersServices, tokenHandeler: TokenUtil) = UsersRouter(services, tokenHandeler).routes
     }
@@ -111,6 +111,6 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
         val boardId = Json.decodeFromString<BoardIdDTO>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val users = services.getAllUsers(boardId.id, requestId)
-        return Responde(Status.OK, UsersDTO(users))
+        return Responde(OK, UsersDTO(users))
     }
 }

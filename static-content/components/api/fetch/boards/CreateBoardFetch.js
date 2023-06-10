@@ -1,4 +1,5 @@
-import {getUserToken} from "../../../utils/get-token.js";
+import {getUserToken} from "../../../utils/storage/get-token.js";
+import SafeFetch from "../../../utils/safe-fetch.js";
 
 /**
  * Executes a fetch request to API.
@@ -10,7 +11,7 @@ import {getUserToken} from "../../../utils/get-token.js";
  * @return {Promise} new board unique identifier.
  * */
 export async function CreateBoardFetch(name, description) {
-    return await fetch(`boards/`, {
+    return await SafeFetch(`boards/`, {
         method: "POST",
         headers: {Authorization: getUserToken()},
         body: JSON.stringify({name, description})

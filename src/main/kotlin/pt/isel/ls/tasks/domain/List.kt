@@ -21,8 +21,8 @@ data class List(
     }
 
     init {
-        require(!isValidId(id)) { "Invalid list id" }
+        require(isValidId(id)) { "Invalid list id" }
         require(isValidName(name)) { "Invalid list name" }
-        require(!isValidId(boardId)) { "Invalid board id" }
+        require(isValidId(boardId)) { "Invalid board id" }
     }
 }

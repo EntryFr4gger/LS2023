@@ -18,14 +18,9 @@ function CreateListHandler(state) {
 
         DisableAttribute(event.target[1])
 
-        const response = await CreateListFetch(name, boardId)
+        const listId = await CreateListFetch(name, boardId)
 
-        const listId = await response.json()
-
-        if (response.ok)
-            hashChangeLoc(`#boards/${boardId}`)
-        else
-            alert(listId.error)
+        if (listId) hashChangeLoc(`#boards/${boardId}`)
     }
 
     return FormCreateList(createList)

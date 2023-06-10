@@ -19,23 +19,20 @@ async function SearchBoardsHandler(state) {
     /**
      * loadBoards is an asynchronous function that loads the search results and renders the boards.
      *
-     * @param {Int} boardsToLoad - The number of boards to load.
+     * @param {Number} boardsToLoad - The number of boards to load.
      *
      * @returns {Array} An array of promises for rendering the boards.
      */
     async function loadBoards(boardsToLoad) {
-        const response = await SearchBoardsFetch(name, boardSkip, boardsToLoad)
+        const {boards} = await SearchBoardsFetch(name, boardSkip, boardsToLoad)
 
-        const {boards} = await response.json()
-
-        if (response.ok) {
+        if (boards) {
             boardSkip += boards.length;
 
             return boards.map(async board => {
                 return ListOfBoards(board);
             })
-        } else
-            alert(boards.error)
+        }
     }
 
     return BoardsPage(state, loadBoards)

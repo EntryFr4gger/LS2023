@@ -9,5 +9,5 @@ export const userTokenStorage = "userToken"
  * @returns {string|null} The user token if it exists, or null if it doesn't.
  */
 export function getUserToken() {
-    return localStorage.getItem("userToken")
+    return sessionStorage.getItem("userToken")
 }

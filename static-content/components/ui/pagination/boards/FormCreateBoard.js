@@ -14,14 +14,14 @@ export async function FormCreateBoard(createBoard) {
         div(
             {class: "mb-3"},
             label(
-                {for: "exampleFormControlInput1", class: "form-label"},
+                {for: "board-name", class: "form-label"},
                 "Enter board name"
             ),
             input(
                 {
                     type: "name",
                     class: "form-control",
-                    id: "exampleFormControlInput1",
+                    id: "board-name",
                     placeholder: "Board name",
                     required: true
                 }
@@ -29,10 +29,10 @@ export async function FormCreateBoard(createBoard) {
             div({class: "invalid-feedback"}, "Please enter a name")
         ),
         div({class: "mb-3"},
-            label({for: "validationTextarea", class: "form-label"}, "Description"),
+            label({for: "board-description", class: "form-label"}, "Description"),
             textarea({
                 class: "form-control",
-                id: "validationTextarea",
+                id: "board-description",
                 placeholder: "Required board description",
                 maxLength: "1000",
                 required: true

@@ -27,7 +27,7 @@ data class User(
     }
 
     init {
-        require(!isValidId(id)) { "Invalid user id" }
+        require(isValidId(id)) { "Invalid user id" }
         require(isValidName(name)) { "Invalid user name" }
         require(isValidEmail(email)) { "Invalid user email" }
     }

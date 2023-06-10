@@ -8,7 +8,7 @@ import GetAllUsersHandler from "../user/GetAllUsersHandler.js";
  *
  * @param {Object} state - The state object containing the necessary data.
  *
- * @returns {Promise} A promise that resolves to the rendered form for adding a user to a board.
+ * @returns {HTMLElement} A promise that resolves to the rendered form for adding a user to a board.
  */
 async function AddUserToBoardHandler(state) {
 
@@ -26,15 +26,12 @@ async function AddUserToBoardHandler(state) {
         const found = Array.from(options).filter(option => option.label === value)
 
         if (found.length !== 0) {
+            const userId = found[0].getAttribute('data-value')
 
-            const response = await AddUserToBoardFetch(boardId, found[0].getAttribute('data-value'))
+            const response = await AddUserToBoardFetch(boardId, userId)
 
-            const json = await response.json()
-
-            if (response.ok)
+            if (response)
                 hashChangeLoc(`#boards/${boardId}/users`)
-            else
-                alert(json.error)
         } else {
             alert("That email doesn't exist")
         }

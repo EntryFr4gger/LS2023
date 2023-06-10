@@ -2,12 +2,13 @@ import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {CreateCardFetch} from "../../components/api/fetch/cards/CreateCardFetch.js";
 import {ModalCreate} from "../../components/ui/modal/modal-create.js";
 import {DisableAttribute} from "../../components/utils/disable-attribute.js";
+import {RemoveAttribute} from "../../components/utils/remove-attribute.js";
 
 /**
  * CreateCardHandler is a function that handles creating a new card for a specific board and list.
  *
- * @param {Int} boardId - The ID of the board where the card will be created.
- * @param {Int} listId - The ID of the list where the card will be created.
+ * @param {Number} boardId - The ID of the board where the card will be created.
+ * @param {Number} listId - The ID of the list where the card will be created.
  *
  * @returns {Function} A function that handles the creation of a new card.
  */
@@ -25,18 +26,14 @@ function CreateCardHandler(boardId, listId) {
 
         DisableAttribute(event.target[2])
 
-        if (name.trim() === "" || description.trim() === "")
+        if (name.trim() === "" || description.trim() === "") {
             alert("Please fill out all fields")
-        else {
-            const response =
-                await CreateCardFetch(name, description, boardId, listId)
+            RemoveAttribute(event.target[2])
+        } else {
+            const cardId = await CreateCardFetch(name, description, boardId, listId)
 
-            const json = await response.json()
-
-            if (response.ok)
+            if (cardId)
                 hashChangeLoc(`#boards/${boardId}`)
-            else
-                alert(json.error)
         }
     }
 

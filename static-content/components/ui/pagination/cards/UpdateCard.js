@@ -1,48 +1,15 @@
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
-import {GetBoardListsFetch} from "../../../api/fetch/boards/GetBoardListsFetch.js";
-import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
-import {MoveCardFetch} from "../../../api/fetch/cards/MoveCardFetch.js";
 
 /**
- * UpdateCard is a function that returns a dropdown menu for updating the list of a card.
- * It includes a list of options representing the available lists to move the card.
+ * Creates a dropdown menu with options to update the list of a card.
  *
- * @param {object} state - The state object containing application state.
- * @param {Int} listId - The ID of the current list containing the card.
- * @param {Int} cardId - The ID of the card to be updated.
+ * @param {Function} updateCard - The function to handle updating the list of the card.
+ * @param {Object[]} listNamesMove - The list of names for the dropdown options.
+ * @param {number} cardId - The ID of the card to be updated.
  *
- * @returns {HTMLElement} The dropdown menu element for updating the card's list.
+ * @returns {Promise<HTMLElement>} The dropdown menu with options to update the card list.
  */
-export async function UpdateCard(state, listId, cardId) {
-
-    const boardId = state.body["id"]
-
-    const response = await GetBoardListsFetch(boardId, 0, 100)
-
-    const listNames = await response.json()
-
-    const listNamesMove = listNames.lists.filter(list => list.id !== listId)
-
-    async function updateCard(event) {
-        event.preventDefault()
-
-        const value = event.submitter.id
-
-        const split = value.split("-")
-
-        const listId = split[0]
-        const cardId = split[1]
-
-        const response = await MoveCardFetch(cardId, listId)
-
-        const json = await response.json()
-
-        if (response.ok) {
-            hashChangeLoc(`#boards/${boardId}`)
-        } else
-            alert(json.error)
-    }
-
+export function UpdateCard(updateCard, listNamesMove, cardId) {
     return div(
         {class: "dropdown dropend"},
         button(

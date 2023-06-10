@@ -1,4 +1,4 @@
-import {button, div, form, h2, input, label, section} from "../../components/dom/domTags.js";
+import {button, div, form, h2, input, section} from "../../components/dom/domTags.js";
 
 /**
  * LoginPage is a function that generates the login page component.
@@ -42,19 +42,6 @@ function LoginPage(loginUser) {
                                     class: "form-control",
                                     placeholder: "Password"
                                 }),
-                            ),
-                            div({class: "form-check d-flex justify-content-center mb-4"},
-                                input({
-                                    class: "form-check-input me-2",
-                                    type: "checkbox",
-                                    value: "",
-                                    id: "form2Example33",
-                                    checked: ""
-                                }),
-                                label({
-                                    class: "form-check-label",
-                                    for: "form2Example33"
-                                }, "Remember me")
                             ),
                             button({type: "submit", class: "btn btn-primary btn-block mb-4"}, "Login"),
                         )

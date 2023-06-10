@@ -4,10 +4,10 @@
 export const userIdStorage = "userId"
 
 /**
- * getUser is a function that retrieves the user ID from sessionStorage.
+ * userStorage is a function that retrieves the user ID from sessionStorage.
  *
  * @returns {string|null} The user ID if it exists, or null if it doesn't.
  */
 export function getUser() {
-    return localStorage.getItem(userIdStorage)
+    return sessionStorage.getItem(userIdStorage)
 }

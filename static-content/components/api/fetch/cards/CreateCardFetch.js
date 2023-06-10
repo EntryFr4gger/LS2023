@@ -1,4 +1,5 @@
-import {getUserToken} from "../../../utils/get-token.js";
+import {getUserToken} from "../../../utils/storage/get-token.js";
+import SafeFetch from "../../../utils/safe-fetch.js";
 
 /**
  * Executes a fetch request to API.
@@ -6,13 +7,13 @@ import {getUserToken} from "../../../utils/get-token.js";
  *
  * @param {String} name the task name.
  * @param {String} description the task description.
- * @param {Int} boardId board unique identifier.
- * @param {Int} listId list unique identifier.
+ * @param {Number} boardId board unique identifier.
+ * @param {Number} listId list unique identifier.
  *
  * @return {Promise} new card unique identifier.
  * */
 export async function CreateCardFetch(name, description, boardId, listId) {
-    return await fetch(`cards/`, {
+    return await SafeFetch(`cards/`, {
         method: "POST",
         headers: {Authorization: getUserToken()},
         body: JSON.stringify(

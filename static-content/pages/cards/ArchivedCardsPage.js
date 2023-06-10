@@ -1,5 +1,5 @@
 import {a, div, h3, h5, img, li, ul} from "../../components/dom/domTags.js";
-import {UnarchiveCard} from "../../components/ui/pagination/cards/UnarchiveCard.js";
+import {UnarchiveCardHandler} from "../../handlers/cards/UnarchiveCardHandler.js";
 
 /**
  * ArchivedCardsPage is a function that generates the archived cards page component.
@@ -31,7 +31,7 @@ function ArchivedCardsPage(state) {
                         li({class: "list-inline-item p-3"}, h5(currentCard['name'])),
                         li(
                             {class: "list-inline-item ms-auto p-2"},
-                            UnarchiveCard(state, currentCard)
+                            UnarchiveCardHandler(state, currentCard)
                         )
                     )
                 )

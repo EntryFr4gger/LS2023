@@ -1,30 +1,13 @@
-import {MoveCardFetch} from "../../../api/fetch/cards/MoveCardFetch.js";
-import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {button, div, form, li, ul} from "../../../dom/domTags.js";
 
 /**
- * ArchiveCard is a function that returns a dropdown menu for archiving a card.
- * It includes a confirmation prompt with options to archive the card.
+ * Creates a dropdown menu with an "Archive" option.
  *
- * @param {object} state - The state object containing application state.
- * @param {Int} cardId - The ID of the card to be archived.
+ * @param {Function} archiveCard - The function to handle archiving of the card.
  *
- * @returns {HTMLElement} The dropdown menu element for archiving the card.
+ * @returns {Promise<HTMLElement>} The dropdown menu with the "Archive" option.
  */
-export async function ArchiveCard(state, cardId) {
-
-    const boardId = state.pathParams["board_id"]
-
-    async function arqCard(event) {
-        event.preventDefault()
-
-        const response = await MoveCardFetch(cardId)
-
-        const json = await response.json()
-
-        hashChangeLoc(`#boards/${boardId}`)
-    }
-
+export function ArchiveCard(archiveCard) {
     return div(
         {class: "dropdown dropend"},
         button(
@@ -40,14 +23,14 @@ export async function ArchiveCard(state, cardId) {
         ul(
             {class: "dropdown-menu"},
             form(
-                {onSubmit: arqCard},
+                {onSubmit: archiveCard},
                 li(
                     button(
                         {class: "dropdown-item", type: "submit", "data-bs-dismiss": "modal", "aria-label": "Close"},
                         "Yes"
                     )
                 )
-            ),
+            )
         )
     )
 }

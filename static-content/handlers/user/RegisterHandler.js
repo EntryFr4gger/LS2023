@@ -1,8 +1,9 @@
 import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {CreateUserFetch} from "../../components/api/fetch/users/CreateUserFetch.js";
 import RegisterPage from "../../pages/users/RegisterPage.js";
-import {userIdStorage} from "../../components/utils/get-user.js";
 import {DisableAttribute} from "../../components/utils/disable-attribute.js";
+import {setUser} from "../../components/utils/storage/set-user.js";
+import {setToken} from "../../components/utils/storage/set-token.js";
 
 /**
  * Handles the registration process.
@@ -25,19 +26,19 @@ async function RegisterHandler() {
 
         DisableAttribute(event.target[4])
 
-        const response =
+        const userInfo =
             await CreateUserFetch(
                 `${firstName} ${lastName}`,
                 email,
                 password
             )
 
-        const json = await response.json()
+        if (userInfo) {
+            setUser(userInfo.id)
+            setToken(userInfo.token)
 
-        localStorage.setItem(userIdStorage, json.id)
-        localStorage.setItem("userToken", `Bearer ${json.token}`)
-
-        hashChangeLoc(`#`)
+            hashChangeLoc(`#`)
+        }
     }
 
     return RegisterPage(registerUser)

@@ -1,9 +1,9 @@
-import {userIdStorage} from "../../components/utils/get-user.js";
 import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
 import {LoginUserFetch} from "../../components/api/fetch/users/LoginUserFetch.js";
 import LoginPage from "../../pages/users/LoginPage.js";
-import {userTokenStorage} from "../../components/utils/get-token.js";
 import {DisableAttribute} from "../../components/utils/disable-attribute.js";
+import {setUser} from "../../components/utils/storage/set-user.js";
+import {setToken} from "../../components/utils/storage/set-token.js";
 
 /**
  * LoginHandler is an asynchronous function that handles the login functionality.
@@ -23,21 +23,16 @@ async function LoginHandler() {
         const email = document.getElementById("register-email").value
         const password = document.getElementById("register-password").value
 
-        DisableAttribute(event.target[3])
+        DisableAttribute(event.target[2])
 
-        const response =
-            await LoginUserFetch(email, password)
+        const userInfo = await LoginUserFetch(email, password)
 
-        const json = await response.json()
 
-        if(response.ok){
-            localStorage.setItem(userIdStorage, json.id)
-            localStorage.setItem(userTokenStorage, `Bearer ${json.token}`)
+        if (userInfo) {
+            setUser(userInfo.id)
+            setToken(userInfo.token)
 
             hashChangeLoc(`#`)
-        }
-        else{
-            alert(json.error)
         }
     }
 

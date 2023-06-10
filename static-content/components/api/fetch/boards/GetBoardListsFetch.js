@@ -1,20 +1,22 @@
-import {getUserToken} from "../../../utils/get-token.js";
+import {getUserToken} from "../../../utils/storage/get-token.js";
+import SafeFetch from "../../../utils/safe-fetch.js";
+import {SetNotNull} from "../../../utils/set-not-null.js";
 
 /**
  * Executes a fetch request to API.
  * Get the lists on a board.
  *
- * @param {Int} boardId board unique identifier.
- * @param {Int} skip skip database tables.
- * @param {Int} limit limit database tables.
+ * @param {Number} boardId board unique identifier.
+ * @param {number} skip skip database tables.
+ * @param {number} limit limit database tables.
  *
  * @return {Promise} list of Lists in a board.
  * */
-export async function GetBoardListsFetch(boardId, skip, limit) {
+export async function GetBoardListsFetch(boardId, skip = undefined, limit = undefined) {
     const params = new URLSearchParams()
-    params.set("skip", skip)
-    params.set("limit", limit)
-    return await fetch(`boards/${boardId}/lists?${params}`, {
+    SetNotNull("skip", skip, params)
+    SetNotNull("limit", limit, params)
+    return await SafeFetch(`boards/${boardId}/lists?${params}`, {
         headers: {Authorization: getUserToken()}
     });
 }
