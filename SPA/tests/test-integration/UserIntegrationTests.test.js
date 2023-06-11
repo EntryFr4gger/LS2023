@@ -1,7 +1,9 @@
 import {GetUserDetailsFetch} from "../../static-content/components/api/fetch/users/GetUserDetailsFetch";
 import {CreateUserFetch} from "../../static-content/components/api/fetch/users/CreateUserFetch";
 import {CreateBoardFetch} from "../../static-content/components/api/fetch/boards/CreateBoardFetch";
-import {GetAllUsers} from "../../static-content/components/api/fetch/users/GetAllUsers";
+import {GetAllUsersNotInBoard} from "../../static-content/components/api/fetch/users/GetAllUsersNotInBoard";
+import {GetUserBoardsFetch} from "../../static-content/components/api/fetch/users/GetUserBoardsFetch";
+import {LoginUserFetch} from "../../static-content/components/api/fetch/users/LoginUserFetch";
 
 jest.mock("../../../SPA/static-content/components/utils/storage/get-token.js", () => ({
     getUserToken: jest.fn(() => global.BToken),
@@ -36,10 +38,19 @@ describe("Users Integration Tests", () => {
 
     });
 
-    it("Gets all Users in the user board", async () => {
-        console.log(global.BoardID)
-        const response = await GetAllUsers(global.BoardID);
-        console.log(global.BoardID)
-        expect(response.users).not.toContain({})
+    it("Gets all Users that is not in the board", async () => {
+        const response = await GetAllUsersNotInBoard(global.BoardID);
+        expect(response.users).not.toContain({id:UID, name : userName, email : email, password: " "})
     });
+
+    it("Gets all board", async () => {
+        const response = await GetUserBoardsFetch(global.UID);
+        expect(response.boards).toEqual([{id: global.BoardID, name: BName, description : BDescription}])
+    });
+
+    it("Logins a user", async () => {
+        const response = await LoginUserFetch(email,password);
+        expect(response.id).toEqual(global.UID);
+    });
+
 });
