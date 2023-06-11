@@ -42,7 +42,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a card id.
      * */
-    fun respositionCard(listId: Int, cardId: Int, cix: Int, requestId: Int): Int {
+    fun respositionCard(listId: Int, cardId: Int, cix: Int, requestId: Int) {
         isValidListId(listId)
         isValidUserId(requestId)
         isValidCardId(cardId)
@@ -52,7 +52,6 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
             authorizationCard(conn, cardId, requestId)
             authorizationList(conn, listId, requestId)
             organizeListCards(conn, listId, cardId, cix)
-            cardId
         }
     }
 
@@ -109,7 +108,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteList(listId: Int, requestId: Int): _List {
+    fun deleteList(listId: Int, requestId: Int):Boolean {
         isValidListId(listId)
 
         return source.run { conn ->

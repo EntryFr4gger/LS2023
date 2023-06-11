@@ -61,11 +61,8 @@ class BoardsDataPostgres : BoardsDB {
         prp.setInt(1, boardId)
 
         val res = prp.executeQuery()
-        if (res.next()) {
-            return res.toBoard()
-        } else {
-            throw NotFoundException("Couldn't get Board($boardId) Details")
-        }
+
+        return if(res.next()) res.toBoard() else throw NotFoundException("Couldn't get Board($boardId) Details")
     }
 
     override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> {
@@ -159,13 +156,13 @@ class BoardsDataPostgres : BoardsDB {
         return boards
     }
 
-    override fun deleteBoard(conn: TransactionManager, boardId: Int): Board {
+    override fun deleteBoard(conn: TransactionManager, boardId: Int): Boolean {
         val obj = conn.connection().prepareStatement(
-            "DELETE FROM boards WHERE id = ? RETURNING *"
+            "DELETE FROM boards WHERE id = ?"
         )
         obj.setInt(1, boardId)
-        val res = obj.executeQuery()
-        return if (res.next()) res.toBoard() else throw SQLException("Board($boardId) delete was unsuccessful")
+
+        return obj.executeUpdate() != 0 || throw SQLException("Board($boardId) delete was unsuccessful")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String): Boolean {

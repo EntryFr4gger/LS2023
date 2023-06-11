@@ -52,7 +52,7 @@ interface CardsDB {
      *
      * @return a card id.
      * */
-    fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int)
+    fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) : Boolean
 
     /**
      * Delete a card.
@@ -62,7 +62,7 @@ interface CardsDB {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteCard(conn: TransactionManager, cardId: Int)
+    fun deleteCard(conn: TransactionManager, cardId: Int) : Boolean
 
     /**
      * Verify if the card exists.

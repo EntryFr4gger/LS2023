@@ -23,7 +23,7 @@ class CardsServicesTests : ClearData() {
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = services.cards.createNewCard("card", "card", null, boardId, null, userId)
             assertEquals(
-                Card(cardId, "card", "card", null, null, boardId, null),
+                Card(cardId, "card", "card", null, 1, boardId, null),
                 source.cards.getCardDetails(it, cardId)
             )
         }
@@ -72,7 +72,7 @@ class CardsServicesTests : ClearData() {
             source.boards.addUserToBoard(it, userId, boardId)
             val cardId = source.cards.createNewCard(it, "card", "card", null, boardId, null)
             assertEquals(
-                Card(cardId, "card", "card", null, null, boardId, null),
+                Card(cardId, "card", "card", null, 1, boardId, null),
                 services.cards.getCardDetails(cardId, userId)
             )
         }

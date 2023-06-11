@@ -35,7 +35,7 @@ class BoardsRouterTest : InstanceProjectTest() {
                 val board = format.decodeFromString<BoardDTO>(this.bodyString())
                 db.run { conn ->
                     assertTrue(db.boards.hasBoard(conn, board.id), "board does not exist")
-                    assertTrue(db.users.hasUserInBoard(conn, idNToken.id), "user was not added to board on creation")
+                    assertTrue(db.users.hasUserBoards(conn, idNToken.id), "user was not added to board on creation")
                 }
             }
     }
@@ -60,7 +60,7 @@ class BoardsRouterTest : InstanceProjectTest() {
                 val board = format.decodeFromString<String>(this.bodyString())
                 assertTrue(board.toBoolean(), "user was not added to board")
                 db.run { conn ->
-                    assertTrue(db.users.hasUserInBoard(conn, idNToken.id), "user was not added to board")
+                    assertTrue(db.users.hasUserBoards(conn, idNToken.id), "user was not added to board")
                 }
             }
     }

@@ -40,6 +40,9 @@ data class ErrorDTO(val message: String, val error: String) {
     }
 }
 
+@Serializable
+data class MessageDTO(val message: String, val sucess: Boolean)
+
 @OptIn(ExperimentalSerializationApi::class)
 val format = Json { explicitNulls = false }
 inline fun <reified T> Responde(status: Status, dto: T): Response {

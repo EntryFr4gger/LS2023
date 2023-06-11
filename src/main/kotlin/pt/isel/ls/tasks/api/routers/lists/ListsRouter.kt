@@ -13,6 +13,7 @@ import pt.isel.ls.tasks.api.routers.lists.models.CardReposition
 import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
+import pt.isel.ls.tasks.api.utils.MessageDTO
 import pt.isel.ls.tasks.api.utils.Responde
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
@@ -65,8 +66,8 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val listId = request.pathOrThrow("list_id").toInt()
         val cardReq = Json.decodeFromString<CardReposition>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val cardId = services.respositionCard(listId, cardReq.cardId, cardReq.cix, requestId)
-        return Responde(Status.OK, CardId(cardId))
+        val success = services.respositionCard(listId, cardReq.cardId, cardReq.cix, requestId)
+        return Responde(Status.OK, MessageDTO("Card Repositioned",true))
     }
 
     /**
@@ -117,7 +118,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
     private fun deleteList(request: Request): Response = errorCatcher {
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val list = services.deleteList(listId, requestId)
-        return Responde(Status.OK, ListDTO(list))
+        val success = services.deleteList(listId, requestId)
+        return Responde(Status.OK, MessageDTO("List Deleted",success))
     }
 }

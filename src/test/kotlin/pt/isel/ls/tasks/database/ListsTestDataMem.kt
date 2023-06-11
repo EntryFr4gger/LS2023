@@ -1,13 +1,12 @@
 package pt.isel.ls.tasks.database
 
-import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.lists.ListsDataMem
-import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List
+import java.sql.SQLException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -33,7 +32,7 @@ class ListsTestDataMem {
     fun `Get the correct list details`() {
         source.run { conn ->
             assertEquals(
-                List(1, "Aula de LS", 1),
+                storage.lists[1],
                 lists.getListDetails(conn, 1)
             )
         }
@@ -52,27 +51,26 @@ class ListsTestDataMem {
     fun `get all cards in the same list`() {
         source.run { conn ->
             assertEquals(
-                listOf(
-                    Card(
-                        1,
-                        "Phase 1",
-                        "Entrega da parte 1 do trabalho de LS",
-                        LocalDate(2023, 4, 2),
-                        1,
-                        1,
-                        1
-                    )
-                ),
-                lists.getAllCards(conn, 1, 1, 3)
+                listOf(storage.cards[4]),
+                lists.getAllCards(conn, 3, 1, 1)
             )
         }
     }
 
     @Test
-    fun `delete list from a board`() {
+    fun `Delete list from a board`() {
         source.run { conn ->
             lists.deleteList(conn, 1)
-            assertFalse { lists.hasList(conn, 1) }
+            assertTrue { storage.lists[1] == null }
+        }
+    }
+
+    @Test
+    fun `Delete unsuccessful`() {
+        source.run { conn ->
+            assertFailsWith<SQLException> {
+                lists.deleteList(conn, Int.MAX_VALUE)
+            }
         }
     }
 

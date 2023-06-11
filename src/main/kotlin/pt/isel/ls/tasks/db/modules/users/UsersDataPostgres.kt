@@ -123,7 +123,7 @@ class UsersDataPostgres : UsersDB {
         return res.executeQuery().next()
     }
 
-    override fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean {
+    override fun hasUserBoards(conn: TransactionManager, userId: Int): Boolean {
         val res = conn.connection().prepareStatement(
             "SELECT * FROM user_board WHERE user_id = ?"
         )

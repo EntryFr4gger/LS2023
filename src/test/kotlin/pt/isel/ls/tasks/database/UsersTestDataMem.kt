@@ -29,6 +29,27 @@ class UsersTestDataMem {
     }
 
     @Test
+    fun `User login correctly and with right password`() {
+        source.run { conn ->
+            val user = users.loginUserInfo(conn, "Admin@gmail.com")
+            assertEquals(
+                "6593D31A65175D624AFC703A4070DB550D4C7B91C795E431DA9A69E52C1F313E",
+                user.password
+            )
+        }
+    }
+
+    @Test
+    fun `Throws an error for a nonexistent email `() {
+        source.run { conn ->
+            assertFailsWith<NotFoundException> {
+                users.loginUserInfo(conn, "not@email")
+            }
+        }
+    }
+
+
+    @Test
     fun `Gets the correct user`() {
         source.run { conn ->
             assertEquals(
@@ -71,6 +92,25 @@ class UsersTestDataMem {
     }
 
     @Test
+    fun `Remove users from a deleted board`() {
+        source.run { conn ->
+            users.deleteBoardUsers(conn, 3)
+            assertFalse { users.hasUserBoards(conn, 3) }
+        }
+    }
+
+    @Test
+    fun `Get all users that are not on that board`() {
+        source.run { conn ->
+            val userList = users.getAllUsers(conn, 3)
+            assertEquals(
+                listOf(storage.users[2], storage.users[4]),
+                userList
+            )
+        }
+    }
+
+    @Test
     fun `Confirm that the email do not exist`() {
         source.run { conn ->
             assertFalse { users.hasUserEmail(conn, "keepCalmMyFriend@outlook.pt") }
@@ -101,14 +141,14 @@ class UsersTestDataMem {
     @Test
     fun `Confirm that have a user in the board`() {
         source.run { conn ->
-            assertTrue { users.hasUserInBoard(conn, 1) }
+            assertTrue { users.hasUserBoards(conn, 1) }
         }
     }
 
     @Test
     fun `Confirm that do not have a user in the board`() {
         source.run { conn ->
-            assertFalse { users.hasUserInBoard(conn, 4) }
+            assertFalse { users.hasUserBoards(conn, 4) }
         }
     }
 

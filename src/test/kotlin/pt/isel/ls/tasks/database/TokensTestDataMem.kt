@@ -16,7 +16,15 @@ class TokensTestDataMem {
     private val tokens = TokensDataMem(storage)
 
     @Test
-    fun `check is token have a user assigned`() {
+    fun `Creates a token for a new user`() {
+        source.run { conn ->
+            val token = tokens.createNewToken(conn, "b606bd17-aac8-470e-a539-fe590944b1f6", 5)
+            assertTrue(storage.tokens["b606bd17-aac8-470e-a539-fe590944b1f6"] != null)
+        }
+    }
+
+    @Test
+    fun `Check is token have a user assigned`() {
         source.run { conn ->
             assertEquals(
                 1,
@@ -30,6 +38,25 @@ class TokensTestDataMem {
         source.run { conn ->
             assertFailsWith<NotFoundException> {
                 tokens.getUserID(conn, "9f1e3d11-8c18-4cd7-93fc-985c4794cfd")
+            }
+        }
+    }
+
+    @Test
+    fun `Get the correct token given a userId`() {
+        source.run { conn ->
+            assertEquals(
+                "9f1e3d11-8c18-4cd7-93fc-985c4794cfd9",
+                tokens.getUserToken(conn, 1)
+            )
+        }
+    }
+
+    @Test
+    fun `Throws an error for a nonexistent userId associated with a token`() {
+        source.run { conn ->
+            assertFailsWith<NotFoundException> {
+                tokens.getUserToken(conn, Int.MAX_VALUE)
             }
         }
     }

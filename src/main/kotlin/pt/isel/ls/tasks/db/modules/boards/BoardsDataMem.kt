@@ -20,6 +20,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
         source.userBoard[1] = listOf(1, 2, 3)
         source.userBoard[2] = listOf(1, 2)
+        source.userBoard[3] = listOf(3)
     }
 
     override fun createNewBoard(conn: TransactionManager, name: String, description: String) =
@@ -50,26 +51,31 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         skip: Int,
         limit: Int,
         onlyReturnArchived: Boolean
-    ): List<Card> =
-        source.cards.toList().mapNotNull {
+    ): List<Card> {
+        val filteredCards = source.cards.toList().mapNotNull {
             it.second.takeIf { card ->
                 card.boardId == boardId && if (onlyReturnArchived) card.listId == null else true
             }
         }
+        val startIndex = minOf(skip, filteredCards.size)
+        val endIndex = minOf(startIndex + limit, filteredCards.size)
+        return filteredCards.subList(startIndex, endIndex)
+    }
 
     override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int) =
         source.userBoard.filter { hash -> hash.value.contains(boardId) }
             .map { source.users[it.key] ?: throw NotFoundException("User not found with userId:${it.key}") }
 
     override fun searchBoards(conn: TransactionManager, skip: Int, limit: Int, name: String, userId: Int): List<Board> {
-        val filteredBoards = source.boards.values.filter { board -> board.name == name }
+        val filteredBoards = source.boards.values.filter { board -> board.name.contains(name, ignoreCase = true) }
         val startIndex = minOf(skip, filteredBoards.size)
         val endIndex = minOf(startIndex + limit, filteredBoards.size)
         return filteredBoards.subList(startIndex, endIndex)
     }
 
-    override fun deleteBoard(conn: TransactionManager, boardId: Int): Board {
-        return source.boards.remove(boardId) ?: throw SQLException("List($boardId) delete was unsuccessful")
+    override fun deleteBoard(conn: TransactionManager, boardId: Int): Boolean {
+        val res = source.boards.remove(boardId)
+        return res!=null || throw SQLException("Board($boardId) delete was unsuccessful")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String) =
