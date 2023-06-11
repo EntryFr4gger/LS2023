@@ -14,12 +14,12 @@ jest.mock("../../../SPA/static-content/components/utils/storage/get-user.js", ()
 }));
 
 
-const userName = "MrBest"
-const email= "MrBest@isel.pt "
+const userName = "MrBest1"
+const email= "MrBest1@isel.pt "
 const password = "007erag"
 
-const BName = "BName"
-const BDescription = "BDescription"
+const BName = "BName1"
+const BDescription = "BDescription1"
 
 describe("Users Integration Tests", () => {
     beforeAll(async () => {

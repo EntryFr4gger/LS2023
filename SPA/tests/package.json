@@ -7,8 +7,8 @@
       "BToken": "Bearer a",
       "UID": 1,
       "BoardID": 1,
-      "ListID": 1,
-      "CardID": 1
+      "ListID": [],
+      "CardID": []
     }
   },
   "scripts": {
