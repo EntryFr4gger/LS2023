@@ -23,7 +23,7 @@ class CardsDataPostgres : CardsDB {
                 getString(2),
                 getString(3),
                 getDate(4)?.toLocalDate()?.toKotlinLocalDate(),
-                getIntOrNull(5),
+                getInt(5),
                 getInt(6),
                 getIntOrNull(7)
             )

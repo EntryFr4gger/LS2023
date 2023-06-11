@@ -27,8 +27,8 @@ class CardsTestDataMem {
                 "Study",
                 "study for success",
                 LocalDate(2023, 3, 21),
-                null,
                 1,
+                2,
                 1
             )
             val id =

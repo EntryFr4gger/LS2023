@@ -184,7 +184,7 @@ open class ServicesUtils(open val source: TaskData) {
      * @param cardId card unique identifier.
      * @param cix desired index.
      * */
-    fun organizeListCards(conn: TransactionManager, listId: Int, cardId: Int, cix: Int?) {
+    fun organizeListCards(conn: TransactionManager, listId: Int, cardId: Int, cix: Int) {
         updateCardsList(
             conn,
             source.lists.getAllCards(conn, listId, 0, Int.MAX_VALUE)
