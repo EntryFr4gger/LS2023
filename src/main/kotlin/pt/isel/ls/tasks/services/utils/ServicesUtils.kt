@@ -280,6 +280,13 @@ open class ServicesUtils(open val source: TaskData) {
         }
     }
 
+    /**
+     * Verifys if the given fields are valid for the List details.
+     *
+     * @param id card unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * */
     fun isValidFieldsListDetails(fields: kotlin.collections.List<String>) {
         val validFields = listOf("cards") // "id", "name", "boardId",
         if (!isValidFields(validFields, fields)) {
@@ -287,6 +294,13 @@ open class ServicesUtils(open val source: TaskData) {
         }
     }
 
+    /**
+     * Verifys if the given fields are valid for the Card details.
+     *
+     * @param id card unique identifier.
+     *
+     * @throws ServicesError.InvalidArgumentException if id isn't correct.
+     * */
     fun isValidFieldsCardDetails(fields: kotlin.collections.List<String>) {
         val validFields = listOf("id", "name", "description", "dueDate", "cix", "boardId", "listId")
         if (!isValidFields(validFields, fields)) {
@@ -294,6 +308,11 @@ open class ServicesUtils(open val source: TaskData) {
         }
     }
 
+    /**
+     * Given fields, test if they are contained withthin the valid fields
+     *
+     * @return true if valid
+     */
     private fun isValidFields(
         validFields: kotlin.collections.List<String>,
         fields: kotlin.collections.List<String>
@@ -463,12 +482,17 @@ open class ServicesUtils(open val source: TaskData) {
     }
 
     /**
-     *
+     * Wrapper function to obfuscate the hash used,
+     * can be changed if need be
      */
     fun hashPassword(password: String) = sha256Hash(password)
 
     /**
+     * Hashing method used for the password Encryption
      *
+     * @param input, takes the clear text password
+     *
+     * @return a String with the hashed password
      */
     private fun sha256Hash(input: String): String {
         val md = MessageDigest.getInstance("SHA-256")
@@ -477,7 +501,11 @@ open class ServicesUtils(open val source: TaskData) {
     }
 
     /**
+     * Converts a Byte Array to a string
      *
+     * @param bytes, Byte array
+     *
+     * @return a String
      */
     private fun bytesToHex(bytes: ByteArray): String {
         val hexChars = "0123456789ABCDEF"
