@@ -5,6 +5,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Card
+import java.sql.SQLException
 
 class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
     init {
@@ -34,13 +35,15 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
     override fun getCardDetails(conn: TransactionManager, cardId: Int): Card =
         source.cards[cardId] ?: throw NotFoundException("Couldn't get Card($cardId) Details")
 
-    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) {
+    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) : Boolean {
         val card = source.cards[cardId] ?: throw NotFoundException("Card($cardId) Not Found")
         source.cards[cardId] = card.copy(listId = listId)
+        return source.cards[cardId]?.listId ==listId
     }
 
-    override fun deleteCard(conn: TransactionManager, cardId: Int) {
-        source.cards.remove(cardId)
+    override fun deleteCard(conn: TransactionManager, cardId: Int) : Boolean {
+        val res = source.cards.remove(cardId)
+        return res!=null || throw Exception("Card($cardId) delete was unsuccessful")
     }
 
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean =

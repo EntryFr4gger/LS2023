@@ -50,6 +50,8 @@ paths:
       summary: Get the details of a user
       description: Gets a user given its id
       operationId: getUsers
+      security :
+        - bearerAuth : [ ]
       parameters:
         - name: user_id
           in: path
@@ -81,6 +83,51 @@ paths:
                 $ref: '#/components/schemas/InvalidRequest'
         500:
           $ref: '#/components/schemas/InternalServerErrorResponse'
+    post:
+      tags :
+        - Users
+      summary : Get all user in a board
+      description : Gets all user in a board given the board ID in body.
+      operationId : getAllUsers
+      security :
+        - bearerAuth : [ ]
+      parameters :
+        - name : user_id
+          in : path
+          description : ID of user that to be fetched
+          required : true
+          schema :
+            type : integer
+            minimum : 1
+            example : 1
+      requestBody :
+        description : Board Id
+        content :
+          application/json :
+            schema :
+              $ref : '#/components/schemas/Id'
+      responses :
+        200 :
+          description : successful operation
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/User'
+        400 :
+          description : Invalid ID supplied
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+
+        404 :
+          description : User not found
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
 
   /users/{user_id}/boards:
     get:
@@ -356,6 +403,62 @@ paths:
         500:
           $ref: '#/components/schemas/InternalServerErrorResponse'
 
+  /boards/{board_id}/cards :
+    get :
+      tags :
+        - Boards
+      summary : Gets the list of cards from a board
+      description : Gets the list of a cards for a given board.
+      operationId : getLists
+      security :
+        - bearerAuth : [ ]
+      parameters :
+        - name : skip
+          in : query
+          description : Number of cards to skip
+          required : false
+          schema :
+            type : integer
+            default : 0
+        - name : limit
+          in : query
+          description : Number of cards that are returned
+          required : false
+          schema :
+            type : integer
+            default : 10
+        - name : board_id
+          in : path
+          description : ID of board that to be fetched
+          required : true
+          schema :
+            type : integer
+            minimum : 1
+            example : 1
+      responses :
+        200 :
+          description : successful operation
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/Lists'
+        400 :
+          description : Invalid ID supplied
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+
+        404 :
+          description : Board not found
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
+
+
   /boards/{board_id}/users:
     get:
       tags:
@@ -622,7 +725,50 @@ paths:
         500:
           $ref: '#/components/schemas/InternalServerErrorResponse'
 
+    put :
+      tags :
+        - Lists
+      summary : Moves a card given a new card position
+      description : Moves a card given a new card position
+      operationId : respositionCard
+      security :
+        - bearerAuth : [ ]
+      parameters :
+        - name : list_id
+          in : path
+          description : ID of list that to be fetched
+          required : true
+          schema :
+            type : integer
+            minimum : 1
+      requestBody :
+        description : Card to resposition
+        content :
+          application/json :
+            schema :
+              $ref : '#/components/schemas/RepositionCard'
+      responses :
+        200 :
+          description : successful operation
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/Cards'
+        400 :
+          description : Invalid ID supplied
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
 
+        404 :
+          description : List not found
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/schemas/InvalidRequest'
+        500 :
+          $ref : '#/components/schemas/InternalServerErrorResponse'
   /cards:
     post:
       tags:
@@ -896,6 +1042,18 @@ components:
         listId:
           type: integer
           example: 1
+    RepositionCard:
+      required :
+        - cardId
+        - cix
+      type : object
+      properties :
+        cardId :
+          type : integer
+          example : 1
+        cix :
+          type : integer
+          example : 1
     Card:
       required:
         - id

@@ -179,7 +179,7 @@ class BoardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteBoard(boardId: Int, requestId: Int): Board {
+    fun deleteBoard(boardId: Int, requestId: Int): Boolean {
         isValidBoardId(boardId)
         isValidUserId(requestId)
 

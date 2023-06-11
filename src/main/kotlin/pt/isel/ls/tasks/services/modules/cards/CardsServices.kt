@@ -75,7 +75,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return a card id.
      * */
-    fun moveCard(cardId: Int, listId: Int?, requestId: Int): Int {
+    fun moveCard(cardId: Int, listId: Int?, requestId: Int): Boolean {
         listId?.let { isValidListId(it) }
         isValidCardId(cardId)
         isValidUserId(requestId)
@@ -84,7 +84,6 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             authorizationCard(conn, cardId, requestId)
             listId?.let { authorizationList(conn, listId, requestId) }
             source.cards.moveCard(conn, listId, cardId)
-            cardId
         }
     }
 
@@ -96,18 +95,19 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteCard(cardId: Int, requestId: Int): Card {
+    fun deleteCard(cardId: Int, requestId: Int): Boolean {
         isValidCardId(cardId)
         isValidUserId(requestId)
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
-
+            var sucess = false
             source.cards.getCardDetails(conn, cardId)
                 .also { card ->
-                    source.cards.deleteCard(conn, cardId)
+                    sucess = source.cards.deleteCard(conn, cardId)
                     card.listId?.let { id -> organizeCards(conn, id) }
                 }
+            sucess
         }
     }
 }

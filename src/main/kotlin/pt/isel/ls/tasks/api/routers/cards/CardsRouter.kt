@@ -12,6 +12,7 @@ import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
 import pt.isel.ls.tasks.api.routers.cards.models.CardId
 import pt.isel.ls.tasks.api.routers.cards.models.CardListUpdate
 import pt.isel.ls.tasks.api.routers.cards.models.CreateCardDTO
+import pt.isel.ls.tasks.api.utils.MessageDTO
 import pt.isel.ls.tasks.api.utils.Responde
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
@@ -59,8 +60,8 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val cardIdReq = request.pathOrThrow("card_id").toInt()
         val cardReq = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val cardId = services.moveCard(cardIdReq, cardReq.lid, requestId)
-        return Responde(Status.OK, CardId(cardId))
+        val sucess = services.moveCard(cardIdReq, cardReq.lid, requestId)
+        return Responde(Status.OK, MessageDTO("Card moved",sucess))
     }
 
     /**
@@ -89,7 +90,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
     private fun deleteCard(request: Request): Response = errorCatcher {
         val cardId = request.pathOrThrow("card_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val card = services.deleteCard(cardId, requestId)
-        return Responde(Status.OK, CardDTO(card))
+        val sucess = services.deleteCard(cardId, requestId)
+        return Responde(Status.OK, MessageDTO("Card deleted",sucess))
     }
 }
