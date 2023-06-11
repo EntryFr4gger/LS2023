@@ -98,7 +98,7 @@ class UsersTestDataMem {
         source.run { conn ->
             assertEquals(
                 listOf(storage.users[2], storage.users[4]),
-                users.getAllUsers(conn, 3)
+                users.getAllUsersNotInBoard(conn, 3)
             )
         }
     }

@@ -40,7 +40,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             authorizationBoard(conn, boardId, requestId)
             authorizationList(conn, listId, requestId)
 
-            val cix = source.lists.getAllCards(conn,listId,Int.MAX_VALUE,Int.MAX_VALUE).maxByOrNull { it.cix }?.cix ?: 0
+            val cix = source.lists.getAllCards(conn,listId,0,Int.MAX_VALUE).maxByOrNull { it.cix }?.cix ?: 0
             source.cards.createNewCard(conn, name, description, cix+1 ,dueDate, boardId, listId)
         }
     }

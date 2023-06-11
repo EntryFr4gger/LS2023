@@ -36,7 +36,7 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
         "users" bind Method.POST to ::postUser,
         "users/login" bind Method.POST to ::loginUser,
         "users/{user_id}" bind Method.GET to ::getUserDetails,
-        ("users/{user_id}" bind Method.POST to ::getAllUsers).withFilter(tokenHandeler::filter),
+        ("users/{user_id}" bind Method.POST to ::getAllUsersNotInBoard).withFilter(tokenHandeler::filter),
         ("users/{user_id}/boards" bind Method.GET to ::getUserBoards).withFilter(tokenHandeler::filter)
     )
 
@@ -100,16 +100,16 @@ class UsersRouter(private val services: UsersServices, private val tokenHandeler
     }
 
     /**
-     * Gets all Users in the database.
+     * Gets all Users that are not on the board.
      *
      * @param request HTTP request that contains the name to search
      *
      * @return list of Users.
      * */
-    private fun getAllUsers(request: Request): Response = errorCatcher {
+    private fun getAllUsersNotInBoard(request: Request): Response = errorCatcher {
         val boardId = Json.decodeFromString<BoardIdDTO>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val users = services.getAllUsers(boardId.id, requestId)
+        val users = services.getAllUsersNotInBoard(boardId.id, requestId)
         return Responde(OK, UsersDTO(users))
     }
 }
