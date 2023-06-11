@@ -2,7 +2,7 @@ async function SafeFetch(endpoint, init) {
     let json
     try {
         let res;
-        if (init === undefined)
+        if (init !== undefined)
             res = await fetch(endpoint, init);
         else
             res = await fetch(endpoint);
