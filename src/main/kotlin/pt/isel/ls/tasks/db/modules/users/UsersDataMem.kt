@@ -65,7 +65,7 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         }
     }
 
-    override fun getAllUsers(conn: TransactionManager, boardId: Int): List<User> =
+    override fun getAllUsersNotInBoard(conn: TransactionManager, boardId: Int): List<User> =
         source.users.toList()
             .filter { !(source.userBoard[it.first]?.contains(boardId) ?: false) }
             .map { User(it.second.id, it.second.name, it.second.email) }
