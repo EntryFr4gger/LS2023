@@ -67,7 +67,7 @@ class UsersServicesTests : ClearData() {
 
     @Test
     fun `Let user details correctly`() {
-        assertEquals(storage.users[1], services.users.getUserDetails(1))
+        assertEquals(storage.users[1]!!.copy(password = ""), services.users.getUserDetails(1))
     }
 
     @Test
@@ -100,7 +100,7 @@ class UsersServicesTests : ClearData() {
     @Test
     fun `Get all users that are not on that board`() {
         assertEquals(
-            listOf(storage.users[2], storage.users[4]),
+            listOf(storage.users[2]!!.copy(password = ""), storage.users[4]!!.copy(password = "")),
             services.users.getAllUsersNotInBoard(3, 1)
         )
     }

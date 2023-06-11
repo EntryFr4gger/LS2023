@@ -41,7 +41,7 @@ class CardsTestDataMem {
                     card.listId
                 )
             assertEquals(
-                card.copy(id = id, cix = 2),
+                card.copy(id = id),
                 storage.cards[id]
             )
         }

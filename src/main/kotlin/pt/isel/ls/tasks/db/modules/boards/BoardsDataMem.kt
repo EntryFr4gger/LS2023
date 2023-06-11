@@ -69,7 +69,10 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
     override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User> {
         val filteredUsers = source.userBoard.filter { hash -> hash.value.contains(boardId) }
-            .map { source.users[it.key] ?: throw NotFoundException("User not found with userId:${it.key}") }
+            .map {
+                val user = source.users[it.key] ?: throw NotFoundException("User not found with userId:${it.key}")
+                User(user.id, user.name, user.email)
+            }
         val startIndex = minOf(skip, filteredUsers.size)
         val endIndex = minOf(startIndex + limit, filteredUsers.size)
         return filteredUsers.subList(startIndex, endIndex)
