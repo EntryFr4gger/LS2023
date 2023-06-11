@@ -67,10 +67,7 @@ class BoardsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Get valid board details`() {
-        val name = "testUser"
-        val email = "test@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(name, email, password)
+        val idNToken = services.users.createNewUser("testUser", "test@gmail.com", "Adsfs123&")
         val nameB = "TestBoard"
         val description = "This is a big test Board"
         val boardId = services.boards.createNewBoard(nameB, description, idNToken.id)
@@ -93,13 +90,8 @@ class BoardsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Get the Lists of a Board`() {
-        val name = "testUser"
-        val email = "test@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(name, email, password)
-        val nameB = "TestBoard"
-        val description = "This is a big test Board"
-        val boardId = services.boards.createNewBoard(nameB, description, idNToken.id)
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
+        val boardId = services.boards.createNewBoard("TestBoard", "This is a big test Board", idNToken.id)
         val nameL1 = "testList"
         val nameL2 = "testList1"
         val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
