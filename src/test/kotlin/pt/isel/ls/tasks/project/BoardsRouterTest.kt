@@ -17,7 +17,6 @@ class BoardsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Creates a new valid Board`() {
-        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val requestBody = """
             {
                 "name": "Test Board",
@@ -26,7 +25,7 @@ class BoardsRouterTest : InstanceProjectTest() {
         """
         val request = Request(Method.POST, "${path}boards")
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer ${idNToken.token}")
+            .header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
             .body(requestBody)
 
         send(request)
@@ -35,7 +34,7 @@ class BoardsRouterTest : InstanceProjectTest() {
                 val board = format.decodeFromString<BoardDTO>(this.bodyString())
                 db.run { conn ->
                     assertTrue(db.boards.hasBoard(conn, board.id), "board does not exist")
-                    assertTrue(db.users.hasUserBoards(conn, idNToken.id), "user was not added to board on creation")
+                    assertTrue(db.users.hasUserBoards(conn, 1), "user was not added to board on creation")
                 }
             }
     }

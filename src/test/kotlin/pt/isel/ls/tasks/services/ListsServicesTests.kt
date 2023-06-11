@@ -18,11 +18,11 @@ class ListsServicesTests : ClearData() {
 
     @Test
     fun `Create list correctly`() {
-            val listId = services.lists.createList("Study", 1, 1)
-            assertEquals(
-                List(listId, "Study", 1),
-                storage.lists[listId]
-            )
+        val listId = services.lists.createList("Study", 1, 1)
+        assertEquals(
+            List(listId, "Study", 1),
+            storage.lists[listId]
+        )
     }
 
     @Test
@@ -107,17 +107,10 @@ class ListsServicesTests : ClearData() {
 
     @Test
     fun `Get cards of list correctly`() {
-        source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
-            val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
-            val listId = source.lists.createList(it, "list", boardId)
-            source.boards.addUserToBoard(it, userId, boardId)
-            val cardId = services.cards.createNewCard("card", "card", null, boardId, listId, userId)
-            assertEquals(
-                listOf(Card(cardId, "card", "card", null, 1, boardId, listId)),
-                services.lists.getCardsOfList(listId, 0, 10, userId)
+        assertEquals(
+                listOf(storage.cards[4]),
+                services.lists.getCardsOfList(3, 1, 1, 1)
             )
-        }
     }
 
     @Test

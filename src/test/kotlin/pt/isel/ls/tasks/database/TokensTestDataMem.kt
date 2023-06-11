@@ -18,7 +18,7 @@ class TokensTestDataMem {
     @Test
     fun `Creates a token for a new user`() {
         source.run { conn ->
-            val token = tokens.createNewToken(conn, "b606bd17-aac8-470e-a539-fe590944b1f6", 5)
+            tokens.createNewToken(conn, "b606bd17-aac8-470e-a539-fe590944b1f6", 5)
             assertTrue(storage.tokens["b606bd17-aac8-470e-a539-fe590944b1f6"] != null)
         }
     }

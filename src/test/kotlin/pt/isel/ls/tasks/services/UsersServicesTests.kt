@@ -3,7 +3,6 @@ package pt.isel.ls.tasks.services
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
-import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 import pt.isel.ls.tasks.services.errors.ServicesError
 import pt.isel.ls.tasks.services.modules.users.responses.UserInfoResponse
@@ -98,5 +97,25 @@ class UsersServicesTests : ClearData() {
         }
     }
 
+    @Test
+    fun `Get all users that are not on that board`() {
+        assertEquals(
+            listOf(storage.users[2], storage.users[4]),
+            services.users.getAllUsers(3, 1)
+        )
+    }
 
+    @Test
+    fun `Get all users throws InvalidArgumentException if id isn't valid`() {
+        assertFailsWith<ServicesError.InvalidArgumentException> {
+            services.users.getAllUsers(-1, 1)
+        }
+    }
+
+    @Test
+    fun `Get all users throws AuthorizationException if user don't have permission`() {
+        assertFailsWith<ServicesError.AuthorizationException> {
+            services.users.getAllUsers(3, 2)
+        }
+    }
 }

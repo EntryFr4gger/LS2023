@@ -115,7 +115,7 @@ class CardsRouterTest : InstanceProjectTest() {
             .apply {
                 assertEquals(Status.OK, this.status)
                 db.run { conn ->
-                    assertTrue { db.lists.getAllCards(conn, listId,0 ,10).isEmpty() }
+                    assertTrue { db.lists.getAllCards(conn, listId, 0, 10).isEmpty() }
                 }
             }
     }

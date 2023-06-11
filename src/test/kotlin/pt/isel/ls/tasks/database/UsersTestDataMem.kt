@@ -5,7 +5,6 @@ import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.users.UsersDataMem
-import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -31,10 +30,9 @@ class UsersTestDataMem {
     @Test
     fun `User login correctly and with right password`() {
         source.run { conn ->
-            val user = users.loginUserInfo(conn, "Admin@gmail.com")
             assertEquals(
                 "6593D31A65175D624AFC703A4070DB550D4C7B91C795E431DA9A69E52C1F313E",
-                user.password
+                users.loginUserInfo(conn, "Admin@gmail.com").password
             )
         }
     }
@@ -71,11 +69,12 @@ class UsersTestDataMem {
     @Test
     fun `Gets User Boards`() {
         source.run { conn ->
-            val cboards = listOf(
-                storage.boards[1],
-                storage.boards[2]
+            assertEquals(
+                listOf(
+                    storage.boards[1],
+                    storage.boards[2]
+                ), users.getUserBoards(conn, 0, 2, 2)
             )
-            assertEquals(cboards, users.getUserBoards(conn, 0, 2, 2))
         }
     }
 
@@ -97,10 +96,9 @@ class UsersTestDataMem {
     @Test
     fun `Get all users that are not on that board`() {
         source.run { conn ->
-            val userList = users.getAllUsers(conn, 3)
             assertEquals(
                 listOf(storage.users[2], storage.users[4]),
-                userList
+                users.getAllUsers(conn, 3)
             )
         }
     }

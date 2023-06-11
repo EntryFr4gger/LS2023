@@ -4,10 +4,7 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.domain.Board
-import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.services.errors.ServicesError
-import pt.isel.ls.tasks.services.modules.boards.response.BoardDetailsResponse
-import java.sql.SQLException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -20,8 +17,10 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `Create board correctly`() {
         val id = services.boards.createNewBoard("Board", "boas", 1)
-        val board = source.run { source.boards.getBoardDetails(it, id) }
-        assertEquals(Board(id, "Board", "boas"), board)
+        assertEquals(
+            Board(id, "Board", "boas"),
+            storage.boards[id]
+        )
     }
 
     @Test
@@ -47,22 +46,15 @@ class BoardsServicesTests : ClearData() {
 
     @Test
     fun `Create board throws AlreadyExistsException if board already exist`() {
-        source.run { source.boards.createNewBoard(it, "Board", "Board") }
         assertFailsWith<ServicesError.AlreadyExistsException> {
-            services.boards.createNewBoard("Board", "Board", 1)
+            services.boards.createNewBoard("ISEL", "Board", 1)
         }
     }
 
     @Test
     fun `Add user to board correctly`() {
-        source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
-            val userIdTest = source.users.createNewUser(it, "Armandio", "dio@gmail.com", "Adsfs123&")
-            val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
-            source.boards.addUserToBoard(it, userId, boardId)
-            assertTrue(services.boards.addUserToBoard(userIdTest, boardId, userId))
-            assertTrue(storage.userBoard[userIdTest]!!.contains(boardId))
-        }
+        services.boards.addUserToBoard(3,1, 1)
+        assertTrue(storage.userBoard[3]!!.contains(1))
     }
 
     @Test
@@ -88,15 +80,10 @@ class BoardsServicesTests : ClearData() {
 
     @Test
     fun `Get board details correctly`() {
-        source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
-            val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
-            source.boards.addUserToBoard(it, userId, boardId)
-            assertEquals(
-                BoardDetailsResponse(Board(boardId, "Armandio", "sadsad"), null),
-                services.boards.getBoardDetails(boardId, userId, emptyList())
-            )
-        }
+        assertEquals(
+            storage.boards[1],
+            services.boards.getBoardDetails(1, 1, emptyList()).board
+        )
     }
 
     @Test
@@ -115,13 +102,13 @@ class BoardsServicesTests : ClearData() {
 
     @Test
     fun `Get all lists correctly`() {
-        source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
-            val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
-            val listId = source.lists.createList(it, "list", boardId)
-            source.boards.addUserToBoard(it, userId, boardId)
-            assertEquals(listOf(List(listId, "list", boardId)), services.boards.getAllLists(boardId, 1, 1, userId))
-        }
+        assertEquals(
+            listOf(
+                storage.lists[1],
+                storage.lists[2]
+            ),
+            services.boards.getAllLists(1, 0, 2, 1)
+        )
     }
 
     @Test

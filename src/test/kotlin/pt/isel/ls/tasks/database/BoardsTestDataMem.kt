@@ -6,7 +6,6 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.boards.BoardsDataMem
 import pt.isel.ls.tasks.domain.Board
-import pt.isel.ls.tasks.domain.User
 import java.sql.SQLException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

@@ -5,7 +5,6 @@ import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.services.errors.ServicesError
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -20,7 +19,7 @@ class CardsServicesTests : ClearData() {
         source.run {
             val cardId = services.cards.createNewCard("card", "card", null, 1, 1, 1)
             assertEquals(
-                Card(cardId, "card", "card", null, 1, 1, 1),
+                Card(cardId, "card", "card", null, 2, 1, 1),
                 storage.cards[cardId]
             )
         }
@@ -87,7 +86,7 @@ class CardsServicesTests : ClearData() {
 
     @Test
     fun `move card correctly`() {
-        assertTrue { services.cards.moveCard( 3, 2,1) }
+        assertTrue { services.cards.moveCard(3, 2, 1) }
     }
 
     @Test

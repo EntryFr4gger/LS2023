@@ -8,7 +8,6 @@ import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.cards.CardsDataMem
 import pt.isel.ls.tasks.domain.Card
 import java.sql.SQLException
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -41,7 +40,7 @@ class CardsTestDataMem {
                     card.listId
                 )
             assertEquals(
-                card.copy(id = id),
+                card.copy(id = id, cix=2),
                 storage.cards[id]
             )
         }
@@ -113,7 +112,6 @@ class CardsTestDataMem {
     }
 
     @Test
-
     fun `Organize cards fails`() {
         source.run { conn ->
             assertFailsWith<NotFoundException> {

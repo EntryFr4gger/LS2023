@@ -103,7 +103,7 @@ class ListsRouterTest : InstanceProjectTest() {
                 assertEquals(boardId, list.boardId)
 
                 db.run { conn ->
-                    assertTrue( !db.lists.hasList(conn, list.id) )
+                    assertTrue(!db.lists.hasList(conn, list.id))
                 }
             }
     }
@@ -141,7 +141,7 @@ class ListsRouterTest : InstanceProjectTest() {
                 assertEquals(boardId, list.boardId)
 
                 db.run { conn ->
-                    assertTrue( !db.lists.hasList(conn, list.id) )
+                    assertTrue(!db.lists.hasList(conn, list.id))
                 }
             }
     }
