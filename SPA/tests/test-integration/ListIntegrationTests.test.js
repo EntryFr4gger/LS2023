@@ -1,14 +1,7 @@
-
 import {CreateUserFetch} from "../../static-content/components/api/fetch/users/CreateUserFetch";
 import {CreateBoardFetch} from "../../static-content/components/api/fetch/boards/CreateBoardFetch";
-import {AddUserToBoardFetch} from "../../static-content/components/api/fetch/boards/AddUserToBoardFetch";
-import {GetBoardListsFetch} from "../../static-content/components/api/fetch/boards/GetBoardListsFetch";
-import {GetBoardDetailsFetch} from "../../static-content/components/api/fetch/boards/GetBoardDetailsFetch";
 import {CreateListFetch} from "../../static-content/components/api/fetch/lists/CreateListFetch";
-import {GetBoardUsersFetch} from "../../static-content/components/api/fetch/boards/GetBoardUsersFetch";
 import {CreateCardFetch} from "../../static-content/components/api/fetch/cards/CreateCardFetch";
-import {SearchBoardsFetch} from "../../static-content/components/api/fetch/boards/SearchBoardsFetch";
-import {DeleteBoardFetch} from "../../static-content/components/api/fetch/boards/DeleteBoardFetch";
 import {GetListDetailsFetch} from "../../static-content/components/api/fetch/lists/GetListDetailsFetch";
 import {GetListCardsFetch} from "../../static-content/components/api/fetch/lists/GetListCardsFetch";
 import {DeleteListFetch} from "../../static-content/components/api/fetch/lists/DeleteListFetch";
@@ -24,7 +17,7 @@ jest.mock("../../../SPA/static-content/components/utils/storage/get-user.js", ()
 
 
 const userName = "MrBest3"
-const email= "MrBest3@isel.pt "
+const email = "MrBest3@isel.pt "
 const password = "007erag"
 
 const BName = "BName3"
@@ -41,13 +34,13 @@ describe("List Integration Tests", () => {
         const response = await CreateUserFetch(userName, email, password);
         global.BToken = "Bearer " + response.token;
         global.UID = response.id;
-        const board = await CreateBoardFetch(BName,BDescription);
+        const board = await CreateBoardFetch(BName, BDescription);
         global.BoardID = board.id;
-        const list = await CreateListFetch(LName,global.BoardID);
+        const list = await CreateListFetch(LName, global.BoardID);
         global.ListID.push(list.id);
-        const card = await CreateCardFetch(CName,CDescription,global.BoardID,global.ListID[0]);
+        const card = await CreateCardFetch(CName, CDescription, global.BoardID, global.ListID[0]);
         global.CardID.push(card.id);
-        const card2 = await CreateCardFetch(CName2,CDescription,global.BoardID,global.ListID[0]);
+        const card2 = await CreateCardFetch(CName2, CDescription, global.BoardID, global.ListID[0]);
         global.CardID.push(card2.id);
     })
 
@@ -61,12 +54,24 @@ describe("List Integration Tests", () => {
     it("Get list of a cards", async () => {
         const response = await GetListCardsFetch(global.ListID[0])
         expect(response.cards)
-            .toEqual([{id: global.CardID[0], name : CName, description : CDescription, boardId : global.BoardID, listId : global.ListID[0]},
-                              {id: global.CardID[1], name : CName2, description : CDescription, boardId : global.BoardID, listId : global.ListID[0]}])
+            .toEqual([{
+                id: global.CardID[0],
+                name: CName,
+                description: CDescription,
+                boardId: global.BoardID,
+                listId: global.ListID[0]
+            },
+                {
+                    id: global.CardID[1],
+                    name: CName2,
+                    description: CDescription,
+                    boardId: global.BoardID,
+                    listId: global.ListID[0]
+                }])
     });
 
     it("Moves a card given a new card position", async () => {
-        const response = await RepositionCardFetch(global.ListID[0],global.CardID[1],1)
+        const response = await RepositionCardFetch(global.ListID[0], global.CardID[1], 1)
         expect(response.message).toEqual("Card Repositioned")
         expect(response.sucess).toBe(true)
     });

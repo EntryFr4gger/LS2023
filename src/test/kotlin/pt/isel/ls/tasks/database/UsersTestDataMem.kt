@@ -46,7 +46,6 @@ class UsersTestDataMem {
         }
     }
 
-
     @Test
     fun `Gets the correct user`() {
         source.run { conn ->
@@ -73,7 +72,8 @@ class UsersTestDataMem {
                 listOf(
                     storage.boards[1],
                     storage.boards[2]
-                ), users.getUserBoards(conn, 0, 2, 2)
+                ),
+                users.getUserBoards(conn, 0, 2, 2)
             )
         }
     }

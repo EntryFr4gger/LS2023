@@ -61,8 +61,9 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
 
     override fun deleteBoardUsers(conn: TransactionManager, boardId: Int) {
         source.userBoard.forEach {
-            if (it.value.contains(boardId))
+            if (it.value.contains(boardId)) {
                 source.userBoard[it.key] = source.userBoard[it.key]?.filter { id -> id != boardId } ?: emptyList()
+            }
         }
     }
 

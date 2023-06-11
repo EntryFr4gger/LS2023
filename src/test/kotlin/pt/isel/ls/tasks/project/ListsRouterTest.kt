@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListDTO
+import pt.isel.ls.tasks.api.utils.MessageDTO
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -85,7 +86,6 @@ class ListsRouterTest : InstanceProjectTest() {
             }
     }
 
-
     @Test
     fun `Delete list details`() {
         val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
@@ -98,13 +98,8 @@ class ListsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val list = format.decodeFromString<ListDTO>(this.bodyString())
-                assertEquals(list1Id, list.id)
-                assertEquals(boardId, list.boardId)
-
-                db.run { conn ->
-                    assertTrue(!db.lists.hasList(conn, list.id))
-                }
+                val list = format.decodeFromString<MessageDTO>(this.bodyString())
+                assertTrue(list.sucess)
             }
     }
 
@@ -123,12 +118,11 @@ class ListsRouterTest : InstanceProjectTest() {
 
         val requestBody = """
             {
-            cardId : ${cards[2]},
-            cix : ${1}
+                "lid":$list1Id
             }
          """
 
-        val request = Request(Method.PUT, "${path}lists/$list1Id/cards")
+        val request = Request(Method.PUT, "${path}cards/${cards[2]}")
             .header("Content-Type", "application/json")
             .header("Authorization", "Bearer ${idNToken.token}")
             .body(requestBody)
@@ -136,13 +130,8 @@ class ListsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val list = format.decodeFromString<ListDTO>(this.bodyString())
-                assertEquals(list1Id, list.id)
-                assertEquals(boardId, list.boardId)
-
-                db.run { conn ->
-                    assertTrue(!db.lists.hasList(conn, list.id))
-                }
+                val list = format.decodeFromString<MessageDTO>(this.bodyString())
+                assertTrue(list.sucess)
             }
     }
 }

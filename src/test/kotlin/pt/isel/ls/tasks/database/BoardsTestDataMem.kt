@@ -74,7 +74,7 @@ class BoardsTestDataMem {
         source.run { conn ->
             assertEquals(
                 listOf(
-                    storage.cards[5],
+                    storage.cards[5]
                 ),
                 boards.getAllCards(conn, 1, 0, 1, true)
             )

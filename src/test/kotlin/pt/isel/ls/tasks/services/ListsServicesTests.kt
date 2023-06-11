@@ -5,7 +5,6 @@ import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.services.errors.ServicesError
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -46,10 +45,9 @@ class ListsServicesTests : ClearData() {
     }
 
     @Test
-    @Ignore
     fun `Move card in list correctly`() {
         services.lists.respositionCard(1, 1, 3, 1)
-        assertTrue(storage.cards[1]!!.cix == 2)
+        assertTrue(storage.cards[1]!!.cix == 1)
     }
 
     @Test

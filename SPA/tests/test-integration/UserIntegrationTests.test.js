@@ -15,7 +15,7 @@ jest.mock("../../../SPA/static-content/components/utils/storage/get-user.js", ()
 
 
 const userName = "MrBest1"
-const email= "MrBest1@isel.pt "
+const email = "MrBest1@isel.pt "
 const password = "007erag"
 
 const BName = "BName1"
@@ -26,7 +26,7 @@ describe("Users Integration Tests", () => {
         const response = await CreateUserFetch(userName, email, password);
         global.BToken = "Bearer " + response.token;
         global.UID = response.id;
-        const board = await CreateBoardFetch(BName,BDescription);
+        const board = await CreateBoardFetch(BName, BDescription);
         global.BoardID = board.id;
 
     })
@@ -40,16 +40,16 @@ describe("Users Integration Tests", () => {
 
     it("Gets all Users that is not in the board", async () => {
         const response = await GetAllUsersNotInBoard(global.BoardID);
-        expect(response.users).not.toContain({id:UID, name : userName, email : email, password: " "})
+        expect(response.users).not.toContain({id: UID, name: userName, email: email, password: " "})
     });
 
     it("Gets all board", async () => {
         const response = await GetUserBoardsFetch(global.UID);
-        expect(response.boards).toEqual([{id: global.BoardID, name: BName, description : BDescription}])
+        expect(response.boards).toEqual([{id: global.BoardID, name: BName, description: BDescription}])
     });
 
     it("Logins a user", async () => {
-        const response = await LoginUserFetch(email,password);
+        const response = await LoginUserFetch(email, password);
         expect(response.id).toEqual(global.UID);
     });
 

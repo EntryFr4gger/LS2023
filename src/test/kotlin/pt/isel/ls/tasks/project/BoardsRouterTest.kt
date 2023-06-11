@@ -8,6 +8,7 @@ import org.http4k.core.Status
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.routers.boards.models.BoardDTO
 import pt.isel.ls.tasks.api.routers.boards.models.BoardListsDTO
+import pt.isel.ls.tasks.api.utils.MessageDTO
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -17,6 +18,7 @@ class BoardsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Creates a new valid Board`() {
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val requestBody = """
             {
                 "name": "Test Board",
@@ -25,7 +27,7 @@ class BoardsRouterTest : InstanceProjectTest() {
         """
         val request = Request(Method.POST, "${path}boards")
             .header("Content-Type", "application/json")
-            .header("Authorization", "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9")
+            .header("Authorization", "Bearer ${idNToken.token}")
             .body(requestBody)
 
         send(request)
@@ -34,7 +36,7 @@ class BoardsRouterTest : InstanceProjectTest() {
                 val board = format.decodeFromString<BoardDTO>(this.bodyString())
                 db.run { conn ->
                     assertTrue(db.boards.hasBoard(conn, board.id), "board does not exist")
-                    assertTrue(db.users.hasUserBoards(conn, 1), "user was not added to board on creation")
+                    assertTrue(db.users.hasUserBoards(conn, idNToken.id), "user was not added to board on creation")
                 }
             }
     }
@@ -56,8 +58,8 @@ class BoardsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status, "Status was not ok")
-                val board = format.decodeFromString<String>(this.bodyString())
-                assertTrue(board.toBoolean(), "user was not added to board")
+                val board = format.decodeFromString<MessageDTO>(this.bodyString())
+                assertTrue(board.sucess, "user was not added to board")
                 db.run { conn ->
                     assertTrue(db.users.hasUserBoards(conn, idNToken.id), "user was not added to board")
                 }

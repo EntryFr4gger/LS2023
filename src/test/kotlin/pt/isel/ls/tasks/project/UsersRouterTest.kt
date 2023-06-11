@@ -7,7 +7,6 @@ import org.http4k.core.Status
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserDTO
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -85,7 +84,6 @@ class UsersRouterTest : InstanceProjectTest() {
     }
 
     @Test
-    @Ignore
     fun ` Gets all Users in the database`() {
         val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
 
@@ -94,7 +92,6 @@ class UsersRouterTest : InstanceProjectTest() {
             services.boards.createNewBoard("testBoard2", "this is a test board", idNToken.id),
             services.boards.createNewBoard("testBoard3", "this is a test board", idNToken.id)
         )
-
 
         val request = Request(Method.GET, "${path}users/${idNToken.id}/boards")
             .header("Content-Type", "application/json")
@@ -108,5 +105,4 @@ class UsersRouterTest : InstanceProjectTest() {
                 assertTrue(boards.containsAll(boardIds))
             }
     }
-
 }

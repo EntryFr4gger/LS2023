@@ -1,4 +1,3 @@
-
 import {CreateUserFetch} from "../../static-content/components/api/fetch/users/CreateUserFetch";
 import {CreateBoardFetch} from "../../static-content/components/api/fetch/boards/CreateBoardFetch";
 import {AddUserToBoardFetch} from "../../static-content/components/api/fetch/boards/AddUserToBoardFetch";
@@ -20,7 +19,7 @@ jest.mock("../../../SPA/static-content/components/utils/storage/get-user.js", ()
 
 
 const userName = "MrBest2"
-const email= "MrBest2@isel.pt "
+const email = "MrBest2@isel.pt "
 const password = "007erag"
 
 const BName = "BName2"
@@ -34,11 +33,11 @@ describe("Board Integration Tests", () => {
         const response = await CreateUserFetch(userName, email, password);
         global.BToken = "Bearer " + response.token;
         global.UID = response.id;
-        const board = await CreateBoardFetch(BName,BDescription);
+        const board = await CreateBoardFetch(BName, BDescription);
         global.BoardID = board.id;
-        const list = await CreateListFetch(LName,global.BoardID);
+        const list = await CreateListFetch(LName, global.BoardID);
         global.ListID.push(list.id)
-        const card = await CreateCardFetch(CName,CDescription,global.BoardID,global.ListID[0]);
+        const card = await CreateCardFetch(CName, CDescription, global.BoardID, global.ListID[0]);
         global.CardID.push(card.id);
 
     })
@@ -63,12 +62,12 @@ describe("Board Integration Tests", () => {
 
     it("Get the list with the users of a board", async () => {
         const response = await GetBoardUsersFetch(global.BoardID)
-        expect(response.users).toEqual([{id:global.UID, name : userName, email : email, password: ""}])
+        expect(response.users).toEqual([{id: global.UID, name: userName, email: email, password: ""}])
     });
 
     it("Search for the name of the board in the database.", async () => {
-        const response = await SearchBoardsFetch(BName,0,10)
-        expect(response.boards).toEqual([{id: global.BoardID, name: BName, description : BDescription}])
+        const response = await SearchBoardsFetch(BName, 0, 10)
+        expect(response.boards).toEqual([{id: global.BoardID, name: BName, description: BDescription}])
     });
 
     it("Delete a board", async () => {

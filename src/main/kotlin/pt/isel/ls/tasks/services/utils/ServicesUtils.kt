@@ -185,7 +185,7 @@ open class ServicesUtils(open val source: TaskData) {
             conn,
             cards.map { card ->
                 when {
-                    cards.last().cix==cix && card.id==cardId -> card.copy(cix = cix + 2)
+                    cards.last().cix == cix && card.id == cardId -> card.copy(cix = cix + 2)
                     card.id == cardId -> card.copy(cix = cix)
                     card.cix >= cix -> card.copy(cix = card.cix + 1)
                     else -> card

@@ -13,14 +13,10 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         val exampleLD2 = LocalDate(2023, 4, 2)
         val exampleLD3 = LocalDate(2023, 4, 3)
         source.cards[1] = Card(1, "Phase 1", "Entrega da parte 1 do trabalho de LS", exampleLD2, 1, 1, 1)
-        source.cards[2] = Card(2, "Phase 2", "Entrega da parte 2 do trabalho de LS", exampleLD2, 1, 1, 1)
-        source.cards[3] = Card(3, "Phase 3", "Entrega da parte 3 do trabalho de LS", exampleLD2, 1, 1, 1)
-        source.cards[4] = Card(4, "Phase 4", "Entrega da parte 4 do trabalho de LS", exampleLD2, 1, 1, 1)
-        source.cards[5] = Card(5, "Entrega 1", "Entrega inicial do autorouter", exampleLD3, 1, 1, 2)
-        source.cards[6] = Card(6, "Entrega 2", "Entrega N do autorouter", exampleLD3, 2, 1, 2)
-        source.cards[7] = Card(7, "Ração", "Ração daquela que os cães comem e tal", exampleLD, 1, 2, 3)
-        source.cards[8] = Card(8, "Trela nova", "Daquela para eles n andarem muito para a frente", exampleLD, 2, 2, 3)
-        source.cards[9] = Card(9, "List Null", "Archived card", exampleLD, 1, 1, null)
+        source.cards[2] = Card(2, "Entrega 1", "Entrega inicial do autorouter", exampleLD3, 1, 1, 2)
+        source.cards[3] = Card(3, "Ração", "Ração daquela que os cães comem e tal", exampleLD, 1, 2, 3)
+        source.cards[4] = Card(4, "Trela nova", "Daquela para eles n andarem muito para a frente", exampleLD, 2, 2, 3)
+        source.cards[5] = Card(5, "List Null", "Archived card", exampleLD, 1, 1, null)
         source.nextCardId.addAndGet(5)
     }
 

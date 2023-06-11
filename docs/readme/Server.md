@@ -31,7 +31,7 @@ database methods, to alter it. If something goes wrong it also rollbacks or if w
 ### Data Access
 
 We made a module for each table in the database to make sure every query was logically separated.
-Additionally, because have a unit of work, our queries for a certain route are handeled inside a single connection, 
+Additionally, because have a unit of work, our queries for a certain route are handeled inside a single connection,
 that is only refreshed when we make a new call to the API
 
 ### Error Handling/Processing
