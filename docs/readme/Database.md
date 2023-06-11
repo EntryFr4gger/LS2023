@@ -4,7 +4,7 @@
 
 The following diagram holds the Entity-Relationship model for the information managed by the system.
 
-![EA Model](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/docs/EAModel.png?raw=true)
+![EA Model](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/docs/images/EAModel.png?raw=true)
 We highlight the following aspects:
 
 * Cards have a weak relationship with a list because, although a card always has to be part of a board, it doesn't always
@@ -23,7 +23,7 @@ The conceptual model has the following restrictions:
 Our database scheme was
 defined [here](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/src/main/sql/createSchema.sql)
 
-![Physical Model](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/docs/DBDiagram.png?raw=true)
+![Physical Model](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/docs/images/DBDiagram.png?raw=true)
 
 We highlight the following aspects of this model:
 
