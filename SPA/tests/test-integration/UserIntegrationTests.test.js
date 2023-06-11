@@ -1,23 +1,29 @@
-import {GetUserDetailsFetch} from "../../components/api/fetch/users/GetUserDetailsFetch";
-let bearerToken = "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9"
-let userId = 1
-jest.mock("../../../static-content/components/utils/storage/get-token.js", () => ({
-    getUserToken: jest.fn(() => bearerToken),
+import {GetUserDetailsFetch} from "../../static-content/components/api/fetch/users/GetUserDetailsFetch";
+import {CreateUserFetch} from "../../static-content/components/api/fetch/users/CreateUserFetch";
+
+jest.mock("../../../SPA/static-content/components/utils/storage/get-token.js", () => ({
+    getUserToken: jest.fn(() => global.BToken),
 }));
 
-jest.mock("../../../static-content/components/utils/storage/get-user.js", () => ({
-    getUser: jest.fn(() => userId),
+jest.mock("../../../SPA/static-content/components/utils/storage/get-user.js", () => ({
+    getUser: jest.fn(() => global.UID),
 }));
+
+const name = "MrBest1"
+const email= "MrBest1@isel.pt "
+const password = "007erag"
 
 describe("Users Integration Tests", () => {
-
+    beforeAll(async () => {
+        const response = await CreateUserFetch(name, email, password);
+        global.BToken = response.token
+        global.UID = response.id
+    })
     it("Get User Details Integrated", async () => {
-        const response = await GetUserDetailsFetch(userId);
-
-        // Verify if the response contains a user ID and user name
-        expect(response).toHaveProperty("id");
-        expect(response).toHaveProperty("name");
-        expect(response.id).toEqual(userId);
+        const response = await GetUserDetailsFetch(global.UID);
+        expect(response.id).toEqual(global.UID);
+        expect(response.name).toEqual(name);
+        expect(response.email).toEqual(email);
 
     });
 });

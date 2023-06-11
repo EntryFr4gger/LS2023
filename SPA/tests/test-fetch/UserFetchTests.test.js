@@ -1,16 +1,16 @@
-import {CreateUserFetch} from "../../components/api/fetch/users/CreateUserFetch";
-import {GetAllUsers} from "../../components/api/fetch/users/GetAllUsers";
-import {GetUserDetailsFetch} from "../../components/api/fetch/users/GetUserDetailsFetch";
-import {LoginUserFetch} from "../../components/api/fetch/users/LoginUserFetch";
-import {GetUserBoardsFetch} from "../../components/api/fetch/users/GetUserBoardsFetch";
+import {CreateUserFetch} from "../../static-content/components/api/fetch/users/CreateUserFetch";
+import {GetAllUsers} from "../../static-content/components/api/fetch/users/GetAllUsers";
+import {GetUserDetailsFetch} from "../../static-content/components/api/fetch/users/GetUserDetailsFetch";
+import {LoginUserFetch} from "../../static-content/components/api/fetch/users/LoginUserFetch";
+import {GetUserBoardsFetch} from "../../static-content/components/api/fetch/users/GetUserBoardsFetch";
 
 const bearerToken = "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9"
 const userId = 1
-jest.mock("../../../static-content/components/utils/storage/get-token.js", () => ({
+jest.mock("../../../SPA/static-content/components/utils/storage/get-token.js", () => ({
     getUserToken: jest.fn(() => bearerToken),
 }));
 
-jest.mock("../../../static-content/components/utils/storage/get-user.js", () => ({
+jest.mock("../../../SPA/static-content/components/utils/storage/get-user.js", () => ({
     getUser: jest.fn(() => userId),
 }));
 

@@ -1,10 +1,10 @@
-import {CreateCardFetch} from "../../components/api/fetch/cards/CreateCardFetch";
-import {DeleteCardFetch} from "../../components/api/fetch/cards/DeleteCardsFetch";
-import {GetCardDetailsFetch} from "../../components/api/fetch/cards/GetCardDetailsFetch";
-import {MoveCardFetch} from "../../components/api/fetch/cards/MoveCardFetch";
+import {CreateCardFetch} from "../../static-content/components/api/fetch/cards/CreateCardFetch";
+import {DeleteCardFetch} from "../../static-content/components/api/fetch/cards/DeleteCardsFetch";
+import {GetCardDetailsFetch} from "../../static-content/components/api/fetch/cards/GetCardDetailsFetch";
+import {MoveCardFetch} from "../../static-content/components/api/fetch/cards/MoveCardFetch";
 
 const bearerToken = "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9"
-jest.mock("../../../static-content/components/utils/storage/get-token.js", () => ({
+jest.mock("../../../SPA/static-content/components/utils/storage/get-token.js", () => ({
     getUserToken: jest.fn(() => bearerToken),
 }));
 global.fetch = jest.fn().mockResolvedValue({
