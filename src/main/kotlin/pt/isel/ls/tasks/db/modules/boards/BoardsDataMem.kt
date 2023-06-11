@@ -51,12 +51,16 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         skip: Int,
         limit: Int,
         onlyReturnArchived: Boolean
-    ): List<Card> =
-        source.cards.toList().mapNotNull {
+    ): List<Card> {
+        val filteredCards = source.cards.toList().mapNotNull {
             it.second.takeIf { card ->
                 card.boardId == boardId && if (onlyReturnArchived) card.listId == null else true
             }
         }
+        val startIndex = minOf(skip, filteredCards.size)
+        val endIndex = minOf(startIndex + limit, filteredCards.size)
+        return filteredCards.subList(startIndex, endIndex)
+    }
 
     override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int) =
         source.userBoard.filter { hash -> hash.value.contains(boardId) }
