@@ -5,7 +5,8 @@
     ],
     "globals": {
       "BToken": "Bearer a",
-      "UID": 1
+      "UID": 1,
+      "BoardID": 1
     }
   },
   "scripts": {
