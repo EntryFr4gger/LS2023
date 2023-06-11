@@ -5,7 +5,7 @@ import {GetListDetailsFetch} from "../../components/api/fetch/lists/GetListDetai
 import {RepositionCardFetch} from "../../components/api/fetch/lists/RepositionCardFetch";
 
 const bearerToken = "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9"
-jest.mock("../../../static-content/components/utils/get-token.js", () => ({
+jest.mock("../../../static-content/components/utils/storage/get-token.js", () => ({
     getUserToken: jest.fn(() => bearerToken),
 }));
 global.fetch = jest.fn().mockResolvedValue({

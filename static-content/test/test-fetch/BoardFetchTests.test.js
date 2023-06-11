@@ -1,14 +1,14 @@
 import {AddUserToBoardFetch} from "../../components/api/fetch/boards/AddUserToBoardFetch";
 import {CreateBoardFetch} from "../../components/api/fetch/boards/CreateBoardFetch";
 import {DeleteBoardFetch} from "../../components/api/fetch/boards/DeleteBoardFetch";
-import {GetBoardCardsArchivedFetch, GetBoardCardsFetch} from "../../components/api/fetch/boards/GetBoardCardsFetch";
 import {GetBoardDetailsFetch} from "../../components/api/fetch/boards/GetBoardDetailsFetch";
 import {GetBoardListsFetch} from "../../components/api/fetch/boards/GetBoardListsFetch";
 import {GetBoardUsersFetch} from "../../components/api/fetch/boards/GetBoardUsersFetch";
 import {SearchBoardsFetch} from "../../components/api/fetch/boards/SearchBoardsFetch";
+import {GetBoardCardsArchivedFetch} from "../../components/api/fetch/boards/GetBoardCardsArchivedFetch";
 
 const bearerToken = "Bearer 9f1e3d11-8c18-4cd7-93fc-985c4794cfd9"
-jest.mock("../../../static-content/components/utils/get-token.js", () => ({
+jest.mock("../../../static-content/components/utils/storage/get-token.js", () => ({
     getUserToken: jest.fn(() => bearerToken),
 }));
 global.fetch = jest.fn().mockResolvedValue({
