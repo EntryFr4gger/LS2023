@@ -13,7 +13,7 @@ jest.mock("../../../SPA/static-content/components/utils/storage/get-user.js", ()
 
 
 const userName = "MrBest"
-const email= "MrBest@isel.pt "
+const email = "MrBest@isel.pt "
 const password = "007erag"
 
 const BName = "BName"
@@ -24,7 +24,7 @@ describe("Users Integration Tests", () => {
         const response = await CreateUserFetch(userName, email, password);
         global.BToken = "Bearer " + response.token;
         global.UID = response.id;
-        const board = await CreateBoardFetch(BName,BDescription);
+        const board = await CreateBoardFetch(BName, BDescription);
         global.BoardID = board.id;
     })
     it("Get User Details Integrated", async () => {
@@ -37,6 +37,6 @@ describe("Users Integration Tests", () => {
 
     it("Gets all Users in the user board", async () => {
         const response = await GetAllUsers(global.BoardID);
-        expect(response.users).toEqual([{id: global.UID, name : userName, email: email }])
+        expect(response.users).toEqual([{id: global.UID, name: userName, email: email}])
     });
 });

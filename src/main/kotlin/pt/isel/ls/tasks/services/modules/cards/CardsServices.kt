@@ -40,8 +40,8 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
             authorizationBoard(conn, boardId, requestId)
             authorizationList(conn, listId, requestId)
 
-            val cix = source.lists.getAllCards(conn,listId,0,Int.MAX_VALUE).maxByOrNull { it.cix }?.cix ?: 0
-            source.cards.createNewCard(conn, name, description, cix+1 ,dueDate, boardId, listId)
+            val cix = source.lists.getAllCards(conn, listId, 0, Int.MAX_VALUE).maxByOrNull { it.cix }?.cix ?: 0
+            source.cards.createNewCard(conn, name, description, cix + 1, dueDate, boardId, listId)
         }
     }
 
@@ -81,8 +81,9 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
             listId?.let { authorizationList(conn, listId, requestId) }
-            val card = source.cards.getCardDetails(conn,cardId)
-            source.cards.moveCard(conn, listId, cardId).also { card.listId?.let { organizeCards(conn,it) }} }
+            val card = source.cards.getCardDetails(conn, cardId)
+            source.cards.moveCard(conn, listId, cardId).also { card.listId?.let { organizeCards(conn, it) } }
+        }
     }
 
     /**
@@ -99,7 +100,7 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
 
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
-            var sucess = false
+            var sucess: Boolean
             source.cards.getCardDetails(conn, cardId)
                 .also { card ->
                     sucess = source.cards.deleteCard(conn, cardId)

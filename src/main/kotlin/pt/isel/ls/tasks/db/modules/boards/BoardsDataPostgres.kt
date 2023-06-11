@@ -62,7 +62,7 @@ class BoardsDataPostgres : BoardsDB {
 
         val res = prp.executeQuery()
 
-        return if(res.next()) res.toBoard() else throw NotFoundException("Couldn't get Board($boardId) Details")
+        return if (res.next()) res.toBoard() else throw NotFoundException("Couldn't get Board($boardId) Details")
     }
 
     override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> {

@@ -24,28 +24,28 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         conn: TransactionManager,
         name: String,
         description: String,
-        cix:Int,
+        cix: Int,
         dueDate: LocalDate?,
         boardId: Int,
         listId: Int?
     ) =
         source.nextCardId.getAndIncrement().let { id ->
-            source.cards[id] = Card(id, name, description, dueDate, cix,boardId, listId)
+            source.cards[id] = Card(id, name, description, dueDate, cix, boardId, listId)
             id
         }
 
     override fun getCardDetails(conn: TransactionManager, cardId: Int): Card =
         source.cards[cardId] ?: throw NotFoundException("Couldn't get Card($cardId) Details")
 
-    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) : Boolean {
+    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int): Boolean {
         val card = source.cards[cardId] ?: throw NotFoundException("Card($cardId) Not Found")
         source.cards[cardId] = card.copy(listId = listId)
         return source.cards[cardId]?.listId == listId
     }
 
-    override fun deleteCard(conn: TransactionManager, cardId: Int) : Boolean {
+    override fun deleteCard(conn: TransactionManager, cardId: Int): Boolean {
         val res = source.cards.remove(cardId)
-        return res!=null || throw SQLException("Card($cardId) delete was unsuccessful")
+        return res != null || throw SQLException("Card($cardId) delete was unsuccessful")
     }
 
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean =

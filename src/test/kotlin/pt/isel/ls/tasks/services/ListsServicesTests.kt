@@ -3,7 +3,6 @@ package pt.isel.ls.tasks.services
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
-import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.services.errors.ServicesError
 import kotlin.test.Ignore
@@ -108,9 +107,9 @@ class ListsServicesTests : ClearData() {
     @Test
     fun `Get cards of list correctly`() {
         assertEquals(
-                listOf(storage.cards[4]),
-                services.lists.getCardsOfList(3, 1, 1, 1)
-            )
+            listOf(storage.cards[4]),
+            services.lists.getCardsOfList(3, 1, 1, 1)
+        )
     }
 
     @Test
