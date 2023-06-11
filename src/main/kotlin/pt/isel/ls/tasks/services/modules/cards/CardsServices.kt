@@ -27,23 +27,21 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
         description: String,
         dueDate: LocalDate?,
         boardId: Int,
-        listId: Int?,
+        listId: Int,
         requestId: Int
     ): Int {
         isValidCardName(name)
         isValidCardDescription(description)
         isValidBoardId(boardId)
-        listId?.let { isValidListId(listId) }
+        isValidListId(listId)
         isValidUserId(requestId)
 
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
-            listId?.let { authorizationList(conn, listId, requestId) }
+            authorizationList(conn, listId, requestId)
 
-            source.cards.createNewCard(conn, name, description, dueDate, boardId, listId)
-                .also {
-                    listId?.let { organizeCards(conn, listId) }
-                }
+            val cix = source.lists.getAllCards(conn,listId,Int.MAX_VALUE,Int.MAX_VALUE).maxByOrNull { it.cix }?.cix ?: 0
+            source.cards.createNewCard(conn, name, description, cix+1 ,dueDate, boardId, listId)
         }
     }
 
@@ -83,8 +81,8 @@ class CardsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authorizationCard(conn, cardId, requestId)
             listId?.let { authorizationList(conn, listId, requestId) }
-            source.cards.moveCard(conn, listId, cardId)
-        }
+            val card = source.cards.getCardDetails(conn,cardId)
+            source.cards.moveCard(conn, listId, cardId).also { card.listId?.let { organizeCards(conn,it) }} }
     }
 
     /**

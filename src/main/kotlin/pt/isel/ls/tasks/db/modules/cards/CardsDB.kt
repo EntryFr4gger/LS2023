@@ -12,6 +12,7 @@ interface CardsDB {
 
     /**
      * Creates a new card in a list.
+     * cix should be the next available slot
      *
      * @param conn connection to a database.
      * @param name the task name.
@@ -26,6 +27,7 @@ interface CardsDB {
         conn: TransactionManager,
         name: String,
         description: String,
+        cix:Int,
         dueDate: LocalDate?,
         boardId: Int,
         listId: Int?

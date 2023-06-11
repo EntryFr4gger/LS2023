@@ -57,19 +57,21 @@ class CardsDataPostgres : CardsDB {
         conn: TransactionManager,
         name: String,
         description: String,
+        cix: Int,
         dueDate: LocalDate?,
         boardId: Int,
         listId: Int?
     ): Int {
         val obj = conn.connection().prepareStatement(
-            "INSERT INTO cards(name, description, duedate, board_id, list_id) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO cards(name, description, duedate, cix, board_id, list_id) VALUES (?, ?, ?, ?, ?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
         obj.setString(1, name)
         obj.setString(2, description)
-        obj.setDateIfNotNull(3, dueDate, Types.DATE)
-        obj.setInt(4, boardId)
-        obj.setIntIfNotNull(5, listId, Types.INTEGER)
+        obj.setInt(3,cix)
+        obj.setDateIfNotNull(4, dueDate, Types.DATE)
+        obj.setInt(5, boardId)
+        obj.setIntIfNotNull(6, listId, Types.INTEGER)
 
         if (obj.executeUpdate() == 0) throw SQLException("Card Creation Failed with name:$name")
 
