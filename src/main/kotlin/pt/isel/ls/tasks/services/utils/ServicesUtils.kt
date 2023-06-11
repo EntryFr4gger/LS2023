@@ -13,12 +13,6 @@ import java.security.MessageDigest
 open class ServicesUtils(open val source: TaskData) {
 
     /**
-     *
-     * Validate Tables
-     *
-     * */
-
-    /**
      * Validates if user email is new.
      *
      * @param conn connection to a database.
@@ -117,7 +111,7 @@ open class ServicesUtils(open val source: TaskData) {
     }
 
     /**
-     * Verifys if User as authorization to access Board.
+     * Verifys if User has authorization to access the Board.
      *
      * @param conn connection to a database.
      * @param boardId board unique identifier.
@@ -135,7 +129,7 @@ open class ServicesUtils(open val source: TaskData) {
     }
 
     /**
-     * Verifys if User as authorization to access List.
+     * Verifys if User has authorization to access List.
      *
      * @param conn connection to a database.
      * @param listId list unique identifier.
@@ -153,7 +147,7 @@ open class ServicesUtils(open val source: TaskData) {
     }
 
     /**
-     * Verifys if User as authorization to access Card.
+     * Verifys if User has authorization to access Card.
      *
      * @param conn connection to a database.
      * @param cardId card unique identifier.
@@ -177,7 +171,8 @@ open class ServicesUtils(open val source: TaskData) {
      * */
 
     /**
-     * Organize all cards after change the index of the disered card.
+     * Places the card in the desired cix
+     * Keeps the cix's unique and in order
      *
      * @param conn connection to a database.
      * @param listId list unique identifier.
@@ -185,16 +180,17 @@ open class ServicesUtils(open val source: TaskData) {
      * @param cix desired index.
      * */
     fun organizeListCards(conn: TransactionManager, listId: Int, cardId: Int, cix: Int) {
+        val cards = source.lists.getAllCards(conn, listId, 0, Int.MAX_VALUE).sortedBy { it.cix }
         updateCardsList(
             conn,
-            source.lists.getAllCards(conn, listId, 0, Int.MAX_VALUE)
-                .map {
-                    when {
-                        it.id == cardId -> it.copy(cix = cix)
-                        it.cix == cix -> it.copy(cix = cix + 1)
-                        else -> it
-                    }
+            cards.map { card ->
+                when {
+                    cards.last().cix==cix && card.id==cardId -> card.copy(cix = cix + 2)
+                    card.id == cardId -> card.copy(cix = cix)
+                    card.cix >= cix -> card.copy(cix = card.cix + 1)
+                    else -> card
                 }
+            }
         )
     }
 
@@ -209,6 +205,7 @@ open class ServicesUtils(open val source: TaskData) {
 
     /**
      * Sorts the list of cards, reorganize for index and update the database.
+     * Also fixes cix sequentiality
      *
      * @param conn connection to a database.
      * @param cardsList list of Cards.
@@ -288,7 +285,7 @@ open class ServicesUtils(open val source: TaskData) {
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidFieldsListDetails(fields: kotlin.collections.List<String>) {
-        val validFields = listOf("cards") // "id", "name", "boardId",
+        val validFields = listOf("cards")
         if (!isValidFields(validFields, fields)) {
             throw ServicesError.InvalidArgumentException("Given fields were invalid ${fields.joinToString(" ")}")
         }
@@ -452,19 +449,6 @@ open class ServicesUtils(open val source: TaskData) {
     fun isValidListName(name: String) {
         if (!List.isValidName(name)) {
             throw ServicesError.InvalidArgumentException("List name with wrong length($name)")
-        }
-    }
-
-    /**
-     * Verifys if token is valid.
-     *
-     * @param token user token.
-     *
-     * @throws ServicesError.InvalidArgumentException token isn't correct.
-     * */
-    fun isValidToken(token: String) {
-        if (!Token.isValidToken(token)) {
-            throw ServicesError.InvalidArgumentException("Token does not obey rules($token)")
         }
     }
 

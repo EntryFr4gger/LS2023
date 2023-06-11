@@ -94,7 +94,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
         return source.run { conn ->
             authorizationList(conn, listId, requestId)
 
-            source.lists.getAllCards(conn, listId, skip, limit)
+            source.lists.getAllCards(conn, listId, skip, limit).sortedBy { it.cix }
         }
     }
 
