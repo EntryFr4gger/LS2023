@@ -1,5 +1,6 @@
 import {getUserToken} from "../../../utils/storage/get-token.js";
 import {SetNotNull} from "../../../utils/set-not-null.js";
+import SafeFetch from "../../../utils/safe-fetch.js";
 
 /**
  * Executes a fetch request to API.
@@ -16,7 +17,7 @@ export async function SearchBoardsFetch(name, skip, limit) {
     SetNotNull("name", name, params)
     SetNotNull("skip", skip, params)
     SetNotNull("limit", limit, params)
-    return await fetch(`boards/?${params}`, {
+    return await SafeFetch(`boards/?${params}`, {
         headers: {Authorization: getUserToken()}
     });
 }
