@@ -65,7 +65,7 @@ class BoardsTestDataMem {
                     storage.lists[1],
                     storage.lists[2]
                 ),
-                boards.getAllLists(conn, 1, 1, 1)
+                boards.getAllLists(conn, 1, 0, 2)
             )
         }
     }
@@ -103,7 +103,7 @@ class BoardsTestDataMem {
                     storage.users[1],
                     storage.users[2]
                 ),
-                boards.getBoardUsers(conn, 2, 1, 1)
+                boards.getBoardUsers(conn, 2, 0, 2)
             )
         }
     }
@@ -113,10 +113,9 @@ class BoardsTestDataMem {
         source.run { conn ->
             assertEquals(
                 listOf(
-                    storage.users[1],
-                    storage.users[2]
+                    storage.boards[2]
                 ),
-                boards.getBoardUsers(conn, 2, 1, 1)
+                boards.searchBoards(conn, 0, 1, "com", 1)
             )
         }
     }

@@ -33,7 +33,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
     }
 
     /**
-     * Moves a card to a list.
+     * Moves a card inside the list.
      *
      * @param listId list unique identifier.
      * @param cardId card unique identifier.

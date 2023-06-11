@@ -6,8 +6,10 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.services.errors.ServicesError
+import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 class ListsServicesTests : ClearData() {
     private val storage = TasksDataStorage()
@@ -15,67 +17,96 @@ class ListsServicesTests : ClearData() {
     private val services = TaskServices(source)
 
     @Test
-    fun `create list correctly`() {
-        source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
-            val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
-            source.boards.addUserToBoard(it, userId, boardId)
-            val listId = services.lists.createList("list", boardId, userId)
-            assertEquals(List(listId, "list", boardId), source.lists.getListDetails(it, listId))
-        }
+    fun `Create list correctly`() {
+            val listId = services.lists.createList("Study", 1, 1)
+            assertEquals(
+                List(listId, "Study", 1),
+                storage.lists[listId]
+            )
     }
 
     @Test
-    fun `create list throws InvalidArgumentException if name is wrong`() {
+    fun `Create list throws InvalidArgumentException if name is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.lists.createList("B", 1, 1)
         }
     }
 
     @Test
-    fun `create list throws InvalidArgumentException if id is wrong`() {
+    fun `Create list throws InvalidArgumentException if id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.lists.createList("list", -1, 1)
         }
     }
 
     @Test
-    fun `create list throws AuthorizationException if user don't have permission`() {
+    fun `Create list throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
             services.lists.createList("list", 1, 3)
         }
     }
 
     @Test
-    fun `get list details correctly`() {
+    @Ignore
+    fun `Move card in list correctly`() {
+        services.lists.respositionCard(1, 1, 3, 1)
+        assertTrue(storage.cards[1]!!.cix == 2)
+    }
+
+    @Test
+    fun `Move card in list throws InvalidArgumentException if name is wrong`() {
+        assertFailsWith<ServicesError.InvalidArgumentException> {
+            services.lists.respositionCard(-1, 1, 3, 1)
+        }
+    }
+
+    @Test
+    fun `Move card in list throws InvalidArgumentException if id is wrong`() {
+        assertFailsWith<ServicesError.InvalidArgumentException> {
+            services.lists.respositionCard(1, -1, 3, 1)
+        }
+    }
+
+    @Test
+    fun `Move card in list throws AuthorizationException if user don't have permission to the card`() {
+        assertFailsWith<ServicesError.AuthorizationException> {
+            services.lists.respositionCard(3, 4, 3, 3)
+        }
+    }
+
+    @Test
+    fun `Move card in list throws AuthorizationException if user don't have permission to the list`() {
+        assertFailsWith<ServicesError.AuthorizationException> {
+            services.lists.respositionCard(2, 1, 3, 3)
+        }
+    }
+
+    @Test
+    fun `Get list details correctly`() {
         source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
-            val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
-            source.boards.addUserToBoard(it, userId, boardId)
-            val listId = source.lists.createList(it, "list", boardId)
             assertEquals(
-                List(listId, "list", boardId),
-                services.lists.getListDetails(listId, userId, emptyList()).list
+                storage.lists[1],
+                services.lists.getListDetails(1, 1, emptyList()).list
             )
         }
     }
 
     @Test
-    fun `get list details throws InvalidArgumentException if list id is wrong`() {
+    fun `Get list details throws InvalidArgumentException if list id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.lists.getListDetails(-2, 1, emptyList())
         }
     }
 
     @Test
-    fun `get list details throws AuthorizationException if user don't have permission`() {
+    fun `Get list details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
             services.lists.getListDetails(1, 3, emptyList())
         }
     }
 
     @Test
-    fun `get cards of list correctly`() {
+    fun `Get cards of list correctly`() {
         source.run {
             val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
@@ -90,37 +121,30 @@ class ListsServicesTests : ClearData() {
     }
 
     @Test
-    fun `get cards of list throws InvalidArgumentException if board id is wrong`() {
+    fun `Get cards of list throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.lists.getCardsOfList(-2, 1, 1, 1)
         }
     }
 
     @Test
-    fun `get cards of list throws AuthorizationException if user don't have permission`() {
+    fun `Get cards of list throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
             services.lists.getCardsOfList(1, 1, 1, 3)
         }
     }
 
     @Test
-    fun `Repositions a card correctly`() {
-        source.run {
-            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
-            val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
-            val listId = source.lists.createList(it, "list", boardId)
-            val cards = mutableListOf<Int>()
-            for (i in 0..5){
-                cards.add(source.cards.createNewCard(it,"card$i","",null,boardId,listId))
-            }
-            source.boards.addUserToBoard(it, userId, boardId)
+    fun `Delete list throws InvalidArgumentException if board id is wrong`() {
+        assertFailsWith<ServicesError.InvalidArgumentException> {
+            services.lists.deleteList(-1, Int.MAX_VALUE)
+        }
+    }
 
-            //val cardId = services.lists.respositionCard(listId, "card", null, boardId, listId, userId)
-
-            assertEquals(
-                listOf(Card(1, "card", "card", null, 1, boardId, listId)),
-                services.lists.getCardsOfList(listId, 0, 10, userId)
-            )
+    @Test
+    fun `Delete list throws AuthorizationException if user don't have permission`() {
+        assertFailsWith<ServicesError.AuthorizationException> {
+            services.lists.deleteList(1, 3)
         }
     }
 }

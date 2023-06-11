@@ -1,11 +1,10 @@
 package pt.isel.ls.tasks.db.modules.users
 
-import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
+import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
-import pt.isel.ls.tasks.services.TaskServices
 
 class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
 
@@ -51,8 +50,12 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
     override fun getUserDetails(conn: TransactionManager, userId: Int) =
         source.users[userId] ?: throw NotFoundException("Couldn't get User($userId) Details")
 
-    override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int) =
-        source.userBoard[userId]?.mapNotNull { source.boards[it] } ?: emptyList()
+    override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board> {
+        val filteredBoards = source.userBoard[userId]?.mapNotNull { source.boards[it] } ?: emptyList()
+        val startIndex = minOf(skip, filteredBoards.size)
+        val endIndex = minOf(startIndex + limit, filteredBoards.size)
+        return filteredBoards.subList(startIndex, endIndex)
+    }
 
     override fun deleteBoardUsers(conn: TransactionManager, boardId: Int) {
         source.userBoard.forEach {
