@@ -1,4 +1,4 @@
-import {GetAllUsers} from "../../components/api/fetch/users/GetAllUsers.js";
+import {GetAllUsersNotInBoard} from "../../components/api/fetch/users/GetAllUsersNotInBoard.js";
 import {OptionOfUsers} from "../../components/ui/pagination/users/OptionOfUsers.js";
 import {div} from "../../components/dom/domTags.js";
 
@@ -11,7 +11,7 @@ async function GetAllUsersHandler(state) {
 
     const boardId = state.pathParams["board_id"]
 
-    const {users} = await GetAllUsers(boardId)
+    const {users} = await GetAllUsersNotInBoard(boardId)
 
     if (users) {
         return div(

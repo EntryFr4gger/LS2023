@@ -94,20 +94,20 @@ class UsersServices(source: TaskData) : ServicesUtils(source) {
     }
 
     /**
-     * Gets all Users in the database.
+     * Gets all Users that are not on the board.
      *
      * @param boardId to remove users from board.
      * @param requestId request user unique identifier.
      *
      * @return list of Users.
      * */
-    fun getAllUsers(boardId: Int, requestId: Int): List<User> {
+    fun getAllUsersNotInBoard(boardId: Int, requestId: Int): List<User> {
         isValidUserId(requestId)
 
         return source.run { conn ->
             authorizationBoard(conn, boardId, requestId)
 
-            source.users.getAllUsers(conn, boardId)
+            source.users.getAllUsersNotInBoard(conn, boardId)
         }
     }
 }

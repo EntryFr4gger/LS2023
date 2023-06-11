@@ -1,5 +1,5 @@
 import {CreateUserFetch} from "../../static-content/components/api/fetch/users/CreateUserFetch";
-import {GetAllUsers} from "../../static-content/components/api/fetch/users/GetAllUsers";
+import {GetAllUsersNotInBoard} from "../../static-content/components/api/fetch/users/GetAllUsersNotInBoard.js";
 import {GetUserDetailsFetch} from "../../static-content/components/api/fetch/users/GetUserDetailsFetch";
 import {LoginUserFetch} from "../../static-content/components/api/fetch/users/LoginUserFetch";
 import {GetUserBoardsFetch} from "../../static-content/components/api/fetch/users/GetUserBoardsFetch";
@@ -38,7 +38,7 @@ describe("Users Fetch Tests", () => {
     it("Get All Users Fetch", async () => {
         const boardId = 1;
 
-        await GetAllUsers(boardId);
+        await GetAllUsersNotInBoard(boardId);
 
         expect(fetch).toHaveBeenCalledWith(`users/${userId}`, {
             method: "POST",

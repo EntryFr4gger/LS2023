@@ -89,7 +89,7 @@ class UsersDataPostgres : UsersDB {
         if (res.executeUpdate() == 0) throw SQLException("UserBoard($boardId) delete was unsuccessful")
     }
 
-    override fun getAllUsers(conn: TransactionManager, boardId: Int): List<User> {
+    override fun getAllUsersNotInBoard(conn: TransactionManager, boardId: Int): List<User> {
         val prp = conn.connection().prepareStatement(
             "SELECT DISTINCT ON (id) id, name, email FROM users u JOIN user_board ub ON ub.user_id = u.id WHERE user_id NOT IN (SELECT DISTINCT user_id FROM user_board ub where ub.board_id = ?)"
         )
