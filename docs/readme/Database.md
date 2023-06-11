@@ -23,7 +23,7 @@ The conceptual model has the following restrictions:
 Our database scheme was
 defined [here](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/src/main/sql/createSchema.sql)
 
-![Physical Model](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/src/main/kotlin/pt/isel/ls/tasks/docs/DBDiagram.png?raw=true)
+![Physical Model](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/docs/DBDiagram.png?raw=true)
 
 We highlight the following aspects of this model:
 

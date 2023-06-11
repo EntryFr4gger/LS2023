@@ -3,7 +3,7 @@
 ### Open-API Specification ###
 
 In
-our [Open-API](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/main/docs/api.yaml)
+our [Open-API](https://github.com/isel-leic-ls/2223-2-LEIC41N-G01/blob/docs/api.yaml)
 specification, we highlight the following aspects:
 
 - Currently, it is not possible to access it via our API due to time constraints, but it is possible to test it with the
