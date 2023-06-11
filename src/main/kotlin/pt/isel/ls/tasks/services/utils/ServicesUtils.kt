@@ -184,14 +184,14 @@ open class ServicesUtils(open val source: TaskData) {
      * @param cardId card unique identifier.
      * @param cix desired index.
      * */
-    fun organizeListCards(conn: TransactionManager, listId: Int, cardId: Int, cix: Int?) {
+    fun organizeListCards(conn: TransactionManager, listId: Int, cardId: Int, cix: Int) {
         updateCardsList(
             conn,
             source.lists.getAllCards(conn, listId, 0, Int.MAX_VALUE)
                 .map {
                     when {
                         it.id == cardId -> it.copy(cix = cix)
-                        it.cix != null && it.cix == cix -> it.copy(cix = cix + 1)
+                        it.cix == cix -> it.copy(cix = cix + 1)
                         else -> it
                     }
                 }
@@ -217,7 +217,7 @@ open class ServicesUtils(open val source: TaskData) {
         cardsList.sortedBy { it.cix }
             .mapIndexed { index, card -> card.copy(cix = index + 1) }
             .forEach {
-                source.cards.organizeCardSeq(conn, it.id, it.cix!!)
+                source.cards.organizeCardSeq(conn, it.id, it.cix)
             }
     }
 

@@ -8,20 +8,15 @@ import org.http4k.core.Status
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.routers.cards.models.CardDTO
 import pt.isel.ls.tasks.api.routers.cards.models.CardId
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class CardsRouterTest : InstanceProjectTest() {
     @Test
     fun `Creates a new card`() {
-        val name = "testUser"
-        val email = "test1@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(name, email, password)
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
-        val nameL1 = "testList"
-        val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
+        val list1Id = services.lists.createList("testList", boardId, idNToken.id)
 
         val requestBody = """
             {
@@ -48,13 +43,9 @@ class CardsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Get the detailed information of a card `() {
-        val userName = "testUser"
-        val email = "test1@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(userName, email, password)
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
-        val listName = "testList"
-        val listId = services.lists.createList(listName, boardId, idNToken.id)
+        val listId = services.lists.createList("testList", boardId, idNToken.id)
         val exampleLD = LocalDate(2023, 3, 21) // optional
         val cardName = "Card 1"
         val cardDescription = "Card 1 description"
@@ -75,32 +66,20 @@ class CardsRouterTest : InstanceProjectTest() {
     }
 
     @Test
-    @Ignore
     fun `Moves a card given a new list`() {
-        TODO("Change the way update works then make this test work")
-        val userName = "testUser"
-        val email = "test1@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(userName, email, password)
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
-        val list1Name = "testList 1"
-        val list2Name = "testList 2"
-        val list1Id = services.lists.createList(list1Name, boardId, idNToken.id)
-        val list2Id = services.lists.createList(list2Name, boardId, idNToken.id)
+        val list1Id = services.lists.createList("testList 1", boardId, idNToken.id)
+        val list2Id = services.lists.createList("testList 2", boardId, idNToken.id)
         val exampleLD = LocalDate(2023, 3, 21)
         val cardName = "Card 1"
         val cardDescription = "Card 1 description"
         val cardId =
             services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, list1Id, idNToken.id)
 
-        db.run { conn ->
-            assertEquals(list1Id, db.cards.getCardDetails(conn, cardId).listId)
-        }
-
         val requestBody = """
             {
-             "lid": $list2Id,
-             "cix": 1
+             "lid": $list2Id
              }
          """
 
@@ -112,10 +91,31 @@ class CardsRouterTest : InstanceProjectTest() {
         send(request)
             .apply {
                 assertEquals(Status.OK, this.status)
-                val cardSwapSucess = format.decodeFromString<String>(this.bodyString())
-                assertTrue(cardSwapSucess.toBoolean())
                 db.run { conn ->
                     assertEquals(list2Id, db.cards.getCardDetails(conn, cardId).listId)
+                }
+            }
+    }
+
+    @Test
+    fun `Delete a card given its id`() {
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
+        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
+        val listId = services.lists.createList("testList 1", boardId, idNToken.id)
+        val exampleLD = LocalDate(2023, 3, 21)
+        val cardName = "Card 1"
+        val cardDescription = "Card 1 description"
+        val cardId =
+            services.cards.createNewCard(cardName, cardDescription, exampleLD, boardId, listId, idNToken.id)
+
+        val request = Request(Method.DELETE, "${path}cards/$cardId")
+            .header("Authorization", "Bearer ${idNToken.token}")
+
+        send(request)
+            .apply {
+                assertEquals(Status.OK, this.status)
+                db.run { conn ->
+                    assertTrue { db.lists.getAllCards(conn, listId,0 ,10).isEmpty() }
                 }
             }
     }

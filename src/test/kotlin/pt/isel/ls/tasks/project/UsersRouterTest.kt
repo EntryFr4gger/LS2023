@@ -7,6 +7,7 @@ import org.http4k.core.Status
 import org.junit.jupiter.api.Test
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserDTO
+import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -62,10 +63,7 @@ class UsersRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Get the all user boards available`() {
-        val name = "testUser"
-        val email = "test@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(name, email, password)
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
 
         val boards = listOf(
             services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id),
@@ -85,4 +83,30 @@ class UsersRouterTest : InstanceProjectTest() {
                 assertTrue(boards.containsAll(boardIds))
             }
     }
+
+    @Test
+    @Ignore
+    fun ` Gets all Users in the database`() {
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
+
+        val boards = listOf(
+            services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id),
+            services.boards.createNewBoard("testBoard2", "this is a test board", idNToken.id),
+            services.boards.createNewBoard("testBoard3", "this is a test board", idNToken.id)
+        )
+
+
+        val request = Request(Method.GET, "${path}users/${idNToken.id}/boards")
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer ${idNToken.token}")
+
+        send(request)
+            .apply {
+                assertEquals(Status.OK, this.status)
+                val boardsDTO = format.decodeFromString<UserBoardsDTO>(this.bodyString())
+                val boardIds = boardsDTO.boards.map { it.id }
+                assertTrue(boards.containsAll(boardIds))
+            }
+    }
+
 }

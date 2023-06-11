@@ -16,12 +16,8 @@ class ListsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Creates a new list`() {
-        val name = "testUser"
-        val email = "test1@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(name, email, password)
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
-
         val requestBody = """
             {
              "name":"Lista de teste",
@@ -45,10 +41,7 @@ class ListsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Get list details`() {
-        val name = "testUser"
-        val email = "test1@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(name, email, password)
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
         val nameL1 = "testList"
         val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
@@ -68,13 +61,9 @@ class ListsRouterTest : InstanceProjectTest() {
 
     @Test
     fun `Get the cards in a list`() {
-        val name = "testUser"
-        val email = "test1@gmail.com"
-        val password = "Adsfs123&"
-        val idNToken = services.users.createNewUser(name, email, password)
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
         val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
-        val nameL1 = "testList"
-        val list1Id = services.lists.createList(nameL1, boardId, idNToken.id)
+        val list1Id = services.lists.createList("testList", boardId, idNToken.id)
 
         val exampleLD = LocalDate(2023, 3, 21)
 
@@ -93,6 +82,67 @@ class ListsRouterTest : InstanceProjectTest() {
                 val cardsDTO = Json.decodeFromString<ListCardsDTO>(this.bodyString())
                 val cardIds = cardsDTO.cards.map { it.id }
                 assertTrue { cards.containsAll(cardIds) }
+            }
+    }
+
+
+    @Test
+    fun `Delete list details`() {
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
+        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
+        val list1Id = services.lists.createList("testList", boardId, idNToken.id)
+
+        val request = Request(Method.DELETE, "${path}lists/$list1Id")
+            .header("Authorization", "Bearer ${idNToken.token}")
+
+        send(request)
+            .apply {
+                assertEquals(Status.OK, this.status)
+                val list = format.decodeFromString<ListDTO>(this.bodyString())
+                assertEquals(list1Id, list.id)
+                assertEquals(boardId, list.boardId)
+
+                db.run { conn ->
+                    assertTrue( !db.lists.hasList(conn, list.id) )
+                }
+            }
+    }
+
+    @Test
+    fun ` Moves a card given a new card position`() {
+        val idNToken = services.users.createNewUser("testUser", "tests@gmail.com", "Adsfs123&")
+        val boardId = services.boards.createNewBoard("testBoard1", "this is a test board", idNToken.id)
+        val list1Id = services.lists.createList("testList", boardId, idNToken.id)
+        val exampleLD = LocalDate(2023, 3, 21)
+
+        val cards = listOf(
+            services.cards.createNewCard("card1", "card 1 description", exampleLD, boardId, list1Id, idNToken.id),
+            services.cards.createNewCard("card2", "card 2 description", exampleLD, boardId, list1Id, idNToken.id),
+            services.cards.createNewCard("card3", "card 3 description", exampleLD, boardId, list1Id, idNToken.id)
+        )
+
+        val requestBody = """
+            {
+            cardId : ${cards[2]},
+            cix : ${1}
+            }
+         """
+
+        val request = Request(Method.PUT, "${path}lists/$list1Id/cards")
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer ${idNToken.token}")
+            .body(requestBody)
+
+        send(request)
+            .apply {
+                assertEquals(Status.OK, this.status)
+                val list = format.decodeFromString<ListDTO>(this.bodyString())
+                assertEquals(list1Id, list.id)
+                assertEquals(boardId, list.boardId)
+
+                db.run { conn ->
+                    assertTrue( !db.lists.hasList(conn, list.id) )
+                }
             }
     }
 }

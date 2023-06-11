@@ -29,7 +29,13 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
         listId: Int?
     ) =
         source.nextCardId.getAndIncrement().let { id ->
-            source.cards[id] = Card(id, name, description, dueDate, null, boardId, listId)
+            source.cards[id] =
+                Card(
+                    id, name, description, dueDate,
+                    (source.cards.values.filter { it.listId == listId }
+                        .sortedBy { it.cix }
+                        .last().cix?.let { it+1 })?:1,
+            boardId, listId)
             id
         }
 
