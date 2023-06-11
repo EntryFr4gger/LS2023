@@ -27,7 +27,7 @@ interface TaskData {
     fun reset()
 
     /**
-     * Instaces of objects used for database.
+     * Instaces of objects used for a database.
      * */
     val users: UsersDB
     val tokens: TokensDB

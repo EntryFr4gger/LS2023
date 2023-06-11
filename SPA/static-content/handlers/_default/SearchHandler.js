@@ -22,7 +22,7 @@ async function SearchHandler() {
         }
     }
 
-    return form({class: "d-flex", role: "search", style:{width: "15%"}, onSubmit: search},
+    return form({class: "d-flex", role: "search", style: {width: "15%"}, onSubmit: search},
         input({
             class: "form-control me-2",
             id: "search-res",

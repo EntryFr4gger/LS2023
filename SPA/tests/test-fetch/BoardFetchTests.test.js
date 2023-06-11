@@ -27,8 +27,8 @@ describe("Board Fetch Tests", () => {
 
         expect(fetch).toHaveBeenCalledWith(`boards/${boardId}/users`, {
             method: "POST",
-            headers: { Authorization: bearerToken },
-            body: JSON.stringify({ id: userId }),
+            headers: {Authorization: bearerToken},
+            body: JSON.stringify({id: userId}),
         });
 
     });
@@ -41,8 +41,8 @@ describe("Board Fetch Tests", () => {
 
         expect(fetch).toHaveBeenCalledWith(`boards/`, {
             method: "POST",
-            headers: { Authorization: bearerToken },
-            body: JSON.stringify({ name: name, description:description }),
+            headers: {Authorization: bearerToken},
+            body: JSON.stringify({name: name, description: description}),
         });
     });
 
@@ -53,7 +53,7 @@ describe("Board Fetch Tests", () => {
 
         expect(fetch).toHaveBeenCalledWith(`boards/${boardId}`, {
             method: "DELETE",
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -63,7 +63,7 @@ describe("Board Fetch Tests", () => {
         await GetBoardCardsArchivedFetch(boardId);
 
         expect(fetch).toHaveBeenCalledWith(`boards/${boardId}/cards?archived`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -73,7 +73,7 @@ describe("Board Fetch Tests", () => {
         await GetBoardDetailsFetch(boardId);
 
         expect(fetch).toHaveBeenCalledWith(`boards/${boardId}`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -83,7 +83,7 @@ describe("Board Fetch Tests", () => {
         await GetBoardDetailsFetch(boardId);
 
         expect(fetch).toHaveBeenCalledWith(`boards/${boardId}`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -91,10 +91,10 @@ describe("Board Fetch Tests", () => {
         const boardId = 1;
         const skip = 1;
         const limit = 1;
-        await GetBoardListsFetch(boardId,1,1);
+        await GetBoardListsFetch(boardId, 1, 1);
 
         expect(fetch).toHaveBeenCalledWith(`boards/${boardId}/lists?skip=${skip}&limit=${limit}`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -103,7 +103,7 @@ describe("Board Fetch Tests", () => {
         await GetBoardUsersFetch(boardId);
 
         expect(fetch).toHaveBeenCalledWith(`boards/${boardId}/users`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -111,10 +111,10 @@ describe("Board Fetch Tests", () => {
         const name = "Test";
         const skip = 1;
         const limit = 1;
-        await SearchBoardsFetch(name,skip,limit);
+        await SearchBoardsFetch(name, skip, limit);
 
         expect(fetch).toHaveBeenCalledWith(`boards/?name=${name}&skip=${skip}&limit=${limit}`, {
-            headers: { Authorization: bearerToken },
+            headers: {Authorization: bearerToken},
         });
     });
 

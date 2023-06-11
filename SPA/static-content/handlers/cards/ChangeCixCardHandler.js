@@ -34,5 +34,5 @@ export async function ChangeCixCardHandler(state, listId, cardId) {
         if (response) hashChangeLoc(`#boards/${boardId}`)
     }
 
-    return ChangeCixCard(changeCix, cards)
+    return await ChangeCixCard(changeCix, cards)
 }

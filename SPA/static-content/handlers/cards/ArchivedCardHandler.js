@@ -19,7 +19,7 @@ async function ArchivedCardHandler(state) {
     if (archivedCards) {
         state.body = archivedCards
 
-        return ArchivedCardsPage(state)
+        return await ArchivedCardsPage(state)
     }
 }
 

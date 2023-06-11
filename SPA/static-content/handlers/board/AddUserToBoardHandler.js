@@ -37,7 +37,7 @@ async function AddUserToBoardHandler(state) {
         }
     }
 
-    return FormAddUserBoard(addUserToBoard, await GetAllUsersHandler(state))
+    return await FormAddUserBoard(addUserToBoard, await GetAllUsersHandler(state))
 }
 
 export default AddUserToBoardHandler;

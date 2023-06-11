@@ -17,10 +17,6 @@ function CardDetailsPage(state) {
         h2(`${state.body["name"]}`),
         h5(`${state.body["description"]}`),
         buttonWithHref("Back To Board", `#boards/${state.body["boardId"]}`),
-        /*DeleteCardHandler(state),
-        UpdateCardHandler(state),
-        ChangeCixCardHandler(state),
-        ArchiveCardHandler(state)*/
     )
 }
 

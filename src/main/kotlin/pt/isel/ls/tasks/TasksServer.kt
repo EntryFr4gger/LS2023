@@ -14,8 +14,8 @@ const val PORT = 9000
 fun main() {
     val logger = LoggerFactory.getLogger("Tasks API")
     val services =
-    TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
-    //TaskServices(TasksDataMem(TasksDataStorage()))
+    // TaskServices(TasksDataPostgres("JDBC_DATABASE_URL"))
+    TaskServices(TasksDataMem(TasksDataStorage()))
     val app = TasksAPI(services, logger)
 
     val jettyServer = app.asServer(Jetty(PORT)).start()

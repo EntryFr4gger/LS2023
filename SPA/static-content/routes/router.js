@@ -74,9 +74,6 @@ export function Router() {
 
 export default Router()
 
-
-//Problema: Como as rotas estão defenidas, o path desaparece antes de aparecer o parametro do path...
-
 function isPath(handlerPath, path) {
     // Check if the path does not start with the initial part of the handlerPath or if the handlerPath is "/"
     if (!path.startsWith(handlerPath.split(":")[0]) || handlerPath === "/") {

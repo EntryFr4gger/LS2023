@@ -99,8 +99,8 @@ class BoardsTestDataMem {
         source.run { conn ->
             assertEquals(
                 listOf(
-                    storage.users[1],
-                    storage.users[2]
+                    storage.users[1]!!.copy(password = ""),
+                    storage.users[2]!!.copy(password = "")
                 ),
                 boards.getBoardUsers(conn, 2, 0, 2)
             )

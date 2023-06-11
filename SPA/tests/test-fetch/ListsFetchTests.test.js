@@ -20,12 +20,12 @@ describe("Lists Fetch Tests", () => {
         const name = "New List";
         const boardId = 1;
 
-        await CreateListFetch(name,boardId);
+        await CreateListFetch(name, boardId);
 
         expect(fetch).toHaveBeenCalledWith(`lists/`, {
             method: "POST",
-            headers: { Authorization: bearerToken },
-            body: JSON.stringify({ name: name,boardId:boardId }),
+            headers: {Authorization: bearerToken},
+            body: JSON.stringify({name: name, boardId: boardId}),
         });
     });
 
@@ -36,7 +36,7 @@ describe("Lists Fetch Tests", () => {
 
         expect(fetch).toHaveBeenCalledWith(`lists/${listId}`, {
             method: "DELETE",
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -46,7 +46,7 @@ describe("Lists Fetch Tests", () => {
         await GetListCardsFetch(listId);
 
         expect(fetch).toHaveBeenCalledWith(`lists/${listId}/cards`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -56,7 +56,7 @@ describe("Lists Fetch Tests", () => {
         await GetListDetailsFetch(listId);
 
         expect(fetch).toHaveBeenCalledWith(`lists/${listId}`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -65,12 +65,12 @@ describe("Lists Fetch Tests", () => {
         const cardId = 1;
         const cix = 1;
 
-        await RepositionCardFetch(listId,cardId,cix);
+        await RepositionCardFetch(listId, cardId, cix);
 
         expect(fetch).toHaveBeenCalledWith(`lists/${listId}/cards`, {
             method: "PUT",
-            headers: { Authorization: bearerToken },
-            body: JSON.stringify({ cardId: cardId, cix:cix }),
+            headers: {Authorization: bearerToken},
+            body: JSON.stringify({cardId: cardId, cix: cix}),
         });
     });
 });

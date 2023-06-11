@@ -3,17 +3,17 @@ package pt.isel.ls.tasks.services.errors
 /**
  * Services Error Center.
  * */
-open class ServicesError(val error: String?) : Exception(error) {
+open class ServicesError(error: String?) : Exception(error) {
 
     /**
-     * If user is not authenticated.
+     * If a user is not authenticated.
      *
      * @param msg message given in the exception
      */
     class AuthenticationException(msg: String? = null) : ServicesError(msg)
 
     /**
-     * If user is not authorized.
+     * If a user is not authorized.
      *
      * @param msg message given in the exception
      */

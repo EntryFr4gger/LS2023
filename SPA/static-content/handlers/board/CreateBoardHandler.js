@@ -9,7 +9,7 @@ import {RemoveAttribute} from "../../components/utils/remove-attribute.js";
  *
  * @returns {Promise} A promise that resolves to the rendered form for creating a board.
  */
-function CreateBoardHandler() {
+async function CreateBoardHandler() {
 
     /**
      * createBoard is an asynchronous function that handles the form submission for creating a board.
@@ -31,7 +31,7 @@ function CreateBoardHandler() {
             RemoveAttribute(event.target[2])
     }
 
-    return FormCreateBoard(createBoard)
+    return await FormCreateBoard(createBoard)
 }
 
 export default CreateBoardHandler;

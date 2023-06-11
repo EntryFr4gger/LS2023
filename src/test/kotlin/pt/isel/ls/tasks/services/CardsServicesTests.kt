@@ -28,21 +28,21 @@ class CardsServicesTests : ClearData() {
     @Test
     fun `Create new card throws InvalidArgumentException if name is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.cards.createNewCard("B", "asdsa", null, 1, null, 1)
+            services.cards.createNewCard("B", "asdsa", null, 1, 1, 1)
         }
     }
 
     @Test
     fun `Create new card throws InvalidArgumentException if description is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.cards.createNewCard("Cards", "", null, 1, null, 1)
+            services.cards.createNewCard("Cards", "", null, 1, 1, 1)
         }
     }
 
     @Test
     fun `Create new card throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.cards.createNewCard("Cards", "asdsa", null, -2, null, 1)
+            services.cards.createNewCard("Cards", "asdsa", null, -2, 1, 1)
         }
     }
 
@@ -56,7 +56,7 @@ class CardsServicesTests : ClearData() {
     @Test
     fun `Create new card throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.cards.createNewCard("Cards", "asdsa", null, 1, null, 3)
+            services.cards.createNewCard("Cards", "asdsa", null, 1, 1, 3)
         }
     }
 

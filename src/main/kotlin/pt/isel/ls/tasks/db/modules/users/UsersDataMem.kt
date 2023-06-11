@@ -51,6 +51,7 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         val user = source.users[userId] ?: throw NotFoundException("Couldn't get User($userId) Details")
         return User(user.id, user.name, user.email)
     }
+
     override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board> {
         val filteredBoards = source.userBoard[userId]?.mapNotNull { source.boards[it] } ?: emptyList()
         val startIndex = minOf(skip, filteredBoards.size)
@@ -61,7 +62,7 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
     override fun deleteBoardUsers(conn: TransactionManager, boardId: Int) {
         source.userBoard.forEach {
             if (it.value.contains(boardId))
-                source.userBoard[it.key] = source.userBoard[it.key]?.filter {id -> id != boardId } ?: emptyList()
+                source.userBoard[it.key] = source.userBoard[it.key]?.filter { id -> id != boardId } ?: emptyList()
         }
     }
 

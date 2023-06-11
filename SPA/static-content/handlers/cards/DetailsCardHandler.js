@@ -18,7 +18,7 @@ async function DetailsCardHandler(state) {
     if (card) {
         state.body = card
 
-        return CardDetailsPage(state)
+        return await CardDetailsPage(state)
     }
 }
 

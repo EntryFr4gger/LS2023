@@ -4,11 +4,11 @@ import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
 import org.http4k.core.Response
-import org.http4k.core.Status
+import org.http4k.core.Status.Companion.CREATED
+import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
-import pt.isel.ls.tasks.api.routers.cards.models.CardId
 import pt.isel.ls.tasks.api.routers.lists.models.CardReposition
 import pt.isel.ls.tasks.api.routers.lists.models.CreateListDTO
 import pt.isel.ls.tasks.api.routers.lists.models.ListCardsDTO
@@ -51,7 +51,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val listInfo = Json.decodeFromString<CreateListDTO>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val listId = services.createList(listInfo.name, listInfo.boardId, requestId)
-        return Responde(Status.CREATED, ListDTO(listId))
+        return Responde(CREATED, ListDTO(listId))
     }
 
     /**
@@ -67,7 +67,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val cardReq = Json.decodeFromString<CardReposition>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val success = services.respositionCard(listId, cardReq.cardId, cardReq.cix, requestId)
-        return Responde(Status.OK, MessageDTO("Card Repositioned",true))
+        return Responde(OK, MessageDTO("Card Repositioned", true))
     }
 
     /**
@@ -83,7 +83,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val fields = request.query("fields")?.split(",") ?: emptyList()
         val listResponse = services.getListDetails(listId, requestId, fields)
-        return Responde(Status.OK, ListDTO(listResponse))
+        return Responde(OK, ListDTO(listResponse))
     }
 
     /**
@@ -104,7 +104,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
                 request.limitOrDefault(DEFAULT_LIMIT),
                 requestId
             )
-        return Responde(Status.OK, ListCardsDTO(cards))
+        return Responde(OK, ListCardsDTO(cards))
     }
 
     /**
@@ -119,6 +119,6 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
         val listId = request.pathOrThrow("list_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val success = services.deleteList(listId, requestId)
-        return Responde(Status.OK, MessageDTO("List Deleted",success))
+        return Responde(OK, MessageDTO("List Deleted", success))
     }
 }

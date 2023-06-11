@@ -4,7 +4,8 @@ import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
 import org.http4k.core.Response
-import org.http4k.core.Status
+import org.http4k.core.Status.Companion.CREATED
+import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
@@ -45,7 +46,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val card = Json.decodeFromString<CreateCardDTO>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val id = services.createNewCard(card.name, card.description, card.dueDate, card.boardId, card.listId, requestId)
-        return Responde(Status.CREATED, CardId(id))
+        return Responde(CREATED, CardId(id))
     }
 
     /**
@@ -61,7 +62,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val cardReq = Json.decodeFromString<CardListUpdate>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val sucess = services.moveCard(cardIdReq, cardReq.lid, requestId)
-        return Responde(Status.OK, MessageDTO("Card moved",sucess))
+        return Responde(OK, MessageDTO("Card moved", sucess))
     }
 
     /**
@@ -76,7 +77,7 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val cardId = request.pathOrThrow("card_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val card = services.getCardDetails(cardId, requestId)
-        return Responde(Status.OK, CardDTO(card))
+        return Responde(OK, CardDTO(card))
     }
 
     /**
@@ -91,6 +92,6 @@ class CardsRouter(private val services: CardsServices, private val tokenHandeler
         val cardId = request.pathOrThrow("card_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val sucess = services.deleteCard(cardId, requestId)
-        return Responde(Status.OK, MessageDTO("Card deleted",sucess))
+        return Responde(OK, MessageDTO("Card deleted", sucess))
     }
 }

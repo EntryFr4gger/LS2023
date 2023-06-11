@@ -44,7 +44,7 @@ async function DetailsBoardHandler(state) {
 
     if (board) {
         state.body = board
-        return BoardDetailsPage(state, loadBoardDetails)
+        return await BoardDetailsPage(state, loadBoardDetails)
     }
 }
 

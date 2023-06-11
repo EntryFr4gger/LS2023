@@ -68,8 +68,8 @@ class CardsDataPostgres : CardsDB {
         )
         obj.setString(1, name)
         obj.setString(2, description)
-        obj.setInt(3,cix)
-        obj.setDateIfNotNull(4, dueDate, Types.DATE)
+        obj.setDateIfNotNull(3, dueDate, Types.DATE)
+        obj.setInt(4, cix)
         obj.setInt(5, boardId)
         obj.setIntIfNotNull(6, listId, Types.INTEGER)
 
@@ -88,10 +88,10 @@ class CardsDataPostgres : CardsDB {
 
         val res = obj.executeQuery()
 
-        return if(res.next()) res.toCard() else throw NotFoundException("Couldn't get Card($cardId) Details")
+        return if (res.next()) res.toCard() else throw NotFoundException("Couldn't get Card($cardId) Details")
     }
 
-    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) : Boolean {
+    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int): Boolean {
         val obj = conn.connection().prepareStatement(
             "UPDATE cards SET list_id = ?, cix = (SELECT cix FROM cards WHERE list_id = ? ORDER BY cix DESC LIMIT 1)+1 WHERE id = ?"
         )
@@ -103,7 +103,7 @@ class CardsDataPostgres : CardsDB {
         return obj.executeUpdate() != 0 || throw SQLException("Card Move Failed with cardId: $cardId and listId: $listId")
     }
 
-    override fun deleteCard(conn: TransactionManager, cardId: Int) : Boolean {
+    override fun deleteCard(conn: TransactionManager, cardId: Int): Boolean {
         val res = conn.connection().prepareStatement(
             "DELETE FROM cards WHERE id = ?"
         )

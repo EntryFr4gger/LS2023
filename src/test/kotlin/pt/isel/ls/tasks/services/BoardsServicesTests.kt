@@ -53,7 +53,7 @@ class BoardsServicesTests : ClearData() {
 
     @Test
     fun `Add user to board correctly`() {
-        services.boards.addUserToBoard(3,1, 1)
+        services.boards.addUserToBoard(3, 1, 1)
         assertTrue(storage.userBoard[3]!!.contains(1))
     }
 
@@ -156,7 +156,7 @@ class BoardsServicesTests : ClearData() {
     @Test
     fun `Get board users correctly`() {
         source.run {
-            assertEquals(listOf(storage.users[1]), services.boards.getBoardUsers(2, 0, 1, 1))
+            assertEquals(listOf(storage.users[1]!!.copy(password = "")), services.boards.getBoardUsers(2, 0, 1, 1))
         }
     }
 

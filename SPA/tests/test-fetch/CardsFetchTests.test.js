@@ -21,12 +21,12 @@ describe("Cards Fetch Tests", () => {
         const boardId = 1;
         const listId = 1;
 
-        await CreateCardFetch(name, description,boardId,listId);
+        await CreateCardFetch(name, description, boardId, listId);
 
         expect(fetch).toHaveBeenCalledWith(`cards/`, {
             method: "POST",
-            headers: { Authorization: bearerToken },
-            body: JSON.stringify({ name: name, description:description,boardId:boardId,listId:listId }),
+            headers: {Authorization: bearerToken},
+            body: JSON.stringify({name: name, description: description, boardId: boardId, listId: listId}),
         });
     });
 
@@ -37,7 +37,7 @@ describe("Cards Fetch Tests", () => {
 
         expect(fetch).toHaveBeenCalledWith(`cards/${cardId}`, {
             method: "DELETE",
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -47,7 +47,7 @@ describe("Cards Fetch Tests", () => {
         await GetCardDetailsFetch(cardId);
 
         expect(fetch).toHaveBeenCalledWith(`cards/${cardId}`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -58,8 +58,8 @@ describe("Cards Fetch Tests", () => {
 
         expect(fetch).toHaveBeenCalledWith(`cards/${cardId}`, {
             method: "PUT",
-            headers: { Authorization: bearerToken },
-            body: JSON.stringify({ lid: null }),
+            headers: {Authorization: bearerToken},
+            body: JSON.stringify({lid: null}),
         });
     });
 
@@ -67,15 +67,14 @@ describe("Cards Fetch Tests", () => {
         const cardId = 1;
         const lid = 1;
 
-        await MoveCardFetch(cardId,lid);
+        await MoveCardFetch(cardId, lid);
 
         expect(fetch).toHaveBeenCalledWith(`cards/${cardId}`, {
             method: "PUT",
-            headers: { Authorization: bearerToken },
-            body: JSON.stringify({ lid: lid }),
+            headers: {Authorization: bearerToken},
+            body: JSON.stringify({lid: lid}),
         });
     });
-
 
 
 });

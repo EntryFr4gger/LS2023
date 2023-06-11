@@ -4,7 +4,8 @@ import kotlinx.serialization.json.Json
 import org.http4k.core.Method
 import org.http4k.core.Request
 import org.http4k.core.Response
-import org.http4k.core.Status
+import org.http4k.core.Status.Companion.CREATED
+import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import pt.isel.ls.tasks.api.routers.TasksRouter
@@ -56,7 +57,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         val boardInfo = Json.decodeFromString<CreateBoardDTO>(request.bodyString())
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val boardID = services.createNewBoard(boardInfo.name, boardInfo.description, requestId)
-        return Responde(Status.CREATED, BoardDTO(boardID))
+        return Responde(CREATED, BoardDTO(boardID))
     }
 
     /**
@@ -72,7 +73,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val success = services.addUserToBoard(userId.id, boardId, requestId)
-        return Responde(Status.OK, MessageDTO("User added",success))
+        return Responde(OK, MessageDTO("User added", success))
     }
 
     /**
@@ -88,7 +89,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val fields = request.query("fields")?.split(",")
         val boardResponse = services.getBoardDetails(boardId, requestId, fields)
-        return Responde(Status.OK, BoardDTO(boardResponse))
+        return Responde(OK, BoardDTO(boardResponse))
     }
 
     /**
@@ -109,7 +110,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
                 request.limitOrDefault(DEFAULT_LIMIT),
                 requestId
             )
-        return Responde(Status.OK, BoardListsDTO(lists))
+        return Responde(OK, BoardListsDTO(lists))
     }
 
     /**
@@ -130,7 +131,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
                 request.limitOrDefault(DEFAULT_LIMIT),
                 requestId
             )
-        return Responde(Status.OK, BoardUsersDTO(users))
+        return Responde(OK, BoardUsersDTO(users))
     }
 
     /**
@@ -152,7 +153,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
                 requestId,
                 onlyReturnArchived
             )
-        return Responde(Status.OK, BoardCardsDTO(cards))
+        return Responde(OK, BoardCardsDTO(cards))
     }
 
     /**
@@ -172,7 +173,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
                 name,
                 requestId
             )
-        return Responde(Status.OK, UserBoardsDTO(boards))
+        return Responde(OK, UserBoardsDTO(boards))
     }
 
     /**
@@ -187,6 +188,6 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
         val sucess = services.deleteBoard(boardId, requestId)
-        return Responde(Status.OK, MessageDTO("Board Deleted", sucess))
+        return Responde(OK, MessageDTO("Board Deleted", sucess))
     }
 }

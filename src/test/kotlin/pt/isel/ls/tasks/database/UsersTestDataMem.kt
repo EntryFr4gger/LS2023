@@ -51,7 +51,7 @@ class UsersTestDataMem {
     fun `Gets the correct user`() {
         source.run { conn ->
             assertEquals(
-                storage.users[3],
+                storage.users[3]!!.copy(password = ""),
                 users.getUserDetails(conn, 3)
             )
         }
@@ -97,7 +97,10 @@ class UsersTestDataMem {
     fun `Get all users that are not on that board`() {
         source.run { conn ->
             assertEquals(
-                listOf(storage.users[2], storage.users[4]),
+                listOf(
+                    storage.users[2]!!.copy(password = ""),
+                    storage.users[4]!!.copy(password = "")
+                ),
                 users.getAllUsersNotInBoard(conn, 3)
             )
         }

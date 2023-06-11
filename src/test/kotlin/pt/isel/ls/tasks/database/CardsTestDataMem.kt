@@ -35,12 +35,13 @@ class CardsTestDataMem {
                     conn,
                     card.name,
                     card.description,
+                    card.cix,
                     card.dueDate,
                     card.boardId,
                     card.listId
                 )
             assertEquals(
-                card.copy(id = id, cix=2),
+                card.copy(id = id),
                 storage.cards[id]
             )
         }

@@ -27,11 +27,11 @@ describe("Users Fetch Tests", () => {
         const email = "newUser@gmail.com";
         const password = "minhapass123";
 
-        await CreateUserFetch(name,email,password);
+        await CreateUserFetch(name, email, password);
 
         expect(fetch).toHaveBeenCalledWith(`users/`, {
             method: "POST",
-            body: JSON.stringify({ name: name,email:email,password:password }),
+            body: JSON.stringify({name: name, email: email, password: password}),
         });
     });
 
@@ -42,8 +42,8 @@ describe("Users Fetch Tests", () => {
 
         expect(fetch).toHaveBeenCalledWith(`users/${userId}`, {
             method: "POST",
-            headers: { Authorization: bearerToken },
-            body: JSON.stringify({ id: boardId}),
+            headers: {Authorization: bearerToken},
+            body: JSON.stringify({id: boardId}),
         });
     });
 
@@ -51,10 +51,10 @@ describe("Users Fetch Tests", () => {
         const userId = 1;
         const skip = 1;
         const limit = 1;
-        await GetUserBoardsFetch(userId,skip,limit);
+        await GetUserBoardsFetch(userId, skip, limit);
 
         expect(fetch).toHaveBeenCalledWith(`users/${userId}/boards?skip=${skip}&limit=${limit}`, {
-            headers: { Authorization: bearerToken }
+            headers: {Authorization: bearerToken}
         });
     });
 
@@ -63,7 +63,7 @@ describe("Users Fetch Tests", () => {
 
         await GetUserDetailsFetch(userId);
 
-         expect(fetch).toHaveBeenCalledWith(`users/${userId}`);
+        expect(fetch).toHaveBeenCalledWith(`users/${userId}`);
     });
 
     it("Login User Fetch", async () => {
@@ -71,11 +71,11 @@ describe("Users Fetch Tests", () => {
         const email = "newUser@gmail.com";
         const password = "minhapass123";
 
-        await LoginUserFetch(email,password);
+        await LoginUserFetch(email, password);
 
         expect(fetch).toHaveBeenCalledWith(`users/login`, {
             method: "POST",
-            body: JSON.stringify({ email:email,password:password})
+            body: JSON.stringify({email: email, password: password})
         });
     });
 });

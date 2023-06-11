@@ -4,8 +4,6 @@ import pt.isel.ls.tasks.db.TaskData
 import pt.isel.ls.tasks.domain.Card
 import pt.isel.ls.tasks.services.modules.boards.response.ListDetailsResponse
 import pt.isel.ls.tasks.services.utils.ServicesUtils
-import kotlin.collections.List
-import pt.isel.ls.tasks.domain.List as _List
 
 /**
  * List Services.
@@ -108,7 +106,7 @@ class ListsServices(source: TaskData) : ServicesUtils(source) {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteList(listId: Int, requestId: Int):Boolean {
+    fun deleteList(listId: Int, requestId: Int): Boolean {
         isValidListId(listId)
 
         return source.run { conn ->
