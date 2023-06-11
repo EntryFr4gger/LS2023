@@ -20,6 +20,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
         source.userBoard[1] = listOf(1, 2, 3)
         source.userBoard[2] = listOf(1, 2)
+        source.userBoard[3] = listOf(3)
     }
 
     override fun createNewBoard(conn: TransactionManager, name: String, description: String) =
@@ -62,7 +63,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
             .map { source.users[it.key] ?: throw NotFoundException("User not found with userId:${it.key}") }
 
     override fun searchBoards(conn: TransactionManager, skip: Int, limit: Int, name: String, userId: Int): List<Board> {
-        val filteredBoards = source.boards.values.filter { board -> board.name == name }
+        val filteredBoards = source.boards.values.filter { board -> board.name.contains(name, ignoreCase = true) }
         val startIndex = minOf(skip, filteredBoards.size)
         val endIndex = minOf(startIndex + limit, filteredBoards.size)
         return filteredBoards.subList(startIndex, endIndex)
