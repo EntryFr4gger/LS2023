@@ -22,12 +22,7 @@ function DeleteListHandler(state, list) {
 
         const response = await DeleteListFetch(list["id"])
 
-        const json = await response.json()
-
-        if (response.ok)
-            hashChangeLoc(`#boards/${state.body["id"]}`)
-        else
-            alert(json.error)
+        if (response) hashChangeLoc(`#boards/${state.body["id"]}`)
     }
 
     return DeleteButtonHover(deleteList)

@@ -32,9 +32,9 @@ data class Card(
     }
 
     init {
-        require(!isValidId(id)) { "Invalid card id" }
+        require(isValidId(id)) { "Invalid card id" }
         require(isValidName(name)) { "Invalid card name" }
         require(isValidDescription(description)) { "Invalid card description" }
-        require(!isValidId(boardId)) { "Invalid board id" }
+        require(isValidId(boardId)) { "Invalid board id" }
     }
 }

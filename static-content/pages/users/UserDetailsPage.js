@@ -1,5 +1,5 @@
 import {a, button, div, h2, h5, img, li, p, ul} from "../../components/dom/domTags.js";
-import {getUser, userIdStorage} from "../../components/utils/get-user.js";
+import {getUser, userIdStorage} from "../../components/utils/storage/get-user.js";
 
 /**
  * UserDetailsPage is a function that generates the user details page component.
@@ -16,7 +16,7 @@ function UserDetailsPage(state) {
      */
     function logout(event) {
         event.preventDefault()
-        localStorage.removeItem(userIdStorage);
+        sessionStorage.removeItem(userIdStorage);
         window.dispatchEvent(new HashChangeEvent("hashchange"));
     }
 

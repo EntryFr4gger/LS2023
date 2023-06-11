@@ -1,15 +1,16 @@
-import {getUserToken} from "../../../utils/get-token.js";
+import {getUserToken} from "../../../utils/storage/get-token.js";
+import SafeFetch from "../../../utils/safe-fetch.js";
 
 /**
  * Executes a fetch request to API.
  * Delete a card.
  *
- * @param {Int} cardId card unique identifier.
+ * @param {Number} cardId card unique identifier.
  *
  * @return {Promise} deleted Card.
  * */
 export async function DeleteCardFetch(cardId) {
-    return await fetch(
+    return await SafeFetch(
         `cards/${cardId}`,
         {
             method: "DELETE",

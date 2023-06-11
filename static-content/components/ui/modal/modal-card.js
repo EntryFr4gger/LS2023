@@ -1,8 +1,8 @@
 import {button, div, h5, li, p, svg, ul, use} from "../../dom/domTags.js";
 import DeleteCardHandler from "../../../handlers/cards/DeleteCardHandler.js";
-import {ArchiveCard} from "../pagination/cards/ArchiveCard.js";
-import {UpdateCard} from "../pagination/cards/UpdateCard.js";
-import {ChangeCixCard} from "../pagination/cards/ChangeCixCard.js";
+import {ArchiveCardHandler} from "../../../handlers/cards/ArchiveCardHandler.js";
+import {UpdateCardHandler} from "../../../handlers/cards/UpdateCardHandler.js";
+import {ChangeCixCardHandler} from "../../../handlers/cards/ChangeCixCardHandler.js";
 
 /**
  * ModalCard is a function that returns a modal card element.
@@ -11,10 +11,10 @@ import {ChangeCixCard} from "../pagination/cards/ChangeCixCard.js";
  * It also includes handlers for deleting, archiving, updating, and changing the card's CIX.
  *
  * @param {object} state - The state object.
- * @param {string} id - The unique identifier of the modal card.
+ * @param {Number} id - The unique identifier of the modal card.
  * @param {string} cardName - The name of the card.
  * @param {string} cardDescription - The description of the card.
- * @param {string} listId - The identifier of the list the card belongs to.
+ * @param {Number} listId - The identifier of the list the card belongs to.
  *
  * @returns {Promise<HTMLElement>} Modal card element.
  */
@@ -57,9 +57,9 @@ export function ModalCard(state, id, cardName, cardDescription, listId) {
                         ul(
                             {class: "list-group"},
                             li({class: "list-group-item d-flex justify-content-center"}, DeleteCardHandler(state, id)),
-                            li({class: "list-group-item d-flex justify-content-center"}, ArchiveCard(state, id)),
-                            li({class: "list-group-item d-flex justify-content-center"}, UpdateCard(state, listId, id)),
-                            li({class: "list-group-item d-flex justify-content-center"}, ChangeCixCard(state, listId, id))
+                            li({class: "list-group-item d-flex justify-content-center"}, ArchiveCardHandler(state, id)),
+                            li({class: "list-group-item d-flex justify-content-center"}, UpdateCardHandler(state, listId, id)),
+                            li({class: "list-group-item d-flex justify-content-center"}, ChangeCixCardHandler(state, listId, id))
                         ),
                     )
                 )

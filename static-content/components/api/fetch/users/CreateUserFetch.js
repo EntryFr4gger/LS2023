@@ -1,3 +1,5 @@
+import SafeFetch from "../../../utils/safe-fetch.js";
+
 /**
  * Executes a fetch request to API.
  * Create a new user.
@@ -9,7 +11,7 @@
  * @return {Promise} new user unique identifier and token.
  * */
 export async function CreateUserFetch(name, email, password) {
-    return await fetch(`users/`, {
+    return await SafeFetch(`users/`, {
         method: "POST",
         body: JSON.stringify({name, email, password})
     });

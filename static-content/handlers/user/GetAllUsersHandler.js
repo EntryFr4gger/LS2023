@@ -11,18 +11,15 @@ async function GetAllUsersHandler(state) {
 
     const boardId = state.pathParams["board_id"]
 
-    const response = await GetAllUsers(boardId)
+    const {users} = await GetAllUsers(boardId)
 
-    const {users} = await response.json()
-
-    if (response.ok) {
+    if (users) {
         return div(
             ...users.map(async user => {
                 return OptionOfUsers(user);
             })
         )
-    } else
-        alert(users.error)
+    }
 }
 
 export default GetAllUsersHandler;

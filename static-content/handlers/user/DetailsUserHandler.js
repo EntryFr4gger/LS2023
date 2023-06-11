@@ -11,16 +11,13 @@ async function DetailsUserHandler(state) {
     if (isNaN(userId))
         throw ("Invalid param id");
 
-    const response = await GetUserDetailsFetch(userId)
+    const user = await GetUserDetailsFetch(userId)
 
-    const json = await response.json()
-
-    if (response.ok) {
-        state.body = json
+    if (user) {
+        state.body = user
 
         return UserDetailsPage(state)
-    } else
-        alert(json.error)
+    }
 }
 
 export default DetailsUserHandler;

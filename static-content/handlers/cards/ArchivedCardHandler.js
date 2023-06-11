@@ -1,4 +1,4 @@
-import {GetBoardCardsFetch} from "../../components/api/fetch/boards/GetBoardCardsFetch.js";
+import {GetBoardCardsArchivedFetch} from "../../components/api/fetch/boards/GetBoardCardsArchivedFetch.js";
 import ArchivedCardsPage from "../../pages/cards/ArchivedCardsPage.js";
 
 /**
@@ -14,16 +14,13 @@ async function ArchivedCardHandler(state) {
     if (isNaN(id))
         throw ("Invalid param id");
 
-    const response = await GetBoardCardsFetch(id)
+    const archivedCards = await GetBoardCardsArchivedFetch(id)
 
-    const json = await response.json()
-
-    if (response.ok) {
-        state.body = json
+    if (archivedCards) {
+        state.body = archivedCards
 
         return ArchivedCardsPage(state)
-    } else
-        alert(json.error)
+    }
 }
 
 export default ArchivedCardHandler;

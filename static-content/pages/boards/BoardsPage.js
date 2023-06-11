@@ -1,8 +1,8 @@
 import {a, div, hr, li, span, svg, ul, use} from "../../components/dom/domTags.js";
-import {getUser} from "../../components/utils/get-user.js";
+import {getUser} from "../../components/utils/storage/get-user.js";
 import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js";
 import CreateBoardHandler from "../../handlers/board/CreateBoardHandler.js";
-import {createRef} from "../../components/utils/create-ref.js";
+import {reference} from "../../components/utils/reference.js";
 import CreateInfiniteScroll from "../../components/ui/infinite-scroll/CreateInfiniteScroll.js";
 
 /**
@@ -14,7 +14,7 @@ import CreateInfiniteScroll from "../../components/ui/infinite-scroll/CreateInfi
  * @returns {Promise<HTMLElement>} The board page component.
  */
 function BoardsPage(state, loadBoards) {
-    const ref = createRef()
+    const ref = reference()
 
     return div(
         ul(

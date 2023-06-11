@@ -14,15 +14,13 @@ async function BoardUsersHandler(state) {
     if (isNaN(boardId))
         throw ("Invalid param id");
 
-    const response = await GetBoardUsersFetch(boardId)
+    const users = await GetBoardUsersFetch(boardId)
 
-    const json = await response.json()
-    if (response.ok) {
-        state.body = json
+    if (users) {
+        state.body = users
 
         return BoardUsersPage(state)
-    } else
-        alert(json.error)
+    }
 }
 
 export default BoardUsersHandler;

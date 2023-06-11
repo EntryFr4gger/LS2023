@@ -1,8 +1,8 @@
-import {a, div, hr, li, span, svg, ul, use,} from "../../components/dom/domTags.js";
+import {a, br, div, hr, li, span, svg, ul, use,} from "../../components/dom/domTags.js";
 import DeleteBoardHandler from "../../handlers/board/DeleteBoardHandler.js";
 import OffCanvasCreate from "../../components/ui/off-canvas/off-canvas-create.js";
 import CreateListHandler from "../../handlers/lists/CreateListHandler.js";
-import {createRef} from "../../components/utils/create-ref.js";
+import {reference} from "../../components/utils/reference.js";
 import CreateInfiniteScroll from "../../components/ui/infinite-scroll/CreateInfiniteScroll.js";
 import OffCanvasAddUser from "../../components/ui/off-canvas/off-canvas-add-user.js";
 import AddUserToBoardHandler from "../../handlers/board/AddUserToBoardHandler.js";
@@ -16,10 +16,9 @@ import AddUserToBoardHandler from "../../handlers/board/AddUserToBoardHandler.js
  * @returns {Promise<HTMLElement>} The board details a page component.
  */
 function BoardDetailsPage(state, loadBoardDetails) {
-    const ref = createRef()
+    const ref = reference()
 
     return div(
-        /*h5(`${state.body["description"]}`),*/
         ul(
             {class: "list-inline d-flex"},
             div({
@@ -28,7 +27,9 @@ function BoardDetailsPage(state, loadBoardDetails) {
                 },
                 div(
                     svg({class: "bi me-2", width: "40", height: "32"}, use({xlink: "#bootstrap"})),
-                    span({class: "fs-4"}, `${state.body["name"]}`)
+                    span({class: "fs-4"}, `${state.body["name"]}`),
+                    br(),
+                    span({style: {"padding-left": "7%"}}, `${state.body["description"]}`)
                 ),
                 hr(),
                 ul({class: "nav nav-pills flex-column mb-auto"},

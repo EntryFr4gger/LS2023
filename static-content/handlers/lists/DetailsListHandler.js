@@ -12,22 +12,17 @@ async function DetailsListHandler(state) {
     if (isNaN(listId))
         throw ("Invalid param id");
 
-    const responseList = await GetListDetailsFetch(listId)
-    const responseCard = await GetListCardsFetch(listId)
+    const list = await GetListDetailsFetch(listId)
+    const cards = await GetListCardsFetch(listId)
 
-    const jsonList = await responseList.json()
-    const jsonCard = await responseCard.json()
-
-    if (responseList.ok) {
-        if (responseCard.ok) {
-            state.body = jsonList
-            state.body["cards"] = jsonCard
+    if (list) {
+        if (cards) {
+            state.body = list
+            state.body["cards"] = cards
 
             return ListDetailsPage(state)
-        } else
-            alert(jsonCard.error)
-    } else
-        alert(jsonList.error)
+        }
+    }
 }
 
 export default DetailsListHandler;

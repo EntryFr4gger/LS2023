@@ -1,15 +1,16 @@
-import {getUserToken} from "../../../utils/get-token.js";
+import {getUserToken} from "../../../utils/storage/get-token.js";
+import SafeFetch from "../../../utils/safe-fetch.js";
 
 /**
  * Executes a fetch request to API.
  * Get the detailed information on the board.
  *
- * @param {Int} boardId board unique identifier.
+ * @param {Number} boardId board unique identifier.
  *
  * @return {Promise} a Board.
  * */
 export async function GetBoardDetailsFetch(boardId) {
-    return await fetch(`boards/${boardId}`, {
+    return await SafeFetch(`boards/${boardId}`, {
         headers: {Authorization: getUserToken()}
     });
 }

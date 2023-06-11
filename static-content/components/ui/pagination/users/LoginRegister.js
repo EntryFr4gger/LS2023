@@ -1,4 +1,4 @@
-import {a, div, img, li, ul} from "../../../components/dom/domTags.js";
+import {a, div, img, li, ul} from "../../../dom/domTags.js";
 
 /**
  * LoginRegister is a function that returns a dropdown menu component for login and registration options.

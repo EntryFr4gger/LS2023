@@ -25,7 +25,7 @@ import pt.isel.ls.tasks.services.modules.lists.ListsServices
 class ListsRouter(private val services: ListsServices, private val tokenHandeler: TokenUtil) : TasksRouter {
     companion object {
         private const val DEFAULT_SKIP = 0
-        private const val DEFAULT_LIMIT = 10
+        private const val DEFAULT_LIMIT = Int.MAX_VALUE
 
         fun routes(services: ListsServices, tokenHandeler: TokenUtil) = ListsRouter(services, tokenHandeler).routes
     }

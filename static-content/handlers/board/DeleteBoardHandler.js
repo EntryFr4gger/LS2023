@@ -1,5 +1,5 @@
 import {hashChangeLoc} from "../../components/utils/hash-change-loc.js";
-import {getUser} from "../../components/utils/get-user.js";
+import {getUser} from "../../components/utils/storage/get-user.js";
 import {DeleteBoardFetch} from "../../components/api/fetch/boards/DeleteBoardFetch.js";
 import {DeleteButton} from "../../components/ui/button/delete-button.js";
 
@@ -8,7 +8,7 @@ import {DeleteButton} from "../../components/ui/button/delete-button.js";
  *
  * @param {Object} state - The state object containing the necessary data.
  *
- * @returns {Promise} A promise that resolves to the rendered deleted button for deleting a board.
+ * @returns {Promise<HTMLElement>} A promise that resolves to the rendered deleted button for deleting a board.
  */
 function DeleteBoardHandler(state) {
 
@@ -22,15 +22,11 @@ function DeleteBoardHandler(state) {
 
         const response = await DeleteBoardFetch(state.body["id"])
 
-        const json = await response.json()
-
-        if (response.ok)
+        if (response)
             hashChangeLoc(`#users/${getUser()}/boards`)
-        else
-            alert(json.error)
     }
 
-    return DeleteButton(deleteBoard)
+    return DeleteButton(deleteBoard, "light ps-3")
 }
 
 export default DeleteBoardHandler;

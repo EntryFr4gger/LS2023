@@ -1,47 +1,15 @@
-import {GetBoardListsFetch} from "../../../api/fetch/boards/GetBoardListsFetch.js";
-import {MoveCardFetch} from "../../../api/fetch/cards/MoveCardFetch.js";
-import {hashChangeLoc} from "../../../utils/hash-change-loc.js";
 import {a, button, div, form, li, strong, ul} from "../../../dom/domTags.js";
 
 /**
- * UnarchiveCard is a function that returns a dropdown menu for unarchiving a card and moving it to a different list.
- * It includes a list of options representing the available lists to move the card.
+ * Creates a dropdown menu with options to unarchive a card.
  *
- * @param {object} state - The state object containing application state.
- * @param {object} card - The card object to be unarchived.
+ * @param {Function} unarchiveCard - The function to handle unarchiving of the card.
+ * @param {Object} listNames - The list of names for the dropdown options.
+ * @param {Object} card - The card to be unarchived.
  *
- * @returns {HTMLElement} The dropdown menu element for unarchiving and moving the card.
+ * @returns {Promise<HTMLElement>} The dropdown menu with options to unarchive the card.
  */
-export async function UnarchiveCard(state, card) {
-
-    const boardId = state.pathParams["board_id"]
-
-    const response = await GetBoardListsFetch(boardId, 0, 100)
-
-    const listNames = await response.json()
-
-    /**
-     * Handles the unarchiving of a card.
-     *
-     * @param {Event} event - The form submission event.
-     */
-    async function unarchiveCard(event) {
-        event.preventDefault()
-
-        const value = event.submitter.id
-
-        const split = value.split("-")
-
-        const listId = split[0]
-        const cardId = split[1]
-
-        const response = await MoveCardFetch(cardId, listId)
-
-        //const updated = await response.json()
-
-        hashChangeLoc(`#boards/${boardId}`)
-    }
-
+export function UnarchiveCard(unarchiveCard, listNames, card) {
     return div(
         {class: "dropdown dropend"},
         a({

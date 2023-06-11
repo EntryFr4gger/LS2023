@@ -1,9 +1,9 @@
 /**
- * CreateRef is a function that creates a promise-based reference with resolve and reject functions.
+ * Reference is a function that creates a promise-based reference with resolve and reject functions.
  *
  * @returns {Promise} The promise-based reference with resolve and reject functions.
  */
-export function createRef() {
+export function reference() {
     let resolve, reject;
 
     let promise = new Promise((_resolve, _reject) => {

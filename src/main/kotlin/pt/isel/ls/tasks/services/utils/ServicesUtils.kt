@@ -235,7 +235,7 @@ open class ServicesUtils(open val source: TaskData) {
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidUserId(id: Int) {
-        if (isValidId(id)) {
+        if (!isValidId(id)) {
             throw ServicesError.InvalidArgumentException("User id Incorrect($id)")
         }
     }
@@ -248,7 +248,7 @@ open class ServicesUtils(open val source: TaskData) {
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidBoardId(id: Int) {
-        if (isValidId(id)) {
+        if (!isValidId(id)) {
             throw ServicesError.InvalidArgumentException("Board id Incorrect($id)")
         }
     }
@@ -261,7 +261,7 @@ open class ServicesUtils(open val source: TaskData) {
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidListId(id: Int) {
-        if (isValidId(id)) {
+        if (!isValidId(id)) {
             throw ServicesError.InvalidArgumentException("List id Incorrect($id)")
         }
     }
@@ -309,7 +309,7 @@ open class ServicesUtils(open val source: TaskData) {
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidCardId(id: Int) {
-        if (isValidId(id)) {
+        if (!isValidId(id)) {
             throw ServicesError.InvalidArgumentException("Card id Incorrect($id)")
         }
     }
@@ -322,7 +322,7 @@ open class ServicesUtils(open val source: TaskData) {
      * @throws ServicesError.InvalidArgumentException if idx isn't correct.
      * */
     fun isValidCardCix(cix: Int) {
-        if (isValidId(cix)) {
+        if (!isValidId(cix)) {
             throw ServicesError.InvalidArgumentException("Card idx Incorrect($cix)")
         }
     }
@@ -498,4 +498,4 @@ open class ServicesUtils(open val source: TaskData) {
  *
  * @return true if is valid, false otherwise.
  * */
-fun isValidId(id: Int) = id <= 0
+fun isValidId(id: Int) = id > 0
