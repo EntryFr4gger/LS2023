@@ -269,12 +269,12 @@ open class ServicesUtils(open val source: TaskData) {
     /**
      * Verifys if the given fields are valid for the board details.
      *
-     * @param id card unique identifier.
+     * @param fields fields.
      *
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
     fun isValidFieldsBoardDetails(fields: kotlin.collections.List<String>) {
-        val validFields = listOf("lists") // "id", "name", "description"
+        val validFields = listOf("lists")
         if (!isValidFields(validFields, fields)) {
             throw ServicesError.InvalidArgumentException("Given fields were invalid ${fields.joinToString(" ")}")
         }
@@ -283,7 +283,7 @@ open class ServicesUtils(open val source: TaskData) {
     /**
      * Verifys if the given fields are valid for the List details.
      *
-     * @param id card unique identifier.
+     * @param fields  fields.
      *
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */
@@ -297,7 +297,7 @@ open class ServicesUtils(open val source: TaskData) {
     /**
      * Verifys if the given fields are valid for the Card details.
      *
-     * @param id card unique identifier.
+     * @param fields fields.
      *
      * @throws ServicesError.InvalidArgumentException if id isn't correct.
      * */

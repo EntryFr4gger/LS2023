@@ -47,9 +47,10 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
             ?: throw NotFoundException("Couldn't get User with email($email) Details")
     }
 
-    override fun getUserDetails(conn: TransactionManager, userId: Int) =
-        source.users[userId] ?: throw NotFoundException("Couldn't get User($userId) Details")
-
+    override fun getUserDetails(conn: TransactionManager, userId: Int): User {
+        val user = source.users[userId] ?: throw NotFoundException("Couldn't get User($userId) Details")
+        return User(user.id, user.name, user.email)
+    }
     override fun getUserBoards(conn: TransactionManager, skip: Int, limit: Int, userId: Int): List<Board> {
         val filteredBoards = source.userBoard[userId]?.mapNotNull { source.boards[it] } ?: emptyList()
         val startIndex = minOf(skip, filteredBoards.size)
@@ -65,7 +66,9 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
     }
 
     override fun getAllUsers(conn: TransactionManager, boardId: Int): List<User> =
-        source.users.toList().filter { !(source.userBoard[it.first]?.contains(boardId) ?: false) }.map { it.second }
+        source.users.toList()
+            .filter { !(source.userBoard[it.first]?.contains(boardId) ?: false) }
+            .map { User(it.second.id, it.second.name, it.second.email) }
 
     override fun hasUserEmail(conn: TransactionManager, email: String) =
         source.users.values.find { it.email == email } != null

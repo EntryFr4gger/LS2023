@@ -6,7 +6,7 @@ async function SafeFetch(endpoint, init) {
             res = await fetch(endpoint, init);
         else
             res = await fetch(endpoint);
-        //const res = await fetch(endpoint, init);
+
         json = await res.json();
 
         if (res.ok)
@@ -15,11 +15,8 @@ async function SafeFetch(endpoint, init) {
             alert(json.error);
 
     } catch (err) {
-        /*if (isAppError(err))
-            throw err;*/
-
-        //throw new LogError(err);
         alert(err);
+        throw err;
     }
 }
 

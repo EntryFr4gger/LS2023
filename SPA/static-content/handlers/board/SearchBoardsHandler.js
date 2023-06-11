@@ -1,5 +1,5 @@
 import {SearchBoardsFetch} from "../../components/api/fetch/boards/SearchBoardsFetch.js";
-import {SessionGetRemove} from "../../components/utils/session-get-remove.js";
+import {SessionGetRemove} from "../../components/utils/storage/session-get-remove.js";
 import {ListOfBoards} from "../../components/ui/pagination/boards/ListOfBoards.js";
 import BoardsPage from "../../pages/boards/BoardsPage.js";
 
