@@ -7,6 +7,7 @@ import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.boards.BoardsDataMem
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.User
+import java.sql.SQLException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -41,7 +42,7 @@ class BoardsTestDataMem {
     fun `Verify if the board details are correct`() {
         source.run { conn ->
             assertEquals(
-                Board(1, "ISEL", "Cenas do 4 semestre do isel"),
+                storage.boards[1],
                 boards.getBoardDetails(conn, 1)
             )
         }
@@ -61,10 +62,35 @@ class BoardsTestDataMem {
         source.run { conn ->
             assertEquals(
                 listOf(
-                    pt.isel.ls.tasks.domain.List(1, "Aula de LS", 1),
-                    pt.isel.ls.tasks.domain.List(2, "Aula de LAE", 1)
+                    storage.lists[1],
+                    storage.lists[2]
                 ),
                 boards.getAllLists(conn, 1, 1, 1)
+            )
+        }
+    }
+
+    @Test
+    fun `Get the correct cards of a board that are Archived`() {
+        source.run { conn ->
+            assertEquals(
+                listOf(
+                    storage.cards[5],
+                ),
+                boards.getAllCards(conn, 1, 0, 1, true)
+            )
+        }
+    }
+
+    @Test
+    fun `Get the correct cards of a board`() {
+        source.run { conn ->
+            assertEquals(
+                listOf(
+                    storage.cards[1],
+                    storage.cards[2]
+                ),
+                boards.getAllCards(conn, 1, 0, 2, false)
             )
         }
     }
@@ -74,21 +100,41 @@ class BoardsTestDataMem {
         source.run { conn ->
             assertEquals(
                 listOf(
-                    User(
-                        1,
-                        "Admin",
-                        "Admin@gmail.com",
-                        "6593D31A65175D624AFC703A4070DB550D4C7B91C795E431DA9A69E52C1F313E"
-                    ),
-                    User(
-                        2,
-                        "Rafa",
-                        "rafaelDCosta@outlook.com",
-                        "D5989C7FFC36711AF4BD46606D051ECD70A45C581E85428C8B129722C260EBEE"
-                    )
+                    storage.users[1],
+                    storage.users[2]
                 ),
                 boards.getBoardUsers(conn, 2, 1, 1)
             )
+        }
+    }
+
+    @Test
+    fun `Search the correct boards`() {
+        source.run { conn ->
+            assertEquals(
+                listOf(
+                    storage.users[1],
+                    storage.users[2]
+                ),
+                boards.getBoardUsers(conn, 2, 1, 1)
+            )
+        }
+    }
+
+    @Test
+    fun `Delete a board`() {
+        source.run { conn ->
+            boards.deleteBoard(conn, 1)
+            assertTrue { storage.boards[1] == null }
+        }
+    }
+
+    @Test
+    fun `Delete unsuccessful`() {
+        source.run { conn ->
+            assertFailsWith<SQLException> {
+                boards.deleteBoard(conn, Int.MAX_VALUE)
+            }
         }
     }
 
