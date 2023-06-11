@@ -7,6 +7,7 @@ import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.List
 import pt.isel.ls.tasks.services.errors.ServicesError
 import pt.isel.ls.tasks.services.modules.boards.response.BoardDetailsResponse
+import java.sql.SQLException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
@@ -17,35 +18,35 @@ class BoardsServicesTests : ClearData() {
     private val services = TaskServices(source)
 
     @Test
-    fun `create board correctly`() {
+    fun `Create board correctly`() {
         val id = services.boards.createNewBoard("Board", "boas", 1)
         val board = source.run { source.boards.getBoardDetails(it, id) }
         assertEquals(Board(id, "Board", "boas"), board)
     }
 
     @Test
-    fun `create board throws InvalidArgumentException if name is wrong`() {
+    fun `Create board throws InvalidArgumentException if name is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.boards.createNewBoard("B", "boas", 1)
         }
     }
 
     @Test
-    fun `create board throws InvalidArgumentException if description is wrong`() {
+    fun `Create board throws InvalidArgumentException if description is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.boards.createNewBoard("Board", "", 1)
         }
     }
 
     @Test
-    fun `create board throws AuthenticationException if user doesn't exist`() {
+    fun `Create board throws AuthenticationException if user doesn't exist`() {
         assertFailsWith<ServicesError.AuthenticationException> {
             services.boards.createNewBoard("Board", "boas", Int.MAX_VALUE)
         }
     }
 
     @Test
-    fun `create board throws AlreadyExistsException if board already exist`() {
+    fun `Create board throws AlreadyExistsException if board already exist`() {
         source.run { source.boards.createNewBoard(it, "Board", "Board") }
         assertFailsWith<ServicesError.AlreadyExistsException> {
             services.boards.createNewBoard("Board", "Board", 1)
@@ -53,7 +54,7 @@ class BoardsServicesTests : ClearData() {
     }
 
     @Test
-    fun `add user to board correctly`() {
+    fun `Add user to board correctly`() {
         source.run {
             val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val userIdTest = source.users.createNewUser(it, "Armandio", "dio@gmail.com", "Adsfs123&")
@@ -65,28 +66,28 @@ class BoardsServicesTests : ClearData() {
     }
 
     @Test
-    fun `add user to board throws InvalidArgumentException if user id is wrong`() {
+    fun `Add user to board throws InvalidArgumentException if user id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.boards.addUserToBoard(-2, 1, 1)
         }
     }
 
     @Test
-    fun `add user to board throws InvalidArgumentException if board id is wrong`() {
+    fun `Add user to board throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.boards.addUserToBoard(1, -2, 1)
         }
     }
 
     @Test
-    fun `add user to board throws AuthorizationException if user don't have permission`() {
+    fun `Add user to board throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
             services.boards.addUserToBoard(1, 1, 3)
         }
     }
 
     @Test
-    fun `get board details correctly`() {
+    fun `Get board details correctly`() {
         source.run {
             val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
@@ -99,21 +100,21 @@ class BoardsServicesTests : ClearData() {
     }
 
     @Test
-    fun `get board details throws InvalidArgumentException if board id is wrong`() {
+    fun `Get board details throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.boards.getBoardDetails(-2, 1, emptyList())
         }
     }
 
     @Test
-    fun `get board details throws AuthorizationException if user don't have permission`() {
+    fun `Get board details throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
             services.boards.getBoardDetails(1, 3, emptyList())
         }
     }
 
     @Test
-    fun `get all lists correctly`() {
+    fun `Get all lists correctly`() {
         source.run {
             val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
             val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
@@ -124,16 +125,99 @@ class BoardsServicesTests : ClearData() {
     }
 
     @Test
-    fun `get all lists throws InvalidArgumentException if board id is wrong`() {
+    fun `Get all lists throws InvalidArgumentException if board id is wrong`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
             services.boards.getAllLists(-2, 1, 1, 1)
         }
     }
 
     @Test
-    fun `get all lists throws AuthorizationException if user don't have permission`() {
+    fun `Get all lists throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
             services.boards.getAllLists(1, 1, 1, 3)
+        }
+    }
+
+    @Test
+    fun `Get all cards archived`() {
+        source.run {
+            assertEquals(listOf(storage.cards[5]), services.boards.getAllCards(1, 0, 1, 1, true))
+        }
+    }
+
+    @Test
+    fun `Get all cards correctly`() {
+        source.run {
+            assertEquals(listOf(storage.cards[1]), services.boards.getAllCards(1, 0, 1, 1, false))
+        }
+    }
+
+    @Test
+    fun `Get all cards throws InvalidArgumentException if board id is wrong`() {
+        assertFailsWith<ServicesError.InvalidArgumentException> {
+            services.boards.getAllCards(-2, 1, 1, 1, true)
+        }
+    }
+
+    @Test
+    fun `Get all cards throws AuthorizationException if user don't have permission`() {
+        assertFailsWith<ServicesError.AuthorizationException> {
+            services.boards.getAllCards(1, 1, 1, 3, true)
+        }
+    }
+
+    @Test
+    fun `Get board users correctly`() {
+        source.run {
+            assertEquals(listOf(storage.users[1]), services.boards.getBoardUsers(2, 0, 1, 1))
+        }
+    }
+
+    @Test
+    fun `Get board users throws InvalidArgumentException if board id is wrong`() {
+        assertFailsWith<ServicesError.InvalidArgumentException> {
+            services.boards.getBoardUsers(-2, 1, 1, 1)
+        }
+    }
+
+    @Test
+    fun `Get board users throws AuthorizationException if user don't have permission`() {
+        assertFailsWith<ServicesError.AuthorizationException> {
+            services.boards.getBoardUsers(1, 1, 1, 3)
+        }
+    }
+
+    @Test
+    fun `Search board correctly`() {
+        source.run {
+            assertEquals(listOf(storage.boards[2]), services.boards.searchBoards(0, 1, "com", 1))
+        }
+    }
+
+    @Test
+    fun `Search board throws InvalidArgumentException if board id is wrong`() {
+        assertFailsWith<ServicesError.InvalidArgumentException> {
+            services.boards.searchBoards(1, 1, "1", -1)
+        }
+    }
+
+    @Test
+    fun `Delete a board`() {
+        services.boards.deleteBoard(1, 1)
+        assertTrue { storage.boards[1] == null }
+    }
+
+    @Test
+    fun `Delete board throws InvalidArgumentException if board id is wrong`() {
+        assertFailsWith<ServicesError.InvalidArgumentException> {
+            services.boards.deleteBoard(-1, Int.MAX_VALUE)
+        }
+    }
+
+    @Test
+    fun `Delete board throws AuthorizationException if user don't have permission`() {
+        assertFailsWith<ServicesError.AuthorizationException> {
+            services.boards.deleteBoard(1, 3)
         }
     }
 }

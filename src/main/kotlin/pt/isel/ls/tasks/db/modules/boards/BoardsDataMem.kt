@@ -5,6 +5,7 @@ import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.Board
 import pt.isel.ls.tasks.domain.Card
+import pt.isel.ls.tasks.domain.User
 import java.sql.SQLException
 import kotlin.collections.List
 import kotlin.collections.set
@@ -38,13 +39,16 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
     override fun getBoardDetails(conn: TransactionManager, boardId: Int): Board =
         source.boards[boardId] ?: throw NotFoundException("Couldn't get Board($boardId) Details")
 
-    override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> =
-        source.lists.toList().mapNotNull {
+    override fun getAllLists(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<_List> {
+        val filteredLists = source.lists.toList().mapNotNull {
             it.second.takeIf { list ->
                 list.boardId == boardId
             }
         }
-
+        val startIndex = minOf(skip, filteredLists.size)
+        val endIndex = minOf(startIndex + limit, filteredLists.size)
+        return filteredLists.subList(startIndex, endIndex)
+    }
     override fun getAllCards(
         conn: TransactionManager,
         boardId: Int,
@@ -62,9 +66,13 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         return filteredCards.subList(startIndex, endIndex)
     }
 
-    override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int) =
-        source.userBoard.filter { hash -> hash.value.contains(boardId) }
+    override fun getBoardUsers(conn: TransactionManager, boardId: Int, skip: Int, limit: Int): List<User> {
+        val filteredUsers = source.userBoard.filter { hash -> hash.value.contains(boardId) }
             .map { source.users[it.key] ?: throw NotFoundException("User not found with userId:${it.key}") }
+        val startIndex = minOf(skip, filteredUsers.size)
+        val endIndex = minOf(startIndex + limit, filteredUsers.size)
+        return filteredUsers.subList(startIndex, endIndex)
+    }
 
     override fun searchBoards(conn: TransactionManager, skip: Int, limit: Int, name: String, userId: Int): List<Board> {
         val filteredBoards = source.boards.values.filter { board -> board.name.contains(name, ignoreCase = true) }

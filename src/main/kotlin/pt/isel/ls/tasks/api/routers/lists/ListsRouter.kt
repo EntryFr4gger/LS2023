@@ -56,7 +56,7 @@ class ListsRouter(private val services: ListsServices, private val tokenHandeler
 
     /**
      * Moves a card given a new card position.
-     * requires authentication.
+     * Requires authentication.
      *
      * @param request HTTP request that contains a JSON body with an end list id
      *

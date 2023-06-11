@@ -53,12 +53,7 @@ class UsersTestDataMem {
     fun `Gets the correct user`() {
         source.run { conn ->
             assertEquals(
-                User(
-                    3,
-                    "Bernardo",
-                    "BSerra@outlook.pt",
-                    "880E1FBAA9260190E5CF57C34A4523EE7FD7056486922EE273053F2ED38C9A52"
-                ),
+                storage.users[3],
                 users.getUserDetails(conn, 3)
             )
         }
@@ -77,10 +72,10 @@ class UsersTestDataMem {
     fun `Gets User Boards`() {
         source.run { conn ->
             val cboards = listOf(
-                Board(1, "ISEL", "Cenas do 4 semestre do isel"),
-                Board(2, "Compras", "Ida ao supermercado")
+                storage.boards[1],
+                storage.boards[2]
             )
-            assertEquals(cboards, users.getUserBoards(conn, 1, 1, 2))
+            assertEquals(cboards, users.getUserBoards(conn, 0, 2, 2))
         }
     }
 
