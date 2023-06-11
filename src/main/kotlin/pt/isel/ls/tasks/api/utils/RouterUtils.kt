@@ -29,8 +29,7 @@ inline fun errorCatcher(code: () -> Response): Response =
     } catch (error: ServicesError.AlreadyExistsException) {
         Responde(Status.CONFLICT, ErrorDTO("Resource Already Exists", error))
     } catch (error: Exception) {
-        println(error)
-        Response(Status.INTERNAL_SERVER_ERROR)
+        Responde(Status.INTERNAL_SERVER_ERROR,ErrorDTO("Internal Server Error", error))
     }
 
 @Serializable
