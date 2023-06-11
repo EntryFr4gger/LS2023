@@ -19,7 +19,7 @@ async function BoardUsersHandler(state) {
     if (users) {
         state.body = users
 
-        return BoardUsersPage(state)
+        return BoardUsersPage(state);
     }
 }
 

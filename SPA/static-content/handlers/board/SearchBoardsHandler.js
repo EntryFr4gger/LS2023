@@ -35,7 +35,7 @@ async function SearchBoardsHandler(state) {
         }
     }
 
-    return BoardsPage(state, loadBoards)
+    return await BoardsPage(state, loadBoards)
 }
 
 export default SearchBoardsHandler;

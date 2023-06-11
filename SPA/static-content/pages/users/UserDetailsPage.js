@@ -5,6 +5,7 @@ import {getUser, userIdStorage} from "../../components/utils/storage/get-user.js
  * UserDetailsPage is a function that generates the user details page component.
  *
  * @param {Object} state - The state object containing user details.
+ *
  * @returns {Promise<HTMLElement>} The user details a page component.
  */
 function UserDetailsPage(state) {

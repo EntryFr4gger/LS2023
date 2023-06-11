@@ -38,5 +38,5 @@ export async function UnarchiveCardHandler(state, card) {
         if (response) hashChangeLoc(`#boards/${boardId}`)
     }
 
-    return UnarchiveCard(unarchiveCard, listNames, card)
+    return await UnarchiveCard(unarchiveCard, listNames, card)
 }

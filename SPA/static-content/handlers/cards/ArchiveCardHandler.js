@@ -28,5 +28,5 @@ export async function ArchiveCardHandler(state, cardId) {
         if (response) hashChangeLoc(`#boards/${boardId}`)
     }
 
-    return ArchiveCard(arqCard)
+    return await ArchiveCard(arqCard)
 }

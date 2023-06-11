@@ -10,7 +10,7 @@ import {DeleteButton} from "../../components/ui/button/delete-button.js";
  *
  * @returns {Promise<HTMLElement>} A promise that resolves to the rendered deleted button for deleting a board.
  */
-function DeleteBoardHandler(state) {
+async function DeleteBoardHandler(state) {
 
     /**
      * deleteBoard is an asynchronous function that handles the button click event for deleting a board.
@@ -26,7 +26,7 @@ function DeleteBoardHandler(state) {
             hashChangeLoc(`#users/${getUser()}/boards`)
     }
 
-    return DeleteButton(deleteBoard, "light ps-3")
+    return await DeleteButton(deleteBoard, "light ps-3", "mm")
 }
 
 export default DeleteBoardHandler;

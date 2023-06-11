@@ -12,7 +12,7 @@ interface CardsDB {
 
     /**
      * Creates a new card in a list.
-     * cix should be the next available slot
+     * Cix should be the next available slot
      *
      * @param conn connection to a database.
      * @param name the task name.
@@ -27,7 +27,7 @@ interface CardsDB {
         conn: TransactionManager,
         name: String,
         description: String,
-        cix:Int,
+        cix: Int,
         dueDate: LocalDate?,
         boardId: Int,
         listId: Int?
@@ -54,7 +54,7 @@ interface CardsDB {
      *
      * @return a card id.
      * */
-    fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) : Boolean
+    fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int): Boolean
 
     /**
      * Delete a card.
@@ -64,7 +64,7 @@ interface CardsDB {
      *
      * @return true if it has deleted or false otherwise.
      * */
-    fun deleteCard(conn: TransactionManager, cardId: Int) : Boolean
+    fun deleteCard(conn: TransactionManager, cardId: Int): Boolean
 
     /**
      * Verify if the card exists.

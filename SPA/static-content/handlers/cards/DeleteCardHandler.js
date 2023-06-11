@@ -10,7 +10,7 @@ import {DeleteButton} from "../../components/ui/button/delete-button.js";
  *
  * @returns {Function} A function that handles the deletion of the card.
  */
-function DeleteCardHandler(state, cardId) {
+async function DeleteCardHandler(state, cardId) {
 
     /**
      * deleteCard is an asynchronous function that handles the deletion of the card.
@@ -26,7 +26,7 @@ function DeleteCardHandler(state, cardId) {
             hashChangeLoc(`#boards/${state.pathParams["board_id"]}`)
     }
 
-    return DeleteButton(deleteCard)
+    return await DeleteButton(deleteCard)
 }
 
 export default DeleteCardHandler;

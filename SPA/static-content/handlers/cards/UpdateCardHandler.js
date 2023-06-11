@@ -41,5 +41,5 @@ export async function UpdateCardHandler(state, listId, cardId) {
         if (response) hashChangeLoc(`#boards/${boardId}`)
     }
 
-    return UpdateCard(updateCard, listNamesMove, cardId)
+    return await UpdateCard(updateCard, listNamesMove, cardId)
 }

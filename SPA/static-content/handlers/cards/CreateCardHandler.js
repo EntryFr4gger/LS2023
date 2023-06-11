@@ -12,7 +12,7 @@ import {RemoveAttribute} from "../../components/utils/remove-attribute.js";
  *
  * @returns {Function} A function that handles the creation of a new card.
  */
-function CreateCardHandler(boardId, listId) {
+async function CreateCardHandler(boardId, listId) {
 
     /**
      * createCard is an asynchronous function that handles the creation of a new card.
@@ -37,7 +37,7 @@ function CreateCardHandler(boardId, listId) {
         }
     }
 
-    return ModalCreate(createCard, listId)
+    return await ModalCreate(createCard, listId)
 }
 
 export default CreateCardHandler;
