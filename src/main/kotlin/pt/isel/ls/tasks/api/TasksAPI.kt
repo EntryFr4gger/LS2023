@@ -36,7 +36,7 @@ class TasksAPI(services: TaskServices) {
                 BoardsRouter.routes(services.boards, tokenHandeler),
                 ListsRouter.routes(services.lists, tokenHandeler),
                 CardsRouter.routes(services.cards, tokenHandeler),
-                singlePageApp(ResourceLoader.Directory("static-content"))
+                singlePageApp(ResourceLoader.Directory("SPA/static-content"))
             )
         )
 
