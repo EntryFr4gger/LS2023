@@ -102,4 +102,25 @@ class ListsServicesTests : ClearData() {
             services.lists.getCardsOfList(1, 1, 1, 3)
         }
     }
+
+    @Test
+    fun `Repositions a card correctly`() {
+        source.run {
+            val userId = source.users.createNewUser(it, "Armandio", "Armandio@gmail.com", "Adsfs123&")
+            val boardId = source.boards.createNewBoard(it, "Armandio", "sadsad")
+            val listId = source.lists.createList(it, "list", boardId)
+            val cards = mutableListOf<Int>()
+            for (i in 0..5){
+                cards.add(source.cards.createNewCard(it,"card$i","",null,boardId,listId))
+            }
+            source.boards.addUserToBoard(it, userId, boardId)
+
+            //val cardId = services.lists.respositionCard(listId, "card", null, boardId, listId, userId)
+
+            assertEquals(
+                listOf(Card(1, "card", "card", null, 1, boardId, listId)),
+                services.lists.getCardsOfList(listId, 0, 10, userId)
+            )
+        }
+    }
 }
