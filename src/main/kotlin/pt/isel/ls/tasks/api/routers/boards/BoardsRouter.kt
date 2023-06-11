@@ -15,6 +15,7 @@ import pt.isel.ls.tasks.api.routers.boards.models.BoardUsersDTO
 import pt.isel.ls.tasks.api.routers.boards.models.CreateBoardDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserBoardsDTO
 import pt.isel.ls.tasks.api.routers.users.models.UserIdDTO
+import pt.isel.ls.tasks.api.utils.MessageDTO
 import pt.isel.ls.tasks.api.utils.Responde
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.api.utils.errorCatcher
@@ -70,8 +71,8 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
         val userId = Json.decodeFromString<UserIdDTO>(request.bodyString())
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val response = services.addUserToBoard(userId.id, boardId, requestId)
-        return Responde(Status.OK, response.toString())
+        val success = services.addUserToBoard(userId.id, boardId, requestId)
+        return Responde(Status.OK, MessageDTO("User added",success))
     }
 
     /**
@@ -185,7 +186,7 @@ class BoardsRouter(private val services: BoardsServices, private val tokenHandel
     private fun deleteBoard(request: Request): Response = errorCatcher {
         val boardId = request.pathOrThrow("board_id").toInt()
         val requestId = tokenHandeler.context[request].hasOrThrow("user_id")
-        val board = services.deleteBoard(boardId, requestId)
-        return Responde(Status.OK, BoardDTO(board))
+        val sucess = services.deleteBoard(boardId, requestId)
+        return Responde(Status.OK, MessageDTO("Board Deleted", sucess))
     }
 }

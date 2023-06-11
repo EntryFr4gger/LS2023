@@ -31,8 +31,9 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
             }
         }
 
-    override fun deleteList(conn: TransactionManager, listId: Int): _List {
-        return source.lists.remove(listId) ?: throw SQLException("List($listId) delete was unsuccessful")
+    override fun deleteList(conn: TransactionManager, listId: Int): Boolean {
+        val res = source.lists.remove(listId)
+        return res!=null || throw SQLException("List($listId) delete was unsuccessful")
     }
 
     override fun hasList(conn: TransactionManager, listId: Int): Boolean =
