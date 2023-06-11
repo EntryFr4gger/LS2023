@@ -20,7 +20,7 @@ async function DetailsListHandler(state) {
             state.body = list
             state.body["cards"] = cards
 
-            return ListDetailsPage(state)
+            return await ListDetailsPage(state)
         }
     }
 }

@@ -57,19 +57,21 @@ class CardsDataPostgres : CardsDB {
         conn: TransactionManager,
         name: String,
         description: String,
+        cix: Int,
         dueDate: LocalDate?,
         boardId: Int,
         listId: Int?
     ): Int {
         val obj = conn.connection().prepareStatement(
-            "INSERT INTO cards(name, description, duedate, board_id, list_id) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO cards(name, description, duedate, cix, board_id, list_id) VALUES (?, ?, ?, ?, ?, ?)",
             Statement.RETURN_GENERATED_KEYS
         )
         obj.setString(1, name)
         obj.setString(2, description)
         obj.setDateIfNotNull(3, dueDate, Types.DATE)
-        obj.setInt(4, boardId)
-        obj.setIntIfNotNull(5, listId, Types.INTEGER)
+        obj.setInt(4, cix)
+        obj.setInt(5, boardId)
+        obj.setIntIfNotNull(6, listId, Types.INTEGER)
 
         if (obj.executeUpdate() == 0) throw SQLException("Card Creation Failed with name:$name")
 
@@ -86,10 +88,10 @@ class CardsDataPostgres : CardsDB {
 
         val res = obj.executeQuery()
 
-        return if(res.next()) res.toCard() else throw NotFoundException("Couldn't get Card($cardId) Details")
+        return if (res.next()) res.toCard() else throw NotFoundException("Couldn't get Card($cardId) Details")
     }
 
-    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) : Boolean {
+    override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int): Boolean {
         val obj = conn.connection().prepareStatement(
             "UPDATE cards SET list_id = ?, cix = (SELECT cix FROM cards WHERE list_id = ? ORDER BY cix DESC LIMIT 1)+1 WHERE id = ?"
         )
@@ -101,7 +103,7 @@ class CardsDataPostgres : CardsDB {
         return obj.executeUpdate() != 0 || throw SQLException("Card Move Failed with cardId: $cardId and listId: $listId")
     }
 
-    override fun deleteCard(conn: TransactionManager, cardId: Int) : Boolean {
+    override fun deleteCard(conn: TransactionManager, cardId: Int): Boolean {
         val res = conn.connection().prepareStatement(
             "DELETE FROM cards WHERE id = ?"
         )

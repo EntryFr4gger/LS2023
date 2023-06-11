@@ -10,7 +10,7 @@ import {DeleteButtonHover} from "../../components/ui/button/delete-button-hover.
  *
  * @returns {HTMLElement} The delete button with hover effect.
  */
-function DeleteListHandler(state, list) {
+async function DeleteListHandler(state, list) {
 
     /**
      * DeleteList is an asynchronous function that handles the deletion of a list.
@@ -25,7 +25,7 @@ function DeleteListHandler(state, list) {
         if (response) hashChangeLoc(`#boards/${state.body["id"]}`)
     }
 
-    return DeleteButtonHover(deleteList)
+    return await DeleteButtonHover(deleteList)
 }
 
 export default DeleteListHandler;

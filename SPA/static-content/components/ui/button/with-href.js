@@ -11,24 +11,25 @@ import {lightOutlineButton} from "./color-buttons.js";
  * @returns {Promise} - The generated link button element.
  */
 export function buttonWithHref(text, href = "/#", padding = 1) {
+    let classe;
     switch (padding) {
         case 1:
-            padding = "p-1"
+            classe = "p-1"
             break;
         case 2:
-            padding = "p-2"
+            classe = "p-2"
             break;
         case 3:
-            padding = "p-3"
+            classe = "p-3"
             break;
         case 4:
-            padding = "p-4"
+            classe = "p-4"
             break;
         case 5:
-            padding = "p-5"
+            classe = "p-5"
             break;
         default:
-            padding = "p-0"
+            classe = "p-0"
     }
     return a({href: href, class: padding}, lightOutlineButton(text))
 }

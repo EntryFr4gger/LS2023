@@ -17,8 +17,21 @@ import pt.isel.ls.tasks.api.utils.LoggerUtil
 import pt.isel.ls.tasks.api.utils.TokenUtil
 import pt.isel.ls.tasks.services.TaskServices
 
+/**
+ * HTTP API for handling tasks.
+ *
+ * @param services The task services instance for task-related operations.
+ */
 class TasksAPI(services: TaskServices) {
     companion object {
+        /**
+         * Factory function to create an instance of TasksAPI with routes and filters.
+         *
+         * @param services The task services instance for task-related operations.
+         * @param logger The logger instance for logging request details.
+         *
+         * @return A RoutingHttpHandler instance representing the configured API.
+         */
         operator fun invoke(services: TaskServices, logger: Logger): RoutingHttpHandler {
             return TasksAPI(services)
                 .getRoutes()
@@ -40,5 +53,10 @@ class TasksAPI(services: TaskServices) {
             )
         )
 
+    /**
+     * Get the configured routes for the TasksAPI.
+     *
+     * @return A RoutingHttpHandler representing the configured routes.
+     */
     fun getRoutes(): RoutingHttpHandler = routes
 }

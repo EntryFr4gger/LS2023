@@ -53,7 +53,7 @@ class BoardsServicesTests : ClearData() {
 
     @Test
     fun `Add user to board correctly`() {
-        services.boards.addUserToBoard(3,1, 1)
+        services.boards.addUserToBoard(3, 1, 1)
         assertTrue(storage.userBoard[3]!!.contains(1))
     }
 

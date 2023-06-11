@@ -49,6 +49,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
         val endIndex = minOf(startIndex + limit, filteredLists.size)
         return filteredLists.subList(startIndex, endIndex)
     }
+
     override fun getAllCards(
         conn: TransactionManager,
         boardId: Int,
@@ -83,7 +84,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
     override fun deleteBoard(conn: TransactionManager, boardId: Int): Boolean {
         val res = source.boards.remove(boardId)
-        return res!=null || throw SQLException("Board($boardId) delete was unsuccessful")
+        return res != null || throw SQLException("Board($boardId) delete was unsuccessful")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String) =
