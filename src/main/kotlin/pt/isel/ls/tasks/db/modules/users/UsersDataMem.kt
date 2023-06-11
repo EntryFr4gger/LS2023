@@ -1,9 +1,11 @@
 package pt.isel.ls.tasks.db.modules.users
 
+import pt.isel.ls.tasks.db.TasksDataMem
 import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.transactionManager.TransactionManager
 import pt.isel.ls.tasks.domain.User
+import pt.isel.ls.tasks.services.TaskServices
 
 class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
 
@@ -27,7 +29,7 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
             "880E1FBAA9260190E5CF57C34A4523EE7FD7056486922EE273053F2ED38C9A52"
         ) // Serr123&
         source.users[4] = User(
-            3,
+            4,
             "UserWithNoBoard",
             "UserWithNoBoard@outlook.pt",
             "D12CC6817061AA42A23AE259DED1F419C45D03DB2C2EE02ACC4784A9761D781A"
@@ -53,12 +55,14 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
         source.userBoard[userId]?.mapNotNull { source.boards[it] } ?: emptyList()
 
     override fun deleteBoardUsers(conn: TransactionManager, boardId: Int) {
-        source.boards.remove(boardId)
+        source.userBoard.forEach {
+            if (it.value.contains(boardId))
+                source.userBoard[it.key] = source.userBoard[it.key]?.filter {id -> id != boardId } ?: emptyList()
+        }
     }
 
-    override fun getAllUsers(conn: TransactionManager, boardId: Int): List<User> {
-        TODO("Not yet implemented")
-    }
+    override fun getAllUsers(conn: TransactionManager, boardId: Int): List<User> =
+        source.users.toList().filter { !(source.userBoard[it.first]?.contains(boardId) ?: false) }.map { it.second }
 
     override fun hasUserEmail(conn: TransactionManager, email: String) =
         source.users.values.find { it.email == email } != null
@@ -66,8 +70,8 @@ class UsersDataMem(private val source: TasksDataStorage) : UsersDB {
     override fun hasUser(conn: TransactionManager, userId: Int) =
         source.users[userId] != null
 
-    override fun hasUserInBoard(conn: TransactionManager, userId: Int) =
-        source.userBoard[userId] != null
+    override fun hasUserBoards(conn: TransactionManager, userId: Int) =
+        !source.userBoard[userId].isNullOrEmpty()
 
     override fun validateResquestBoard(conn: TransactionManager, boardId: Int, requestId: Int): Boolean {
         val userBoard = source.userBoard[requestId] ?: return false

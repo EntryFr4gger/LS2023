@@ -97,14 +97,14 @@ interface UsersDB {
     fun hasUser(conn: TransactionManager, userId: Int): Boolean
 
     /**
-     * Verify if user exists in board.
+     * Verify if user was boards.
      *
      * @param conn connection to a database.
      * @param userId user unique identifier.
      *
      * @return true if exists or false if it does not exist.
      */
-    fun hasUserInBoard(conn: TransactionManager, userId: Int): Boolean
+    fun hasUserBoards(conn: TransactionManager, userId: Int): Boolean
 
     /**
      * Validates the resquest premissions to access a board.

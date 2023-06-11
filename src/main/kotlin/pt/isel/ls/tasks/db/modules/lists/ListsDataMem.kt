@@ -24,12 +24,16 @@ class ListsDataMem(private val source: TasksDataStorage) : ListsDB {
     override fun getListDetails(conn: TransactionManager, listId: Int): _List =
         source.lists[listId] ?: throw NotFoundException("Couldn't get List($listId) Details")
 
-    override fun getAllCards(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card> =
-        source.cards.toList().mapNotNull {
+    override fun getAllCards(conn: TransactionManager, listId: Int, skip: Int, limit: Int): List<Card> {
+        val filteredCards = source.cards.toList().mapNotNull {
             it.second.takeIf { card ->
                 card.listId == listId
             }
         }
+        val startIndex = minOf(skip, filteredCards.size)
+        val endIndex = minOf(startIndex + limit, filteredCards.size)
+        return filteredCards.subList(startIndex, endIndex)
+    }
 
     override fun deleteList(conn: TransactionManager, listId: Int): Boolean {
         val res = source.lists.remove(listId)

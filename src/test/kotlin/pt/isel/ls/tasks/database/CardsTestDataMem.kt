@@ -7,6 +7,7 @@ import pt.isel.ls.tasks.db.dataStorage.TasksDataStorage
 import pt.isel.ls.tasks.db.errors.NotFoundException
 import pt.isel.ls.tasks.db.modules.cards.CardsDataMem
 import pt.isel.ls.tasks.domain.Card
+import java.sql.SQLException
 import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -50,7 +51,7 @@ class CardsTestDataMem {
     fun `Get detail of a card`() {
         source.run { conn ->
             assertEquals(
-                Card(2, "Entrega 1", "Entrega inicial do autorouter", LocalDate(2023, 4, 3), 1, 1, 2),
+                storage.cards[2],
                 cards.getCardDetails(conn, 2)
             )
         }
@@ -66,10 +67,9 @@ class CardsTestDataMem {
     }
 
     @Test
-    @Ignore
     fun `Move card from a list`() {
         source.run { conn ->
-            // assertTrue { cards.moveCard(conn, 3, 2) }
+            assertTrue { cards.moveCard(conn, 3, 2) }
         }
     }
 
@@ -78,6 +78,15 @@ class CardsTestDataMem {
         source.run { conn ->
             cards.deleteCard(conn, 1)
             assertFalse { cards.hasCard(conn, 1) }
+        }
+    }
+
+    @Test
+    fun `Delete unsuccessful`() {
+        source.run { conn ->
+            assertFailsWith<SQLException> {
+                cards.deleteCard(conn, Int.MAX_VALUE)
+            }
         }
     }
 
@@ -96,19 +105,20 @@ class CardsTestDataMem {
     }
 
     @Test
-    @Ignore
     fun `Organize cards`() {
         source.run { conn ->
-            // assertTrue(cards.organizeCardSeq(conn, 3, 2))
+            cards.organizeCardSeq(conn, 3, 2)
             assertEquals(storage.cards[3]!!.cix, 2)
         }
     }
 
     @Test
-    @Ignore
+
     fun `Organize cards fails`() {
         source.run { conn ->
-            // assertFalse(cards.organizeCardSeq(conn, Int.MAX_VALUE, 2))
+            assertFailsWith<NotFoundException> {
+                cards.organizeCardSeq(conn, Int.MAX_VALUE, 2)
+            }
         }
     }
 }

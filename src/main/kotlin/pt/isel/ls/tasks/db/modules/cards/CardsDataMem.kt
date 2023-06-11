@@ -38,19 +38,19 @@ class CardsDataMem(private val source: TasksDataStorage) : CardsDB {
     override fun moveCard(conn: TransactionManager, listId: Int?, cardId: Int) : Boolean {
         val card = source.cards[cardId] ?: throw NotFoundException("Card($cardId) Not Found")
         source.cards[cardId] = card.copy(listId = listId)
-        return source.cards[cardId]?.listId ==listId
+        return source.cards[cardId]?.listId == listId
     }
 
     override fun deleteCard(conn: TransactionManager, cardId: Int) : Boolean {
         val res = source.cards.remove(cardId)
-        return res!=null || throw Exception("Card($cardId) delete was unsuccessful")
+        return res!=null || throw SQLException("Card($cardId) delete was unsuccessful")
     }
 
     override fun hasCard(conn: TransactionManager, cardId: Int): Boolean =
         source.cards[cardId] != null
 
     override fun organizeCardSeq(conn: TransactionManager, cardId: Int, cix: Int) {
-        val card = source.cards[cardId]
-        card?.let { source.cards[cardId] = card.copy(cix = cix) }
+        val card = source.cards[cardId] ?: throw NotFoundException("Card($cardId) Not Found")
+        source.cards[cardId] = card.copy(cix = cix)
     }
 }

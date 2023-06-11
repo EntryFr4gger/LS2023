@@ -71,7 +71,7 @@ class BoardsDataMem(private val source: TasksDataStorage) : BoardsDB {
 
     override fun deleteBoard(conn: TransactionManager, boardId: Int): Boolean {
         val res = source.boards.remove(boardId)
-        return res!=null || throw Exception("Board($boardId) delete was unsuccessful")
+        return res!=null || throw SQLException("Board($boardId) delete was unsuccessful")
     }
 
     override fun hasBoardName(conn: TransactionManager, name: String) =
