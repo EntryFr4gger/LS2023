@@ -101,21 +101,21 @@ class UsersServicesTests : ClearData() {
     fun `Get all users that are not on that board`() {
         assertEquals(
             listOf(storage.users[2], storage.users[4]),
-            services.users.getAllUsers(3, 1)
+            services.users.getAllUsersNotInBoard(3, 1)
         )
     }
 
     @Test
     fun `Get all users throws InvalidArgumentException if id isn't valid`() {
         assertFailsWith<ServicesError.InvalidArgumentException> {
-            services.users.getAllUsers(-1, 1)
+            services.users.getAllUsersNotInBoard(-1, 1)
         }
     }
 
     @Test
     fun `Get all users throws AuthorizationException if user don't have permission`() {
         assertFailsWith<ServicesError.AuthorizationException> {
-            services.users.getAllUsers(3, 2)
+            services.users.getAllUsersNotInBoard(3, 2)
         }
     }
 }

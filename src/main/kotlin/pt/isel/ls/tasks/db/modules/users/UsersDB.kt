@@ -67,14 +67,14 @@ interface UsersDB {
     fun deleteBoardUsers(conn: TransactionManager, boardId: Int)
 
     /**
-     * Gets all Users in the database.
+     * Gets all Users that are not on the board.
      *
      * @param conn connection to a database.
      * @param boardId to remove users from board.
      *
      * @return list of Boards.
      * */
-    fun getAllUsers(conn: TransactionManager, boardId: Int): List<User>
+    fun getAllUsersNotInBoard(conn: TransactionManager, boardId: Int): List<User>
 
     /**
      * Verify if email is new
